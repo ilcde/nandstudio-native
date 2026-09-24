@@ -21,12 +21,13 @@
 #include <QDirIterator>
 void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& dir){
     QJsonArray checks;int exitCode=0;QDir().mkpath(dir);
-    auto check=[&](bool passed,const QString& label){checks.append(QJsonObject{{"check",label},{"passed",passed}});if(!passed)throw std::runtime_error(label.toStdString());};
+    auto check=[&](bool passed,const QString& label){checks.append(QJsonObject{{"check",label},{"passed",passed}});QFile progress(QDir(dir).filePath("checks.json"));if(progress.open(QIODevice::WriteOnly))progress.write(QJsonDocument(checks).toJson());if(!passed)throw std::runtime_error(label.toStdString());};
     auto write=[](const QString& path,const QByteArray& bytes){QFile f(path);return f.open(QIODevice::WriteOnly)&&f.write(bytes)==bytes.size();};
     auto bytes=[](const QString& path){QFile f(path);if(!f.open(QIODevice::ReadOnly))return QByteArray{};return f.readAll();};
     try{
         auto path=QDir(dir).absoluteFilePath("Ui.asm");check(write(path,"@2\r\nD=A\r\n"),"create isolated fixture");studio.openWorkspace(QUrl::fromLocalFile(QDir(dir).absolutePath()));studio.open(QUrl::fromLocalFile(path));
         QTest::qWait(100);auto* window=qobject_cast<QQuickWindow*>(engine.rootObjects().first());check(window!=nullptr,"Qt Quick window instantiated");
+        check(QTest::qWaitForWindowExposed(window,5000),"GUI test window is exposed for native input");
         for(auto name:{"openWorkspaceMenuItem","openFileMenuItem","settingsMenuItem"}){
             auto* item=window->findChild<QObject*>(name);
             const auto prefix=QString(name)=="openWorkspaceMenuItem" ? "Open workspace" : QString(name)=="openFileMenuItem" ? "Open file" : "Settings";
@@ -58,7 +59,7 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         auto wait=[&]{for(int i=0;studio.busy()&&i<300;++i)QTest::qWait(10);QTest::qWait(30);};
         auto click=[&](const QString& name){auto* item=findItem(window->contentItem(),name);if(!item)throw std::runtime_error("Missing control "+name.toStdString());QTest::mouseClick(window,Qt::LeftButton,Qt::NoModifier,item->mapToScene(QPointF(item->width()/2,item->height()/2)).toPoint());wait();};
         auto andPath=QDir(dir).filePath("And.hdl");write(andPath,"CHIP And { IN a,b; OUT out; BUILTIN And; }");studio.open(QUrl::fromLocalFile(andPath));QTest::qWait(30);click("loadHdl");
-        for(auto name:{"a","b"}){auto* input=findItem(window->contentItem(),QString("pin_")+name);input->forceActiveFocus();QTest::keyClick(window,Qt::Key_A,Qt::ControlModifier);QTest::keyClick(window,Qt::Key_1);}
+        for(auto name:{"a","b"}){auto* input=findItem(window->contentItem(),QString("pin_")+name);if(!input)throw std::runtime_error("And input control missing after Load HDL");input->forceActiveFocus();QTest::keyClick(window,Qt::Key_A,Qt::ControlModifier);QTest::keyClick(window,Qt::Key_1);}
         click("hardwareEval");check(studio.hardwareValue("out")=="1","Eval commits typed input fields without Return and evaluates And");
         struct EvalCase { const char* chip; QVariantMap inputs; QVariantMap outputs; };
         const std::vector<EvalCase> evalCases={

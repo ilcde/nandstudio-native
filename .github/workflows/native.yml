@@ -51,11 +51,7 @@ jobs:
         run: |
           $crt = Join-Path $env:VCToolsRedistDir 'x64/Microsoft.VC143.CRT'
           ./scripts/package-windows.ps1 -BuildDirectory build -Destination dist/NandStudio-windows-x86_64 -QtRoot "$pwd/Qt/6.11.1/msvc2022_64" -CrtDirectory $crt
-          $env:QT_QPA_PLATFORM = 'windows'
-          $env:QT_QUICK_BACKEND = 'software'
-          $env:NAND_TEST_STATE_DIR = "$pwd/package-test/state"
-          $app = Start-Process -FilePath "$pwd/dist/NandStudio-windows-x86_64/bin/NandStudio.exe" -ArgumentList '--self-test',('"{0}"' -f "$pwd/package-test") -Wait -PassThru -WindowStyle Hidden
-          if ($app.ExitCode) { throw "Packaged GUI tests failed: $($app.ExitCode)" }
+          python scripts/check_packaged_gui.py dist/NandStudio-windows-x86_64/bin/NandStudio.exe package-test
       - name: Deploy and exercise outside build tree
         if: runner.os != 'Windows'
         shell: bash

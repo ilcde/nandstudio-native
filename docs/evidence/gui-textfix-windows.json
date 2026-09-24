@@ -8,6 +8,10 @@
         "passed": true
     },
     {
+        "check": "GUI test window is exposed for native input",
+        "passed": true
+    },
+    {
         "check": "menu punctuation renders correctly: openWorkspaceMenuItem",
         "passed": true
     },
