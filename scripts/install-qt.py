@@ -19,4 +19,5 @@ def arch_extension(self):
     return original(self)
 
 QtArchives._arch_ext = arch_extension
-runpy.run_module('aqt', run_name='__main__')
+if __name__ == '__main__':
+    runpy.run_module('aqt', run_name='__main__')
