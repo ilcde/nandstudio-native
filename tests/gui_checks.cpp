@@ -120,7 +120,7 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         for(auto size:QList<QSize>{{320,640},{412,820},{820,412},{768,1024},{1320,860}}){
             window->resize(size);window->setProperty("mobilePane",0);QTest::qWait(40);
             for(double scale:{1.0,1.5}){
-                preferences->set("uiScale",scale);QTest::qWait(40);QMetaObject::invokeMethod(window,"showNewFile");QTest::qWait(40);
+                preferences->set("uiScale",scale);QTest::qWait(150);QMetaObject::invokeMethod(window,"showNewFile");QTest::qWait(150);
                 auto* field=findItem(window->contentItem(),"pathField");check(field!=nullptr,"filename field exists");
                 auto* popup=field->parentItem();while(popup&&!QString(popup->metaObject()->className()).contains("PopupItem"))popup=popup->parentItem();check(popup!=nullptr,"file dialog surface exists");
                 auto bounds=popup->mapRectToScene(QRectF(0,0,popup->width(),popup->height()));auto child=field->mapRectToScene(QRectF(0,0,field->width(),field->height()));

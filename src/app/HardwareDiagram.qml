@@ -5,9 +5,11 @@ import QtQuick.Layouts
 ColumnLayout {
     id: root
     property int revision: 0
-    property var graph: { revision; return studio.hardwareDiagram(choice.currentText) }
+    property string selectedPath: ""
+    property var graph: { revision; return studio.hardwareDiagram(selectedPath) }
+    Connections { target: studio; function onStateChanged() { if(root.selectedPath && !studio.state.hierarchy.some(item => item.path===root.selectedPath))root.selectedPath="" } }
     Label { text: "CHIP HIERARCHY / CONNECTIONS"; font.bold: true; color: Theme.muted }
-    ComboBox { id: choice; objectName: "hierarchyChoice"; Layout.fillWidth: true; Layout.minimumWidth: 0; model: studio.state.hierarchy; textRole: "path" }
+    ComboBox { id: choice; objectName: "hierarchyChoice"; Layout.fillWidth: true; Layout.minimumWidth: 0; model: studio.state.hierarchy; textRole: "path"; displayText: root.selectedPath || studio.state.chip; onActivated: root.selectedPath=currentText }
     RowLayout {
         Label { text: "Zoom"; color: Theme.muted }
         Slider { id: zoom; Layout.fillWidth: true; from: 0.5; to: 2; value: 1; stepSize: 0.25 }
