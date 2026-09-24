@@ -6,8 +6,8 @@ Java. A C++ resolver supplies project-local HDL text; absent names fall back to
 Those files are unchanged copies of the uploaded built-in declarations, not
 solutions substituted into student projects. Original notices are retained.
 
-The parser constructs a hierarchical circuit and a flattened network of bus
-bits and built-in devices. It checks pin widths/directions, driven internal
+The parser constructs a hierarchical circuit, a flattened dependency graph of bus
+bits, and directed short-valued pin nodes with slice adapters. It checks pin widths/directions, driven internal
 wires, conflicting outputs, sub-bus ranges, recursive dependencies and
 combinational cycles. Internal wires cannot be subscripted. Local definitions
 take precedence over embedded declarations. Built-in pin roles use declaration
@@ -27,7 +27,7 @@ Keyboard; focused GUI key events update it. ROM commands use `ROM32K load FILE`.
 | Legacy operation | Native access | Evidence |
 |---|---|---|
 | Load/reload HDL | Load HDL button; `load-hdl`; script `load` | GUI reload preservation, local dependency and positional built-in fixtures |
-| Edit input pins, evaluate | Input rows with Return; Eval; `set-pin`, `eval` | GUI pin editing; project 1/2 reference outputs |
+| Edit input pins, evaluate | Input rows, atomic commit on Eval or Return; `set-pin`, `eval` | GUI pin editing; project 1/2 reference outputs |
 | Tick/tock | Separate buttons and commands; Step/Run clock batches | GUI tick/tock; project 3 and independent DFF/feedback/RAM timing traces |
 | Inspect pins and components | Root pins/internal wires; component picker and pins | C++ state snapshots, unit tests; full visual behavior not yet tested |
 | Edit memory | Component address/value controls; script `set RAM8[3] ...` | Independent memory timing reference fixture |
@@ -43,10 +43,7 @@ student HDL stubs remain unchanged. Independent circuits are under
 
 ## Confirmed difference and unverified behavior
 
-* **Release blocker:** `set in -1` on Not is accepted by the original and yields
-  input -1/output 2. The native bit representation yields input 1/output 0.
-  `scripts/probe_hardware_differences.py` reproduces this separately in
-  `evidence/hardware-known-differences.json`, where `passed` remains false.
+* The former narrow-negative mismatch is fixed. `set in -1` on Not now retains input -1/output 2. Whole-pin short storage and explicit slice adapters pass 23 byte-exact uploaded-Java probes in `evidence/hardware-known-differences.json`. These probes supplement, rather than replace, the existing 65 cases.
 * Flattening has only limited hierarchical timing coverage. Nonstandard CLOCKED
   declarations, clocked outputs, absent CLOCKED declarations, fanout involving
   several sequential hierarchy levels, repeated input connections and unusual
@@ -72,3 +69,11 @@ Primary source evidence: `Hack/Gates/{CompositeGateClass,CompositeGate,Gate}.jav
 `Hack/HardwareSimulator/HardwareSimulator.java`, `BuiltInChipsSource/*.java`, and
 `Hack/Utilities/Conversions.java` in the recorded upstream tree. Observed uploaded
 binary behavior takes precedence over those sources.
+
+## Explicit action history
+
+The inspector includes a Clock cycle action and bounded history for the last 256
+explicit Load/Eval/Tick/Tock/Cycle actions. Select a root or internal signal and
+decimal, hexadecimal or binary formatting. The plot distinguishes zero/nonzero;
+rows preserve exact values and clock phase. This addition does not implement the
+remaining schematic, multi-signal, component-signal or batch tracing requirements.

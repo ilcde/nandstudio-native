@@ -1,0 +1,17 @@
+[
+  {
+    "file": "dist/NandStudio-circuit-windows-x86_64.zip",
+    "bytes": 41281371,
+    "sha256": "375c8ac01eba86a22feac5914981c2faed8bbdda8530641b974394fd91e0630b"
+  },
+  {
+    "file": "dist/NandStudio-linux-x86_64.tar.xz",
+    "bytes": 55397444,
+    "sha256": "47b70581f3c23cb41e35180c1802e97a28207e14efa17adb70756dadac38057a"
+  },
+  {
+    "file": "dist/NandStudio-android-x86_64-development.apk",
+    "bytes": 26347233,
+    "sha256": "15cce7c7786d5d14ffc758d9a8385a4aace07c992207b56b625552dee276a6b3"
+  }
+]

@@ -8,18 +8,6 @@
         "passed": true
     },
     {
-        "check": "menu punctuation renders correctly: openWorkspaceMenuItem",
-        "passed": true
-    },
-    {
-        "check": "menu punctuation renders correctly: openFileMenuItem",
-        "passed": true
-    },
-    {
-        "check": "menu punctuation renders correctly: settingsMenuItem",
-        "passed": true
-    },
-    {
         "check": "editor reachable through document tab",
         "passed": true
     },
@@ -313,10 +301,6 @@
     },
     {
         "check": "Load HDL button loads native hierarchy",
-        "passed": true
-    },
-    {
-        "check": "hardware clock separator renders correctly",
         "passed": true
     },
     {

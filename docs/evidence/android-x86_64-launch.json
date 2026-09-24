@@ -1,0 +1,27 @@
+{
+  "source_revision": "d60edee",
+  "ci_run": 35992557632,
+  "ci_artifact_id": 10805415558,
+  "target": "Android x86_64",
+  "package": "org.qtproject.example.NandStudio",
+  "artifact": "dist\\NandStudio-android-x86_64-development.apk",
+  "sha256": "15cce7c7786d5d14ffc758d9a8385a4aace07c992207b56b625552dee276a6b3",
+  "signing": "Existing local Android debug keystore, not release signing",
+  "installed": true,
+  "cold_activity_launch": "success",
+  "qml_loaded": true,
+  "process_alive_after_launch": true,
+  "device": "Existing Medium_Phone_API_36.1 emulator",
+  "runtime_page_size": 4096,
+  "elf_libraries_alignment_passed": 88,
+  "zipalign_16k_passed": true,
+  "apk_signature_verified": true,
+  "sdk_build_tools_used_locally": "36.1.0",
+  "full_workflow_verified": false,
+  "runtime_16k_verified": false,
+  "limitations": [
+    "No SAF workflow",
+    "No ARM64 device runtime verification",
+    "No complete edit/save/compile/test/export verification"
+  ]
+}

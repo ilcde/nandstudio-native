@@ -1,0 +1,63 @@
+name: Publish development packages
+on:
+  workflow_run:
+    workflows: ['Native build checks (not release certification)']
+    branches: [main]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      build_run_id:
+        description: Successful Native build checks run on main (all six targets)
+        required: true
+        type: string
+permissions:
+  actions: read
+  contents: write
+jobs:
+  publish:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+      BUILD_RUN: ${{ inputs.build_run_id || github.event.workflow_run.id }}
+      REPOSITORY: ${{ github.repository }}
+    steps:
+      - name: Resolve successful source revision
+        id: source
+        shell: bash
+        run: |
+          [[ "$BUILD_RUN" =~ ^[0-9]+$ ]] || exit 2
+          gh api "repos/$REPOSITORY/actions/runs/$BUILD_RUN" > "$RUNNER_TEMP/build-run.json"
+          python3 - <<'PY'
+          import json, os, re
+          r=json.load(open(os.environ['RUNNER_TEMP']+'/build-run.json'))
+          assert r['status']=='completed' and r['conclusion']=='success'
+          assert r['head_branch']=='main' and r['event']!='pull_request'
+          assert r['path']=='.github/workflows/native.yml'
+          assert r['head_repository']['full_name']==os.environ['REPOSITORY']
+          assert re.fullmatch('[0-9a-f]{40}',r['head_sha'])
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f: f.write('sha='+r['head_sha']+'\n')
+          PY
+      - uses: actions/checkout@v4.2.2
+        with:
+          ref: ${{ steps.source.outputs.sha }}
+      - uses: actions/setup-python@v5.6.0
+        with: {python-version: '3.11.6'}
+      - uses: actions/download-artifact@v4.3.0
+        with:
+          run-id: ${{ env.BUILD_RUN }}
+          github-token: ${{ github.token }}
+          path: downloaded
+      - name: Verify and stage complete asset set
+        env:
+          SOURCE_SHA: ${{ steps.source.outputs.sha }}
+        run: |
+          python scripts/prepare_release.py downloaded release-assets --run "$RUNNER_TEMP/build-run.json" --sha "$SOURCE_SHA"
+          git archive --format=zip --output=release-assets/NandStudio-source.zip HEAD
+          cd release-assets
+          sha256sum NandStudio-source.zip >> SHA256SUMS
+      - name: Publish development prerelease
+        env:
+          SOURCE_SHA: ${{ steps.source.outputs.sha }}
+        run: |
+          gh release create "development-$BUILD_RUN" release-assets/* --repo "$REPOSITORY" --target "$SOURCE_SHA" --prerelease --latest=false --title "NandStudio development build $BUILD_RUN" --notes-file docs/development-release.md

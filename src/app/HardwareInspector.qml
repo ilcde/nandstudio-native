@@ -6,7 +6,7 @@ ColumnLayout {
                             id: inspector
                             function inputs() { let values={};for(let i=0;i<pinRows.count;i++){let row=pinRows.itemAt(i);if(row.modelData.direction==="input")values[row.modelData.name]=row.editText}return values }
                             property int revision: 0; Layout.fillWidth: true
-                            Label { text: studio.state.chip + " Â· time " + studio.state.hardwareTime; font.bold: true }
+                            Label { objectName: "hardwareClockLabel"; text: studio.state.chip + " \u00b7 time " + studio.state.hardwareTime; font.bold: true }
                             RowLayout {
                                 ActionButton { Layout.fillWidth: true; Layout.minimumWidth: 0; text: "Eval"; objectName: "hardwareEval"; enabled: !studio.busy; onClicked: studio.hardwareActionWithInputs("eval",inspector.inputs()) }
                                 ActionButton { Layout.fillWidth: true; Layout.minimumWidth: 0; text: "Tick"; objectName: "hardwareTick"; enabled: !studio.busy && !studio.state.clockUp; onClicked: studio.hardwareActionWithInputs("tick",inspector.inputs()) }

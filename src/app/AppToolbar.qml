@@ -20,8 +20,8 @@ Pane {
     }
     Menu {
         id: fileMenu
-        MenuItem { text: "Open workspaceÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦"; onTriggered: toolbar.folderRequested() }
-        MenuItem { text: "Open fileÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦"; onTriggered: toolbar.fileRequested() }
+        MenuItem { objectName: "openWorkspaceMenuItem"; text: "Open workspace\u2026"; onTriggered: toolbar.folderRequested() }
+        MenuItem { objectName: "openFileMenuItem"; text: "Open file\u2026"; onTriggered: toolbar.fileRequested() }
         Menu {
             id: recentMenu; title: "Recent workspaces"
             Instantiator { model: preferences.values.recentWorkspaces; delegate: MenuItem { required property string modelData; text: modelData; onTriggered: studio.openLocalWorkspace(modelData) } onObjectAdded: (index,object) => recentMenu.insertItem(index,object); onObjectRemoved: (index,object) => recentMenu.removeItem(object) }
@@ -33,6 +33,6 @@ Pane {
     Menu {
         id: moreMenu
         MenuItem { text: Theme.dark ? "Use light theme" : "Use dark theme"; onTriggered: preferences.set("dark",!Theme.dark) }
-        MenuItem { text: "SettingsÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦"; onTriggered: toolbar.settingsRequested() }
+        MenuItem { objectName: "settingsMenuItem"; text: "Settings\u2026"; onTriggered: toolbar.settingsRequested() }
     }
 }

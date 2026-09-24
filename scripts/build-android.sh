@@ -14,4 +14,8 @@ test -f "$ndk/source.properties"
   -DQT_ANDROID_MIN_SDK_VERSION=28 -DQT_ANDROID_TARGET_SDK_VERSION=36
 cmake --build "$root/build-android-$abi" --target apk
 cmake --build "$root/build-android-$abi" --target aab
+# Qt's Release APK is unsigned. Also produce an installable, explicitly debug-
+# signed development APK using Android's standard generated debug keystore.
+# Release/store signing remains external and is never invented by this script.
+(cd "$root/build-android-$abi/android-build" && ./gradlew --no-daemon assembleDebug)
 echo 'Compilation does not establish SAF, lifecycle, 16 KiB or workflow parity. Run device tests before making a support claim.'

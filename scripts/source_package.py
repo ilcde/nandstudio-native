@@ -12,7 +12,7 @@ import zipfile
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 DIRECTORIES = ('src', 'resources', 'tests', 'scripts', 'docs', 'licenses', '.github')
 FILES = ('CMakeLists.txt', 'CMakePresets.json', 'README.md', 'NOTICE.md',
-         'toolchain-lock.json', '.gitignore', 'nand2tetris.zip')
+         'toolchain-lock.json', '.gitignore', '.editorconfig', 'nand2tetris.zip')
 
 
 def selected_files():

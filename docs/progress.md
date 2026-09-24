@@ -92,3 +92,10 @@ for changed files, exact test results, artifact paths and remaining release bloc
 Use build-continuation for the current Windows build. The original build directory
 contains older binaries; set NAND_NATIVE_BUILD when running differential tests.
 No Android/macOS/Linux completion is claimed.
+
+
+## Simulator continuation, 24 September 2026
+
+See simulator-continuation.md for the Eval fix, signed HDL nodes, hierarchy,
+signal history, real GitHub CI runs and the new isolated Linux build host.
+The former narrow-negative mismatch is fixed. Full migration remains blocked.

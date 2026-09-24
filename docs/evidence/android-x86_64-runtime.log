@@ -1,0 +1,4 @@
+09-24 18:38:05.901 22271 22310 W HWUI    : Failed to initialize 101010-2 format, error = EGL_SUCCESS
+09-24 18:38:06.818 22271 22330 I default : Creating application
+09-24 18:38:06.950 22271 22330 I default : Creating studio
+09-24 18:38:08.746 22271 22330 I default : QML loaded

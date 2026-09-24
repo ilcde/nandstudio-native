@@ -27,6 +27,11 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
     try{
         auto path=QDir(dir).absoluteFilePath("Ui.asm");check(write(path,"@2\r\nD=A\r\n"),"create isolated fixture");studio.openWorkspace(QUrl::fromLocalFile(QDir(dir).absolutePath()));studio.open(QUrl::fromLocalFile(path));
         QTest::qWait(100);auto* window=qobject_cast<QQuickWindow*>(engine.rootObjects().first());check(window!=nullptr,"Qt Quick window instantiated");
+        for(auto name:{"openWorkspaceMenuItem","openFileMenuItem","settingsMenuItem"}){
+            auto* item=window->findChild<QObject*>(name);
+            const auto prefix=QString(name)=="openWorkspaceMenuItem" ? "Open workspace" : QString(name)=="openFileMenuItem" ? "Open file" : "Settings";
+            check(item&&item->property("text").toString()==QString(prefix)+QChar(0x2026),QString("menu punctuation renders correctly: ")+name);
+        }
         if(qEnvironmentVariableIsSet("NAND_LAYOUT_BASELINE")){
             std::function<QQuickItem*(QQuickItem*,const QString&,const QString&)> find=[&](QQuickItem* item,const QString& prop,const QString& value)->QQuickItem*{if(item->property(prop.toUtf8()).toString()==value)return item;for(auto* child:item->childItems())if(auto* found=find(child,prop,value))return found;return nullptr;};
             auto* button=find(window->contentItem(),"text","+ New file");if(!button)throw std::runtime_error("Create-file button missing");QTest::mouseClick(window,Qt::LeftButton,Qt::NoModifier,button->mapToScene(QPointF(button->width()/2,button->height()/2)).toPoint());QTest::qWait(80);
@@ -103,6 +108,8 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         click("hardwareEval");check(studio.hardwareValue("out")=="19"&&studio.hardwareValue("x")=="12","invalid pending pin input preserves prior valid state");
         studio.open(QUrl::fromLocalFile(hdlPath));QTest::qWait(30);
         click("loadHdl");check(studio.state()["hardware"].toBool()&&studio.state()["chip"]=="Ui","Load HDL button loads native hierarchy");
+        auto* clockLabel=findItem(window->contentItem(),"hardwareClockLabel");
+        check(clockLabel&&clockLabel->property("text").toString()==QString("Ui ")+QChar(0x00b7)+" time "+studio.state()["hardwareTime"].toString(),"hardware clock separator renders correctly");
         auto diagram=studio.hardwareDiagram("Ui");
         check(diagram["blocks"].toList().size()==2&&diagram["wires"].toList().size()==3,"diagram uses actual composite and Register connections");
         check(findItem(window->contentItem(),"hardwareDiagram")!=nullptr,"hierarchical connection visualization reachable");

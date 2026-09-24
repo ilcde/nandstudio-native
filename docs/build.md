@@ -80,7 +80,9 @@ python scripts/check_android_package.py path/to/application.apk
 "$ANDROID_SDK_ROOT/build-tools/36.0.0/zipalign" -c -P 16 -v 4 path/to/application.apk
 ```
 
-No APK/AAB has been produced or verified. A 16 KiB link flag alone is not proof
+CI now produces ARM64 and x86-64 APK/AAB artifacts. A local development-signed
+x86-64 APK installed and launched on the API 36.1 emulator; see platforms.json.
+A 16 KiB link flag alone is not proof
 of package compatibility; check every shipped ELF and ZIP alignment, then install
 on a 16 KiB device/emulator. SAF implementation, persistent grants, lifecycle,
 import/export and offline workflow tests are still blocking application work,
@@ -96,10 +98,11 @@ python scripts/probe_hardware_differences.py
 python scripts/test_windows_package.py
 ```
 
-The probe reports the unresolved narrow-negative mismatch separately and keeps
-`passed: false` in its evidence. It must not be cited as a passing parity test.
+The signed-pin probe now passes 23 byte-exact Java/native cases; see
+`docs/evidence/hardware-known-differences.json`. This resolves the previously
+recorded narrow-negative mismatch, not every remaining HDL compatibility edge.
 The package test uses the Windows Qt plugin with software rendering and a PATH
-containing only Windows system directories; it runs 26 GUI checks plus a native
+containing only Windows system directories; the current application runs 221 GUI checks plus a native
 hardware batch fixture against previously captured uploaded-binary output.
 Qt's deployment subprocesses may require the same host execution permission as
 the compiler. No external Qt or Java runtime is needed by the resulting package.
@@ -143,8 +146,27 @@ Set `NAND_NATIVE_BUILD` to an absolute build directory before running
 `scripts/differential.py` or `scripts/probe_hardware_differences.py` to avoid testing
 an older build accidentally. The reference harness remains development-only.
 
-Linux verification attempt: installed Docker Desktop failed during startup on its
-Inference-manager socket, leaving no Linux engine. No reset was performed. This
-is recorded in evidence/linux-blocker.json; Linux remains uncompiled and untested.
-Android still lacks the Qt Android kit, pinned NDK and SDK command-line tools on
-this host; no APK, SAF workflow or 16 KB verification is claimed.
+The earlier Docker startup failure remains historical evidence. Linux now builds
+in isolated Ubuntu 24.04 WSL (`NandStudioBuild`) and CI. All three suites pass;
+the portable package passes 221 GUI checks with offscreen and X11/Xvfb plugins.
+Android builds use the pinned Qt/NDK tools in CI; the local SDK installed and
+launched the downloaded x86-64 package. SAF and full workflows remain unimplemented.
+See `simulator-continuation.md` for current evidence and artifact locations.
+
+## Development GitHub Releases
+
+Every successful `native.yml` run on main automatically triggers `release.yml`.
+All jobs must succeed at the same source revision. Manual retry is also available
+using that run's numeric ID (an existing release will not be overwritten):
+
+```sh
+gh workflow run release.yml --repo ilcde/nandstudio-native -f build_run_id=RUN_ID
+```
+
+The workflow publishes a prerelease named `development-RUN_ID`, with Windows,
+Linux, both macOS architectures, both Android ABIs, tracked source, SHA256SUMS and
+provenance. It refuses missing packages, failed desktop package checks, a failed
+CI run or mismatched source revision. Existing releases are never overwritten.
+Android development APKs use Gradle's debug signing; release keys, macOS signing
+and notarization are not configured. This workflow is prepared and locally
+validated but has not yet executed remotely.

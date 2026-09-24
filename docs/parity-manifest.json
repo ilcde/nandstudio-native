@@ -1382,21 +1382,21 @@
       "original_evidence": "SimulatorsPackageSource/Hack/Gates; HardwareSimulator; uploaded HDL fixtures",
       "native_implementation": "src/hdl.cpp; src/app/studio.cpp; src/app/Main.qml",
       "regression_tests": [
-        "hardware_tests",
-        "scripts/differential.py",
-        "gui_workflow"
+        "tests/gui_checks.cpp",
+        "tests/hardware_tests.cpp",
+        "docs/evidence/hardware-known-differences.json"
       ],
       "platform_coverage": {
-        "windows-x86_64": "limited-local-tests",
+        "windows-x86_64": "native GUI action tests passed",
         "macos-arm64": "not-verified",
         "macos-x86_64": "not-verified",
-        "linux-x86_64": "not-verified",
+        "linux-x86_64": "native GUI action tests passed",
         "android-arm64-v8a": "not-verified",
         "android-x86_64": "not-verified"
       },
       "status": "partial",
       "release_blocker": true,
-      "notes": "Implemented subset; see docs/hardware.md for known numerical, hierarchy, diagnostics and GUI gaps. Windows-only evidence."
+      "notes": "Fixed uncommitted text fields: Eval validates and commits all input edits atomically before async evaluation. GUI key/mouse tests cover 21 chips, invalid input preservation, clock unchanged, sequential Tick/Tock and failed reload preservation. Tests pass on Windows and Linux."
     },
     {
       "id": "hardware.reload",
@@ -2252,16 +2252,16 @@
         "scripts/probe_hardware_differences.py"
       ],
       "platform_coverage": {
-        "windows-x86_64": "limited-local-tests",
+        "windows-x86_64": "23 differential probes passed",
         "macos-arm64": "not-verified",
         "macos-x86_64": "not-verified",
-        "linux-x86_64": "not-verified",
+        "linux-x86_64": "native signed-pin unit tests passed; no Java differential run",
         "android-arm64-v8a": "not-verified",
         "android-x86_64": "not-verified"
       },
       "status": "partial",
       "release_blocker": true,
-      "notes": "CONFIRMED MISMATCH: set in -1 on Not returns legacy in=-1/out=2; native in=1/out=0. Release blocked. No normalization permitted."
+      "notes": "Former confirmed mismatch fixed: whole pins retain signed short values; explicit source/target slices mask and merge. 23/23 Java/native byte-exact probes pass on Windows, including hierarchy, adders, ALU controls, mux/demux and sequential pins. Native unit coverage also passes on Linux. Full platform certification pending."
     },
     {
       "id": "hardware.nonstandard-clock-declarations",
@@ -4366,6 +4366,68 @@
       "status": "not-implemented",
       "release_blocker": true,
       "notes": "See build.md and platforms.json for actual configured/compiled/packaged/launched/tested states."
+    },
+    {
+      "id": "hardware.signal-history",
+      "kind": "addition",
+      "original_evidence": "New action history visualization; does not claim legacy animation/schematic parity",
+      "native_implementation": "src/app/studio.cpp; src/app/HardwareTrace.qml",
+      "regression_tests": [
+        "tests/gui_checks.cpp"
+      ],
+      "platform_coverage": {
+        "windows-x86_64": "tested",
+        "linux-x86_64": "tested",
+        "macos-arm64": "pending CI",
+        "macos-x86_64": "pending CI",
+        "android-arm64-v8a": "not verified",
+        "android-x86_64": "not verified"
+      },
+      "status": "partial",
+      "release_blocker": true,
+      "notes": "Bounded 256-event C++ snapshots for explicit Load/Eval/Tick/Tock/Cycle; root/internal signal selection, decimal/hex/binary exact values and zero/nonzero waveform. Wall-clock refresh does not sample. Component signals, batch-cycle histories, export, multi-signal traces, schematic and full legacy animation remain unfinished."
+    },
+    {
+      "id": "hardware.hierarchy-diagram",
+      "kind": "addition",
+      "original_evidence": "Legacy part inspection and connections; this visualization is a new presentation",
+      "native_implementation": "src/hdl.cpp hierarchy/wires snapshots; Studio::hardwareDiagram; HardwareDiagram.qml",
+      "regression_tests": [
+        "tests/hardware_tests.cpp",
+        "tests/gui_checks.cpp"
+      ],
+      "platform_coverage": {
+        "windows-x86_64": "local build and packaged GUI checks passed",
+        "linux-x86_64": "local build and offscreen/X11 packaged GUI checks passed",
+        "macos-arm64": "latest CI pending",
+        "macos-x86_64": "latest CI pending",
+        "android-arm64-v8a": "not verified",
+        "android-x86_64": "not verified"
+      },
+      "status": "partial",
+      "release_blocker": true,
+      "notes": "Composite/primitive level selection, zoom/scroll, directed connections, pin values and slice endpoints from the live circuit. Constants omitted from drawing, routing is basic, no click-to-drill or animation/breakpoint overlay; full original visualization parity not claimed."
+    },
+    {
+      "id": "ui.text-encoding",
+      "kind": "addition",
+      "original_evidence": "User screenshot showed multiply misdecoded UTF-8 menu punctuation in native UI.",
+      "native_implementation": "src/app/AppToolbar.qml; src/app/HardwareInspector.qml; .editorconfig",
+      "regression_tests": [
+        "menu punctuation renders correctly (3 menu items)",
+        "hardware clock separator renders correctly"
+      ],
+      "platform_coverage": {
+        "windows-x86_64": "225 GUI checks pass",
+        "linux-x86_64": "CI pending",
+        "macos-arm64": "CI pending",
+        "macos-x86_64": "CI pending",
+        "android-arm64-v8a": "CI pending",
+        "android-x86_64": "CI pending"
+      },
+      "status": "partial",
+      "release_blocker": true,
+      "notes": "Four malformed literals replaced with Unicode escapes; correct Unicode labels and user file content preserved. Cross-platform package verification pending."
     }
   ],
   "gui_discovery": [

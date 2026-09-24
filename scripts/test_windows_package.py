@@ -16,7 +16,7 @@ record=dict(executable=str(exe),sha256=hashlib.sha256(exe.read_bytes()).hexdiges
 checks=json.loads((work/'checks.json').read_text())
 record['gui_checks']=len(checks)
 record['gui_checks_passed']=all(c['passed'] for c in checks)
-crt=json.loads((root/'docs/evidence/windows-crt.json').read_text(encoding='utf-8-sig'))
+crt=json.loads((package/'docs/evidence/windows-crt.json').read_text(encoding='utf-8-sig'))
 record['app_local_crt_matches_pinned_source']=all((package/'bin'/f['file']).exists() and hashlib.sha256((package/'bin'/f['file']).read_bytes()).hexdigest().upper()==f['sha256'] for f in crt)
 # Exercise the packaged headless hardware engine, including embedded declarations.
 fixture=root/'tests/fixtures/hardware'

@@ -1,6 +1,6 @@
 {
-  "executable": "C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\dist\\NandStudio-editor-windows-x86_64\\bin\\NandStudio.exe",
-  "sha256": "dbbce04beea4d49e83b94a1017f028a04a77a4b0c412fbd15a1deab066de0a88",
+  "executable": "C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\dist\\NandStudio-textfix-windows-x86_64\\bin\\NandStudio.exe",
+  "sha256": "bd80faf21e275585cce6533c4385ae020ffd831fffcc62ccbc5bac2200372e4a",
   "qt_platform": "windows",
   "render_backend": "software",
   "exit_code": 0,
@@ -8,7 +8,7 @@
   "stderr": "",
   "system_qt_on_path": false,
   "java_on_path": false,
-  "gui_checks": 159,
+  "gui_checks": 225,
   "gui_checks_passed": true,
   "app_local_crt_matches_pinned_source": true,
   "hardware_batch": {

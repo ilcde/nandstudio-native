@@ -8,80 +8,93 @@
       "compiled": true,
       "packaged": true,
       "installed": false,
-      "launched": "Packaged Windows plugin and Qt offscreen plugin, software rendering",
-      "functionally_tested": "159 automated GUI checks under offscreen and packaged Windows plugins; 2012 core checks; 2127 hardware checks; 65 differential matches (63 output/comparison cases, 2 expected rejections). Separate narrow-negative HDL mismatch persists.",
+      "launched": "Windows platform plugin and offscreen; local packaged builds",
+      "functionally_tested": "2012 core, 2139 hardware, 225 GUI checks pass on current text-fix source. Packaging verification in progress. Earlier circuit package passed 221 GUI checks and 65+23 differential probes.",
       "full_workflow_verified": false
     },
     {
       "target": "macOS arm64",
-      "configured": false,
-      "compiled": false,
-      "packaged": false,
+      "configured": true,
+      "compiled": true,
+      "packaged": true,
       "installed": false,
-      "launched": false,
-      "functionally_tested": false,
+      "launched": "Packaged Cocoa application in GitHub macos-14 runner",
+      "functionally_tested": "Run 35992557632 passed build-tree suites and packaged Cocoa GUI tests and generated a DMG. No clean-device installation tested.",
       "blockers": [
-        "No macOS host exercised",
-        "Packaging/signing procedures incomplete"
-      ]
+        "No installation or manual device workflow verification",
+        "Release signing/notarization not performed",
+        "Remaining functional parity gaps"
+      ],
+      "full_workflow_verified": false
     },
     {
       "target": "macOS x86-64",
-      "configured": false,
-      "compiled": false,
-      "packaged": false,
+      "configured": true,
+      "compiled": true,
+      "packaged": true,
       "installed": false,
-      "launched": false,
-      "functionally_tested": false,
+      "launched": "Cocoa packaged application and offscreen build tree in GitHub macos-15-intel",
+      "functionally_tested": "Run 35992557632 passed core/hardware/GUI suites and packaged Cocoa tests and generated a DMG.",
       "blockers": [
-        "No Intel macOS host exercised",
-        "Universal/Intel build not validated"
-      ]
+        "No clean-device installation/manual workflow",
+        "Signing/notarization not performed",
+        "Remaining functional parity gaps"
+      ],
+      "full_workflow_verified": false
     },
     {
       "target": "Linux x86-64",
-      "configured": false,
-      "compiled": false,
-      "packaged": false,
+      "configured": true,
+      "compiled": true,
+      "packaged": true,
       "installed": false,
-      "launched": false,
-      "functionally_tested": false,
+      "launched": "WSL2 Ubuntu 24.04: offscreen, Xvfb X11, visible WSLg smoke launch; GitHub Ubuntu runner",
+      "functionally_tested": "2012 core, 2139 hardware, 221 GUI checks passed locally. Latest circuit package passes all 221 GUI checks with both offscreen and X11/Xvfb. Visible WSLg smoke launch passed. GitHub Linux jobs also passed on earlier source.",
       "blockers": [
-        "No Linux host exercised",
-        "Distributable dependencies not validated",
-        "Docker Desktop Linux engine unavailable. Startup failed while initializing the Inference manager: dockerInference socket remove/listener failure. No Docker reset or existing distribution change performed."
-      ]
+        "Complete parity gaps remain",
+        "Not installed on a separate clean physical Linux system"
+      ],
+      "full_workflow_verified": false
     },
     {
       "target": "Android arm64-v8a",
-      "configured": false,
-      "compiled": false,
-      "packaged": false,
+      "configured": true,
+      "compiled": true,
+      "packaged": true,
       "installed": false,
       "launched": false,
-      "functionally_tested": false,
+      "functionally_tested": "GitHub run 35992557632 compiled APK/AAB; native ELF and APK ZIP 16 KiB alignment checks passed. Full workflows untested.",
       "blockers": [
-        "Missing Android Qt 6.11.1 kit and NDK r27c",
-        "SAF and lifecycle adapters not implemented",
-        "Native OS and HDL engines incomplete",
-        "No attached device",
-        "16 KiB package verification not run"
-      ]
+        "SAF/grants/import-export/lifecycle unimplemented",
+        "No 16 KiB runtime test",
+        "Complete device workflows unverified"
+      ],
+      "full_workflow_verified": false
     },
     {
       "target": "Android x86_64",
-      "configured": false,
-      "compiled": false,
-      "packaged": false,
-      "installed": false,
-      "launched": false,
-      "functionally_tested": false,
+      "configured": true,
+      "compiled": true,
+      "packaged": true,
+      "installed": true,
+      "launched": "API 36.1 local emulator: cold QtActivity launch succeeded; native application and QML loaded; process alive",
+      "functionally_tested": "GitHub run 35992557632 compiled APK/AAB; native ELF and APK ZIP 16 KiB alignment checks passed. Full workflows untested.",
       "blockers": [
-        "Missing Android Qt kit and NDK",
-        "API 36.1 emulator definition exists but not launched",
-        "No installable APK"
-      ]
+        "SAF/grants/import-export/lifecycle unimplemented",
+        "No 16 KiB runtime test",
+        "Complete device workflows unverified"
+      ],
+      "full_workflow_verified": false,
+      "runtime_page_size": 4096,
+      "local_artifact": "dist/NandStudio-android-x86_64-development.apk",
+      "signing": "Existing workstation Android debug key; not release signing"
     }
   ],
-  "ci": "Jobs authored but not submitted or run. Hosted runner images and transitive dependency versions are not fully locked."
+  "ci": "Run 35992557632: Linux, both macOS architectures, both Android ABIs and sanitizers passed. Windows Qt extraction failed; native 7-Zip extraction fix is prepared for the next run. GitHub approval access restored on 2026-09-24.",
+  "release_publication": {
+    "requested": true,
+    "published": false,
+    "workflow": ".github/workflows/release.yml",
+    "status": "Automatic development publication follows successful all-platform CI on main. Current corrected-text source not yet published."
+  }
 }
