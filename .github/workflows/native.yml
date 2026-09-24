@@ -27,7 +27,7 @@ jobs:
         run: python scripts/install-qt.py install-qt ${{ matrix.qt_host }} desktop 6.11.1 ${{ matrix.qt_arch }} -O Qt
       - name: Install Qt with native Windows archive extraction
         if: runner.os == 'Windows'
-        run: python scripts/install-qt.py install-qt windows desktop 6.11.1 win64_msvc2022_64 -O Qt --external "C:/Program Files/7-Zip/7z.exe"
+        run: python scripts/install-qt.py --config scripts/aqt-windows.ini install-qt windows desktop 6.11.1 win64_msvc2022_64 -O Qt --external "C:/Program Files/7-Zip/7z.exe"
       - name: Windows compiler environment
         if: runner.os == 'Windows'
         shell: pwsh
