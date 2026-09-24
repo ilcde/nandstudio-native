@@ -1,0 +1,20 @@
+{
+  "executable": "C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\dist\\NandStudio-editor-windows-x86_64\\bin\\NandStudio.exe",
+  "sha256": "dbbce04beea4d49e83b94a1017f028a04a77a4b0c412fbd15a1deab066de0a88",
+  "qt_platform": "windows",
+  "render_backend": "software",
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": "",
+  "system_qt_on_path": false,
+  "java_on_path": false,
+  "gui_checks": 159,
+  "gui_checks_passed": true,
+  "app_local_crt_matches_pinned_source": true,
+  "hardware_batch": {
+    "exit_code": 0,
+    "output_matches_reference": true,
+    "stdout": "End of script\r\n",
+    "stderr": ""
+  }
+}

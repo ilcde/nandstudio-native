@@ -1,0 +1,9 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+CHIP Delay {
+    IN in;
+    OUT first,second,inverse;
+    PARTS:
+    DFF(in=in,out=a,out=first);
+    DFF(in=a,out=second);
+    Invert(in=a,out=inverse);
+}

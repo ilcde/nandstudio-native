@@ -1,0 +1,87 @@
+{
+  "release_status": "blocked",
+  "platforms": [
+    {
+      "target": "Windows x86-64",
+      "host": "Windows 11 build 26200",
+      "configured": true,
+      "compiled": true,
+      "packaged": true,
+      "installed": false,
+      "launched": "Packaged Windows plugin and Qt offscreen plugin, software rendering",
+      "functionally_tested": "159 automated GUI checks under offscreen and packaged Windows plugins; 2012 core checks; 2127 hardware checks; 65 differential matches (63 output/comparison cases, 2 expected rejections). Separate narrow-negative HDL mismatch persists.",
+      "full_workflow_verified": false
+    },
+    {
+      "target": "macOS arm64",
+      "configured": false,
+      "compiled": false,
+      "packaged": false,
+      "installed": false,
+      "launched": false,
+      "functionally_tested": false,
+      "blockers": [
+        "No macOS host exercised",
+        "Packaging/signing procedures incomplete"
+      ]
+    },
+    {
+      "target": "macOS x86-64",
+      "configured": false,
+      "compiled": false,
+      "packaged": false,
+      "installed": false,
+      "launched": false,
+      "functionally_tested": false,
+      "blockers": [
+        "No Intel macOS host exercised",
+        "Universal/Intel build not validated"
+      ]
+    },
+    {
+      "target": "Linux x86-64",
+      "configured": false,
+      "compiled": false,
+      "packaged": false,
+      "installed": false,
+      "launched": false,
+      "functionally_tested": false,
+      "blockers": [
+        "No Linux host exercised",
+        "Distributable dependencies not validated",
+        "Docker Desktop Linux engine unavailable. Startup failed while initializing the Inference manager: dockerInference socket remove/listener failure. No Docker reset or existing distribution change performed."
+      ]
+    },
+    {
+      "target": "Android arm64-v8a",
+      "configured": false,
+      "compiled": false,
+      "packaged": false,
+      "installed": false,
+      "launched": false,
+      "functionally_tested": false,
+      "blockers": [
+        "Missing Android Qt 6.11.1 kit and NDK r27c",
+        "SAF and lifecycle adapters not implemented",
+        "Native OS and HDL engines incomplete",
+        "No attached device",
+        "16 KiB package verification not run"
+      ]
+    },
+    {
+      "target": "Android x86_64",
+      "configured": false,
+      "compiled": false,
+      "packaged": false,
+      "installed": false,
+      "launched": false,
+      "functionally_tested": false,
+      "blockers": [
+        "Missing Android Qt kit and NDK",
+        "API 36.1 emulator definition exists but not launched",
+        "No installable APK"
+      ]
+    }
+  ],
+  "ci": "Jobs authored but not submitted or run. Hosted runner images and transitive dependency versions are not fully locked."
+}

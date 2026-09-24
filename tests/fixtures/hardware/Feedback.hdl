@@ -1,0 +1,2 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+CHIP Feedback { OUT out; PARTS: Invert(in=q,out=n); DFF(in=n,out=q,out=out); }

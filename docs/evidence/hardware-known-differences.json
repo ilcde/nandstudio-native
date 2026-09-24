@@ -1,0 +1,30 @@
+[
+  {
+    "name": "hardware-known-narrow-negative",
+    "tool": "HardwareSimulator",
+    "passed": false,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "probe.out",
+        "equal": false,
+        "sha256": [
+          "00c780481f35621d034b57275c73cad39ca8c6a4427a5ec562a8024f3ef5ad49",
+          "bb10d5dc8766a8813fe3d7543d895837a742d7222d9119c65e587e9abf1600e7"
+        ]
+      }
+    ],
+    "release_blocker": "hardware.narrow-negative-values",
+    "explanation": "Legacy nodes retain signed short values even on one-bit pins. Native bit nets mask to declared width. This is an unresolved behavioral difference, not approved normalization."
+  }
+]

@@ -1,0 +1,2 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+CHIP Invert { IN in; OUT out; PARTS: Nand(a=in,b=in,out=out); }

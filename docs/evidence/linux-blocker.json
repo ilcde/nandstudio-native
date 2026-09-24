@@ -1,0 +1,11 @@
+{
+  "configured": false,
+  "compiled": false,
+  "reason": "Docker Desktop Linux engine unavailable. Startup failed while initializing the Inference manager: dockerInference socket remove/listener failure. No Docker reset or existing distribution change performed.",
+  "docker_client": "29.5.3",
+  "docker_desktop": "4.79.0",
+  "wsl_distributions": [
+    "docker-desktop (stopped)"
+  ],
+  "github": "No repository or remote configured; CI not dispatched."
+}

@@ -1,0 +1,1669 @@
+[
+  {
+    "name": "hardware-And",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "And.out",
+        "equal": true,
+        "sha256": [
+          "2ffab76554f662babf946039745b649af1b31501ee444b831c139ac92a8f744d",
+          "2ffab76554f662babf946039745b649af1b31501ee444b831c139ac92a8f744d"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-And16",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "And16.out",
+        "equal": true,
+        "sha256": [
+          "8f46fdc31bb339e5c9da9a6e1fcf34ca086514c2fc9f1ca1644ac5d4d3a52d10",
+          "8f46fdc31bb339e5c9da9a6e1fcf34ca086514c2fc9f1ca1644ac5d4d3a52d10"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-DMux",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "DMux.out",
+        "equal": true,
+        "sha256": [
+          "af9e7b1185b1deb8a8f4028e1843bed87263e64b7644a76298356a8a95b8407f",
+          "af9e7b1185b1deb8a8f4028e1843bed87263e64b7644a76298356a8a95b8407f"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-DMux4Way",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "DMux4Way.out",
+        "equal": true,
+        "sha256": [
+          "74a88939c3e96a0e2881b47450bbfcba565e0b497b63f16d5d7ed0ab4e869638",
+          "74a88939c3e96a0e2881b47450bbfcba565e0b497b63f16d5d7ed0ab4e869638"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-DMux8Way",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "DMux8Way.out",
+        "equal": true,
+        "sha256": [
+          "90ecea55219004e4ec5bacf99a19744300bdc8085a1e8e59ba973ebb06bc5074",
+          "90ecea55219004e4ec5bacf99a19744300bdc8085a1e8e59ba973ebb06bc5074"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-Mux",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Mux.out",
+        "equal": true,
+        "sha256": [
+          "8e2310f905f3dd4133e16073e96d3e3051798f53a71289c7301e35aa653437bf",
+          "8e2310f905f3dd4133e16073e96d3e3051798f53a71289c7301e35aa653437bf"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-Mux16",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Mux16.out",
+        "equal": true,
+        "sha256": [
+          "2711f4e40db2f9cb2fd7c04b6dd8d11399169bb87923429361e83966f73efddb",
+          "2711f4e40db2f9cb2fd7c04b6dd8d11399169bb87923429361e83966f73efddb"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-Mux4Way16",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Mux4Way16.out",
+        "equal": true,
+        "sha256": [
+          "57c9e1932b85301a76f4a73100fcb23a762f10260783144ff77812a82f928637",
+          "57c9e1932b85301a76f4a73100fcb23a762f10260783144ff77812a82f928637"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-Mux8Way16",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Mux8Way16.out",
+        "equal": true,
+        "sha256": [
+          "b201591a917368177fbda6b0386775ed0cab3db09691cf42c24a905a95f7aa84",
+          "b201591a917368177fbda6b0386775ed0cab3db09691cf42c24a905a95f7aa84"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-Not",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Not.out",
+        "equal": true,
+        "sha256": [
+          "1b6e00c71c32ca09eaa34b8651ac018fe9c992e515e22766d49debe33bf3757c",
+          "1b6e00c71c32ca09eaa34b8651ac018fe9c992e515e22766d49debe33bf3757c"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-Not16",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Not16.out",
+        "equal": true,
+        "sha256": [
+          "f1e0e338dc99159595aaad395189cb93f9ff7260d2e25e3ff2cc9720ad7bbe1b",
+          "f1e0e338dc99159595aaad395189cb93f9ff7260d2e25e3ff2cc9720ad7bbe1b"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-Or",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Or.out",
+        "equal": true,
+        "sha256": [
+          "52f2eb41e4d9a51e152db9bbcf2781aee487e346ebcc0bf8951698ead65bd38a",
+          "52f2eb41e4d9a51e152db9bbcf2781aee487e346ebcc0bf8951698ead65bd38a"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-Or16",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Or16.out",
+        "equal": true,
+        "sha256": [
+          "4b0849f318242e20a9094ca9c8da9c265d6f4273b7428f9a41c29a5af0510a29",
+          "4b0849f318242e20a9094ca9c8da9c265d6f4273b7428f9a41c29a5af0510a29"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-Or8Way",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Or8Way.out",
+        "equal": true,
+        "sha256": [
+          "2822c808f57dac6cf7c15a3cce9ad78829f60ce665d3e3ac5775e9e775164f11",
+          "2822c808f57dac6cf7c15a3cce9ad78829f60ce665d3e3ac5775e9e775164f11"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-Xor",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Xor.out",
+        "equal": true,
+        "sha256": [
+          "6f878538bda9d04cb370aadbf98fad35919c083fe017208ae4bc512088621a85",
+          "6f878538bda9d04cb370aadbf98fad35919c083fe017208ae4bc512088621a85"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-Add16",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Add16.out",
+        "equal": true,
+        "sha256": [
+          "302df8a100e4fd6b1aa2b7e0421d9c8d303e0df9cd38501729833663194a4411",
+          "302df8a100e4fd6b1aa2b7e0421d9c8d303e0df9cd38501729833663194a4411"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-ALU-basic",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "ALU-basic.out",
+        "equal": true,
+        "sha256": [
+          "0852db2961cec5c190ee78038a29a5f9deb99390b01b567388bfdca5d7d4ecfc",
+          "0852db2961cec5c190ee78038a29a5f9deb99390b01b567388bfdca5d7d4ecfc"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-ALU",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "ALU.out",
+        "equal": true,
+        "sha256": [
+          "b1a5b74e3d7360706de24b722a0534c08fc3dc5a2416a485048dde356f39dfdd",
+          "b1a5b74e3d7360706de24b722a0534c08fc3dc5a2416a485048dde356f39dfdd"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-FullAdder",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "FullAdder.out",
+        "equal": true,
+        "sha256": [
+          "5b21f95d55b8cbdc8b5eda3a26b1fcd1e07318853b67881c5cd75c917c84054b",
+          "5b21f95d55b8cbdc8b5eda3a26b1fcd1e07318853b67881c5cd75c917c84054b"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-HalfAdder",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "HalfAdder.out",
+        "equal": true,
+        "sha256": [
+          "96160df8fba3305cac308137323e08b21a19acd1e933728c932599b5a4440fde",
+          "96160df8fba3305cac308137323e08b21a19acd1e933728c932599b5a4440fde"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-Inc16",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Inc16.out",
+        "equal": true,
+        "sha256": [
+          "d4ddadd091c600d8e68123144a5c64fc5c89af48f7838876dc95fc336150149e",
+          "d4ddadd091c600d8e68123144a5c64fc5c89af48f7838876dc95fc336150149e"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-Bit",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Bit.out",
+        "equal": true,
+        "sha256": [
+          "f3c8ded0d6b6f2bb3b8bdd02cba6e48ed2a670d710bcb23aa7fc6e86abd3fe0d",
+          "f3c8ded0d6b6f2bb3b8bdd02cba6e48ed2a670d710bcb23aa7fc6e86abd3fe0d"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-PC",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "PC.out",
+        "equal": true,
+        "sha256": [
+          "181bf32f0abdd82fc6c537b700fb919d5fcb755aa7d7eee5bd36883f9499ae81",
+          "181bf32f0abdd82fc6c537b700fb919d5fcb755aa7d7eee5bd36883f9499ae81"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-RAM64",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "RAM64.out",
+        "equal": true,
+        "sha256": [
+          "9f31d291db3e6d985d3e3ce9738fd220f1e8943f24fc477b18ce324a050c203b",
+          "9f31d291db3e6d985d3e3ce9738fd220f1e8943f24fc477b18ce324a050c203b"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-RAM8",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "RAM8.out",
+        "equal": true,
+        "sha256": [
+          "ca4f05045d55d658fa37d997d53b16cdcee9a898b65856be633899ee67dd1c51",
+          "ca4f05045d55d658fa37d997d53b16cdcee9a898b65856be633899ee67dd1c51"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-Register",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Register.out",
+        "equal": true,
+        "sha256": [
+          "6f0017996a46227a496b3687e45bdca6114ccb8e86f900c0863f68faf8b45195",
+          "6f0017996a46227a496b3687e45bdca6114ccb8e86f900c0863f68faf8b45195"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-RAM16K",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "RAM16K.out",
+        "equal": true,
+        "sha256": [
+          "87c4e34bb822740e8c66c4686573791d111dc8099f3b308c3024bd168318eebb",
+          "87c4e34bb822740e8c66c4686573791d111dc8099f3b308c3024bd168318eebb"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-RAM4K",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "RAM4K.out",
+        "equal": true,
+        "sha256": [
+          "97cddec3b20283234117398f633d9442cd1277d79620fcd354f3dd6efeda4c01",
+          "97cddec3b20283234117398f633d9442cd1277d79620fcd354f3dd6efeda4c01"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-RAM512",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "RAM512.out",
+        "equal": true,
+        "sha256": [
+          "fc56e0160da9e303cb0396e6a3e9c1e9a1733a06dfa157a6b9bb1d84c5bbdd9c",
+          "fc56e0160da9e303cb0396e6a3e9c1e9a1733a06dfa157a6b9bb1d84c5bbdd9c"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-custom-ClockWire",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "ClockWire.out",
+        "equal": true,
+        "sha256": [
+          "036d90c9fa8c99c5fac739918f958dde4cc1015c7f68ee755b16ee4440e4811e",
+          "036d90c9fa8c99c5fac739918f958dde4cc1015c7f68ee755b16ee4440e4811e"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-custom-Delay",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Delay.out",
+        "equal": true,
+        "sha256": [
+          "d244b5cfc1863691e33eff40311bb30f28183815ebe39a16aeb36153fde8d606",
+          "d244b5cfc1863691e33eff40311bb30f28183815ebe39a16aeb36153fde8d606"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-custom-Devices",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Devices.out",
+        "equal": true,
+        "sha256": [
+          "98bb1144237404ea91a84bbf0718361f601b0f848cfba62c45c06acb64a80083",
+          "98bb1144237404ea91a84bbf0718361f601b0f848cfba62c45c06acb64a80083"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-custom-Feedback",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Feedback.out",
+        "equal": true,
+        "sha256": [
+          "5ff1f05514eccb1ef23ff766d22a0249487761568358c0312e102659cf2a42f7",
+          "5ff1f05514eccb1ef23ff766d22a0249487761568358c0312e102659cf2a42f7"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-custom-KeyboardReadOnly",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "baseline-rejection-comparison",
+    "java": {
+      "code": 4294967295,
+      "stdout": "",
+      "stderr": "Keyboard is read only: Keyboard[]\r\n"
+    },
+    "native": {
+      "code": 4294967295,
+      "stdout": "",
+      "stderr": "Keyboard is read only: Keyboard[]\r\n"
+    },
+    "outputs": [
+      {
+        "file": "KeyboardReadOnly.out",
+        "equal": true,
+        "sha256": [
+          "41cb3dac9711038d08fcfc41ac03c24b714f93cc9c5fd93081f29e6257e37a69",
+          "41cb3dac9711038d08fcfc41ac03c24b714f93cc9c5fd93081f29e6257e37a69"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-custom-MemoryTiming",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "MemoryTiming.out",
+        "equal": true,
+        "sha256": [
+          "cdee6037b471c83fddb06fa99e797df6fb914133e2b856afe439d70d312e3744",
+          "cdee6037b471c83fddb06fa99e797df6fb914133e2b856afe439d70d312e3744"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "hardware-custom-Positional",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Positional.out",
+        "equal": true,
+        "sha256": [
+          "4363dc063dcc669619684952a862d506391bcbc77bb19db367f6d2244c215d35",
+          "4363dc063dcc669619684952a862d506391bcbc77bb19db367f6d2244c215d35"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "assembly-matrix",
+    "tool": "Assembler",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Assembling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\assembly-matrix\\native\\matrix.asm\"\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "matrix.hack",
+        "equal": true,
+        "sha256": [
+          "c64a321a8c758cf083c181b3e4af2df8b6a939b4c4fb3f24b39b55e8014cd87c",
+          "c64a321a8c758cf083c181b3e4af2df8b6a939b4c4fb3f24b39b55e8014cd87c"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "assembly-legacy",
+    "tool": "Assembler",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Assembling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\assembly-legacy\\native\\compat.asm\"\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "compat.hack",
+        "equal": true,
+        "sha256": [
+          "9f2769d08ecbd13e8e70e1cb6baf7a4929d488532121a3a7d7b568f6c58ff583",
+          "9f2769d08ecbd13e8e70e1cb6baf7a4929d488532121a3a7d7b568f6c58ff583"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "comparer-0",
+    "tool": "TextComparer",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": []
+  },
+  {
+    "name": "comparer-1",
+    "tool": "TextComparer",
+    "passed": true,
+    "outcome": "baseline-rejection-comparison",
+    "java": {
+      "code": 4294967295,
+      "stdout": "Comparison failure in line 0:\r\na\tb\r\nab\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 4294967295,
+      "stdout": "Comparison failure in line 0:\r\na\tb\r\nab\r\n",
+      "stderr": ""
+    },
+    "outputs": []
+  },
+  {
+    "name": "comparer-2",
+    "tool": "TextComparer",
+    "passed": true,
+    "outcome": "baseline-rejection-comparison",
+    "java": {
+      "code": 4294967295,
+      "stdout": "Second file is shorter (only 1 lines)\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 4294967295,
+      "stdout": "Second file is shorter (only 1 lines)\r\n",
+      "stderr": ""
+    },
+    "outputs": []
+  },
+  {
+    "name": "comparer-3",
+    "tool": "TextComparer",
+    "passed": true,
+    "outcome": "baseline-rejection-comparison",
+    "java": {
+      "code": 4294967295,
+      "stdout": "First file is shorter (only 1 lines)\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 4294967295,
+      "stdout": "First file is shorter (only 1 lines)\r\n",
+      "stderr": ""
+    },
+    "outputs": []
+  },
+  {
+    "name": "comparer-4",
+    "tool": "TextComparer",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": []
+  },
+  {
+    "name": "comparer-5",
+    "tool": "TextComparer",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": []
+  },
+  {
+    "name": "comparer-6",
+    "tool": "TextComparer",
+    "passed": true,
+    "outcome": "baseline-rejection-comparison",
+    "java": {
+      "code": 4294967295,
+      "stdout": "First file is shorter (only 1 lines)\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 4294967295,
+      "stdout": "First file is shorter (only 1 lines)\r\n",
+      "stderr": ""
+    },
+    "outputs": []
+  },
+  {
+    "name": "cpu-simultaneous",
+    "tool": "CPUEmulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "state.out",
+        "equal": true,
+        "sha256": [
+          "6eeef803e41d9ecd9557944f429be6686198541c29568ff97b63cc60396353ff",
+          "6eeef803e41d9ecd9557944f429be6686198541c29568ff97b63cc60396353ff"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "cpu-alu-trace",
+    "tool": "CPUEmulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "state.out",
+        "equal": true,
+        "sha256": [
+          "2d5fadd5f138f8d2f8e565f642a3fe7e056982ea0e69c1a654827b3d97f8a8ae",
+          "2d5fadd5f138f8d2f8e565f642a3fe7e056982ea0e69c1a654827b3d97f8a8ae"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "jack-control",
+    "tool": "JackCompiler",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\jack-control\\native\\Main.jack\"\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Main.vm",
+        "equal": true,
+        "sha256": [
+          "ec1968af97208c4df0d7243e1420ed7f886e0bfc2bbd769bdb9c5e8a46c3b64e",
+          "ec1968af97208c4df0d7243e1420ed7f886e0bfc2bbd769bdb9c5e8a46c3b64e"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "jack-10-Square",
+    "tool": "JackCompiler",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\jack-10-Square\\native\"\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Main.vm",
+        "equal": true,
+        "sha256": [
+          "da34d9420f99f4e26f4bdf59c38a6c652dfaa0165fd862460357dbc7aef7dcec",
+          "da34d9420f99f4e26f4bdf59c38a6c652dfaa0165fd862460357dbc7aef7dcec"
+        ]
+      },
+      {
+        "file": "Square.vm",
+        "equal": true,
+        "sha256": [
+          "008ba9f18caa10f0f29a8a51be79a7e95003191d3de3fe4b49e29619c6b3949b",
+          "008ba9f18caa10f0f29a8a51be79a7e95003191d3de3fe4b49e29619c6b3949b"
+        ]
+      },
+      {
+        "file": "SquareGame.vm",
+        "equal": true,
+        "sha256": [
+          "cd7a5d1acaecc4f5aa90485664bd5c147cb90c25fd947eb0e0fec970afb5432c",
+          "cd7a5d1acaecc4f5aa90485664bd5c147cb90c25fd947eb0e0fec970afb5432c"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "jack-11-Average",
+    "tool": "JackCompiler",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\jack-11-Average\\native\"\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Main.vm",
+        "equal": true,
+        "sha256": [
+          "2af92667f1830e00cd5be46293ecb21843af6dbeef1c4a6ec9a0a30893e051b2",
+          "2af92667f1830e00cd5be46293ecb21843af6dbeef1c4a6ec9a0a30893e051b2"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "jack-11-ComplexArrays",
+    "tool": "JackCompiler",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\jack-11-ComplexArrays\\native\"\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Main.vm",
+        "equal": true,
+        "sha256": [
+          "0be7685016ade7833c9c1d103cb76d9d98b527b5bc59656972bcccb0c3de09e7",
+          "0be7685016ade7833c9c1d103cb76d9d98b527b5bc59656972bcccb0c3de09e7"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "jack-11-ConvertToBin",
+    "tool": "JackCompiler",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\jack-11-ConvertToBin\\native\"\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Main.vm",
+        "equal": true,
+        "sha256": [
+          "3c45ab9bbece6ba6e7b0ab23f63183e3e0ca3bfd5ddf09797891e37d5a152deb",
+          "3c45ab9bbece6ba6e7b0ab23f63183e3e0ca3bfd5ddf09797891e37d5a152deb"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "jack-11-Pong",
+    "tool": "JackCompiler",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\jack-11-Pong\\native\"\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Ball.vm",
+        "equal": true,
+        "sha256": [
+          "23fd70c4fc2857d608e82c5e9f32270a29ff0416b208f9685253f2e6464b6d04",
+          "23fd70c4fc2857d608e82c5e9f32270a29ff0416b208f9685253f2e6464b6d04"
+        ]
+      },
+      {
+        "file": "Bat.vm",
+        "equal": true,
+        "sha256": [
+          "1b3f26bd3af379ed692c7bebc71ddca49faaba302f1dd62ec5ee0e1c20084466",
+          "1b3f26bd3af379ed692c7bebc71ddca49faaba302f1dd62ec5ee0e1c20084466"
+        ]
+      },
+      {
+        "file": "Main.vm",
+        "equal": true,
+        "sha256": [
+          "68eea3ab46ce2f4e4af9301704f666f348f89febd8fcd3c21ae464d7a97845aa",
+          "68eea3ab46ce2f4e4af9301704f666f348f89febd8fcd3c21ae464d7a97845aa"
+        ]
+      },
+      {
+        "file": "PongGame.vm",
+        "equal": true,
+        "sha256": [
+          "b246a845e8262a002f1c29164bb1f0e8301e511bf4aecd9b92146cb1f617ac2a",
+          "b246a845e8262a002f1c29164bb1f0e8301e511bf4aecd9b92146cb1f617ac2a"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "jack-11-Seven",
+    "tool": "JackCompiler",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\jack-11-Seven\\native\"\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Main.vm",
+        "equal": true,
+        "sha256": [
+          "0359830f502138154398c15bc8efde84b2bffc950f5f25779e62724ec5a95ab0",
+          "0359830f502138154398c15bc8efde84b2bffc950f5f25779e62724ec5a95ab0"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "vm-BasicTestVME",
+    "tool": "VMEmulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "BasicTest.out",
+        "equal": true,
+        "sha256": [
+          "fe5e52f4aee5ca1cd7c5dde20c140b70d10b3af5198d55e30062c44c0e1dcad8",
+          "fe5e52f4aee5ca1cd7c5dde20c140b70d10b3af5198d55e30062c44c0e1dcad8"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "vm-PointerTestVME",
+    "tool": "VMEmulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "PointerTest.out",
+        "equal": true,
+        "sha256": [
+          "89f8323fef666728619f4ca1af48abe856cba3d6954090bf35d382a26003d602",
+          "89f8323fef666728619f4ca1af48abe856cba3d6954090bf35d382a26003d602"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "vm-StaticTestVME",
+    "tool": "VMEmulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "StaticTest.out",
+        "equal": true,
+        "sha256": [
+          "e1c1b5fbeba0e212da46a74f3d55f21c959ff7a4d18a9ae6da24fac8a4b817be",
+          "e1c1b5fbeba0e212da46a74f3d55f21c959ff7a4d18a9ae6da24fac8a4b817be"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "vm-SimpleAddVME",
+    "tool": "VMEmulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "SimpleAdd.out",
+        "equal": true,
+        "sha256": [
+          "14318baa70c03067c1f8ba257cc73a63f602267033bd51b286fa6ca58967d924",
+          "14318baa70c03067c1f8ba257cc73a63f602267033bd51b286fa6ca58967d924"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "vm-StackTestVME",
+    "tool": "VMEmulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "StackTest.out",
+        "equal": true,
+        "sha256": [
+          "ca2aba27bc5315114d33a9ee45a645f51df372804c333d34b1be03c85cebef07",
+          "ca2aba27bc5315114d33a9ee45a645f51df372804c333d34b1be03c85cebef07"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "vm-FibonacciElementVME",
+    "tool": "VMEmulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "FibonacciElement.out",
+        "equal": true,
+        "sha256": [
+          "261c46c7fb48ab600883c5a30ce54145d1c7b1de81b189d8720b1c59efd7acbe",
+          "261c46c7fb48ab600883c5a30ce54145d1c7b1de81b189d8720b1c59efd7acbe"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "vm-NestedCallVME",
+    "tool": "VMEmulator",
+    "passed": true,
+    "outcome": "baseline-rejection-comparison",
+    "java": {
+      "code": 4294967295,
+      "stdout": "",
+      "stderr": "Sys.vm: in line 15: Unknown label - Sys.init$LOOP\r\n"
+    },
+    "native": {
+      "code": 4294967295,
+      "stdout": "",
+      "stderr": "Sys.vm: in line 15: Unknown label - Sys.init$LOOP\r\n"
+    },
+    "outputs": [
+      {
+        "file": "NestedCall.out",
+        "equal": false,
+        "sha256": [
+          null,
+          null
+        ]
+      }
+    ]
+  },
+  {
+    "name": "vm-SimpleFunctionVME",
+    "tool": "VMEmulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "SimpleFunction.out",
+        "equal": true,
+        "sha256": [
+          "579a687cdd3424faa7113a6b11d37bff9a53fd5273ff2fe2ed391afd77638094",
+          "579a687cdd3424faa7113a6b11d37bff9a53fd5273ff2fe2ed391afd77638094"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "vm-StaticsTestVME",
+    "tool": "VMEmulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "StaticsTest.out",
+        "equal": true,
+        "sha256": [
+          "52e4aa6a6678ee5154af29e8a5ab0395b2b87efd9a0828f12f529daf651d9bb0",
+          "52e4aa6a6678ee5154af29e8a5ab0395b2b87efd9a0828f12f529daf651d9bb0"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "vm-BasicLoopVME",
+    "tool": "VMEmulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "BasicLoop.out",
+        "equal": true,
+        "sha256": [
+          "9b8a1c4e6ba72070b33ba022226cb5e7368a4916c7a8264d57d89ad48021e5c3",
+          "9b8a1c4e6ba72070b33ba022226cb5e7368a4916c7a8264d57d89ad48021e5c3"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "vm-FibonacciSeriesVME",
+    "tool": "VMEmulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "FibonacciSeries.out",
+        "equal": true,
+        "sha256": [
+          "4f45d4dbbbd45781759dba82ed3e0c56c4cb3f4e4d55dca8b4f87b0950cd9dac",
+          "4f45d4dbbbd45781759dba82ed3e0c56c4cb3f4e4d55dca8b4f87b0950cd9dac"
+        ]
+      }
+    ]
+  }
+]

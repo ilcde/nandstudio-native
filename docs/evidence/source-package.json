@@ -1,0 +1,9 @@
+{
+  "sha256": "6ecea397179b65e141d6e29d5390f095e1c21badca4820b24b05b66721b667ef",
+  "two_archives_identical": true,
+  "entries": 135,
+  "safe_extraction": "C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\build-source-check-20260924",
+  "entry_timestamp": "2000-01-01T00:00:00Z",
+  "build_status": "Windows clean configure/compile/3 CTest suites passed for the recorded intermediate source snapshot",
+  "latest_source_verification": "pending final archive"
+}

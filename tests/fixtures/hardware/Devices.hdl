@@ -1,0 +1,9 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+CHIP Devices {
+    IN in[16],load,address[13],romAddress[15];
+    OUT pixels[16],instruction[16],key[16];
+    PARTS:
+    Screen(in=in,load=load,address=address,out=pixels);
+    ROM32K(address=romAddress,out=instruction);
+    Keyboard(out=key);
+}

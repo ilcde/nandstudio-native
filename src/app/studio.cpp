@@ -1,0 +1,181 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+#include "studio.hpp"
+#include "storage.hpp"
+#include <QUuid>
+#include <QFile>
+#include <QFileInfo>
+#include <QDir>
+#include <QDirIterator>
+#include <QSaveFile>
+#include <QStandardPaths>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QSyntaxHighlighter>
+#include <QRegularExpression>
+#include <QStringDecoder>
+#include <QtConcurrent>
+#include <QUrl>
+#include <QTextStream>
+#include <QCoreApplication>
+namespace {
+QByteArray read(const QString& p){return storage::provider(QUrl::fromLocalFile(p)).read(QUrl::fromLocalFile(p));}
+bool atomicSave(const QString& p,const QByteArray& bytes){try{storage::provider(QUrl::fromLocalFile(p)).write(QUrl::fromLocalFile(p),bytes);return true;}catch(...){return false;}}
+class Highlight : public QSyntaxHighlighter {
+public:using QSyntaxHighlighter::QSyntaxHighlighter;
+protected:void highlightBlock(const QString& text)override{
+    QTextCharFormat keyword,number,comment,string;keyword.setForeground(QColor("#47a6ef"));number.setForeground(QColor("#d79c56"));comment.setForeground(QColor("#7c9979"));string.setForeground(QColor("#d18ab8"));
+    static const QRegularExpression words(R"(\b(class|constructor|function|method|field|static|var|int|char|boolean|void|true|false|null|this|let|do|if|else|while|return|CHIP|IN|OUT|PARTS|BUILTIN|CLOCKED|push|pop|add|sub|neg|eq|gt|lt|and|or|not|label|goto|call|local|argument|constant|pointer|temp|set|load|repeat|output|tick|tock|ticktock|vmstep|eval|JGT|JEQ|JGE|JLT|JNE|JLE|JMP)\b)");
+    auto apply=[&](const QRegularExpression& re,const QTextCharFormat& f){auto it=re.globalMatch(text);while(it.hasNext()){auto m=it.next();setFormat(int(m.capturedStart()),int(m.capturedLength()),f);}};
+    apply(words,keyword);apply(QRegularExpression(R"(\b\d+\b)"),number);apply(QRegularExpression("\"[^\"]*\""),string);
+    int start=previousBlockState()==1?0:int(text.indexOf("/*"));setCurrentBlockState(0);
+    while(start>=0){int end=int(text.indexOf("*/",start+(previousBlockState()==1&&start==0?0:2)));if(end<0){setFormat(start,int(text.size())-start,comment);setCurrentBlockState(1);break;}setFormat(start,end+2-start,comment);start=int(text.indexOf("/*",end+2));}
+    int slash=int(text.indexOf("//"));if(slash>=0)setFormat(slash,int(text.size())-slash,comment);
+}};
+QString sessionPath(){auto dir=qEnvironmentVariable("NAND_TEST_STATE_DIR");if(dir.isEmpty())dir=QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);QDir().mkpath(dir);return dir+"/recovery.json";}
+}
+Document::Document(QString path,QObject* parent):QObject(parent),path_(std::move(path)){
+    original=read(path_);auto bytes=original;bom=bytes.startsWith("\xef\xbb\xbf");if(bom)bytes.remove(0,3);
+    QStringDecoder decoder(QStringDecoder::Utf8);text_=decoder(bytes);if(decoder.hasError())throw std::runtime_error("Unsupported text encoding: UTF-8 required; file has not been modified");
+    if(text_.contains("\r\n"))newline="\r\n";else if(text_.contains('\r'))newline="\r";text_.replace("\r\n","\n");text_.replace('\r','\n');
+}
+QString Document::name()const{return QFileInfo(path_).fileName();}
+void Document::setText(const QString& t){if(t==text_)return;text_=t;dirty_=true;emit textChanged();emit changed();}
+bool Document::save(){
+    if(!dirty_)return true;
+    try{auto disk=read(path_);if(disk!=original){conflictingBytes_=disk;conflictPending_=true;emit changed();emit conflict();emit error("Save conflict: the file changed outside NandStudio. Your buffer is retained in recovery. Open the disk copy separately and reconcile before saving.");return false;}}
+    catch(const std::exception& e){emit error(QString::fromUtf8(e.what()));return false;}
+    auto text=text_;text.replace("\n",newline);QByteArray bytes=text.toUtf8();if(bom)bytes.prepend("\xef\xbb\xbf");
+    if(!atomicSave(path_,bytes)){emit error("Save failed; buffer retained");return false;}original=bytes;dirty_=false;conflictPending_=false;emit changed();return true;
+}
+bool Document::resolveConflict(const QString& action){
+    try{auto disk=read(path_);if(!conflictPending_)return false;if(disk!=conflictingBytes_){conflictingBytes_=disk;emit changed();emit error("Disk changed again; review the new version before resolving");return false;}
+        if(action=="reload"){QStringDecoder decoder(QStringDecoder::Utf8);auto bytes=disk;if(bytes.startsWith("\xef\xbb\xbf"))bytes.remove(0,3);QString text=decoder(bytes);if(decoder.hasError())throw std::runtime_error("Disk file is not UTF-8");original=disk;bom=disk.startsWith("\xef\xbb\xbf");newline=text.contains("\r\n")?"\r\n":text.contains('\r')?"\r":"\n";text.replace("\r\n","\n");text.replace('\r','\n');text_=text;dirty_=false;conflictPending_=false;emit textChanged();emit changed();return true;}
+        if(action=="overwrite"){auto previous=original;original=disk;if(save()){conflictPending_=false;return true;}original=previous;}return false;
+    }catch(const std::exception& e){emit error(e.what());return false;}
+}
+void Document::highlight(QQuickTextDocument* d){if(d&&d->textDocument())new Highlight(d->textDocument());}
+Studio::Studio(){
+    connect(&task_,&QFutureWatcher<TaskResult>::finished,this,[this]{busy_=false;auto r=task_.result();log(r.message);if(r.error){diagnostics_.append(QVariantMap{{"path",r.path},{"line",r.line},{"column",r.column},{"message",r.message}});emit diagnosticsChanged();for(int i=0;i<docs_.size();++i)if(docs_[i]->path()==r.path){emit diagnostic(i,r.line,r.column,r.message);break;}}else if(!r.artifact.isEmpty()){log("Generated: "+r.artifact);for(auto* d:docs_)if(d->path()==r.artifact&&!d->dirty()){try{auto bytes=read(r.artifact);d->original=bytes;d->text_=QString::fromUtf8(bytes).replace("\r\n","\n");emit d->textChanged();emit d->changed();}catch(const std::exception& e){log(e.what());}}open(QUrl::fromLocalFile(r.artifact));}emit stateChanged();});
+    connect(&execution_,&QFutureWatcher<std::shared_ptr<ExecutionResult>>::finished,this,[this]{busy_=false;auto r=execution_.result();cpu_=std::move(r->cpu);vm_=std::move(r->vm);hardware_=std::move(r->hardware);vmMode_=r->vmMode;hardwareMode_=r->hardwareMode;hardware_.keyboard(nand::Word(keyboard_.load()));(vmMode_?vm_.ram:cpu_.ram)[24576]=nand::Word(keyboard_.load());if(!r->error.isEmpty())log(r->error);emit stateChanged();});
+    connect(&workspaceTask_,&QFutureWatcher<WorkspaceResult>::finished,this,[this]{auto r=workspaceTask_.result();if(r.path!=workspace_)return;if(!r.error.isEmpty())log(r.error);files_=r.files;emit filesChanged();});
+    connect(&searchTask_,&QFutureWatcher<QVariantList>::finished,this,[this]{searchResults_=searchTask_.result();emit searchChanged();log(QString::number(searchResults_.size())+" search matches");});
+    connect(&autosaveTimer_,&QTimer::timeout,this,[this]{if(!busy_)for(auto* d:docs_)if(d->dirty()&&!d->hasConflict())d->save();});
+    connect(&recoveryTimer_,&QTimer::timeout,this,&Studio::saveSession);recoveryTimer_.start(5000);if(!QCoreApplication::arguments().contains("--self-test"))recover();
+}
+Studio::~Studio(){cancelled_=true;task_.waitForFinished();execution_.waitForFinished();workspaceTask_.waitForFinished();searchTask_.waitForFinished();saveSession();}
+QVariantList Studio::documents()const{QVariantList r;for(auto* d:docs_)r.append(QVariant::fromValue(d));return r;}
+Document* Studio::current()const{return active_>=0&&active_<docs_.size()?docs_[active_]:nullptr;}
+void Studio::setActive(int i){if(i>=0&&i<docs_.size()&&active_!=i){active_=i;emit activeChanged();}}
+void Studio::log(QString s){output_+=s+'\n';if(output_.size()>100000)output_=output_.right(100000);emit outputChanged();}
+void Studio::open(const QUrl& url){
+    if(!url.isLocalFile()){log("This build does not yet implement Android document-provider URIs. Import/export and persistable grants are release blockers.");return;}
+    auto path=QFileInfo(url.toLocalFile()).absoluteFilePath();for(int i=0;i<docs_.size();++i)if(docs_[i]->path()==path){setActive(i);return;}
+    try{auto* d=new Document(path,this);connect(d,&Document::error,this,&Studio::log);connect(d,&Document::conflict,this,[this,d]{emit conflict(d);});docs_.append(d);active_=int(docs_.size())-1;emit documentsChanged();emit activeChanged();}catch(const std::exception& e){log(QString::fromUtf8(e.what()));}
+}
+void Studio::openWorkspace(const QUrl& url){
+    if(!url.isLocalFile()){log("This provider requires local import before the workspace can be edited");return;}
+    auto path=QFileInfo(url.toLocalFile()).absoluteFilePath();if(!QFileInfo(path).isDir()){log("Workspace must be a folder");return;}workspace_=path;refreshWorkspace();
+}
+void Studio::refreshWorkspace(){
+    auto path=workspace_;if(path.isEmpty())return;emit filesChanged();workspaceTask_.setFuture(QtConcurrent::run([path]{WorkspaceResult result;result.path=path;try{
+        QList<QUrl> pending{QUrl::fromLocalFile(path)};while(!pending.isEmpty()&&result.files.size()<10000){auto folder=pending.takeLast();for(auto& entry:storage::provider(folder).list(folder)){if(entry.directory){if(entry.name.startsWith('.')||entry.name.startsWith("build")||entry.name=="reference"||entry.name=="dist")continue;pending.append(entry.url);}else{auto ext=QFileInfo(entry.name).suffix().toLower();if(!QStringList{"hdl","jack","asm","hack","vm","tst","cmp","out","xml","txt","md","dat"}.contains(ext))continue;result.files.append(QVariantMap{{"path",entry.url},{"name",QDir(path).relativeFilePath(entry.url.toLocalFile())}});}}}
+    }catch(const std::exception& e){result.error=e.what();}return result;}));
+}
+bool Studio::createFile(const QString& relative){try{auto target=storage::workspaceChild(QUrl::fromLocalFile(workspace_),relative);auto parent=QUrl::fromLocalFile(QFileInfo(target.toLocalFile()).absolutePath());auto created=storage::provider(parent).create(parent,QFileInfo(target.toLocalFile()).fileName(),false);refreshWorkspace();open(created);return true;}catch(const std::exception& e){lastError_=e.what();log(lastError_);return false;}}
+bool Studio::createFolder(const QString& relative){try{auto target=storage::workspaceChild(QUrl::fromLocalFile(workspace_),relative);auto parent=QUrl::fromLocalFile(QFileInfo(target.toLocalFile()).absolutePath());storage::provider(parent).create(parent,QFileInfo(target.toLocalFile()).fileName(),true);refreshWorkspace();return true;}catch(const std::exception& e){lastError_=e.what();log(lastError_);return false;}}
+bool Studio::renameFile(const QString& relative,const QString& name){try{auto url=storage::workspaceChild(QUrl::fromLocalFile(workspace_),relative);auto old=url.toLocalFile();auto renamed=storage::provider(url).rename(url,name).toLocalFile();for(auto* d:docs_)if(d->path()==old||d->path().startsWith(old+'/')){d->path_=renamed+d->path().mid(old.size());emit d->changed();}refreshWorkspace();saveSession();return true;}catch(const std::exception& e){lastError_=e.what();log(lastError_);return false;}}
+bool Studio::trashFile(const QString& relative){try{auto url=storage::workspaceChild(QUrl::fromLocalFile(workspace_),relative);auto path=url.toLocalFile();for(auto* d:docs_)if((d->path()==path||d->path().startsWith(path+'/'))&&d->dirty())throw std::runtime_error("Save or close modified documents before deleting");auto dir=workspace_+"/.nandstudio-trash/"+QUuid::createUuid().toString(QUuid::WithoutBraces);if(!QDir().mkpath(dir))throw std::runtime_error("Cannot create recovery trash");auto target=dir+"/"+QFileInfo(path).fileName();if(!QDir().rename(path,target))throw std::runtime_error("Could not move item to recovery trash");for(int i=int(docs_.size())-1;i>=0;--i)if(docs_[i]->path()==path||docs_[i]->path().startsWith(path+'/'))closeDocumentDiscard(i);atomicSave(dir+"/original-path.txt",relative.toUtf8());log("Moved to recoverable trash: "+target);refreshWorkspace();return true;}catch(const std::exception& e){lastError_=e.what();log(lastError_);return false;}}
+bool Studio::saveAll(){bool okay=true;for(auto* d:docs_)if(!d->save())okay=false;return okay;}
+bool Studio::hasDirtyDocuments()const{for(auto* d:docs_)if(d->dirty())return true;return false;}
+void Studio::closeDocumentDiscard(int i){if(i<0||i>=docs_.size())return;docs_[i]->dirty_=false;closeDocument(i);saveSession();}
+void Studio::discardRecovery(){for(auto* d:docs_)d->dirty_=false;saveSession();}
+void Studio::suspend(){key(0);cancel();saveSession();}
+void Studio::setAutosaveSeconds(int seconds){autosaveTimer_.stop();if(seconds>0)autosaveTimer_.start(std::clamp(seconds,5,600)*1000);}
+void Studio::navigateTo(const QString& path,int line,int column){open(QUrl::fromLocalFile(path));if(current()&&QFileInfo(current()->path())==QFileInfo(path))emit diagnostic(active_,line,column,QString());}
+void Studio::build(){
+    auto* d=current();if(!d||busy_)return;auto ext=QFileInfo(d->path()).suffix();if(ext!="asm"&&ext!="jack"){log("Build supports .asm and .jack. Choose CPU test or VM test for .tst files. Choose Load HDL for hardware files.");return;}
+    // Saving is explicit in the UI; build consumes the exact visible immutable buffer.
+    auto input=d->text().toUtf8();auto path=d->path();auto dest=QFileInfo(path).absolutePath()+"/"+QFileInfo(path).completeBaseName()+(ext=="asm"?".hack":".vm");
+    for(auto* doc:docs_)if(doc->path()==dest&&doc->dirty()){log("Generated output has unsaved edits; save or close it first");return;}
+    QByteArray previous;bool existed=QFileInfo::exists(dest);try{if(existed)previous=read(dest);}catch(const std::exception& e){log(e.what());return;}
+    busy_=true;log("Building visible buffer snapshot: "+path);emit stateChanged();
+    task_.setFuture(QtConcurrent::run([input,path,dest,ext,previous,existed]{TaskResult r;r.path=path;try{auto s=input.toStdString();auto output=ext=="asm"?nand::machineText(nand::assemble(s).words):nand::compileJack(s);QByteArray bytes=QByteArray::fromStdString(output);
+#ifdef Q_OS_WIN
+        bytes.replace("\n","\r\n");
+#endif
+        if(QFileInfo::exists(dest)!=existed||(existed&&read(dest)!=previous))throw std::runtime_error("Generated file changed externally; output was not written");
+        if(!atomicSave(dest,bytes))throw std::runtime_error("Cannot save generated output");r.message="Build succeeded";r.artifact=dest;
+    }catch(const nand::Error& e){r.error=true;r.line=e.line;r.column=e.column;r.message=path+":"+QString::number(e.line)+":"+QString::number(e.column)+": "+e.what();}catch(const std::exception& e){r.error=true;r.message=e.what();}return r;}));
+}
+void Studio::loadCpu(){if(!current()||busy_)return;try{auto text=current()->text().toStdString();auto program=QFileInfo(current()->path()).suffix()=="asm"?nand::assemble(text).words:nand::parseHack(text);cpu_.load(program);vmMode_=false;hardwareMode_=false;log("CPU loaded from visible buffer snapshot");emit stateChanged();}catch(const nand::Error& e){log(e.what());emit diagnostic(active_,e.line,e.column,e.what());}}
+void Studio::loadVm(){if(!current()||busy_)return;try{std::map<std::string,std::string> files;auto dir=QFileInfo(current()->path()).absolutePath();QDirIterator it(dir,{"*.vm"},QDir::Files);while(it.hasNext()){auto path=it.next();auto text=read(path).toStdString();for(auto* d:docs_)if(d->path()==path)text=d->text().toStdString();files[QFileInfo(path).completeBaseName().toStdString()]=text;}nand::Vm next;next.load(files);vm_=std::move(next);vmMode_=true;hardwareMode_=false;log("VM loaded from folder snapshot including open buffers. OS calls require .vm implementations in this folder.");emit stateChanged();}catch(const std::exception& e){log(e.what());}}
+void Studio::step(int count){if(busy_||count<1)return;count=std::min(count,1000000);cancelled_=false;busy_=true;emit stateChanged();auto snapshot=this->snapshot();bool mode=vmMode_;bool hardwareMode=hardwareMode_;
+    execution_.setFuture(QtConcurrent::run([this,snapshot,mode,hardwareMode,count]{try{for(int n=0;n<count&&!cancelled_;++n){(mode?snapshot->vm.ram:snapshot->cpu.ram)[24576]=nand::Word(keyboard_.load());if(hardwareMode){snapshot->hardware.keyboard(nand::Word(keyboard_.load()));if(!snapshot->hardware.clockUp())snapshot->hardware.tick();snapshot->hardware.tock();}else if(mode)snapshot->vm.step();else snapshot->cpu.step();}}catch(const std::exception& e){snapshot->error=e.what();}return snapshot;}));
+}
+void Studio::reset(){if(busy_)return;if(hardwareMode_){log("To reset hardware, explicitly reload the HDL snapshot using Load HDL.");return;}if(vmMode_){vm_.pc=vm_.functions.contains("Sys.init")?vm_.functions.at("Sys.init"):0;vm_.time=0;}else cpu_.restart();emit stateChanged();}
+void Studio::cancel(){cancelled_=true;}
+void Studio::setMemory(int a,int v){if(busy_||a<0||a>=32768)return;(vmMode_?vm_.ram:cpu_.ram)[std::size_t(a)]=nand::Word(v);emit stateChanged();}
+int Studio::memory(int a)const{return a<0||a>=32768?0:nand::signedWord((vmMode_?vm_.ram:cpu_.ram)[std::size_t(a)]);}
+void Studio::key(int value){keyboard_=value;if(!busy_){hardware_.keyboard(nand::Word(value));(vmMode_?vm_.ram:cpu_.ram)[24576]=nand::Word(value);emit stateChanged();}}
+QVariantMap Studio::state()const{
+    QVariantList pins,parts;for(auto& p:hardware_.pins())pins.append(QVariantMap{{"name",QString::fromStdString(p.name)},{"direction",QString::fromStdString(p.direction)},{"width",p.width},{"value",p.width==16?nand::signedWord(p.value):int(p.value)}});
+    for(auto& p:hardware_.components()){QVariantList partPins;for(auto& pin:p.pins)partPins.append(QVariantMap{{"name",QString::fromStdString(pin.name)},{"direction",QString::fromStdString(pin.direction)},{"value",pin.width==16?nand::signedWord(pin.value):int(pin.value)}});parts.append(QVariantMap{{"path",QString::fromStdString(p.path)},{"chip",QString::fromStdString(p.chip)},{"implementation",QString::fromStdString(p.implementation)},{"words",qulonglong(p.words)},{"pins",partPins}});}
+    return {{"mode",hardwareMode_?"Hardware Simulator":vmMode_?"VM Emulator":"CPU Emulator"},{"hardware",hardwareMode_},{"chip",QString::fromStdString(hardware_.name())},{"pins",pins},{"components",parts},{"clockUp",hardware_.clockUp()},{"hardwareTime",QString::fromStdString(hardware_.getText("time"))},{"A",nand::signedWord(cpu_.a)},{"D",nand::signedWord(cpu_.d)},{"PC",vmMode_?int(vm_.pc):int(cpu_.pc)},{"SP",vm_.ram[0]},{"time",qulonglong(vmMode_?vm_.time:cpu_.time)}};
+}
+QImage Studio::screen()const{QImage image(512,256,QImage::Format_RGB32);const auto& ram=vmMode_?vm_.ram:cpu_.ram;auto hardwareScreen=hardwareMode_?hardware_.screen():std::vector<nand::Word>{};for(int y=0;y<256;++y){auto* row=reinterpret_cast<QRgb*>(image.scanLine(y));for(int x=0;x<512;++x){int offset=y*32+x/16;auto word=hardwareMode_?(hardwareScreen.empty()?0:hardwareScreen[offset]):ram[16384+offset];row[x]=(word&(1u<<(x%16)))?qRgb(23,29,38):qRgb(234,241,225);}}return image;}
+void Studio::test(bool vm){runTest(vm?nand::ScriptTool::Vm:nand::ScriptTool::Cpu);}
+void Studio::testHardware(){runTest(nand::ScriptTool::Hardware);}
+void Studio::runTest(nand::ScriptTool tool){if(!current()||busy_)return;for(auto* d:docs_)if(d->dirty()){log("Test scripts use disk files. Save all modified documents before testing.");return;}auto path=current()->path();if(!path.endsWith(".tst")){log("Open a .tst file first");return;}busy_=true;cancelled_=false;emit stateChanged();task_.setFuture(QtConcurrent::run([this,path,tool]{TaskResult r;r.path=path;try{
+#ifdef Q_OS_WIN
+    auto p=std::filesystem::path(path.toStdWString());
+#else
+    auto p=std::filesystem::path(path.toStdString());
+#endif
+    auto result=nand::runScript(p,tool,10000000,[this]{return cancelled_.load();});r.message=QString::fromStdString(result.message+"\n"+result.output);r.error=!result.passed;}catch(const std::exception& e){r.error=true;r.message=e.what();}return r;}));}
+std::shared_ptr<ExecutionResult> Studio::snapshot()const{auto r=std::make_shared<ExecutionResult>();r->cpu=cpu_;r->vm=vm_;r->hardware=hardware_;r->vmMode=vmMode_;r->hardwareMode=hardwareMode_;return r;}
+void Studio::loadHardware(){
+    if(!current()||busy_)return;if(QFileInfo(current()->path()).suffix()!="hdl"){log("Open an .hdl file first");return;}
+    // The resolver owns immutable text for every project-local dependency.
+    try{std::map<std::string,std::string> files;auto dir=QFileInfo(current()->path()).absolutePath();QDirIterator it(dir,{"*.hdl"},QDir::Files);while(it.hasNext()){auto path=it.next();auto text=read(path).toStdString();for(auto* d:docs_)if(d->path()==path)text=d->text().toStdString();files[QFileInfo(path).completeBaseName().toStdString()]=text;}
+        auto chip=QFileInfo(current()->path()).completeBaseName().toStdString();auto next=snapshot();cancelled_=false;busy_=true;emit stateChanged();log("Loading HDL folder snapshot including visible buffers");
+        execution_.setFuture(QtConcurrent::run([this,next,files=std::move(files),chip]{try{next->hardware.load(chip,[&](const std::string& n)->std::optional<std::string>{auto i=files.find(n);if(i==files.end())return std::nullopt;return i->second;},[this]{return cancelled_.load();});next->hardwareMode=true;next->vmMode=false;}catch(const nand::Error& e){next->error=QString::fromStdString(e.file)+":"+QString::number(e.line)+":"+QString::number(e.column)+": "+e.what();}catch(const std::exception& e){next->error=e.what();}return next;}));
+    }catch(const std::exception& e){log(e.what());}
+}
+namespace {
+void applyPinEdits(nand::Hardware& hardware,const QVariantMap& inputs){
+    for(auto it=inputs.cbegin();it!=inputs.cend();++it){
+        auto text=it.value().toString().trimmed();bool okay=false;
+        int value=text.toInt(&okay,10);
+        if(!okay)throw nand::Error("Invalid decimal value for pin "+it.key().toStdString()+": "+text.toStdString());
+        hardware.set(it.key().toStdString(),value);
+    }
+}
+}
+bool Studio::commitHardwareInputs(const QVariantMap& inputs){
+    if(busy_||!hardwareMode_)return false;
+    try{auto next=hardware_;applyPinEdits(next,inputs);hardware_=std::move(next);emit stateChanged();return true;}
+    catch(const std::exception& e){log(QString("Hardware input error: ")+e.what());return false;}
+}
+void Studio::hardwareAction(const QString& action){hardwareActionWithInputs(action,{});}
+void Studio::hardwareActionWithInputs(const QString& action,const QVariantMap& inputs){
+    if(busy_||!hardwareMode_)return;
+    auto next=snapshot();
+    try{applyPinEdits(next->hardware,inputs);}catch(const std::exception& e){log(QString("Hardware input error: ")+e.what());return;}
+    busy_=true;emit stateChanged();
+    execution_.setFuture(QtConcurrent::run([next,action]{try{
+        if(action=="eval")next->hardware.eval();
+        else if(action=="tick")next->hardware.tick();
+        else if(action=="tock")next->hardware.tock();
+        else if(action=="cycle"){if(!next->hardware.clockUp())next->hardware.tick();next->hardware.tock();}
+        else throw nand::Error("Unknown hardware action");
+    }catch(const std::exception& e){next->error=e.what();}return next;}));
+}
+void Studio::setHardware(const QString& variable,int value){if(busy_)return;try{hardware_.set(variable.toStdString(),value);emit stateChanged();}catch(const std::exception& e){log(e.what());}}
+QString Studio::hardwareValue(const QString& variable)const{try{return QString::fromStdString(hardware_.getText(variable.toStdString()));}catch(const std::exception& e){return QString::fromUtf8(e.what());}}
+void Studio::loadHardwareRom(const QString& component){if(busy_||!current())return;try{auto text=current()->text().toStdString();auto program=QFileInfo(current()->path()).suffix()=="asm"?nand::assemble(text).words:nand::parseHack(text);hardware_.loadRom(component.toStdString(),program);log("ROM loaded from visible buffer snapshot");emit stateChanged();}catch(const std::exception& e){log(e.what());}}
+void Studio::command(const QString& text){auto args=text.simplified().split(' ');if(args[0]=="build")build();else if(args[0]=="step")step(args.size()>1?args[1].toInt():1);else if(args[0]=="load-cpu")loadCpu();else if(args[0]=="load-vm")loadVm();else if(args[0]=="load-hdl")loadHardware();else if(args[0]=="test-hdl")testHardware();else if(args[0]=="eval"||args[0]=="tick"||args[0]=="tock")hardwareAction(args[0]);else if(args[0]=="set-pin"&&args.size()==3)setHardware(args[1],args[2].toInt());else if(args[0]=="test-cpu")test(false);else if(args[0]=="test-vm")test(true);else if(args[0]=="reset")reset();else if(args[0]=="stop")cancel();else log("Commands: build, load-cpu, load-vm, load-hdl, eval, tick, tock, set-pin name value, test-hdl, step [count], reset, stop, test-cpu, test-vm");}
+void Studio::findInProject(const QString& query){if(query.isEmpty())return;auto files=files_;QMap<QString,QString> buffers;for(auto* d:docs_)buffers[d->path()]=d->text();searchTask_.setFuture(QtConcurrent::run([files,buffers,query]{QVariantList matches;for(auto f:files){auto entry=f.toMap();auto path=entry["path"].toUrl().toLocalFile();try{auto text=(buffers.contains(path)?buffers[path]:QString::fromUtf8(read(path))).split('\n');for(int i=0;i<text.size();++i){int column=int(text[i].indexOf(query,0,Qt::CaseInsensitive));if(column>=0){matches.append(QVariantMap{{"path",path},{"line",i+1},{"column",column+1},{"message",text[i]},{"label",entry["name"].toString()+":"+QString::number(i+1)+":"+QString::number(column+1)+"  "+text[i]}});if(matches.size()>=1000)return matches;}}}catch(...){}}return matches;}));}
+bool Studio::closeDocument(int i){if(i<0||i>=docs_.size())return false;if(docs_[i]->dirty()){log("Save the document before closing; unsaved text is retained");return false;}auto* d=docs_.takeAt(i);d->deleteLater();active_=std::min(active_,int(docs_.size())-1);emit documentsChanged();emit activeChanged();return true;}
+void Studio::saveSession(){QJsonArray array;for(auto* d:docs_){QJsonObject o{{"path",d->path()},{"dirty",d->dirty()}};if(d->dirty()){o["text"]=d->text();o["original"]=QString::fromLatin1(d->original.toBase64());}array.append(o);}QJsonObject root{{"workspace",workspace_},{"active",active_},{"documents",array}};if(!atomicSave(sessionPath(),QJsonDocument(root).toJson()))log("Recovery save failed");}
+void Studio::recover(){if(!QFileInfo::exists(sessionPath()))return;try{auto root=QJsonDocument::fromJson(read(sessionPath())).object();auto w=root["workspace"].toString();if(QFileInfo(w).isDir())openWorkspace(QUrl::fromLocalFile(w));for(auto value:root["documents"].toArray()){auto o=value.toObject();open(QUrl::fromLocalFile(o["path"].toString()));if(current()&&current()->path()==o["path"].toString()&&o["dirty"].toBool()){current()->setText(o["text"].toString());current()->original=QByteArray::fromBase64(o["original"].toString().toLatin1());log("Recovered unsaved buffer: "+current()->path());}}setActive(root["active"].toInt());log("Session restored. Simulation is stopped; reload explicitly to execute.");}catch(const std::exception& e){log(e.what());}}

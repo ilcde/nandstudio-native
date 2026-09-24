@@ -1,0 +1,2 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+CHIP Positional { IN right[16],left[16]; OUT result[16]; BUILTIN And; }

@@ -1,0 +1,638 @@
+[
+    {
+        "check": "create isolated fixture",
+        "passed": true
+    },
+    {
+        "check": "Qt Quick window instantiated",
+        "passed": true
+    },
+    {
+        "check": "editor reachable through document tab",
+        "passed": true
+    },
+    {
+        "check": "keyboard editing marks document dirty",
+        "passed": true
+    },
+    {
+        "check": "keyboard editing reaches C++ document",
+        "passed": true
+    },
+    {
+        "check": "native editor undo",
+        "passed": true
+    },
+    {
+        "check": "native editor redo",
+        "passed": true
+    },
+    {
+        "check": "save through document service",
+        "passed": true
+    },
+    {
+        "check": "preserve CRLF and final-newline state",
+        "passed": true
+    },
+    {
+        "check": "simulate external writer",
+        "passed": true
+    },
+    {
+        "check": "external change blocks overwrite",
+        "passed": true
+    },
+    {
+        "check": "external bytes unchanged",
+        "passed": true
+    },
+    {
+        "check": "conflict reload preserves reviewed disk version",
+        "passed": true
+    },
+    {
+        "check": "conflict workflow has a dialog",
+        "passed": true
+    },
+    {
+        "check": "save reconciled document",
+        "passed": true
+    },
+    {
+        "check": "CPU execution updates memory inspector",
+        "passed": true
+    },
+    {
+        "check": "native assemble action emits artifact",
+        "passed": true
+    },
+    {
+        "check": "create independent HDL fixture",
+        "passed": true
+    },
+    {
+        "check": "Load HDL button loads native hierarchy",
+        "passed": true
+    },
+    {
+        "check": "pin editor reaches hardware backend",
+        "passed": true
+    },
+    {
+        "check": "Tick samples without publishing register output",
+        "passed": true
+    },
+    {
+        "check": "Tock publishes register output to inspector",
+        "passed": true
+    },
+    {
+        "check": "editing does not reset running hardware",
+        "passed": true
+    },
+    {
+        "check": "failed explicit reload preserves last valid hardware",
+        "passed": true
+    },
+    {
+        "check": "theme changes",
+        "passed": true
+    },
+    {
+        "check": "desktop frame rendered",
+        "passed": true
+    },
+    {
+        "check": "persistent preferences service available",
+        "passed": true
+    },
+    {
+        "check": "filename field exists",
+        "passed": true
+    },
+    {
+        "check": "file dialog surface exists",
+        "passed": true
+    },
+    {
+        "check": "filename field within dialog 320x640 scale 1",
+        "passed": true
+    },
+    {
+        "check": "dialog within window 320x640 scale 1",
+        "passed": true
+    },
+    {
+        "check": "pathCancel within dialog 320x640 scale 1",
+        "passed": true
+    },
+    {
+        "check": "pathSubmit within dialog 320x640 scale 1",
+        "passed": true
+    },
+    {
+        "check": "long filename does not expand dialog 320x640 scale 1",
+        "passed": true
+    },
+    {
+        "check": "dialog screenshot 320x640 scale 1",
+        "passed": true
+    },
+    {
+        "check": "filename field exists",
+        "passed": true
+    },
+    {
+        "check": "file dialog surface exists",
+        "passed": true
+    },
+    {
+        "check": "filename field within dialog 320x640 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "dialog within window 320x640 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "pathCancel within dialog 320x640 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "pathSubmit within dialog 320x640 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "long filename does not expand dialog 320x640 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "dialog screenshot 320x640 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "filename field exists",
+        "passed": true
+    },
+    {
+        "check": "file dialog surface exists",
+        "passed": true
+    },
+    {
+        "check": "filename field within dialog 412x820 scale 1",
+        "passed": true
+    },
+    {
+        "check": "dialog within window 412x820 scale 1",
+        "passed": true
+    },
+    {
+        "check": "pathCancel within dialog 412x820 scale 1",
+        "passed": true
+    },
+    {
+        "check": "pathSubmit within dialog 412x820 scale 1",
+        "passed": true
+    },
+    {
+        "check": "long filename does not expand dialog 412x820 scale 1",
+        "passed": true
+    },
+    {
+        "check": "dialog screenshot 412x820 scale 1",
+        "passed": true
+    },
+    {
+        "check": "filename field exists",
+        "passed": true
+    },
+    {
+        "check": "file dialog surface exists",
+        "passed": true
+    },
+    {
+        "check": "filename field within dialog 412x820 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "dialog within window 412x820 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "pathCancel within dialog 412x820 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "pathSubmit within dialog 412x820 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "long filename does not expand dialog 412x820 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "dialog screenshot 412x820 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "filename field exists",
+        "passed": true
+    },
+    {
+        "check": "file dialog surface exists",
+        "passed": true
+    },
+    {
+        "check": "filename field within dialog 820x412 scale 1",
+        "passed": true
+    },
+    {
+        "check": "dialog within window 820x412 scale 1",
+        "passed": true
+    },
+    {
+        "check": "pathCancel within dialog 820x412 scale 1",
+        "passed": true
+    },
+    {
+        "check": "pathSubmit within dialog 820x412 scale 1",
+        "passed": true
+    },
+    {
+        "check": "long filename does not expand dialog 820x412 scale 1",
+        "passed": true
+    },
+    {
+        "check": "dialog screenshot 820x412 scale 1",
+        "passed": true
+    },
+    {
+        "check": "filename field exists",
+        "passed": true
+    },
+    {
+        "check": "file dialog surface exists",
+        "passed": true
+    },
+    {
+        "check": "filename field within dialog 820x412 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "dialog within window 820x412 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "pathCancel within dialog 820x412 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "pathSubmit within dialog 820x412 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "long filename does not expand dialog 820x412 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "dialog screenshot 820x412 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "filename field exists",
+        "passed": true
+    },
+    {
+        "check": "file dialog surface exists",
+        "passed": true
+    },
+    {
+        "check": "filename field within dialog 768x1024 scale 1",
+        "passed": true
+    },
+    {
+        "check": "dialog within window 768x1024 scale 1",
+        "passed": true
+    },
+    {
+        "check": "pathCancel within dialog 768x1024 scale 1",
+        "passed": true
+    },
+    {
+        "check": "pathSubmit within dialog 768x1024 scale 1",
+        "passed": true
+    },
+    {
+        "check": "long filename does not expand dialog 768x1024 scale 1",
+        "passed": true
+    },
+    {
+        "check": "dialog screenshot 768x1024 scale 1",
+        "passed": true
+    },
+    {
+        "check": "filename field exists",
+        "passed": true
+    },
+    {
+        "check": "file dialog surface exists",
+        "passed": true
+    },
+    {
+        "check": "filename field within dialog 768x1024 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "dialog within window 768x1024 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "pathCancel within dialog 768x1024 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "pathSubmit within dialog 768x1024 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "long filename does not expand dialog 768x1024 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "dialog screenshot 768x1024 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "filename field exists",
+        "passed": true
+    },
+    {
+        "check": "file dialog surface exists",
+        "passed": true
+    },
+    {
+        "check": "filename field within dialog 1320x860 scale 1",
+        "passed": true
+    },
+    {
+        "check": "dialog within window 1320x860 scale 1",
+        "passed": true
+    },
+    {
+        "check": "pathCancel within dialog 1320x860 scale 1",
+        "passed": true
+    },
+    {
+        "check": "pathSubmit within dialog 1320x860 scale 1",
+        "passed": true
+    },
+    {
+        "check": "long filename does not expand dialog 1320x860 scale 1",
+        "passed": true
+    },
+    {
+        "check": "dialog screenshot 1320x860 scale 1",
+        "passed": true
+    },
+    {
+        "check": "filename field exists",
+        "passed": true
+    },
+    {
+        "check": "file dialog surface exists",
+        "passed": true
+    },
+    {
+        "check": "filename field within dialog 1320x860 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "dialog within window 1320x860 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "pathCancel within dialog 1320x860 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "pathSubmit within dialog 1320x860 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "long filename does not expand dialog 1320x860 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "dialog screenshot 1320x860 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "lineDialog reachable",
+        "passed": true
+    },
+    {
+        "check": "lineDialog bounded at 320",
+        "passed": true
+    },
+    {
+        "check": "settingsDialog reachable",
+        "passed": true
+    },
+    {
+        "check": "settingsDialog bounded at 320",
+        "passed": true
+    },
+    {
+        "check": "closeDocumentDialog reachable",
+        "passed": true
+    },
+    {
+        "check": "closeDocumentDialog bounded at 320",
+        "passed": true
+    },
+    {
+        "check": "exitDialog reachable",
+        "passed": true
+    },
+    {
+        "check": "exitDialog bounded at 320",
+        "passed": true
+    },
+    {
+        "check": "trashDialog reachable",
+        "passed": true
+    },
+    {
+        "check": "trashDialog bounded at 320",
+        "passed": true
+    },
+    {
+        "check": "conflictDialog reachable",
+        "passed": true
+    },
+    {
+        "check": "conflictDialog bounded at 320",
+        "passed": true
+    },
+    {
+        "check": "lineDialog reachable",
+        "passed": true
+    },
+    {
+        "check": "lineDialog bounded at 820",
+        "passed": true
+    },
+    {
+        "check": "settingsDialog reachable",
+        "passed": true
+    },
+    {
+        "check": "settingsDialog bounded at 820",
+        "passed": true
+    },
+    {
+        "check": "closeDocumentDialog reachable",
+        "passed": true
+    },
+    {
+        "check": "closeDocumentDialog bounded at 820",
+        "passed": true
+    },
+    {
+        "check": "exitDialog reachable",
+        "passed": true
+    },
+    {
+        "check": "exitDialog bounded at 820",
+        "passed": true
+    },
+    {
+        "check": "trashDialog reachable",
+        "passed": true
+    },
+    {
+        "check": "trashDialog bounded at 820",
+        "passed": true
+    },
+    {
+        "check": "conflictDialog reachable",
+        "passed": true
+    },
+    {
+        "check": "conflictDialog bounded at 820",
+        "passed": true
+    },
+    {
+        "check": "whole-word replace all uses document model",
+        "passed": true
+    },
+    {
+        "check": "replace all is one undo operation",
+        "passed": true
+    },
+    {
+        "check": "selected lines indent together",
+        "passed": true
+    },
+    {
+        "check": "selected lines unindent together",
+        "passed": true
+    },
+    {
+        "check": "comment toggling uses C++ editor service",
+        "passed": true
+    },
+    {
+        "check": "comment toggling reverses",
+        "passed": true
+    },
+    {
+        "check": "bracket matching skips comments and strings",
+        "passed": true
+    },
+    {
+        "check": "create parser-negative GUI fixture",
+        "passed": true
+    },
+    {
+        "check": "worker diagnostics retain originating document",
+        "passed": true
+    },
+    {
+        "check": "diagnostic navigation selects error document after active tab changes",
+        "passed": true
+    },
+    {
+        "check": "workspace creation rejects traversal",
+        "passed": true
+    },
+    {
+        "check": "Return in Create File creates a real workspace file",
+        "passed": true
+    },
+    {
+        "check": "trash refuses unsaved documents",
+        "passed": true
+    },
+    {
+        "check": "rename follows the open document",
+        "passed": true
+    },
+    {
+        "check": "project search reads unsaved buffers with locations",
+        "passed": true
+    },
+    {
+        "check": "saved file moves to recoverable workspace trash",
+        "passed": true
+    },
+    {
+        "check": "trashed file leaves its original location",
+        "passed": true
+    },
+    {
+        "check": "recovery trash preserves file bytes",
+        "passed": true
+    },
+    {
+        "check": "prepare second save conflict",
+        "passed": true
+    },
+    {
+        "check": "second conflict is detected",
+        "passed": true
+    },
+    {
+        "check": "external writer changes reviewed version",
+        "passed": true
+    },
+    {
+        "check": "overwrite stops if disk changed again",
+        "passed": true
+    },
+    {
+        "check": "explicit overwrite saves only reviewed conflict version",
+        "passed": true
+    },
+    {
+        "check": "phone-width responsive navigation enabled",
+        "passed": true
+    },
+    {
+        "check": "phone-width machine pane rendered",
+        "passed": true
+    },
+    {
+        "check": "recent workspaces contain opened local folder",
+        "passed": true
+    },
+    {
+        "check": "recent workspaces survive settings reload",
+        "passed": true
+    },
+    {
+        "check": "no runtime QML binding, type, or settings serialization errors",
+        "passed": true
+    }
+]

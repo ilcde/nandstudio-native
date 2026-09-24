@@ -1,0 +1,177 @@
+[
+  {
+    "file": "resources\\hdl\\Add16.hdl",
+    "sha256": "808a72d1a863bf7456b7fc3d65b42ba2ce19317728f31c4668be88e8a1ccec53",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\ALU.hdl",
+    "sha256": "7d8535480c83ed6f921e7335884393a5c5814b2599864e9862ab29333d91abef",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\And.hdl",
+    "sha256": "1eabbcd54317bba4808050157d4cf7a117168a8ee1745f919a3a20c11f32dbf8",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\And16.hdl",
+    "sha256": "3aab82ed6533845c9de2e7a3f08933ef502b452f065278222c29a224560be2e8",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\ARegister.hdl",
+    "sha256": "a9c5a373bc2991787ad88626c2c411ddef9b8f5f25173327042b18a197f6c937",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\Bit.hdl",
+    "sha256": "5c90df0ce53a3c34d09fb9b0a551552c793d90515ab6ad7f72579e3aa2609eb7",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\DFF.hdl",
+    "sha256": "ec61a6b9db0823be00e8e751ac557c88dcd0d47b7a45dcb40d609916400e1670",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\DMux.hdl",
+    "sha256": "12bb46106c5ce155c1399c0253534a14c96dbdb6746d16732a3ba62b40b5a2b6",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\DMux4Way.hdl",
+    "sha256": "329cf65cb54ca396c181c43d00e416ee19dc8a69d68e57021fc49ab118e982a0",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\DMux8Way.hdl",
+    "sha256": "7e5264d3e9698aad1c4a605b4ecf94649d982f9a2f8044304af5b1ce56b829cb",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\DRegister.hdl",
+    "sha256": "e19c4821668196188a1e7f62de6bff0d9fad9811028f8f792bf877fbbad598a8",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\FullAdder.hdl",
+    "sha256": "e57797a6fa020a429e715178abb58ea170e886994d8fc5d4fe99e88c23e9e540",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\HalfAdder.hdl",
+    "sha256": "5b8ca7160d0c4b7e058900aecaa45650e3e95942393543c038df441aec12810f",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\Inc16.hdl",
+    "sha256": "3cd9768ac45d6dde302a69063485b9490d525823c09592a1de4037489c242fec",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\Keyboard.hdl",
+    "sha256": "c8fa85545294ba744b6a1e55f26ec1d6bda46ed654b77646aa54eec2d6ef27cd",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\Mux.hdl",
+    "sha256": "40dc548019d7ad215fc2a2b935a66fd3bcc9436e69cbaf56a790df0bf1ba3075",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\Mux16.hdl",
+    "sha256": "f471e0205ed11f17111df89b035e9332cd597603af43425119c2f795984613e1",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\Mux4Way16.hdl",
+    "sha256": "dfed519030afda200e6421b1c47b3ef98a09d3cd181d14e7242cba391ed6aa6f",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\Mux8Way16.hdl",
+    "sha256": "95e37678bf1341a7f6e81fb132f6a45aa43364f5f360c04134cfe89a1747bf4e",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\Nand.hdl",
+    "sha256": "6e6284061e22c538f30ee768b3e2db07af6e37a0b0ebc3b83ec80f1225adf3c0",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\Not.hdl",
+    "sha256": "622de10b2cb5d1a7b9c9a8a571ac31f8c5f586ec8e5ffe5cf81809dd3383996d",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\Not16.hdl",
+    "sha256": "b01fd70e780ad7f3ac031a591786f727bd5c4389fe795a3970d1cbfe20899380",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\Or.hdl",
+    "sha256": "de2f03731bfb566e520362d8ee9a5ae1d3022546e35e679decda6fa81370d597",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\Or16.hdl",
+    "sha256": "dbb530722db88c969b416bc42f1d716293ac354e7480fdd1e22f46aa3a1ae6e2",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\Or8Way.hdl",
+    "sha256": "7119d4e8e665af696902e4b2513d5593e80d09a4a44efc077a7bf604f8dfd787",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\PC.hdl",
+    "sha256": "1236c0cc780898576aff10a7c9bc314090ce34bb7db3676b2ea75c6defe90986",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\RAM16K.hdl",
+    "sha256": "fc8915a817b0101c35a191904f851dac5c731d2da177c64842cfb0e11488b733",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\RAM4K.hdl",
+    "sha256": "10f186ec19cb1d17e1be864d1e19fc2bf655a89d9d1c901fdd7ed4317929357f",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\RAM512.hdl",
+    "sha256": "39f67aff448c305a35b1d6825753eebdeb7e7ceefd71811f988fef32c26b39d2",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\RAM64.hdl",
+    "sha256": "93166df008990d497a8b73493d96479be6a7719089c6aca7d877129ac255d752",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\RAM8.hdl",
+    "sha256": "9caee441073582a7e93ff31ca9b76137713b8473a1bc2d05b1fff26992deac31",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\Register.hdl",
+    "sha256": "acd4111c251b4fb44010f48b8f8443fa186873cae506352ca3be1e30a2910b27",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\ROM32K.hdl",
+    "sha256": "63c2b1272f687e035f224c5622e7d485d0d2b48e7c6438db1d69904fd0f76c58",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\Screen.hdl",
+    "sha256": "18786959c9d62675bd9d3562daedede42e895938d46eb6e8977b397938126a95",
+    "matches_baseline": true
+  },
+  {
+    "file": "resources\\hdl\\Xor.hdl",
+    "sha256": "0eefa8ba46272fbbfd93ab5509a8d92f80257fac7dc628f9142ed393012ec639",
+    "matches_baseline": true
+  }
+]

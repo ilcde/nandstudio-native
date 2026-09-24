@@ -1,0 +1,2 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+CHIP ClockWire { OUT out; PARTS: Not(in=clk,out=out); }

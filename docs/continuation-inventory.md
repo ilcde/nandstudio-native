@@ -1,0 +1,239 @@
+# Continuation work inventory
+
+Initial continuation audit: uploaded working ZIP matched source before this increment. 227 parity entries: 125 partial, 102 not implemented. No statuses upgraded during audit.
+
+P0 sequence: reproducible source packaging and fresh builds; dialog/pane geometry tests and component refactor; Linux build; storage/SAF and lifecycle; OS/VM fallback; narrow HDL semantics.
+
+Concrete source issues: Main.qml fixed-width dialog child; non-wrapping toolbar/search rows; minimumHeight 520 excludes landscape phones; tasks report diagnostics against current rather than originating document; synchronous scans/search; file operations have no structured results; VM has no OS fallback; HDL bit nets discard narrow signed values; CMake rewrites generated HDL header on each configure.
+
+The list below records the initial audit, before this increment. Current per-feature status is in parity-manifest.json; implemented editor additions and validation are in continuation-report.md.
+
+Initial parity rows:
+
+- **assembler.grammar** (partial): 2,368 instructions including aliases. Invalid input diagnostics and unusual tokenizer combinations not exhaustively matched.
+- **assembler.symbols** (partial): Legacy duplicate labels and out-of-short-range numeric text becoming symbols preserved in tested cases.
+- **assembler.interactive** (partial): Build snapshot and generated artifact available. Incremental translation, selection mapping and comparison UI missing.
+- **cpu.instructions** (partial): Legacy jump uses NEW A; memory destination uses OLD A. Exhaustive invalid machine encodings and diagnostics pending.
+- **cpu.reset** (partial): Keeps data RAM and clears screen. Full reset/reload interactions not exhausted.
+- **cpu.gui.screen** (partial): Incomplete interaction coverage; continuous run, breakpoints, display modes and keyboard edge cases remain.
+- **cpu.gui.keyboard** (partial): Incomplete interaction coverage; continuous run, breakpoints, display modes and keyboard edge cases remain.
+- **cpu.gui.registers** (partial): Incomplete interaction coverage; continuous run, breakpoints, display modes and keyboard edge cases remain.
+- **cpu.gui.memory-inspection** (partial): Incomplete interaction coverage; continuous run, breakpoints, display modes and keyboard edge cases remain.
+- **cpu.gui.step** (partial): Incomplete interaction coverage; continuous run, breakpoints, display modes and keyboard edge cases remain.
+- **cpu.gui.bounded-run** (partial): Incomplete interaction coverage; continuous run, breakpoints, display modes and keyboard edge cases remain.
+- **cpu.gui.stop** (partial): Incomplete interaction coverage; continuous run, breakpoints, display modes and keyboard edge cases remain.
+- **cpu.gui.breakpoints** (not-implemented): 
+- **cpu.gui.animation** (not-implemented): 
+- **cpu.gui.number-formats** (not-implemented): 
+- **cpu.gui.ROM-editing** (not-implemented): 
+- **cpu.gui.instruction-list** (not-implemented): 
+- **cpu.gui.execution-speed** (not-implemented): 
+- **vm.commands** (partial): Valid bundled cases tested. Segment bounds, invalid-program diagnostics and bootstrap differences remain; see evidence.
+- **vm.segments** (partial): Valid bundled cases tested. Segment bounds, invalid-program diagnostics and bootstrap differences remain; see evidence.
+- **vm.branches** (partial): Valid bundled cases tested. Segment bounds, invalid-program diagnostics and bootstrap differences remain; see evidence.
+- **vm.calls** (partial): Valid bundled cases tested. Segment bounds, invalid-program diagnostics and bootstrap differences remain; see evidence.
+- **vm.returns** (partial): Valid bundled cases tested. Segment bounds, invalid-program diagnostics and bootstrap differences remain; see evidence.
+- **vm.recursion** (partial): Valid bundled cases tested. Segment bounds, invalid-program diagnostics and bootstrap differences remain; see evidence.
+- **vm.static-scope** (partial): Valid bundled cases tested. Segment bounds, invalid-program diagnostics and bootstrap differences remain; see evidence.
+- **vm.load-order** (partial): Native sorts filenames. Baseline directory enumeration order not fully characterized. Indented label rejection is preserved in the observed NestedCall case; broader symbol-pass edge cases remain.
+- **vm.native-service-fallback** (not-implemented): 
+- **vm.confirmation** (not-implemented): 
+- **vm.local-class-precedence** (not-implemented): 
+- **vm.call-stack-view** (not-implemented): 
+- **vm.segment-views** (not-implemented): 
+- **vm.breakpoints** (not-implemented): 
+- **vm.string-script-variables** (not-implemented): 
+- **jack.tokens** (partial): Generated output tested on bundled programs; complete semantic checking, cross-class validation, warnings and error recovery not ported.
+- **jack.expressions** (partial): Generated output tested on bundled programs; complete semantic checking, cross-class validation, warnings and error recovery not ported.
+- **jack.scopes** (partial): Generated output tested on bundled programs; complete semantic checking, cross-class validation, warnings and error recovery not ported.
+- **jack.arrays** (partial): Generated output tested on bundled programs; complete semantic checking, cross-class validation, warnings and error recovery not ported.
+- **jack.strings** (partial): Generated output tested on bundled programs; complete semantic checking, cross-class validation, warnings and error recovery not ported.
+- **jack.objects** (partial): Generated output tested on bundled programs; complete semantic checking, cross-class validation, warnings and error recovery not ported.
+- **jack.calls** (partial): Generated output tested on bundled programs; complete semantic checking, cross-class validation, warnings and error recovery not ported.
+- **jack.control-flow** (partial): Generated output tested on bundled programs; complete semantic checking, cross-class validation, warnings and error recovery not ported.
+- **jack.VM-output** (partial): Generated output tested on bundled programs; complete semantic checking, cross-class validation, warnings and error recovery not ported.
+- **jack.invocation** (partial): Single file, directory and cwd supported. CLI wording/exit behavior and extension validation incomplete.
+- **text-comparer** (partial): ASCII-space removal, edge trimming, line counts, missing lines and return status tested. Legacy default-charset differences remain.
+- **script.load** (partial): CPU/VM/HDL subset. Breakpoints and full punctuation/stop semantics are pending. Partial output persistence on script errors has a Keyboard rejection regression.
+- **script.set** (partial): CPU/VM/HDL subset. Breakpoints and full punctuation/stop semantics are pending. Partial output persistence on script errors has a Keyboard rejection regression.
+- **script.repeat** (partial): CPU/VM/HDL subset. Breakpoints and full punctuation/stop semantics are pending. Partial output persistence on script errors has a Keyboard rejection regression.
+- **script.while** (partial): CPU/VM/HDL subset. Breakpoints and full punctuation/stop semantics are pending. Partial output persistence on script errors has a Keyboard rejection regression.
+- **script.output-file** (partial): CPU/VM/HDL subset. Breakpoints and full punctuation/stop semantics are pending. Partial output persistence on script errors has a Keyboard rejection regression.
+- **script.compare-to** (partial): CPU/VM/HDL subset. Breakpoints and full punctuation/stop semantics are pending. Partial output persistence on script errors has a Keyboard rejection regression.
+- **script.output-list** (partial): CPU/VM/HDL subset. Breakpoints and full punctuation/stop semantics are pending. Partial output persistence on script errors has a Keyboard rejection regression.
+- **script.output** (partial): CPU/VM/HDL subset. Breakpoints and full punctuation/stop semantics are pending. Partial output persistence on script errors has a Keyboard rejection regression.
+- **script.echo** (partial): CPU/VM/HDL subset. Breakpoints and full punctuation/stop semantics are pending. Partial output persistence on script errors has a Keyboard rejection regression.
+- **script.clear-echo** (partial): CPU/VM/HDL subset. Breakpoints and full punctuation/stop semantics are pending. Partial output persistence on script errors has a Keyboard rejection regression.
+- **script.breakpoint** (not-implemented): 
+- **script.clear-breakpoints** (not-implemented): 
+- **script.stop-terminator** (not-implemented): 
+- **script.single-step-terminator** (not-implemented): 
+- **script.GUI-script-control** (not-implemented): 
+- **script.full-diagnostics** (not-implemented): 
+- **hardware.grammar** (partial): Implemented subset; see docs/hardware.md for known numerical, hierarchy, diagnostics and GUI gaps. Windows-only evidence.
+- **hardware.hierarchy** (partial): Implemented subset; see docs/hardware.md for known numerical, hierarchy, diagnostics and GUI gaps. Windows-only evidence.
+- **hardware.buses** (partial): Implemented subset; see docs/hardware.md for known numerical, hierarchy, diagnostics and GUI gaps. Windows-only evidence.
+- **hardware.sub-buses** (partial): Implemented subset; see docs/hardware.md for known numerical, hierarchy, diagnostics and GUI gaps. Windows-only evidence.
+- **hardware.constants** (partial): Implemented subset; see docs/hardware.md for known numerical, hierarchy, diagnostics and GUI gaps. Windows-only evidence.
+- **hardware.built-in-lookup** (partial): Implemented subset; see docs/hardware.md for known numerical, hierarchy, diagnostics and GUI gaps. Windows-only evidence.
+- **hardware.dependency-precedence** (partial): Implemented subset; see docs/hardware.md for known numerical, hierarchy, diagnostics and GUI gaps. Windows-only evidence.
+- **hardware.cycle-detection** (partial): Implemented subset; see docs/hardware.md for known numerical, hierarchy, diagnostics and GUI gaps. Windows-only evidence.
+- **hardware.clock-tick** (partial): Implemented subset; see docs/hardware.md for known numerical, hierarchy, diagnostics and GUI gaps. Windows-only evidence.
+- **hardware.clock-tock** (partial): Implemented subset; see docs/hardware.md for known numerical, hierarchy, diagnostics and GUI gaps. Windows-only evidence.
+- **hardware.eval** (partial): Implemented subset; see docs/hardware.md for known numerical, hierarchy, diagnostics and GUI gaps. Windows-only evidence.
+- **hardware.reload** (partial): Implemented subset; see docs/hardware.md for known numerical, hierarchy, diagnostics and GUI gaps. Windows-only evidence.
+- **hardware.pin-inspection** (partial): Implemented subset; see docs/hardware.md for known numerical, hierarchy, diagnostics and GUI gaps. Windows-only evidence.
+- **hardware.component-inspection** (partial): Implemented subset; see docs/hardware.md for known numerical, hierarchy, diagnostics and GUI gaps. Windows-only evidence.
+- **hardware.ROM-load** (partial): Implemented subset; see docs/hardware.md for known numerical, hierarchy, diagnostics and GUI gaps. Windows-only evidence.
+- **hardware.test-runner** (partial): Implemented subset; see docs/hardware.md for known numerical, hierarchy, diagnostics and GUI gaps. Windows-only evidence.
+- **chip.Add16** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.ALU** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.And** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.And16** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.ARegister** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.Bit** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.DFF** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.DMux** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.DMux4Way** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.DMux8Way** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.DRegister** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.FullAdder** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.HalfAdder** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.Inc16** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.Keyboard** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.Mux** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.Mux16** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.Mux4Way16** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.Mux8Way16** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.Nand** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.Not** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.Not16** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.Or** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.Or16** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.Or8Way** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.PC** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.RAM16K** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.RAM4K** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.RAM512** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.RAM64** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.RAM8** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.Register** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.ROM32K** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.Screen** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **chip.Xor** (partial): Native behavior implemented; all 35 declarations load/eval in unit tests. Differential coverage varies per chip; complete original visual controls and edge cases remain.
+- **hardware.narrow-negative-values** (partial): CONFIRMED MISMATCH: set in -1 on Not returns legacy in=-1/out=2; native in=1/out=0. Release blocked. No normalization permitted.
+- **hardware.nonstandard-clock-declarations** (partial): Unverified: flattened scheduling differs structurally from per-composite clock traversal for custom CLOCKED outputs, missing declarations and order-sensitive circuits. Requires targeted differential coverage.
+- **script.HDL-commands** (partial): load/set/eval/tick/tock, ROM command, time strings and common formatting verified in 36 cases; full diagnostics/commands pending.
+- **os.Array.NEW** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Array.dispose** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Keyboard.init** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Keyboard.keyPressed** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Keyboard.readChar** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Keyboard.readLine** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Keyboard.readInt** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Math.init** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Math.abs** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Math.multiply** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Math.divide** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Math.min** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Math.max** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Math.sqrt** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Memory.init** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Memory.peek** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Memory.poke** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Memory.alloc** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Memory.deAlloc** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Output.init** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Output.moveCursor** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Output.printChar** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Output.printString** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Output.printInt** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Output.println** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Output.backSpace** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Screen.init** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Screen.clearScreen** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Screen.setColor** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Screen.drawPixel** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Screen.drawLine** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Screen.drawRectangle** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Screen.drawCircle** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.String.NEW** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.String.dispose** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.String.length** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.String.charAt** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.String.setCharAt** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.String.appendChar** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.String.eraseLastChar** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.String.intValue** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.String.setInt** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.String.newLine** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.String.backSpace** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.String.doubleQuote** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Sys.init** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Sys.halt** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Sys.wait** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **os.Sys.error** (not-implemented): Compiled VM assets preserved unchanged. Native equivalent and fallback not implemented.
+- **extensions.Java-chip-binaries** (not-implemented): RELEASE BLOCKER: no legacy binary bridge or native plugin loader. A C++ migration guide would not establish binary compatibility.
+- **extensions.Java-chip-GUI** (not-implemented): RELEASE BLOCKER: no legacy binary bridge or native plugin loader. A C++ migration guide would not establish binary compatibility.
+- **extensions.Java-VM-binaries** (not-implemented): RELEASE BLOCKER: no legacy binary bridge or native plugin loader. A C++ migration guide would not establish binary compatibility.
+- **extensions.callbacks-to-user-VM** (not-implemented): RELEASE BLOCKER: no legacy binary bridge or native plugin loader. A C++ migration guide would not establish binary compatibility.
+- **extensions.native-extension-interface** (not-implemented): RELEASE BLOCKER: no legacy binary bridge or native plugin loader. A C++ migration guide would not establish binary compatibility.
+- **editor.folder-explorer** (partial): Implemented subset; not all edge cases tested. See user-guide.md.
+- **editor.tabs** (partial): Implemented subset; not all edge cases tested. See user-guide.md.
+- **editor.open** (partial): Implemented subset; not all edge cases tested. See user-guide.md.
+- **editor.create** (partial): Implemented subset; not all edge cases tested. See user-guide.md.
+- **editor.save** (partial): Implemented subset; not all edge cases tested. See user-guide.md.
+- **editor.dirty-state** (partial): Implemented subset; not all edge cases tested. See user-guide.md.
+- **editor.undo-redo** (partial): Implemented subset; not all edge cases tested. See user-guide.md.
+- **editor.clipboard** (partial): Implemented subset; not all edge cases tested. See user-guide.md.
+- **editor.highlighting** (partial): Implemented subset; not all edge cases tested. See user-guide.md.
+- **editor.font-scaling** (partial): Implemented subset; not all edge cases tested. See user-guide.md.
+- **editor.wrap** (partial): Implemented subset; not all edge cases tested. See user-guide.md.
+- **editor.find-replace** (partial): Implemented subset; not all edge cases tested. See user-guide.md.
+- **editor.go-to-line** (partial): Implemented subset; not all edge cases tested. See user-guide.md.
+- **editor.comment-toggle** (partial): Implemented subset; not all edge cases tested. See user-guide.md.
+- **editor.project-search** (partial): Implemented subset; not all edge cases tested. See user-guide.md.
+- **editor.diagnostic-navigation** (partial): Implemented subset; not all edge cases tested. See user-guide.md.
+- **editor.recovery** (partial): Implemented subset; not all edge cases tested. See user-guide.md.
+- **editor.session-restore** (partial): Implemented subset; not all edge cases tested. See user-guide.md.
+- **editor.external-change-detection** (partial): Implemented subset; not all edge cases tested. See user-guide.md.
+- **editor.snapshot-build** (partial): Implemented subset; not all edge cases tested. See user-guide.md.
+- **editor.explicit-reload** (partial): Implemented subset; not all edge cases tested. See user-guide.md.
+- **editor.task-console** (partial): Implemented subset; not all edge cases tested. See user-guide.md.
+- **editor.themes** (partial): Implemented subset; not all edge cases tested. See user-guide.md.
+- **editor.responsive-panes** (partial): Implemented subset; not all edge cases tested. See user-guide.md.
+- **editor.rename** (not-implemented): 
+- **editor.safe-delete** (not-implemented): 
+- **editor.recent-workspaces** (not-implemented): 
+- **editor.line-number-gutter** (not-implemented): 
+- **editor.indent-assistance** (not-implemented): 
+- **editor.bracket-match** (not-implemented): 
+- **editor.parser-completion** (not-implemented): 
+- **editor.symbol-navigation** (not-implemented): 
+- **editor.configurable-indent** (not-implemented): 
+- **editor.configurable-autosave** (not-implemented): 
+- **editor.conflict-resolution-UI** (not-implemented): 
+- **editor.workspace-test-run** (not-implemented): 
+- **editor.layout-restoration** (not-implemented): 
+- **android.SAF-document-URIs** (not-implemented): No Android Qt kit or NDK installed. SAF and lifecycle implementation missing, independently of toolchain blocker.
+- **android.directory-tree-grants** (not-implemented): No Android Qt kit or NDK installed. SAF and lifecycle implementation missing, independently of toolchain blocker.
+- **android.grant-recovery** (not-implemented): No Android Qt kit or NDK installed. SAF and lifecycle implementation missing, independently of toolchain blocker.
+- **android.local-import-export** (not-implemented): No Android Qt kit or NDK installed. SAF and lifecycle implementation missing, independently of toolchain blocker.
+- **android.IME** (not-implemented): No Android Qt kit or NDK installed. SAF and lifecycle implementation missing, independently of toolchain blocker.
+- **android.lifecycle** (not-implemented): No Android Qt kit or NDK installed. SAF and lifecycle implementation missing, independently of toolchain blocker.
+- **android.offline-assets** (not-implemented): No Android Qt kit or NDK installed. SAF and lifecycle implementation missing, independently of toolchain blocker.
+- **android.16KB-package-verification** (not-implemented): No Android Qt kit or NDK installed. SAF and lifecycle implementation missing, independently of toolchain blocker.
+- **android.device-workflow** (not-implemented): No Android Qt kit or NDK installed. SAF and lifecycle implementation missing, independently of toolchain blocker.
+- **launcher.HardwareSimulator** (partial): Named executable exists. No-argument GUI dispatch and exact help/diagnostic/exit compatibility remain incomplete. HardwareSimulator now runs saved HDL scripts through the native core.
+- **launcher.CPUEmulator** (partial): Named executable exists. No-argument GUI dispatch and exact help/diagnostic/exit compatibility remain incomplete. HardwareSimulator now runs saved HDL scripts through the native core.
+- **launcher.VMEmulator** (partial): Named executable exists. No-argument GUI dispatch and exact help/diagnostic/exit compatibility remain incomplete. HardwareSimulator now runs saved HDL scripts through the native core.
+- **launcher.Assembler** (partial): Named executable exists. No-argument GUI dispatch and exact help/diagnostic/exit compatibility remain incomplete. HardwareSimulator now runs saved HDL scripts through the native core.
+- **launcher.JackCompiler** (partial): Named executable exists. No-argument GUI dispatch and exact help/diagnostic/exit compatibility remain incomplete. HardwareSimulator now runs saved HDL scripts through the native core.
+- **launcher.TextComparer** (partial): Named executable exists. No-argument GUI dispatch and exact help/diagnostic/exit compatibility remain incomplete. HardwareSimulator now runs saved HDL scripts through the native core.
+- **delivery.windows-package** (not-implemented): See build.md and platforms.json for actual configured/compiled/packaged/launched/tested states.
+- **delivery.macos-bundle** (not-implemented): See build.md and platforms.json for actual configured/compiled/packaged/launched/tested states.
+- **delivery.linux-package** (not-implemented): See build.md and platforms.json for actual configured/compiled/packaged/launched/tested states.
+- **delivery.android-APK** (not-implemented): See build.md and platforms.json for actual configured/compiled/packaged/launched/tested states.
+- **delivery.android-AAB** (not-implemented): See build.md and platforms.json for actual configured/compiled/packaged/launched/tested states.
+- **delivery.CI** (not-implemented): See build.md and platforms.json for actual configured/compiled/packaged/launched/tested states.
+- **delivery.licenses** (not-implemented): See build.md and platforms.json for actual configured/compiled/packaged/launched/tested states.

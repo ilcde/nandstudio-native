@@ -1,0 +1,19 @@
+Microsoft Visual C++ runtime components
+Copyright Microsoft Corporation. All rights reserved.
+
+The Windows development package includes unmodified release DLLs from the
+installed Visual Studio 2026 redistribution directory:
+VC/Redist/MSVC/14.51.36231/x64/Microsoft.VC145.CRT
+File hashes and versions are recorded in docs/evidence/windows-crt.json.
+These DLLs retain Microsoft's license terms and are not licensed under the
+native application's GPL. No debug_nonredist files are included.
+
+Official distributable code list (consulted 2026-09-24):
+https://learn.microsoft.com/en-us/visualstudio/releases/2026/redistribution
+Official runtime license terms:
+https://visualstudio.microsoft.com/license-terms/vs2026-ga-visualcpp-v14-redist-runtime/
+
+The list permits redistribution of unmodified release files from VC/redist,
+subject to the applicable Visual Studio license terms. The complete product
+and third-party release audit remains open; this notice does not claim that
+all licensing obligations for a production distribution have been verified.

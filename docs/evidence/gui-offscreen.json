@@ -1,0 +1,106 @@
+[
+    {
+        "check": "create isolated fixture",
+        "passed": true
+    },
+    {
+        "check": "Qt Quick window instantiated",
+        "passed": true
+    },
+    {
+        "check": "editor reachable through document tab",
+        "passed": true
+    },
+    {
+        "check": "keyboard editing marks document dirty",
+        "passed": true
+    },
+    {
+        "check": "keyboard editing reaches C++ document",
+        "passed": true
+    },
+    {
+        "check": "native editor undo",
+        "passed": true
+    },
+    {
+        "check": "native editor redo",
+        "passed": true
+    },
+    {
+        "check": "save through document service",
+        "passed": true
+    },
+    {
+        "check": "preserve CRLF and final-newline state",
+        "passed": true
+    },
+    {
+        "check": "simulate external writer",
+        "passed": true
+    },
+    {
+        "check": "external change blocks overwrite",
+        "passed": true
+    },
+    {
+        "check": "external bytes unchanged",
+        "passed": true
+    },
+    {
+        "check": "explicit test conflict reconciliation",
+        "passed": true
+    },
+    {
+        "check": "CPU execution updates memory inspector",
+        "passed": true
+    },
+    {
+        "check": "native assemble action emits artifact",
+        "passed": true
+    },
+    {
+        "check": "create independent HDL fixture",
+        "passed": true
+    },
+    {
+        "check": "Load HDL button loads native hierarchy",
+        "passed": true
+    },
+    {
+        "check": "pin editor reaches hardware backend",
+        "passed": true
+    },
+    {
+        "check": "Tick samples without publishing register output",
+        "passed": true
+    },
+    {
+        "check": "Tock publishes register output to inspector",
+        "passed": true
+    },
+    {
+        "check": "editing does not reset running hardware",
+        "passed": true
+    },
+    {
+        "check": "failed explicit reload preserves last valid hardware",
+        "passed": true
+    },
+    {
+        "check": "theme changes",
+        "passed": true
+    },
+    {
+        "check": "desktop frame rendered",
+        "passed": true
+    },
+    {
+        "check": "phone-width responsive navigation enabled",
+        "passed": true
+    },
+    {
+        "check": "phone-width machine pane rendered",
+        "passed": true
+    }
+]

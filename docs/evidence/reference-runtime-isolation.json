@@ -1,0 +1,12 @@
+[
+  {
+    "path": "reference\\baseline\\nand2tetris\\tools\\bin\\CPU Emulator.dat",
+    "reason": "Legacy engine wrote runtime preferences during initial differential runs",
+    "restored_sha256": "fa7fb10981f84e3e26ad03da71e8cdf66eb9aa6ed75f9c83d0d9bd2a7898ddee"
+  },
+  {
+    "path": "reference\\baseline\\nand2tetris\\tools\\bin\\Virtual Machine Emulator.dat",
+    "reason": "Legacy engine wrote runtime preferences during initial differential runs",
+    "restored_sha256": "8ffe45a251b6ef2fb3c789c21aa0eebbaf0a371d8aec667875962fb15a93a575"
+  }
+]

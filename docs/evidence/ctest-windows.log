@@ -1,0 +1,50 @@
+Start testing: Sep 24 16:18 SE Asia Standard Time
+----------------------------------------------------------
+1/3 Testing: core
+1/3 Test: core
+Command: "C:/Users/ilcde/Downloads/nand2teris_tool/build/core_tests.exe"
+Directory: C:/Users/ilcde/Downloads/nand2teris_tool/build
+"core" start time: Sep 24 16:18 SE Asia Standard Time
+Output:
+----------------------------------------------------------
+2012 checks passed
+<end of output>
+Test time =   0.10 sec
+----------------------------------------------------------
+Test Passed.
+"core" end time: Sep 24 16:18 SE Asia Standard Time
+"core" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/3 Testing: hardware
+2/3 Test: hardware
+Command: "C:/Users/ilcde/Downloads/nand2teris_tool/build/hardware_tests.exe"
+Directory: C:/Users/ilcde/Downloads/nand2teris_tool/build
+"hardware" start time: Sep 24 16:18 SE Asia Standard Time
+Output:
+----------------------------------------------------------
+2127 hardware checks passed
+<end of output>
+Test time =   0.67 sec
+----------------------------------------------------------
+Test Passed.
+"hardware" end time: Sep 24 16:18 SE Asia Standard Time
+"hardware" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/3 Testing: gui_workflow
+3/3 Test: gui_workflow
+Command: "C:/Users/ilcde/Downloads/nand2teris_tool/build/NandStudio.exe" "--self-test" "C:/Users/ilcde/Downloads/nand2teris_tool/build/gui-test"
+Directory: C:/Users/ilcde/Downloads/nand2teris_tool/build
+"gui_workflow" start time: Sep 24 16:18 SE Asia Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   1.03 sec
+----------------------------------------------------------
+Test Passed.
+"gui_workflow" end time: Sep 24 16:18 SE Asia Standard Time
+"gui_workflow" time elapsed: 00:00:01
+----------------------------------------------------------
+
+End testing: Sep 24 16:18 SE Asia Standard Time
