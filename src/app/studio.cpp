@@ -57,7 +57,7 @@ bool Document::resolveConflict(const QString& action){
 void Document::highlight(QQuickTextDocument* d){if(d&&d->textDocument())new Highlight(d->textDocument());}
 Studio::Studio(){
     connect(&task_,&QFutureWatcher<TaskResult>::finished,this,[this]{busy_=false;auto r=task_.result();log(r.message);if(r.error){diagnostics_.append(QVariantMap{{"path",r.path},{"line",r.line},{"column",r.column},{"message",r.message}});emit diagnosticsChanged();for(int i=0;i<docs_.size();++i)if(docs_[i]->path()==r.path){emit diagnostic(i,r.line,r.column,r.message);break;}}else if(!r.artifact.isEmpty()){log("Generated: "+r.artifact);for(auto* d:docs_)if(d->path()==r.artifact&&!d->dirty()){try{auto bytes=read(r.artifact);d->original=bytes;d->text_=QString::fromUtf8(bytes).replace("\r\n","\n");emit d->textChanged();emit d->changed();}catch(const std::exception& e){log(e.what());}}open(QUrl::fromLocalFile(r.artifact));}emit stateChanged();});
-    connect(&execution_,&QFutureWatcher<std::shared_ptr<ExecutionResult>>::finished,this,[this]{busy_=false;auto r=execution_.result();cpu_=std::move(r->cpu);vm_=std::move(r->vm);hardware_=std::move(r->hardware);vmMode_=r->vmMode;hardwareMode_=r->hardwareMode;hardware_.keyboard(nand::Word(keyboard_.load()));(vmMode_?vm_.ram:cpu_.ram)[24576]=nand::Word(keyboard_.load());if(!r->error.isEmpty())log(r->error);emit stateChanged();});
+    connect(&execution_,&QFutureWatcher<std::shared_ptr<ExecutionResult>>::finished,this,[this]{busy_=false;auto r=execution_.result();cpu_=std::move(r->cpu);vm_=std::move(r->vm);hardware_=std::move(r->hardware);vmMode_=r->vmMode;hardwareMode_=r->hardwareMode;hardware_.keyboard(nand::Word(keyboard_.load()));(vmMode_?vm_.ram:cpu_.ram)[24576]=nand::Word(keyboard_.load());if(!r->error.isEmpty())log(r->error);else if(hardwareMode_&&!hardwareEvent_.isEmpty()){if(hardwareEvent_=="load")hardwareTrace_.clear();recordHardware(hardwareEvent_);}hardwareEvent_.clear();emit stateChanged();});
     connect(&workspaceTask_,&QFutureWatcher<WorkspaceResult>::finished,this,[this]{auto r=workspaceTask_.result();if(r.path!=workspace_)return;if(!r.error.isEmpty())log(r.error);files_=r.files;emit filesChanged();});
     connect(&searchTask_,&QFutureWatcher<QVariantList>::finished,this,[this]{searchResults_=searchTask_.result();emit searchChanged();log(QString::number(searchResults_.size())+" search matches");});
     connect(&autosaveTimer_,&QTimer::timeout,this,[this]{if(!busy_)for(auto* d:docs_)if(d->dirty()&&!d->hasConflict())d->save();});
@@ -138,7 +138,7 @@ void Studio::loadHardware(){
     if(!current()||busy_)return;if(QFileInfo(current()->path()).suffix()!="hdl"){log("Open an .hdl file first");return;}
     // The resolver owns immutable text for every project-local dependency.
     try{std::map<std::string,std::string> files;auto dir=QFileInfo(current()->path()).absolutePath();QDirIterator it(dir,{"*.hdl"},QDir::Files);while(it.hasNext()){auto path=it.next();auto text=read(path).toStdString();for(auto* d:docs_)if(d->path()==path)text=d->text().toStdString();files[QFileInfo(path).completeBaseName().toStdString()]=text;}
-        auto chip=QFileInfo(current()->path()).completeBaseName().toStdString();auto next=snapshot();cancelled_=false;busy_=true;emit stateChanged();log("Loading HDL folder snapshot including visible buffers");
+        hardwareEvent_="load";auto chip=QFileInfo(current()->path()).completeBaseName().toStdString();auto next=snapshot();cancelled_=false;busy_=true;emit stateChanged();log("Loading HDL folder snapshot including visible buffers");
         execution_.setFuture(QtConcurrent::run([this,next,files=std::move(files),chip]{try{next->hardware.load(chip,[&](const std::string& n)->std::optional<std::string>{auto i=files.find(n);if(i==files.end())return std::nullopt;return i->second;},[this]{return cancelled_.load();});next->hardwareMode=true;next->vmMode=false;}catch(const nand::Error& e){next->error=QString::fromStdString(e.file)+":"+QString::number(e.line)+":"+QString::number(e.column)+": "+e.what();}catch(const std::exception& e){next->error=e.what();}return next;}));
     }catch(const std::exception& e){log(e.what());}
 }
@@ -162,7 +162,7 @@ void Studio::hardwareActionWithInputs(const QString& action,const QVariantMap& i
     if(busy_||!hardwareMode_)return;
     auto next=snapshot();
     try{applyPinEdits(next->hardware,inputs);}catch(const std::exception& e){log(QString("Hardware input error: ")+e.what());return;}
-    busy_=true;emit stateChanged();
+    hardwareEvent_=action;busy_=true;emit stateChanged();
     execution_.setFuture(QtConcurrent::run([next,action]{try{
         if(action=="eval")next->hardware.eval();
         else if(action=="tick")next->hardware.tick();
@@ -179,3 +179,16 @@ void Studio::findInProject(const QString& query){if(query.isEmpty())return;auto 
 bool Studio::closeDocument(int i){if(i<0||i>=docs_.size())return false;if(docs_[i]->dirty()){log("Save the document before closing; unsaved text is retained");return false;}auto* d=docs_.takeAt(i);d->deleteLater();active_=std::min(active_,int(docs_.size())-1);emit documentsChanged();emit activeChanged();return true;}
 void Studio::saveSession(){QJsonArray array;for(auto* d:docs_){QJsonObject o{{"path",d->path()},{"dirty",d->dirty()}};if(d->dirty()){o["text"]=d->text();o["original"]=QString::fromLatin1(d->original.toBase64());}array.append(o);}QJsonObject root{{"workspace",workspace_},{"active",active_},{"documents",array}};if(!atomicSave(sessionPath(),QJsonDocument(root).toJson()))log("Recovery save failed");}
 void Studio::recover(){if(!QFileInfo::exists(sessionPath()))return;try{auto root=QJsonDocument::fromJson(read(sessionPath())).object();auto w=root["workspace"].toString();if(QFileInfo(w).isDir())openWorkspace(QUrl::fromLocalFile(w));for(auto value:root["documents"].toArray()){auto o=value.toObject();open(QUrl::fromLocalFile(o["path"].toString()));if(current()&&current()->path()==o["path"].toString()&&o["dirty"].toBool()){current()->setText(o["text"].toString());current()->original=QByteArray::fromBase64(o["original"].toString().toLatin1());log("Recovered unsaved buffer: "+current()->path());}}setActive(root["active"].toInt());log("Session restored. Simulation is stopped; reload explicitly to execute.");}catch(const std::exception& e){log(e.what());}}
+
+void Studio::recordHardware(const QString& event){
+    QVariantMap values;
+    for(const auto& pin:hardware_.pins())values[QString::fromStdString(pin.name)]=nand::signedWord(pin.value);
+    hardwareTrace_.append(QVariantMap{{"event",event},{"time",QString::fromStdString(hardware_.getText("time"))},{"clock",hardware_.clockUp()},{"values",values}});
+    if(hardwareTrace_.size()>256)hardwareTrace_.removeFirst();
+}
+void Studio::clearHardwareTrace(){hardwareTrace_.clear();if(hardwareMode_)recordHardware("capture");emit stateChanged();}
+QString Studio::formatWord(int value,int radix)const{
+    if(radix==2)return QString::number(nand::Word(value),2).rightJustified(16,'0');
+    if(radix==16)return QString::number(nand::Word(value),16).rightJustified(4,'0').toUpper();
+    return QString::number(nand::signedWord(nand::Word(value)));
+}

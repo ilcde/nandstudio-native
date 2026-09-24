@@ -47,5 +47,7 @@ ColumnLayout {
                                 }
                             }
                             ActionButton { Layout.fillWidth: true; Layout.minimumWidth: 0; text: "Load current ASM/HACK into ROM"; enabled: !studio.busy && componentChoice.currentIndex >= 0 && studio.state.components[componentChoice.currentIndex].implementation === "ROM32K"; onClicked: studio.loadHardwareRom(studio.state.components[componentChoice.currentIndex].path) }
+                            ActionButton { text: "Clock cycle"; objectName: "hardwareCycle"; Layout.fillWidth: true; enabled: !studio.busy; onClicked: studio.hardwareActionWithInputs("cycle",inspector.inputs()) }
+                            HardwareTrace { Layout.fillWidth: true }
                             Label { text: "Load HDL explicitly replaces the running chip. Edits do not reset its state."; wrapMode: Text.WordWrap; Layout.fillWidth: true; font.pixelSize: 11; opacity: 0.65 }
                         }

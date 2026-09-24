@@ -94,12 +94,21 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
                 check(studio.hardwareValue(it.key())==it.value().toString(),QString("Eval button commits pending inputs: %1.%2").arg(test.chip,it.key()));
             check(studio.state()["hardwareTime"].toString()=="0 ",QString("Eval leaves clock unchanged: %1").arg(test.chip));
         }
+        check(studio.hardwareTrace().size()==2,"hardware history resets on chip load and records explicit Eval");
+        auto latest=studio.hardwareTrace().last().toMap();
+        check(latest["event"]=="eval"&&latest["values"].toMap()["out"]==19,"history contains actual backend pin snapshot");
+        check(findItem(window->contentItem(),"hardwareWaveform")!=nullptr,"live hardware waveform view instantiated");
+        check(studio.formatWord(-1,16)=="FFFF"&&studio.formatWord(-1,2)=="1111111111111111"&&studio.formatWord(65535,10)=="-1","numeric views preserve signed 16-bit values");
         auto* invalidInput=findItem(window->contentItem(),"pin_x");invalidInput->setProperty("text","invalid");
         click("hardwareEval");check(studio.hardwareValue("out")=="19"&&studio.hardwareValue("x")=="12","invalid pending pin input preserves prior valid state");
         studio.open(QUrl::fromLocalFile(hdlPath));QTest::qWait(30);
         click("loadHdl");check(studio.state()["hardware"].toBool()&&studio.state()["chip"]=="Ui","Load HDL button loads native hierarchy");
         auto enterPin=[&](const QString& name,const QString& value){auto* item=findItem(window->contentItem(),"pin_"+name);if(!item)throw std::runtime_error("Missing pin editor");item->forceActiveFocus();item->setProperty("text",value);QTest::keyClick(window,Qt::Key_Return);QTest::qWait(30);};
         enterPin("in","123");enterPin("load","1");check(studio.hardwareValue("in")=="123","pin editor reaches hardware backend");click("hardwareTick");check(studio.state()["clockUp"].toBool()&&studio.hardwareValue("out")=="0","Tick samples without publishing register output");click("hardwareTock");check(!studio.state()["clockUp"].toBool()&&studio.hardwareValue("out")=="123","Tock publishes register output to inspector");
+        auto history=studio.hardwareTrace();
+        check(history.size()==3&&history[1].toMap()["clock"].toBool()&&!history[2].toMap()["clock"].toBool(),"history distinguishes Tick and Tock phases");
+        check(history[1].toMap()["values"].toMap()["out"]==0&&history[2].toMap()["values"].toMap()["out"]==123,"waveform snapshots preserve sequential timing");
+        studio.clearHardwareTrace();check(studio.hardwareTrace().size()==1&&studio.hardwareValue("out")=="123","clearing history preserves simulation state");
         auto* hdlDoc=qvariant_cast<Document*>(studio.documents()[studio.active()]);hdlDoc->setText("CHIP Ui { PARTS: Missing(");check(studio.hardwareValue("out")=="123","editing does not reset running hardware");click("loadHdl");check(studio.hardwareValue("out")=="123"&&studio.state()["chip"]=="Ui","failed explicit reload preserves last valid hardware");
         window->setProperty("dark",false);QTest::qWait(30);check(!window->property("dark").toBool(),"theme changes");window->setProperty("dark",true);
         auto image=window->grabWindow();check(!image.isNull()&&image.save(QDir(dir).filePath("desktop.png")),"desktop frame rendered");

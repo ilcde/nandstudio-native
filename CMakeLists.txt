@@ -72,6 +72,7 @@ if(NAND_BUILD_GUI)
     src/app/EditorWorkspace.qml
     src/app/GoToLineDialog.qml
     src/app/HardwareInspector.qml
+    src/app/HardwareTrace.qml
     src/app/MachinePane.qml
     src/app/Main.qml
     src/app/MemoryInspector.qml
@@ -87,9 +88,11 @@ if(NAND_BUILD_GUI)
     set_target_properties(NandStudio PROPERTIES QT_ANDROID_MIN_SDK_VERSION 28 QT_ANDROID_TARGET_SDK_VERSION 36)
     target_link_options(NandStudio PRIVATE -Wl,-z,max-page-size=16384)
   endif()
-  install(TARGETS NandStudio BUNDLE DESTINATION . RUNTIME DESTINATION bin)
-  qt_generate_deploy_qml_app_script(TARGET NandStudio OUTPUT_SCRIPT deploy_script NO_UNSUPPORTED_PLATFORM_ERROR)
-  install(SCRIPT ${deploy_script})
+  install(TARGETS NandStudio BUNDLE DESTINATION . RUNTIME DESTINATION bin LIBRARY DESTINATION lib)
+  if(NOT ANDROID)
+    qt_generate_deploy_qml_app_script(TARGET NandStudio OUTPUT_SCRIPT deploy_script NO_UNSUPPORTED_PLATFORM_ERROR)
+    install(SCRIPT ${deploy_script})
+  endif()
 endif()
 install(FILES NOTICE.md DESTINATION share/nandstudio)
 install(DIRECTORY resources/hdl DESTINATION share/nandstudio)

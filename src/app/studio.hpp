@@ -46,11 +46,15 @@ class Studio : public QObject {
     Q_PROPERTY(QString lastError READ lastError NOTIFY outputChanged)
     Q_PROPERTY(QVariantList searchResults READ searchResults NOTIFY searchChanged)
     Q_PROPERTY(QVariantList diagnostics READ diagnostics NOTIFY diagnosticsChanged)
+    Q_PROPERTY(QVariantList hardwareTrace READ hardwareTrace NOTIFY stateChanged)
 public:
     Studio();~Studio()override;
     QVariantList documents()const;QVariantList files()const{return files_;}
     QString workspace()const{return workspace_;}QString output()const{return output_;}bool busy()const{return busy_;}
     QVariantMap state()const;int active()const{return active_;}void setActive(int a);
+    QVariantList hardwareTrace()const{return hardwareTrace_;}
+    Q_INVOKABLE void clearHardwareTrace();
+    Q_INVOKABLE QString formatWord(int value,int radix=10)const;
     QString lastError()const{return lastError_;}QVariantList searchResults()const{return searchResults_;}QVariantList diagnostics()const{return diagnostics_;}
     Q_INVOKABLE void open(const QUrl& url);
     Q_INVOKABLE void openWorkspace(const QUrl& url);
@@ -88,6 +92,8 @@ signals:
 private:
     Document* current()const;void recover();void saveSession();void runTest(nand::ScriptTool tool);
     std::shared_ptr<ExecutionResult> snapshot()const;
+    void recordHardware(const QString& event);
+    QVariantList hardwareTrace_;QString hardwareEvent_;
     QList<Document*> docs_;QVariantList files_;QString workspace_,output_;int active_=-1;bool busy_=false,vmMode_=false,hardwareMode_=false;
     nand::Cpu cpu_;nand::Vm vm_;nand::Hardware hardware_;QTimer recoveryTimer_;
     QTimer autosaveTimer_;QString lastError_;QVariantList searchResults_,diagnostics_;
