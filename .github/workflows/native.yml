@@ -35,7 +35,7 @@ jobs:
           "$pwd/Qt/6.11.1/msvc2022_64/bin" >> $env:GITHUB_PATH
       - name: Linux GUI dependencies
         if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y libgl1-mesa-dev libxkbcommon-dev libfontconfig1-dev libxcb-cursor0 libegl1 libopengl0 xvfb
+        run: sudo apt-get update && sudo apt-get install -y libgl1-mesa-dev libxkbcommon-dev libfontconfig1-dev libxcb-cursor0 libxkbcommon-x11-0 libxcb-icccm4 libxcb-keysyms1 libxcb-shape0 libxcb-xkb1 libegl1 libopengl0 xvfb
       - name: Configure
         run: cmake --preset desktop -DCMAKE_PREFIX_PATH=${{ github.workspace }}/Qt/6.11.1/${{ matrix.kit }}
       - run: cmake --build --preset desktop
@@ -57,6 +57,7 @@ jobs:
             python scripts/package-linux.py "$PWD/Qt/6.11.1/gcc_64" "$PWD/package"
             cd /tmp
             "$GITHUB_WORKSPACE/package/NandStudio.sh" --self-test "$GITHUB_WORKSPACE/package-test"
+            QT_QPA_PLATFORM=xcb NAND_TEST_STATE_DIR="$GITHUB_WORKSPACE/package-xcb/state" xvfb-run -a "$GITHUB_WORKSPACE/package/NandStudio.sh" --self-test "$GITHUB_WORKSPACE/package-xcb"
             cd "$GITHUB_WORKSPACE"
             ldd package/bin/NandStudio > package-test/dependencies.txt
             readelf -d package/bin/NandStudio > package-test/dynamic.txt
@@ -73,6 +74,7 @@ jobs:
             build/gui-test/dialog-overflow.json
             build/gui-test/state/qt.log
             package-test/
+            package-xcb/
             NandStudio-*.dmg
             NandStudio-*.tar.xz
   android:

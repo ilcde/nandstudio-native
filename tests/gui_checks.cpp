@@ -41,7 +41,7 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         editor->setProperty("cursorPosition",editor->property("text").toString().size());QTest::keyClick(window,Qt::Key_At);QTest::keyClick(window,Qt::Key_0);QTest::keyClick(window,Qt::Key_Return);letter(Qt::Key_M,"M");QTest::keyClick(window,Qt::Key_Equal);letter(Qt::Key_D,"D");
         QTest::qWait(30);auto* doc=qvariant_cast<Document*>(studio.documents()[studio.active()]);check(doc&&doc->dirty(),"keyboard editing marks document dirty");
         check(doc->text().endsWith("@0\nM=D"),"keyboard editing reaches C++ document");
-        QTest::keyClick(window,Qt::Key_Z,Qt::ControlModifier);QTest::qWait(20);check(!doc->text().endsWith("M=D"),"native editor undo");QTest::keyClick(window,Qt::Key_Y,Qt::ControlModifier);QTest::qWait(20);check(doc->text().endsWith("M=D"),"native editor redo");
+        QTest::keySequence(window,QKeySequence(QKeySequence::Undo));QTest::qWait(20);check(!doc->text().endsWith("M=D"),"native editor undo");QTest::keySequence(window,QKeySequence(QKeySequence::Redo));QTest::qWait(20);check(doc->text().endsWith("M=D"),"native editor redo");
         check(doc->save(),"save through document service");check(bytes(path)=="@2\r\nD=A\r\n@0\r\nM=D","preserve CRLF and final-newline state");
         doc->setText(doc->text()+"\n// buffer");check(write(path,"// external edit"),"simulate external writer");check(!doc->save(),"external change blocks overwrite");check(bytes(path)=="// external edit","external bytes unchanged");
         check(doc->resolveConflict("reload")&&doc->text()=="// external edit"&&!doc->dirty(),"conflict reload preserves reviewed disk version");
@@ -148,7 +148,7 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         auto* textDocument=editor->property("textDocument").value<QQuickTextDocument*>();
         doc->setText("let a = 1;\nlet aa = 2;\n// a\n");QTest::qWait(30);
         check(services->replaceAll(textDocument,"a","counter",true,true)==2&&doc->text().contains("let aa"),"whole-word replace all uses document model");
-        editor->forceActiveFocus();QTest::keyClick(window,Qt::Key_Z,Qt::ControlModifier);QTest::qWait(20);check(doc->text()=="let a = 1;\nlet aa = 2;\n// a\n","replace all is one undo operation");
+        editor->forceActiveFocus();QTest::keySequence(window,QKeySequence(QKeySequence::Undo));QTest::qWait(20);check(doc->text()=="let a = 1;\nlet aa = 2;\n// a\n","replace all is one undo operation");
         services->indent(textDocument,0,doc->text().size(),2,false,false);check(doc->text().startsWith("  let")&&doc->text().contains("\n  let"),"selected lines indent together");
         services->indent(textDocument,0,doc->text().size(),2,false,true);check(doc->text().startsWith("let"),"selected lines unindent together");
         services->comment(textDocument,0,doc->text().indexOf('\n'));check(doc->text().startsWith("// let"),"comment toggling uses C++ editor service");services->comment(textDocument,0,doc->text().indexOf('\n'));check(doc->text().startsWith("let"),"comment toggling reverses");
