@@ -38,6 +38,27 @@ int main() {
         check(h.get("out") == 1 - (a & b));
       }
     std::mt19937 rng(2026);
+    load("Not");
+    h.set("in", -1); h.eval();
+    check(h.get("in") == -1 && h.get("out") == 2);
+    files["SignedWire"] = "CHIP SignedWire { IN in; OUT out; PARTS: "
+                          "Not(in=in,out=n); Not(in=n,out=out); }";
+    load("SignedWire"); h.set("in", -32768); h.eval();
+    check(h.get("in") == -32768 && h.get("n") == -32767 && h.get("out") == -32768);
+    files["SlicedWire"] = "CHIP SlicedWire { IN in; OUT out[2]; PARTS: "
+                         "Not(in=in[0],out[0]=out[0],out[0]=out[1]); }";
+    load("SlicedWire"); h.set("in", -2); h.eval();
+    check(h.get("in") == -2 && h.get("out") == 3);
+    h.set("in", -1); h.eval(); check(h.get("out") == 0);
+    load("HalfAdder"); h.set("a", -1); h.set("b", 1); h.eval();
+    check(h.get("sum") == -2 && h.get("carry") == 1);
+    load("FullAdder"); h.set("a", -1); h.set("b", -1); h.set("c", -1); h.eval();
+    check(h.get("sum") == -1 && h.get("carry") == -1);
+    load("DMux"); h.set("in", -2); h.set("sel", -1); h.eval();
+    check(h.get("a") == 0 && h.get("b") == -2);
+    load("DFF"); h.set("in", -32768); h.eval();
+    check(h.get("out") == 0); h.tick(); check(h.get("out") == 0);
+    h.tock(); check(h.get("out") == -32768);
     load("ALU");
     for (int i = 0; i < 2000; ++i) {
       nand::Word x = nand::Word(rng()), y = nand::Word(rng());

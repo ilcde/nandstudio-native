@@ -14,7 +14,7 @@ AppDialog {
     contentItem: ColumnLayout {
         spacing: Theme.sm
         Label { text: dialog.prompt; color: Theme.muted; wrapMode: Text.WordWrap; Layout.fillWidth: true }
-        AppField { id: field; objectName: "pathField"; placeholderText: "Name.jack"; Layout.fillWidth: true; Layout.minimumWidth: 0; onAccepted: if(text.trim().length)dialog.submitted(text) }
+        AppField { id: field; objectName: "pathField"; placeholderText: "Name.jack"; Layout.fillWidth: true; Layout.minimumWidth: 0; Layout.maximumWidth: dialog.availableWidth; onAccepted: if(text.trim().length)dialog.submitted(text) }
         Label { text: dialog.failure; visible: text.length > 0; color: Theme.danger; wrapMode: Text.WordWrap; Layout.fillWidth: true }
     }
     footer: RowLayout {

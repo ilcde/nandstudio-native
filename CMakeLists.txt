@@ -51,6 +51,7 @@ if(NAND_BUILD_GUI)
   if(BUILD_TESTING AND NOT ANDROID)
     find_package(Qt6 6.11.1 EXACT REQUIRED COMPONENTS Test)
     target_sources(NandStudio PRIVATE tests/gui_checks.cpp)
+    target_include_directories(NandStudio PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/generated")
     target_link_libraries(NandStudio PRIVATE Qt6::Test)
     target_compile_definitions(NandStudio PRIVATE NAND_GUI_CHECKS)
     add_test(NAME gui_workflow COMMAND NandStudio --self-test ${CMAKE_CURRENT_BINARY_DIR}/gui-test)
@@ -58,7 +59,7 @@ if(NAND_BUILD_GUI)
     set_tests_properties(gui_workflow PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=offscreen;QT_QUICK_BACKEND=software;QT_PLUGIN_PATH=${qt_plugin_dir};NAND_TEST_STATE_DIR=${CMAKE_CURRENT_BINARY_DIR}/gui-test/state" TIMEOUT 30)
   endif()
   set_source_files_properties(src/app/Theme.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
-  qt_add_qml_module(NandStudio URI NandStudio VERSION 1.0 QML_FILES
+  qt_add_qml_module(NandStudio URI NandStudio VERSION 1.0 OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/qml/NandStudio" QML_FILES
     src/app/ActionButton.qml
     src/app/AppDialog.qml
     src/app/AppField.qml

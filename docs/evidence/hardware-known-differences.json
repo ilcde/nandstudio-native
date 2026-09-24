@@ -1,8 +1,8 @@
 [
   {
-    "name": "hardware-known-narrow-negative",
+    "name": "hardware-signed-Not",
     "tool": "HardwareSimulator",
-    "passed": false,
+    "passed": true,
     "outcome": "success-output-comparison",
     "java": {
       "code": 0,
@@ -17,14 +17,630 @@
     "outputs": [
       {
         "file": "probe.out",
-        "equal": false,
+        "equal": true,
         "sha256": [
-          "00c780481f35621d034b57275c73cad39ca8c6a4427a5ec562a8024f3ef5ad49",
-          "bb10d5dc8766a8813fe3d7543d895837a742d7222d9119c65e587e9abf1600e7"
+          "df159fabc60982af1d1a3bd8dfa40cb12608484c0c05fddd07bf480fd35df72d",
+          "df159fabc60982af1d1a3bd8dfa40cb12608484c0c05fddd07bf480fd35df72d"
         ]
       }
     ],
-    "release_blocker": "hardware.narrow-negative-values",
-    "explanation": "Legacy nodes retain signed short values even on one-bit pins. Native bit nets mask to declared width. This is an unresolved behavioral difference, not approved normalization."
+    "parity_feature": "hardware.narrow-negative-values",
+    "normalization": "none; output bytes compared exactly"
+  },
+  {
+    "name": "hardware-signed-Nand",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "probe.out",
+        "equal": true,
+        "sha256": [
+          "62663bb697076b58bc873792fb188db672d3260f35c74f0cbcf59d04579414d1",
+          "62663bb697076b58bc873792fb188db672d3260f35c74f0cbcf59d04579414d1"
+        ]
+      }
+    ],
+    "parity_feature": "hardware.narrow-negative-values",
+    "normalization": "none; output bytes compared exactly"
+  },
+  {
+    "name": "hardware-signed-And",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "probe.out",
+        "equal": true,
+        "sha256": [
+          "fc3a9990eb42fcaa4e18c113b1370e954290ffb2c9ce389167ba613c9e6feb09",
+          "fc3a9990eb42fcaa4e18c113b1370e954290ffb2c9ce389167ba613c9e6feb09"
+        ]
+      }
+    ],
+    "parity_feature": "hardware.narrow-negative-values",
+    "normalization": "none; output bytes compared exactly"
+  },
+  {
+    "name": "hardware-signed-Or",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "probe.out",
+        "equal": true,
+        "sha256": [
+          "d365150abee620edf46de0cea26f7158625c7f040bcb64174395b78c43bbdbb7",
+          "d365150abee620edf46de0cea26f7158625c7f040bcb64174395b78c43bbdbb7"
+        ]
+      }
+    ],
+    "parity_feature": "hardware.narrow-negative-values",
+    "normalization": "none; output bytes compared exactly"
+  },
+  {
+    "name": "hardware-signed-Xor",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "probe.out",
+        "equal": true,
+        "sha256": [
+          "3e0249306638810f1bd8d1c130679a9afdf7707f023f7a5d8832a9999a222c23",
+          "3e0249306638810f1bd8d1c130679a9afdf7707f023f7a5d8832a9999a222c23"
+        ]
+      }
+    ],
+    "parity_feature": "hardware.narrow-negative-values",
+    "normalization": "none; output bytes compared exactly"
+  },
+  {
+    "name": "hardware-signed-Mux",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "probe.out",
+        "equal": true,
+        "sha256": [
+          "113d7fb1929916eca5660b1d6c7b7ea23b0b27be5ff0c31e660db63cdaeb17ca",
+          "113d7fb1929916eca5660b1d6c7b7ea23b0b27be5ff0c31e660db63cdaeb17ca"
+        ]
+      }
+    ],
+    "parity_feature": "hardware.narrow-negative-values",
+    "normalization": "none; output bytes compared exactly"
+  },
+  {
+    "name": "hardware-signed-DMux",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "probe.out",
+        "equal": true,
+        "sha256": [
+          "2484739b386420de47d072137c364d77d5478663b37e25462f12121a21820f1b",
+          "2484739b386420de47d072137c364d77d5478663b37e25462f12121a21820f1b"
+        ]
+      }
+    ],
+    "parity_feature": "hardware.narrow-negative-values",
+    "normalization": "none; output bytes compared exactly"
+  },
+  {
+    "name": "hardware-signed-DMux4Way",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "probe.out",
+        "equal": true,
+        "sha256": [
+          "87738a90b44faaceb2a3744175e673200398cae2d61ed821c20214a3d6321ed2",
+          "87738a90b44faaceb2a3744175e673200398cae2d61ed821c20214a3d6321ed2"
+        ]
+      }
+    ],
+    "parity_feature": "hardware.narrow-negative-values",
+    "normalization": "none; output bytes compared exactly"
+  },
+  {
+    "name": "hardware-signed-DMux8Way",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "probe.out",
+        "equal": true,
+        "sha256": [
+          "2c55d99fc0dea3415c54a7e2b51e980e1b9c8410acd2bc4ff25ec42e7b3cb5f5",
+          "2c55d99fc0dea3415c54a7e2b51e980e1b9c8410acd2bc4ff25ec42e7b3cb5f5"
+        ]
+      }
+    ],
+    "parity_feature": "hardware.narrow-negative-values",
+    "normalization": "none; output bytes compared exactly"
+  },
+  {
+    "name": "hardware-signed-Mux4Way16",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "probe.out",
+        "equal": true,
+        "sha256": [
+          "c391bebf00259689e6c2b7d78787d5135b6a57252128a203fc8dd1a72cb82dd6",
+          "c391bebf00259689e6c2b7d78787d5135b6a57252128a203fc8dd1a72cb82dd6"
+        ]
+      }
+    ],
+    "parity_feature": "hardware.narrow-negative-values",
+    "normalization": "none; output bytes compared exactly"
+  },
+  {
+    "name": "hardware-signed-Mux8Way16",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "probe.out",
+        "equal": true,
+        "sha256": [
+          "e5c792b6905840b03335cd7b5ff778e1492518380ce7281e22ff8ece7ffca401",
+          "e5c792b6905840b03335cd7b5ff778e1492518380ce7281e22ff8ece7ffca401"
+        ]
+      }
+    ],
+    "parity_feature": "hardware.narrow-negative-values",
+    "normalization": "none; output bytes compared exactly"
+  },
+  {
+    "name": "hardware-signed-HalfAdder",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "probe.out",
+        "equal": true,
+        "sha256": [
+          "45801d4855a59b5d1dd1912cf945fb6ec0a68c43902a000a74d7f8330f129212",
+          "45801d4855a59b5d1dd1912cf945fb6ec0a68c43902a000a74d7f8330f129212"
+        ]
+      }
+    ],
+    "parity_feature": "hardware.narrow-negative-values",
+    "normalization": "none; output bytes compared exactly"
+  },
+  {
+    "name": "hardware-signed-FullAdder",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "probe.out",
+        "equal": true,
+        "sha256": [
+          "55118a1ec70d900e7fb704f050f17e705d3068523780600d31aa2f601456587d",
+          "55118a1ec70d900e7fb704f050f17e705d3068523780600d31aa2f601456587d"
+        ]
+      }
+    ],
+    "parity_feature": "hardware.narrow-negative-values",
+    "normalization": "none; output bytes compared exactly"
+  },
+  {
+    "name": "hardware-signed-Or8Way",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "probe.out",
+        "equal": true,
+        "sha256": [
+          "3272c808224c19fe1c08462336afeb1bd97a3d427c520480b0bf4a51e2b7ef45",
+          "3272c808224c19fe1c08462336afeb1bd97a3d427c520480b0bf4a51e2b7ef45"
+        ]
+      }
+    ],
+    "parity_feature": "hardware.narrow-negative-values",
+    "normalization": "none; output bytes compared exactly"
+  },
+  {
+    "name": "hardware-signed-ALU",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "probe.out",
+        "equal": true,
+        "sha256": [
+          "8ff768126ee38b56d3ffa187748cd4980cb2122102311f6e66422388ddc94bd7",
+          "8ff768126ee38b56d3ffa187748cd4980cb2122102311f6e66422388ddc94bd7"
+        ]
+      }
+    ],
+    "parity_feature": "hardware.narrow-negative-values",
+    "normalization": "none; output bytes compared exactly"
+  },
+  {
+    "name": "hardware-signed-DFF",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "probe.out",
+        "equal": true,
+        "sha256": [
+          "5fb2b93756840fd95767133f9a7f5d9c93bf1a31848252453e24842568d238ad",
+          "5fb2b93756840fd95767133f9a7f5d9c93bf1a31848252453e24842568d238ad"
+        ]
+      }
+    ],
+    "parity_feature": "hardware.narrow-negative-values",
+    "normalization": "none; output bytes compared exactly"
+  },
+  {
+    "name": "hardware-signed-Bit",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "probe.out",
+        "equal": true,
+        "sha256": [
+          "97f4ecb0b844e837a5a151e0bd820e0ec56d10b532f916ff2f5f822ce69820c2",
+          "97f4ecb0b844e837a5a151e0bd820e0ec56d10b532f916ff2f5f822ce69820c2"
+        ]
+      }
+    ],
+    "parity_feature": "hardware.narrow-negative-values",
+    "normalization": "none; output bytes compared exactly"
+  },
+  {
+    "name": "hardware-signed-SignedWire",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "probe.out",
+        "equal": true,
+        "sha256": [
+          "804ce4387a5288e7ae14a3c750143850a264b6bb6e5c90260408fc22d4b2581a",
+          "804ce4387a5288e7ae14a3c750143850a264b6bb6e5c90260408fc22d4b2581a"
+        ]
+      }
+    ],
+    "parity_feature": "hardware.narrow-negative-values",
+    "normalization": "none; output bytes compared exactly"
+  },
+  {
+    "name": "hardware-signed-SignedHierarchy",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "probe.out",
+        "equal": true,
+        "sha256": [
+          "804ce4387a5288e7ae14a3c750143850a264b6bb6e5c90260408fc22d4b2581a",
+          "804ce4387a5288e7ae14a3c750143850a264b6bb6e5c90260408fc22d4b2581a"
+        ]
+      }
+    ],
+    "parity_feature": "hardware.narrow-negative-values",
+    "normalization": "none; output bytes compared exactly"
+  },
+  {
+    "name": "hardware-signed-SourceSlice",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "probe.out",
+        "equal": true,
+        "sha256": [
+          "937a2a5d44229c44795e405d78dfb78effe63e6001e51ee8745cee7ee697ffa0",
+          "937a2a5d44229c44795e405d78dfb78effe63e6001e51ee8745cee7ee697ffa0"
+        ]
+      }
+    ],
+    "parity_feature": "hardware.narrow-negative-values",
+    "normalization": "none; output bytes compared exactly"
+  },
+  {
+    "name": "hardware-signed-TargetSlice",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "probe.out",
+        "equal": true,
+        "sha256": [
+          "937a2a5d44229c44795e405d78dfb78effe63e6001e51ee8745cee7ee697ffa0",
+          "937a2a5d44229c44795e405d78dfb78effe63e6001e51ee8745cee7ee697ffa0"
+        ]
+      }
+    ],
+    "parity_feature": "hardware.narrow-negative-values",
+    "normalization": "none; output bytes compared exactly"
+  },
+  {
+    "name": "hardware-signed-MergeSlice",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "probe.out",
+        "equal": true,
+        "sha256": [
+          "82ac362517bffc023c6c98ab43479788c33c96c34afc403b2c82449faa57846a",
+          "82ac362517bffc023c6c98ab43479788c33c96c34afc403b2c82449faa57846a"
+        ]
+      }
+    ],
+    "parity_feature": "hardware.narrow-negative-values",
+    "normalization": "none; output bytes compared exactly"
+  },
+  {
+    "name": "hardware-signed-ConstantSlice",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "probe.out",
+        "equal": true,
+        "sha256": [
+          "e997d73c2cbc0878e43b5c718ece1aacae73934c6519c3fca961c5f96c4f395b",
+          "e997d73c2cbc0878e43b5c718ece1aacae73934c6519c3fca961c5f96c4f395b"
+        ]
+      }
+    ],
+    "parity_feature": "hardware.narrow-negative-values",
+    "normalization": "none; output bytes compared exactly"
   }
 ]

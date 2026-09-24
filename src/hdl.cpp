@@ -213,6 +213,18 @@ using Bus = std::vector<int>;
 struct Signal {
   Bus bits;
   std::string direction;
+  int node;
+};
+// Legacy Node stores a short regardless of declared pin width. Only explicit
+// sub-bus adapters mask it. Bit connectivity remains useful for scheduling,
+// but cannot represent this observable whole-pin behavior.
+struct Wire {
+  int target;
+  int sourceLo = -1, targetLo = -1, width = 0;
+};
+struct Node {
+  Word value = 0;
+  std::vector<Wire> listeners;
 };
 struct Device {
   std::string chip, kind, path;
@@ -259,7 +271,7 @@ int parseIndex(const std::string &s) {
 struct Hardware::Impl {
   std::string name;
   std::vector<int> parent;
-  std::vector<unsigned char> values;
+  std::vector<Node> nodes;
   std::map<std::string, Signal> rootPins;
   std::vector<Device> devices;
   std::vector<int> order;
@@ -273,7 +285,6 @@ struct Hardware::Impl {
       throw Error("HDL connection resource limit exceeded");
     int n = int(parent.size());
     parent.push_back(n);
-    values.push_back(0);
     return n;
   }
   int find(int n) {
@@ -309,16 +320,41 @@ struct Hardware::Impl {
       b.push_back(net());
     return b;
   }
-  Word read(const Bus &b) const {
-    Word result = 0;
-    for (std::size_t i = 0; i < b.size(); ++i)
-      if (values[find(b[i])])
-        result = Word(result | (1u << i));
-    return result;
+  Signal signal(int width, const std::string &direction) {
+    auto bits = bus(width);
+    int id = int(nodes.size());
+    nodes.emplace_back();
+    return {std::move(bits), direction, id};
   }
-  void write(const Bus &b, Word v) {
-    for (std::size_t i = 0; i < b.size(); ++i)
-      values[find(b[i])] = static_cast<unsigned char>((v >> i) & 1u);
+  Word read(const Signal &s) const { return nodes.at(s.node).value; }
+  void writeNode(int id, Word value) {
+    struct Change { int node; Word value; int lo; int width; };
+    std::deque<Change> pending{{id, value, -1, 0}};
+    std::size_t changes = 0;
+    while (!pending.empty()) {
+      auto [n, v, lo, width] = pending.front();
+      pending.pop_front();
+      auto &node = nodes.at(n);
+      if (lo >= 0) {
+        const auto mask = (1u << width) - 1u;
+        v = Word((node.value & ~(mask << lo)) |
+                 ((std::uint32_t(v) & mask) << lo));
+      }
+      if (node.value == v)
+        continue;
+      if (++changes > 4000000)
+        throw Error("HDL wire propagation resource limit exceeded");
+      node.value = v;
+      for (auto &wire : node.listeners) {
+        const auto mask = (1u << wire.width) - 1u;
+        Word next = wire.sourceLo < 0 ? v : Word((v >> wire.sourceLo) & mask);
+        pending.push_back({wire.target, next, wire.targetLo, wire.width});
+      }
+    }
+  }
+  void write(const Signal &s, Word v) { writeNode(s.node, v); }
+  void connect(int source, int target, int sourceLo, int targetLo, int width) {
+    nodes.at(source).listeners.push_back({target, sourceLo, targetLo, width});
   }
   Declaration declaration(const std::string &chip,
                           const HdlResolver &resolver) {
@@ -368,7 +404,7 @@ struct Hardware::Impl {
     std::map<std::string, Signal> signals;
     for (const auto &p : d.pins)
       signals.emplace(p.name,
-                      Signal{bus(p.width), p.input ? "input" : "output"});
+                      signal(p.width, p.input ? "input" : "output"));
     if (!d.builtin.empty()) {
       if (!supported(d.builtin))
         throw Error("Unsupported legacy built-in extension " + d.builtin, 1, 1,
@@ -419,6 +455,8 @@ struct Hardware::Impl {
                         c.left.token.line, c.left.token.column, chip + ".hdl");
           auto lb = slice(l->second, c.left);
           Bus rb;
+          int rightNode;
+          int sourceLo = c.right.lo;
           auto &rn = c.right.name;
           bool input = l->second.direction == "input";
           if (rn == "true" || rn == "false" || rn == "clk") {
@@ -431,10 +469,13 @@ struct Hardware::Impl {
             if (rn == "clk" && lb.size() != 1)
               throw Error("Clock width must be one");
             rb.assign(lb.size(), rn == "true" ? 1 : rn == "false" ? 0 : 2);
+            rightNode = rn == "true" ? 1 : rn == "false" ? 0 : 2;
+            sourceLo = 0; // Special true is narrowed to the connected width.
           } else {
             if (!signals.contains(rn))
-              signals.emplace(rn, Signal{bus(int(lb.size())), "internal"});
+              signals.emplace(rn, signal(int(lb.size()), "internal"));
             auto &right = signals.at(rn);
+            rightNode = right.node;
             if (right.direction == "internal" && c.right.lo >= 0)
               throw Error(rn + ": sub bus of an internal node may not be used",
                           c.right.token.line, c.right.token.column);
@@ -464,6 +505,10 @@ struct Hardware::Impl {
                         c.right.token.line, c.right.token.column);
           for (std::size_t i = 0; i < lb.size(); ++i)
             join(lb[i], rb[i]);
+          if (input)
+            connect(rightNode, l->second.node, sourceLo, c.left.lo, int(lb.size()));
+          else
+            connect(l->second.node, rightNode, c.left.lo, c.right.lo, int(lb.size()));
         }
       }
       for (auto &[n, s] : signals)
@@ -520,26 +565,25 @@ struct Hardware::Impl {
       for (auto &[n, s] : d.pins)
         for (auto &bit : s.bits)
           bit = find(bit);
-    values[find(0)] = 0;
-    values[find(1)] = 1;
-    values[find(2)] = 1;
+    writeNode(1, 65535);
+    writeNode(2, 1);
   }
   Word input(const Device &d, const std::string &pin) const {
     auto i = d.pins.find(d.roles.contains(pin) ? d.roles.at(pin) : pin);
     if (i == d.pins.end())
       throw Error("Built-in " + d.kind + " requires pin " + pin);
-    return read(i->second.bits);
+    return read(i->second);
   }
   void output(Device &d, const std::string &pin, Word value) {
     auto i = d.pins.find(d.roles.contains(pin) ? d.roles.at(pin) : pin);
     if (i == d.pins.end())
       throw Error("Built-in " + d.kind + " requires pin " + pin);
-    write(i->second.bits, value);
+    write(i->second, value);
   }
   void compute(Device &d, bool force = false) {
     std::vector<Word> inputs;
     for (auto &n : d.inputs)
-      inputs.push_back(read(d.pins.at(n).bits));
+      inputs.push_back(read(d.pins.at(n)));
     if (!force && !d.dirty && inputs == d.lastInputs)
       return;
     d.lastInputs = inputs;
@@ -574,35 +618,39 @@ struct Hardware::Impl {
     else if (k == "Mux4Way16" || k == "Mux8Way16") {
       int count = k == "Mux4Way16" ? 4 : 8;
       auto sel = in("sel");
-      if (sel >= count)
-        throw Error("Invalid multiplexer selection");
-      out(in(std::string(1, char('a' + sel))));
-    } else if (k == "DMux" || k == "DMux4Way" || k == "DMux8Way") {
-      int count = k == "DMux" ? 2 : k == "DMux4Way" ? 4 : 8;
+      out(sel < count ? in(std::string(1, char('a' + sel))) : 0);
+    } else if (k == "DMux") {
+      output(d, "a", in("sel") == 0 ? in("in") : 0);
+      output(d, "b", in("sel") == 0 ? 0 : in("in"));
+    } else if (k == "DMux4Way" || k == "DMux8Way") {
+      int count = k == "DMux4Way" ? 4 : 8;
       for (int n = 0; n < count; ++n)
         output(d, std::string(1, char('a' + n)), n == in("sel") ? in("in") : 0);
     } else if (k == "Or8Way")
       out(in("in") != 0 ? 1 : 0);
-    else if (k == "HalfAdder" || k == "FullAdder") {
-      int sum = in("a") + in("b") + (k == "FullAdder" ? in("c") : 0);
-      output(d, "sum", Word(sum & 1));
-      output(d, "carry", Word((sum >> 1) & 1));
+    else if (k == "HalfAdder") {
+      output(d, "sum", Word(in("a") ^ in("b")));
+      output(d, "carry", Word(in("a") & in("b")));
+    } else if (k == "FullAdder") {
+      int sum = signedWord(Word(std::uint32_t(in("a")) + in("b") + in("c")));
+      output(d, "sum", Word(sum % 2));
+      output(d, "carry", Word(sum / 2));
     } else if (k == "Add16")
       out(Word(std::uint32_t(in("a")) + in("b")));
     else if (k == "Inc16")
       out(Word(std::uint32_t(in("in")) + 1));
     else if (k == "ALU") {
       Word x = in("x"), y = in("y");
-      if (in("zx"))
+      if (in("zx") == 1)
         x = 0;
-      if (in("nx"))
+      if (in("nx") == 1)
         x = Word(~x);
-      if (in("zy"))
+      if (in("zy") == 1)
         y = 0;
-      if (in("ny"))
+      if (in("ny") == 1)
         y = Word(~y);
-      Word result = in("f") ? Word(std::uint32_t(x) + y) : Word(x & y);
-      if (in("no"))
+      Word result = in("f") == 1 ? Word(std::uint32_t(x) + y) : Word(x & y);
+      if (in("no") == 1)
         result = Word(~result);
       out(result);
       output(d, "zr", result == 0 ? 1 : 0);
@@ -644,6 +692,7 @@ void Hardware::load(const std::string &chip, const HdlResolver &resolver,
   next->net();
   next->net();
   next->net();
+  next->nodes.resize(3);
   next->rootPins = next->instantiate(chip, chip, resolver, cancelled);
   next->schedule();
   if (cancelled && cancelled())
@@ -672,7 +721,7 @@ void Hardware::tick() {
     throw Error("No chip loaded");
   if (impl_->up)
     throw Error("Illegal command since clock is already up");
-  impl_->values[impl_->find(2)] = 0;
+  impl_->writeNode(2, 0);
   impl_->eval();
   // Inputs settle before sampling. Sequential outputs remain unchanged until
   // tock.
@@ -702,7 +751,7 @@ void Hardware::tock() {
     throw Error("No chip loaded");
   if (!impl_->up)
     throw Error("Illegal command since clock is already down");
-  impl_->values[impl_->find(2)] = 1;
+  impl_->writeNode(2, 1);
   for (int i : impl_->order) {
     auto &d = impl_->devices[i];
     if (reg(d.kind))
@@ -717,8 +766,7 @@ std::uint64_t Hardware::time() const { return impl_->time; }
 int Hardware::get(const std::string &n) const {
   auto p = impl_->rootPins.find(n);
   if (p != impl_->rootPins.end()) {
-    auto v = impl_->read(p->second.bits);
-    return p->second.bits.size() == 16 ? signedWord(v) : int(v);
+    return signedWord(impl_->read(p->second));
   }
   auto b = n.rfind('[');
   if (b == n.npos || !n.ends_with("]"))
@@ -749,7 +797,7 @@ void Hardware::set(const std::string &n, int v) {
       throw Error("Read Only variable: " + n);
     if (v >= 0 && std::uint32_t(v) > ((1u << p->second.bits.size()) - 1u))
       throw Error("Value doesn't fit in the pin's width: " + n);
-    impl_->write(p->second.bits, Word(v));
+    impl_->write(p->second, Word(v));
     return;
   }
   auto b = n.rfind('[');
@@ -805,7 +853,7 @@ std::vector<Word> Hardware::screen() const {
 std::vector<HdlPin> Hardware::pins() const {
   std::vector<HdlPin> out;
   for (auto &[n, p] : impl_->rootPins)
-    out.push_back({n, p.direction, int(p.bits.size()), impl_->read(p.bits)});
+    out.push_back({n, p.direction, int(p.bits.size()), impl_->read(p)});
   return out;
 }
 std::vector<HdlComponent> Hardware::components() const {
@@ -814,7 +862,7 @@ std::vector<HdlComponent> Hardware::components() const {
     HdlComponent c{d.path, d.chip, d.kind, d.memory.size(), {}};
     for (auto &[n, p] : d.pins)
       c.pins.push_back(
-          {n, p.direction, int(p.bits.size()), impl_->read(p.bits)});
+          {n, p.direction, int(p.bits.size()), impl_->read(p)});
     out.push_back(std::move(c));
   }
   return out;

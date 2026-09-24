@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "app/studio.hpp"
 #include "app/editor_services.hpp"
+#include "builtin_hdl.hpp"
 #include <QQmlContext>
 #include <QQuickTextDocument>
 #include <QQmlApplicationEngine>
@@ -54,6 +55,47 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         auto andPath=QDir(dir).filePath("And.hdl");write(andPath,"CHIP And { IN a,b; OUT out; BUILTIN And; }");studio.open(QUrl::fromLocalFile(andPath));QTest::qWait(30);click("loadHdl");
         for(auto name:{"a","b"}){auto* input=findItem(window->contentItem(),QString("pin_")+name);input->forceActiveFocus();QTest::keyClick(window,Qt::Key_A,Qt::ControlModifier);QTest::keyClick(window,Qt::Key_1);}
         click("hardwareEval");check(studio.hardwareValue("out")=="1","Eval commits typed input fields without Return and evaluates And");
+        struct EvalCase { const char* chip; QVariantMap inputs; QVariantMap outputs; };
+        const std::vector<EvalCase> evalCases={
+            {"Nand",{{"a",1},{"b",1}},{{"out",0}}},
+            {"Not",{{"in",-1}},{{"out",2}}},
+            {"And",{{"a",1},{"b",1}},{{"out",1}}},
+            {"Or",{{"a",0},{"b",1}},{{"out",1}}},
+            {"Xor",{{"a",1},{"b",1}},{{"out",0}}},
+            {"Mux",{{"a",0},{"b",1},{"sel",1}},{{"out",1}}},
+            {"DMux",{{"in",1},{"sel",1}},{{"a",0},{"b",1}}},
+            {"Not16",{{"in",123}},{{"out",-124}}},
+            {"And16",{{"a",15},{"b",6}},{{"out",6}}},
+            {"Or16",{{"a",8},{"b",3}},{{"out",11}}},
+            {"Mux16",{{"a",8},{"b",3},{"sel",1}},{{"out",3}}},
+            {"Or8Way",{{"in",128}},{{"out",1}}},
+            {"Mux4Way16",{{"a",1},{"b",2},{"c",3},{"d",4},{"sel",2}},{{"out",3}}},
+            {"Mux8Way16",{{"h",123},{"sel",7}},{{"out",123}}},
+            {"DMux4Way",{{"in",1},{"sel",2}},{{"a",0},{"b",0},{"c",1},{"d",0}}},
+            {"DMux8Way",{{"in",1},{"sel",7}},{{"a",0},{"h",1}}},
+            {"HalfAdder",{{"a",1},{"b",1}},{{"sum",0},{"carry",1}}},
+            {"FullAdder",{{"a",1},{"b",1},{"c",1}},{{"sum",1},{"carry",1}}},
+            {"Add16",{{"a",32767},{"b",1}},{{"out",-32768}}},
+            {"Inc16",{{"in",-1}},{{"out",0}}},
+            {"ALU",{{"x",12},{"y",7},{"f",1}},{{"out",19},{"zr",0},{"ng",0}}}
+        };
+        for(const auto& test:evalCases){
+            QString file=QDir(dir).filePath(QString(test.chip)+".hdl");
+            for(auto [name,source]:nand::builtinHdl)if(name==test.chip)write(file,QByteArray(source.data(),qsizetype(source.size())));
+            studio.open(QUrl::fromLocalFile(file));QTest::qWait(15);click("loadHdl");
+            for(auto it=test.inputs.cbegin();it!=test.inputs.cend();++it){
+                auto* field=findItem(window->contentItem(),"pin_"+it.key());
+                if(!field)throw std::runtime_error("Missing input for "+std::string(test.chip));
+                field->forceActiveFocus();QTest::keyClick(window,Qt::Key_A,Qt::ControlModifier);
+                for(auto character:it.value().toString())QTest::keyClick(window,Qt::Key(character.unicode()));
+            }
+            click("hardwareEval");
+            for(auto it=test.outputs.cbegin();it!=test.outputs.cend();++it)
+                check(studio.hardwareValue(it.key())==it.value().toString(),QString("Eval button commits pending inputs: %1.%2").arg(test.chip,it.key()));
+            check(studio.state()["hardwareTime"].toString()=="0 ",QString("Eval leaves clock unchanged: %1").arg(test.chip));
+        }
+        auto* invalidInput=findItem(window->contentItem(),"pin_x");invalidInput->setProperty("text","invalid");
+        click("hardwareEval");check(studio.hardwareValue("out")=="19"&&studio.hardwareValue("x")=="12","invalid pending pin input preserves prior valid state");
         studio.open(QUrl::fromLocalFile(hdlPath));QTest::qWait(30);
         click("loadHdl");check(studio.state()["hardware"].toBool()&&studio.state()["chip"]=="Ui","Load HDL button loads native hierarchy");
         auto enterPin=[&](const QString& name,const QString& value){auto* item=findItem(window->contentItem(),"pin_"+name);if(!item)throw std::runtime_error("Missing pin editor");item->forceActiveFocus();item->setProperty("text",value);QTest::keyClick(window,Qt::Key_Return);QTest::qWait(30);};
@@ -71,6 +113,10 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
                 auto* popup=field->parentItem();while(popup&&!QString(popup->metaObject()->className()).contains("PopupItem"))popup=popup->parentItem();check(popup!=nullptr,"file dialog surface exists");
                 auto bounds=popup->mapRectToScene(QRectF(0,0,popup->width(),popup->height()));auto child=field->mapRectToScene(QRectF(0,0,field->width(),field->height()));
                 auto label=QString("%1x%2 scale %3").arg(size.width()).arg(size.height()).arg(scale);
+                if(!bounds.contains(child)){
+                    window->grabWindow().save(QDir(dir).filePath("dialog-overflow.png"));
+                    write(QDir(dir).filePath("dialog-overflow.json"),QJsonDocument(QJsonObject{{"size",label},{"popupX",bounds.x()},{"popupY",bounds.y()},{"popupWidth",bounds.width()},{"popupHeight",bounds.height()},{"fieldX",child.x()},{"fieldY",child.y()},{"fieldWidth",child.width()},{"fieldHeight",child.height()}}).toJson());
+                }
                 check(bounds.contains(child),"filename field within dialog "+label);
                 check(QRectF(0,0,window->width(),window->height()).contains(bounds),"dialog within window "+label);
                 for(auto name:{"pathCancel","pathSubmit"}){auto* button=findItem(window->contentItem(),name);check(button&&bounds.contains(button->mapRectToScene(QRectF(0,0,button->width(),button->height()))),QString(name)+" within dialog "+label);}
