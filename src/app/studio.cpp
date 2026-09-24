@@ -121,7 +121,8 @@ void Studio::key(int value){keyboard_=value;if(!busy_){hardware_.keyboard(nand::
 QVariantMap Studio::state()const{
     QVariantList pins,parts;for(auto& p:hardware_.pins())pins.append(QVariantMap{{"name",QString::fromStdString(p.name)},{"direction",QString::fromStdString(p.direction)},{"width",p.width},{"value",nand::signedWord(p.value)}});
     for(auto& p:hardware_.components()){QVariantList partPins;for(auto& pin:p.pins)partPins.append(QVariantMap{{"name",QString::fromStdString(pin.name)},{"direction",QString::fromStdString(pin.direction)},{"value",nand::signedWord(pin.value)}});parts.append(QVariantMap{{"path",QString::fromStdString(p.path)},{"chip",QString::fromStdString(p.chip)},{"implementation",QString::fromStdString(p.implementation)},{"words",qulonglong(p.words)},{"pins",partPins}});}
-    return {{"mode",hardwareMode_?"Hardware Simulator":vmMode_?"VM Emulator":"CPU Emulator"},{"hardware",hardwareMode_},{"chip",QString::fromStdString(hardware_.name())},{"pins",pins},{"components",parts},{"clockUp",hardware_.clockUp()},{"hardwareTime",QString::fromStdString(hardware_.getText("time"))},{"A",nand::signedWord(cpu_.a)},{"D",nand::signedWord(cpu_.d)},{"PC",vmMode_?int(vm_.pc):int(cpu_.pc)},{"SP",vm_.ram[0]},{"time",qulonglong(vmMode_?vm_.time:cpu_.time)}};
+    QVariantList hierarchy;for(const auto& item:hardware_.hierarchy())hierarchy.append(QVariantMap{{"path",QString::fromStdString(item.path)},{"chip",QString::fromStdString(item.chip)},{"builtin",item.builtin}});
+    return {{"hierarchy",hierarchy},{"mode",hardwareMode_?"Hardware Simulator":vmMode_?"VM Emulator":"CPU Emulator"},{"hardware",hardwareMode_},{"chip",QString::fromStdString(hardware_.name())},{"pins",pins},{"components",parts},{"clockUp",hardware_.clockUp()},{"hardwareTime",QString::fromStdString(hardware_.getText("time"))},{"A",nand::signedWord(cpu_.a)},{"D",nand::signedWord(cpu_.d)},{"PC",vmMode_?int(vm_.pc):int(cpu_.pc)},{"SP",vm_.ram[0]},{"time",qulonglong(vmMode_?vm_.time:cpu_.time)}};
 }
 QImage Studio::screen()const{QImage image(512,256,QImage::Format_RGB32);const auto& ram=vmMode_?vm_.ram:cpu_.ram;auto hardwareScreen=hardwareMode_?hardware_.screen():std::vector<nand::Word>{};for(int y=0;y<256;++y){auto* row=reinterpret_cast<QRgb*>(image.scanLine(y));for(int x=0;x<512;++x){int offset=y*32+x/16;auto word=hardwareMode_?(hardwareScreen.empty()?0:hardwareScreen[offset]):ram[16384+offset];row[x]=(word&(1u<<(x%16)))?qRgb(23,29,38):qRgb(234,241,225);}}return image;}
 void Studio::test(bool vm){runTest(vm?nand::ScriptTool::Vm:nand::ScriptTool::Cpu);}
@@ -191,4 +192,33 @@ QString Studio::formatWord(int value,int radix)const{
     if(radix==2)return QString::number(nand::Word(value),2).rightJustified(16,'0');
     if(radix==16)return QString::number(nand::Word(value),16).rightJustified(4,'0').toUpper();
     return QString::number(nand::signedWord(nand::Word(value)));
+}
+
+QVariantMap Studio::hardwareDiagram(const QString& selected)const{
+    QString path=selected.isEmpty()?QString::fromStdString(hardware_.name()):selected;
+    QVariantList blocks,connections;QMap<QString,QPointF> endpoints;int nextY=12;
+    for(const auto& instance:hardware_.hierarchy()){
+        QString name=QString::fromStdString(instance.path);
+        bool parent=name==path;
+        if(!parent&&name.section('/',0,-2)!=path)continue;
+        int x=parent?12:330,y=parent?12:nextY,height=40+int(instance.pins.size())*24;
+        QVariantList pins;int row=0;
+        for(const auto& pin:instance.pins){
+            QString key=name+"."+QString::fromStdString(pin.name);
+            int py=y+42+row++*24;int px=parent?252:330;
+            endpoints[key]=QPointF(px,py);
+            pins.append(QVariantMap{{"name",QString::fromStdString(pin.name)},{"direction",QString::fromStdString(pin.direction)},{"width",pin.width},{"value",nand::signedWord(pin.value)},{"y",py}});
+        }
+        blocks.append(QVariantMap{{"path",name},{"name",parent?name:name.section('/',-1)},{"builtin",instance.builtin},{"x",x},{"y",y},{"width",240},{"height",height},{"pins",pins}});
+        if(!parent)nextY+=height+24;
+    }
+    int diagramHeight=120;
+    for(const auto& value:blocks){auto block=value.toMap();diagramHeight=std::max(diagramHeight,block["y"].toInt()+block["height"].toInt()+16);}
+    for(const auto& wire:hardware_.wires()){
+        QString source=QString::fromStdString(wire.source),target=QString::fromStdString(wire.target);
+        if(!endpoints.contains(source)||!endpoints.contains(target))continue;
+        auto from=endpoints[source],to=endpoints[target];
+        connections.append(QVariantMap{{"source",source},{"target",target},{"x1",from.x()},{"y1",from.y()},{"x2",to.x()},{"y2",to.y()},{"sourceLo",wire.sourceLo},{"targetLo",wire.targetLo},{"width",wire.width},{"value",nand::signedWord(wire.value)}});
+    }
+    return {{"blocks",blocks},{"wires",connections},{"width",590},{"height",diagramHeight}};
 }

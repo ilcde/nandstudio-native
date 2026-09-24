@@ -103,6 +103,9 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         click("hardwareEval");check(studio.hardwareValue("out")=="19"&&studio.hardwareValue("x")=="12","invalid pending pin input preserves prior valid state");
         studio.open(QUrl::fromLocalFile(hdlPath));QTest::qWait(30);
         click("loadHdl");check(studio.state()["hardware"].toBool()&&studio.state()["chip"]=="Ui","Load HDL button loads native hierarchy");
+        auto diagram=studio.hardwareDiagram("Ui");
+        check(diagram["blocks"].toList().size()==2&&diagram["wires"].toList().size()==3,"diagram uses actual composite and Register connections");
+        check(findItem(window->contentItem(),"hardwareDiagram")!=nullptr,"hierarchical connection visualization reachable");
         auto enterPin=[&](const QString& name,const QString& value){auto* item=findItem(window->contentItem(),"pin_"+name);if(!item)throw std::runtime_error("Missing pin editor");item->forceActiveFocus();item->setProperty("text",value);QTest::keyClick(window,Qt::Key_Return);QTest::qWait(30);};
         enterPin("in","123");enterPin("load","1");check(studio.hardwareValue("in")=="123","pin editor reaches hardware backend");click("hardwareTick");check(studio.state()["clockUp"].toBool()&&studio.hardwareValue("out")=="0","Tick samples without publishing register output");click("hardwareTock");check(!studio.state()["clockUp"].toBool()&&studio.hardwareValue("out")=="123","Tock publishes register output to inspector");
         auto history=studio.hardwareTrace();

@@ -124,6 +124,12 @@ int main() {
     h.set("in", 1);
     h.eval();
     check(h.get("out") == 1 && h.get("a") == 0);
+    check(h.hierarchy().size()==5 && h.wires().size()==10);
+    bool foundInternal=false;
+    for(const auto& wire:h.wires())
+      if(wire.source=="Chain.a" && wire.target=="Chain/Invert[1].in")
+        foundInternal=wire.value==0&&wire.width==1&&wire.sourceLo==-1;
+    check(foundInternal);
     auto copy = h;
     copy.set("in", 0);
     copy.eval();

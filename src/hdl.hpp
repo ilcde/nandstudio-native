@@ -14,6 +14,16 @@ struct HdlComponent {
   std::size_t words;
   std::vector<HdlPin> pins;
 };
+struct HdlInstance {
+  std::string path, chip;
+  bool builtin;
+  std::vector<HdlPin> pins;
+};
+struct HdlWire {
+  std::string source, target;
+  int sourceLo, targetLo, width;
+  Word value;
+};
 // A resolver supplies project-local source, or nullopt to select the embedded
 // built-in. URI-based storage can implement this without exposing a filesystem
 // path to the engine.
@@ -45,6 +55,8 @@ public:
   std::vector<Word> screen() const;
   std::vector<HdlPin> pins() const;
   std::vector<HdlComponent> components() const;
+  std::vector<HdlInstance> hierarchy() const;
+  std::vector<HdlWire> wires() const;
   static std::vector<std::string> builtins();
 
 private:

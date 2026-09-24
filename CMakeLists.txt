@@ -45,15 +45,22 @@ if(BUILD_TESTING AND NOT ANDROID)
 endif()
 if(NAND_BUILD_GUI)
   find_package(Qt6 6.11.1 EXACT REQUIRED COMPONENTS Quick QuickControls2 Concurrent)
-  if(ANDROID AND TARGET GLESv2::GLESv2)
+  if(ANDROID)
     # Qt's GLES finder exports the NDK C sysroot as an explicit -isystem path.
     # That moves C headers ahead of libc++ wrappers. Clang already searches
     # this directory via --sysroot; remove only this redundant imported path.
-    get_target_property(gles_includes GLESv2::GLESv2 INTERFACE_INCLUDE_DIRECTORIES)
-    if(gles_includes)
-      list(REMOVE_ITEM gles_includes "${CMAKE_SYSROOT}/usr/include")
-      set_property(TARGET GLESv2::GLESv2 PROPERTY INTERFACE_INCLUDE_DIRECTORIES "${gles_includes}")
-    endif()
+    get_property(android_imports DIRECTORY PROPERTY IMPORTED_TARGETS)
+    foreach(imported IN LISTS android_imports)
+      get_target_property(import_includes ${imported} INTERFACE_INCLUDE_DIRECTORIES)
+      if(import_includes)
+        set(clean_includes "${import_includes}")
+        list(FILTER clean_includes EXCLUDE REGEX "/sysroot/usr/include/?$")
+        if(NOT "${clean_includes}" STREQUAL "${import_includes}")
+          message(STATUS "Removing redundant NDK C include from ${imported}: ${import_includes}")
+          set_property(TARGET ${imported} PROPERTY INTERFACE_INCLUDE_DIRECTORIES "${clean_includes}")
+        endif()
+      endif()
+    endforeach()
   endif()
   qt_standard_project_setup(REQUIRES 6.11)
   qt_add_executable(NandStudio src/app/main.cpp src/app/studio.cpp src/app/studio.hpp src/app/editor_services.cpp src/app/editor_services.hpp src/app/storage.cpp src/app/storage.hpp)
@@ -83,6 +90,7 @@ if(NAND_BUILD_GUI)
     src/app/GoToLineDialog.qml
     src/app/HardwareInspector.qml
     src/app/HardwareTrace.qml
+    src/app/HardwareDiagram.qml
     src/app/MachinePane.qml
     src/app/Main.qml
     src/app/MemoryInspector.qml

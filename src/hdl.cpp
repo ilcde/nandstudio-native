@@ -274,6 +274,9 @@ struct Hardware::Impl {
   std::vector<Node> nodes;
   std::map<std::string, Signal> rootPins;
   std::vector<Device> devices;
+  struct Instance {std::string path, chip; bool builtin; std::map<std::string, Signal> pins;};
+  std::vector<Instance> instances;
+  std::map<int, std::string> nodeNames{{0,"false"},{1,"true"},{2,"clk"}};
   std::vector<int> order;
   std::map<std::string, Declaration> declarations;
   std::vector<std::string> loading;
@@ -515,6 +518,9 @@ struct Hardware::Impl {
         if (s.direction == "internal" && !driven.contains(n))
           throw Error(n + " has no source pin", 1, 1, chip + ".hdl");
     }
+    for (auto &[pin, signal] : signals)
+      nodeNames[signal.node] = path + "." + pin;
+    instances.push_back({path, chip, !d.builtin.empty(), signals});
     loading.pop_back();
     return signals;
   }
@@ -872,5 +878,27 @@ std::vector<std::string> Hardware::builtins() {
   for (auto [n, s] : builtinHdl)
     out.emplace_back(n);
   return out;
+}
+std::vector<HdlInstance> Hardware::hierarchy() const {
+  std::vector<HdlInstance> result;
+  for (const auto &instance : impl_->instances) {
+    HdlInstance item{instance.path, instance.chip, instance.builtin, {}};
+    for (const auto &[name, signal] : instance.pins)
+      item.pins.push_back({name, signal.direction, int(signal.bits.size()), impl_->read(signal)});
+    result.push_back(std::move(item));
+  }
+  std::sort(result.begin(),result.end(),[](const auto& a,const auto& b){return a.path<b.path;});
+  return result;
+}
+std::vector<HdlWire> Hardware::wires() const {
+  std::vector<HdlWire> result;
+  for (std::size_t source=0;source<impl_->nodes.size();++source)
+    for (const auto &wire : impl_->nodes[source].listeners) {
+      const Word value=impl_->nodes[source].value;
+      result.push_back({impl_->nodeNames.at(int(source)),impl_->nodeNames.at(wire.target),
+                        wire.sourceLo,wire.targetLo,wire.width,
+                        wire.sourceLo<0?value:Word((value>>wire.sourceLo)&((1u<<wire.width)-1u))});
+    }
+  return result;
 }
 } // namespace nand
