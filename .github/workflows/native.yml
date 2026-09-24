@@ -123,8 +123,11 @@ jobs:
         run: sh scripts/build-android.sh ${{ matrix.abi }}
       - name: Verify APK native alignment
         run: |
-          find build-android-${{ matrix.abi }} -name '*.apk' -exec python scripts/check_android_package.py '{}' \;
-          find build-android-${{ matrix.abi }} -name '*.apk' -exec "$ANDROID_SDK_ROOT/build-tools/36.0.0/zipalign" -c -P 16 -v 4 '{}' \;
+          set -euo pipefail
+          while IFS= read -r -d '' apk; do
+            python scripts/check_android_package.py "$apk"
+            "$ANDROID_SDK_ROOT/build-tools/36.0.0/zipalign" -c -P 16 -v 4 "$apk"
+          done < <(find build-android-${{ matrix.abi }} -name '*.apk' -print0)
           "$ANDROID_SDK_ROOT/build-tools/36.0.0/apksigner" verify build-android-${{ matrix.abi }}/android-build/build/outputs/apk/debug/android-build-debug.apk
       - uses: actions/upload-artifact@v4.6.2
         with:
