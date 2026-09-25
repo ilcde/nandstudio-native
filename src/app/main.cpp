@@ -49,7 +49,8 @@ int main(int argc,char** argv){
     // Device-test entry point: uses a fixed app-private report path, never an
     // arbitrary path supplied by another Android application.
     if(QNativeInterface::QAndroidApplication::isActivityContext()){
-        auto intent=QNativeInterface::QAndroidApplication::context().callObjectMethod("getIntent","()Landroid/content/Intent;");
+        QJniObject activity=QNativeInterface::QAndroidApplication::context();
+        auto intent=activity.callObjectMethod("getIntent","()Landroid/content/Intent;");
         auto key=QJniObject::fromString("nandstudio.layoutCheck");
         if(intent.isValid()&&intent.callMethod<jboolean>("getBooleanExtra","(Ljava/lang/String;Z)Z",key.object<jstring>(),jboolean(false)))
             arguments << "--layout-report" << QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)+"/layout-report.json";
