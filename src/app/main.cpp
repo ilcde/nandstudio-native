@@ -29,7 +29,7 @@ int main(int argc,char** argv){
         qInstallMessageHandler([](QtMsgType,const QMessageLogContext&,const QString& text){QFile f(qEnvironmentVariable("NAND_TEST_STATE_DIR")+"/qt.log");if(f.open(QIODevice::Append)){f.write(text.toUtf8());f.write("\n");}});
     }
     qInfo("Creating application");
-    QGuiApplication app(argc,argv);app.setOrganizationName("NandStudio");app.setApplicationName("NandStudio");
+    QGuiApplication app(argc,argv);app.setOrganizationName("NandStudio");app.setApplicationName("NandStudio");app.setApplicationVersion(NAND_VERSION);
 #ifdef Q_OS_WIN
     if(!testDir.isEmpty()){QFontDatabase::addApplicationFont("C:/Windows/Fonts/segoeui.ttf");QFontDatabase::addApplicationFont("C:/Windows/Fonts/consola.ttf");}
 #endif
@@ -54,12 +54,17 @@ int main(int argc,char** argv){
         auto key=QJniObject::fromString("nandstudio.layoutCheck");
         if(intent.isValid()&&intent.callMethod<jboolean>("getBooleanExtra","(Ljava/lang/String;Z)Z",key.object<jstring>(),jboolean(false)))
             arguments << "--layout-report" << QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)+"/layout-report.json";
+        key=QJniObject::fromString("nandstudio.interactionCheck");
+        if(intent.isValid()&&intent.callMethod<jboolean>("getBooleanExtra","(Ljava/lang/String;Z)Z",key.object<jstring>(),jboolean(false)))
+            arguments << "--layout-report" << QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)+"/menu-report.json" << "--menu-check";
     }
 #endif
     if(arguments.contains("--layout-report")){
         const int at=arguments.indexOf("--layout-report");if(at+1>=arguments.size())return 2;
         const auto destination=arguments[at+1];
-        QTimer::singleShot(1500,&app,[&app,&engine,destination]{
+        const bool menuCheck=arguments.contains("--menu-check");
+        auto* reportTimer=new QTimer(&app);reportTimer->setInterval(menuCheck?300:1500);reportTimer->setSingleShot(!menuCheck);
+        QObject::connect(reportTimer,&QTimer::timeout,&app,[&app,&engine,destination,menuCheck]{
             auto* window=qobject_cast<QQuickWindow*>(engine.rootObjects().first());
             if(!window){QCoreApplication::exit(1);return;}
             const auto margins=window->safeAreaMargins();
@@ -71,12 +76,19 @@ int main(int argc,char** argv){
                 const bool inside=item&&item->isVisible()&&!rect.isEmpty()&&usable.contains(rect);passed&=inside;
                 controls.append(QJsonObject{{"name",name},{"x",rect.x()},{"y",rect.y()},{"width",rect.width()},{"height",rect.height()},{"inside_safe_area",inside}});
             }
-            QJsonObject report{{"platform",QGuiApplication::platformName()},{"width",window->width()},{"height",window->height()},{"safe_top",margins.top()},{"safe_bottom",margins.bottom()},{"safe_left",margins.left()},{"safe_right",margins.right()},{"controls",controls},{"passed",passed}};
+            QJsonArray menuItems;
+            for(auto name:{"openWorkspaceMenuItem","openFileMenuItem","findReplaceMenuItem","settingsMenuItem"}){
+                auto* item=window->findChild<QQuickItem*>(name);if(!item||!item->isVisible())continue;
+                const auto rect=item->mapRectToScene(QRectF(0,0,item->width(),item->height()));
+                menuItems.append(QJsonObject{{"name",name},{"x",rect.x()},{"y",rect.y()},{"width",rect.width()},{"height",rect.height()},{"inside_safe_area",usable.contains(rect)}});
+            }
+            auto* folder=window->findChild<QObject*>("workspaceFolderDialog");
+            QJsonObject report{{"platform",QGuiApplication::platformName()},{"width",window->width()},{"height",window->height()},{"device_pixel_ratio",window->devicePixelRatio()},{"safe_top",margins.top()},{"safe_bottom",margins.bottom()},{"safe_left",margins.left()},{"safe_right",margins.right()},{"controls",controls},{"menu_items",menuItems},{"folder_dialog_visible",folder&&folder->property("visible").toBool()},{"passed",passed}};
             QDir().mkpath(QFileInfo(destination).absolutePath());QFile file(destination);
             if(!file.open(QIODevice::WriteOnly)||file.write(QJsonDocument(report).toJson())<0)passed=false;
-            qInfo("Toolbar safe-area check: %s (top=%d)",passed?"passed":"FAILED",margins.top());
-            QCoreApplication::exit(passed?0:1);
+            if(!menuCheck){qInfo("Toolbar safe-area check: %s (top=%d)",passed?"passed":"FAILED",margins.top());QCoreApplication::exit(passed?0:1);}
         });
+        reportTimer->start();
         return app.exec();
     }
 #ifdef NAND_GUI_CHECKS

@@ -183,7 +183,14 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         editor->forceActiveFocus();QTest::keySequence(window,QKeySequence::Undo);QTest::qWait(20);check(doc->text()=="cat catapult CAT","single replacement is one undo operation");
         click("replaceAll");check(doc->text()=="dog dogapult dog","Replace All button changes every matching occurrence");click("closeSearch");check(!searchBar->isVisible(),"find and replace closes without hiding the editor");
         auto* toolbar=findItem(window->contentItem(),"appToolbar");toolbar->setProperty("safeTop",48);QTest::qWait(40);
-        check(findItem(window->contentItem(),"filesButton")->mapToScene(QPointF(0,0)).y()>=48,"toolbar controls respect a top system inset");toolbar->setProperty("safeTop",0);QTest::qWait(30);
+        check(findItem(window->contentItem(),"filesButton")->mapToScene(QPointF(0,0)).y()>=48,"toolbar controls respect a top system inset");
+        click("filesButton");auto* openWorkspace=findItem(window->contentItem(),"openWorkspaceMenuItem");
+        check(openWorkspace&&openWorkspace->isVisible()&&openWorkspace->mapToScene(QPointF(0,0)).y()>=toolbar->property("height").toReal(),"Files menu opens below the safe-area header");
+        click("openWorkspaceMenuItem");auto* folderDialog=window->findChild<QObject*>("workspaceFolderDialog");
+        check(folderDialog&&folderDialog->property("visible").toBool(),"Open workspace menu click reaches the folder chooser");QMetaObject::invokeMethod(folderDialog,"reject");QTest::qWait(250);
+        click("moreButton");auto* settingsItem=findItem(window->contentItem(),"settingsMenuItem");
+        check(settingsItem&&settingsItem->isVisible()&&settingsItem->mapToScene(QPointF(0,0)).y()>=toolbar->property("height").toReal(),"More menu remains below the safe-area header");
+        QMetaObject::invokeMethod(window->findChild<QObject*>("moreMenu"),"close");toolbar->setProperty("safeTop",0);QTest::qWait(250);window->requestActivate();
         doc->setText("let a = 1;\nlet aa = 2;\n// a\n");QTest::qWait(30);
         check(services->replaceAll(textDocument,"a","counter",true,true)==2&&doc->text().contains("let aa"),"whole-word replace all uses document model");
         editor->forceActiveFocus();QTest::keySequence(window,QKeySequence(QKeySequence::Undo));QTest::qWait(20);check(doc->text()=="let a = 1;\nlet aa = 2;\n// a\n","replace all is one undo operation");

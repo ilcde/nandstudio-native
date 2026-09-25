@@ -51,9 +51,11 @@ def stage(artifacts, destination, run, expected_sha):
     android_apk = next(source for platform,source,_,_ in selected if platform=='android-x86_64')
     with android_apk.open('rb') as stream:
         android_hash = hashlib.file_digest(stream, 'sha256').hexdigest()
+    interaction=android_report.get('interaction',{})
     if (android_report.get('passed') is not True or android_report.get('safe_top',0)<=0
+            or interaction.get('passed') is not True or interaction.get('workspace_chooser_opened') is not True
             or android_report.get('apk_sha256') != android_hash):
-        raise ValueError('Android toolbar check must pass for this exact x86_64 APK with a real top inset')
+        raise ValueError('Android toolbar and Open workspace touch checks must pass for this exact x86_64 APK')
     destination.mkdir(parents=True, exist_ok=False)
     manifest = {'status': 'incomplete-development-prerelease', 'source_revision': expected_sha,
                 'ci_run': run['html_url'], 'android_toolbar_evidence':'android-toolbar.json', 'assets': []}

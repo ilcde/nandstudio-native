@@ -5,6 +5,8 @@ documents; a dot marks unsaved changes. Save uses Ctrl+S. Find uses Ctrl+F,
 go-to-line Ctrl+G, build Ctrl+B. Ctrl+/ toggles a line comment. Tab and Shift+Tab indent/unindent selected lines using the configured width or tabs.
 Return carries indentation; bracket matching ignores comments and strings. Native Qt editing supplies undo/redo, selection and clipboard operations.
 Font size, wrapping, indentation, interface scale, theme and autosave are under More > Settings.
+More also displays the application version. Version 0.1.1 anchors Files/More menus
+below the toolbar and disables touch hover tooltips that could obstruct actions.
 The editor gutter displays line numbers. Open find/replace through More > Find and
 replace or Ctrl+F; Close hides it again. It supports case and whole-word matching;
 Replace All is a single undo operation, and the bar reports missing matches.

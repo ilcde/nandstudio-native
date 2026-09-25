@@ -4470,6 +4470,25 @@
       "status": "partial",
       "release_blocker": true,
       "notes": "Local Windows-hosted emulator renders triangular background/button artifacts. Disabling emulator Vulkan did not resolve them; forcing Qt Quick software produced a blank surface with EGL 3005 errors. No renderer override is shipped. CI toolbar geometry success does not establish visual correctness. Physical-device behavior unverified."
+    },
+    {
+      "id": "android.popup-safe-area",
+      "kind": "addition",
+      "original_evidence": "User screenshot: Files menu first action overlaps status bar; tooltip covers actions",
+      "native_implementation": "src/app/AppToolbar.qml; src/app/ActionButton.qml",
+      "regression_tests": [
+        "gui_workflow",
+        "scripts/check_android_toolbar.py",
+        "tests/test_release_staging.py"
+      ],
+      "platform_coverage": {
+        "windows-x86_64": "247 GUI checks passed, including popup and folder chooser interactions",
+        "android-x86_64": "CI touch test pending",
+        "android-arm64-v8a": "physical device test pending"
+      },
+      "status": "partial",
+      "release_blocker": true,
+      "notes": "Version 0.1.1 explicitly anchors menus below header. Release gate requires actual Files/More/Open workspace taps; provider import/editing remains separate unfinished work."
     }
   ],
   "gui_discovery": [

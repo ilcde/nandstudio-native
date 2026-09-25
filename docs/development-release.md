@@ -1,5 +1,12 @@
 # NandStudio development packages
 
+Version 0.1.1 fixes Android Files/More menus opening over the status bar. Menus
+are anchored below the header and touch devices no longer display hover tooltips
+over their actions. More displays the app version so an installed older APK can
+be identified. Android release validation now taps More, Files and Open workspace,
+checks popup bounds, and verifies that the folder chooser opens. This does not
+claim that Android document-provider workspaces can yet be imported or edited.
+
 This is an incomplete C++/Qt migration, not a feature-complete release of the
 Nand2Tetris suite. The attached manifest identifies the exact source revision,
 successful CI run, package checksums, and packaged desktop GUI test counts.

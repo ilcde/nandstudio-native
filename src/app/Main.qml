@@ -46,7 +46,7 @@ ApplicationWindow {
     }
     header: AppToolbar { onFolderRequested: folder.open();onFileRequested: openFile.open();onSettingsRequested: settingsDialog.open();onSearchRequested: {if(root.compact)root.mobilePane=1;editorArea.focusSearch()} }
     FileDialog { id: openFile; title: "Open project file"; onAccepted: {studio.open(selectedFile);if(root.compact)root.mobilePane=1} }
-    FolderDialog { id: folder; title: "Open workspace"; onAccepted: studio.openWorkspace(selectedFolder) }
+    FolderDialog { id: folder; objectName: "workspaceFolderDialog"; title: "Open workspace"; onAccepted: studio.openWorkspace(selectedFolder) }
     PathDialog {
         id: pathDialog
         onSubmitted: value => {

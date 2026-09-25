@@ -44,3 +44,53 @@ args.report.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
 print(json.dumps(report,indent=2))
 if not report.get('passed') or report.get('safe_top',0)<=0:
     raise RuntimeError('Toolbar failed safe-area check or the emulator did not exercise a status-bar inset')
+
+# Exercise the actual touch route that the geometry-only check missed.
+def read_menu():
+    data=adb('exec-out','run-as',package,'cat','files/menu-report.json',check=False)
+    try: return json.loads(data.stdout) if data.returncode==0 else None
+    except json.JSONDecodeError: return None
+
+def wait_menu(predicate):
+    for _ in range(60):
+        data=read_menu()
+        if data and predicate(data): return data
+        time.sleep(0.5)
+    args.report.with_suffix('.interaction.log').write_text(adb('logcat','-d').stdout,encoding='utf-8')
+    raise RuntimeError('Android menu interaction did not reach the required state')
+
+def named(data,group,name):
+    return next((item for item in data[group] if item['name']==name),None)
+
+def tap(data,group,name):
+    item=named(data,group,name)
+    if not item or not item['inside_safe_area']: raise RuntimeError(name+' is outside the safe area')
+    scale=data['device_pixel_ratio']
+    adb('shell','input','tap',str(round((item['x']+item['width']/2)*scale)),str(round((item['y']+item['height']/2)*scale)))
+
+def screenshot(name):
+    image=subprocess.run([args.adb,'exec-out','screencap','-p'],capture_output=True,check=True,timeout=30)
+    args.report.with_name(name+'.png').write_bytes(image.stdout)
+
+adb('shell','am','force-stop',package)
+adb('shell','run-as',package,'rm','-f','files/menu-report.json')
+adb('shell','am','start','-W','-n',package+'/org.qtproject.qt.android.bindings.QtActivity','--ez','nandstudio.interactionCheck','true')
+initial=wait_menu(lambda data:data.get('passed') and data.get('safe_top',0)>0)
+tap(initial,'controls','moreButton')
+more=wait_menu(lambda data:named(data,'menu_items','settingsMenuItem'))
+if not all(item['inside_safe_area'] for item in more['menu_items']): raise RuntimeError('More menu intersects system UI')
+screenshot('more-menu')
+adb('shell','input','keyevent','4')
+wait_menu(lambda data:not data['menu_items'])
+tap(initial,'controls','filesButton')
+files=wait_menu(lambda data:named(data,'menu_items','openWorkspaceMenuItem'))
+if not all(item['inside_safe_area'] for item in files['menu_items']): raise RuntimeError('Files menu intersects system UI')
+screenshot('files-menu')
+tap(files,'menu_items','openWorkspaceMenuItem')
+folder=wait_menu(lambda data:data.get('folder_dialog_visible'))
+screenshot('workspace-chooser')
+report['interaction']={'passed':True,'files_menu':files['menu_items'],'more_menu':more['menu_items'],'workspace_chooser_opened':True,'workspace_selected':False}
+args.report.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
+print('Actual Android taps: More, Files and Open workspace passed')
+adb('shell','input','keyevent','4')
+adb('shell','am','force-stop',package)
