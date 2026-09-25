@@ -49,7 +49,7 @@ public:
         validateName(name);for(const auto& entry:list(parent))if(entry.name==name)fail("Destination already exists");
         // QDir/QFile pass the new child name to Android's DocumentsContract.
         auto path=QDir(uri(parent)).filePath(name);
-        if(folder){if(!QDir().mkdir(path))fail("Provider cannot create a folder here");}
+        if(folder){if(!QDir(uri(parent)).mkdir(name))fail("Provider cannot create a folder here");}
         else{QFile f(path);if(!f.open(QIODevice::WriteOnly|QIODevice::NewOnly))fail("Provider cannot create document: "+f.errorString());}
         for(const auto& entry:list(parent))if(entry.name==name)return entry.url;
         fail("Provider did not return the created document");

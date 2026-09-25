@@ -55,6 +55,7 @@ def stage(artifacts, destination, run, expected_sha):
     if (android_report.get('passed') is not True or android_report.get('safe_top',0)<=0
             or interaction.get('passed') is not True or interaction.get('workspace_chooser_opened') is not True
             or android_report.get('workspace_copy',{}).get('passed') is not True
+            or android_report.get('hdl_eval',{}).get('passed') is not True
             or android_report.get('apk_sha256') != android_hash):
         raise ValueError('Android toolbar, workspace touch and import/edit/build/export checks must pass for this exact x86_64 APK')
     destination.mkdir(parents=True, exist_ok=False)

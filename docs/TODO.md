@@ -61,3 +61,11 @@ native compiler with all eight explicit original OS VM files. It compares RAM
 and rendered glyph words against Java after two million VM steps. This exposed
 uppercase hexadecimal script output; the baseline uses lowercase. Output bytes
 must be fixed, not normalized in the harness.
+
+The OS probe now also passes the original ArrayTest, MathTest, MemoryTest and
+MemoryDiag scripts with their unchanged comparison files. StringTest, OutputTest
+and ScreenTest compare all 8,192 screen words in 16-column records after two
+million VM steps. All eight cases pass with explicit bundled OS VM files. This
+does not establish native built-in service fallback or interactive keyboard parity.
+The probe also found that legacy output-list declarations accept at most 20
+arguments, while the native parser currently accepts more; track that parser gap.

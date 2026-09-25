@@ -24,6 +24,8 @@ if args.workspace_flow:
     fixture=args.report.parent/'Program.asm'
     fixture.parent.mkdir(parents=True,exist_ok=True)
     fixture.write_bytes(b'@2\r\nD=A\r\n')
+    chip=fixture.with_name('Xor.hdl')
+    chip.write_text('CHIP Xor { IN a,b; OUT out; PARTS: Not(in=a,out=Nota); Not(in=b,out=Notb); And(a=a,b=Notb,out=aAndNotb); And(a=Nota,b=b,out=NotaAndb); Or(a=aAndNotb,b=NotaAndb,out=out); }',encoding='utf-8')
     # sys.boot_completed can precede emulated shared storage becoming writable.
     for attempt in range(30):
         adb('shell','mkdir','-p','/sdcard/Download/NandStudioSmoke','/sdcard/Download/NandStudioExports',check=False)
@@ -31,13 +33,14 @@ if args.workspace_flow:
         if pushed.returncode==0: break
         time.sleep(1)
     else: raise RuntimeError('Android fixture storage unavailable: '+pushed.stdout+pushed.stderr)
+    adb('push',str(chip),'/sdcard/Download/NandStudioSmoke/Xor.hdl')
 adb('install','-r',str(args.apk))
 adb('shell','am','force-stop',package)
 # Delete only this tool's previous report, never app documents/settings.
 adb('shell','run-as',package,'rm','-f','files/layout-report.json')
 args.report.parent.mkdir(parents=True,exist_ok=True)
 adb('logcat','-c')
-launch=adb('shell','am','start','-W','-n',package+'/org.qtproject.qt.android.bindings.QtActivity','--ez','nandstudio.layoutCheck','true')
+launch=adb('shell','am','start','-W','-f','0x10008000','-n',package+'/org.qtproject.qt.android.bindings.QtActivity','--ez','nandstudio.layoutCheck','true')
 args.report.with_suffix('.launch.txt').write_text(launch.stdout+launch.stderr,encoding='utf-8')
 report=None
 for _ in range(45):
@@ -91,7 +94,7 @@ def screenshot(name):
 
 adb('shell','am','force-stop',package)
 adb('shell','run-as',package,'rm','-f','files/menu-report.json')
-adb('shell','am','start','-W','-n',package+'/org.qtproject.qt.android.bindings.QtActivity','--ez','nandstudio.interactionCheck','true')
+adb('shell','am','start','-W','-f','0x10008000','-n',package+'/org.qtproject.qt.android.bindings.QtActivity','--ez','nandstudio.interactionCheck','true')
 initial=wait_menu(lambda data:data.get('passed') and data.get('safe_top',0)>0)
 tap(initial,'controls','moreButton')
 more=wait_menu(lambda data:named(data,'menu_items','settingsMenuItem'))
@@ -124,10 +127,15 @@ report['interaction']={'passed':True,'files_menu':files['menu_items'],'more_menu
 if args.workspace_flow:
     # Native Android document UI is inspected separately from Qt's scene.
     def native_nodes():
-        adb('shell','uiautomator','dump','/sdcard/nandstudio-ui.xml',check=False)
-        xml=adb('exec-out','cat','/sdcard/nandstudio-ui.xml').stdout
+        # Never parse stale output after a failed dump or a transition frame.
+        dump='/data/local/tmp/nandstudio-ui.xml'
+        adb('shell','rm','-f',dump)
+        result=adb('shell','uiautomator','dump','--compressed',dump,check=False)
+        xml=adb('exec-out','cat',dump,check=False).stdout
         args.report.with_suffix('.ui.xml').write_text(xml,encoding='utf-8')
-        return list(ET.fromstring(xml).iter('node'))
+        args.report.with_suffix('.ui.log').write_text(result.stdout+result.stderr,encoding='utf-8')
+        try: return list(ET.fromstring(xml).iter('node'))
+        except ET.ParseError: return []
 
     def native_tap(predicate,attempts=12):
         for _ in range(attempts):
@@ -144,8 +152,14 @@ if args.workspace_flow:
         # last selected provider/folder or filesystem conversion in the app.
         if not native_tap(lambda n:n.get('content-desc') in ('Show roots','Open navigation drawer')):
             raise RuntimeError('Document-provider drawer unavailable')
-        if not native_tap(lambda n:n.get('text')=='Downloads'):
-            raise RuntimeError('Downloads document provider unavailable')
+        if not native_tap(lambda n:n.get('text')=='Downloads',attempts=2):
+            # ACTION_OPEN_DOCUMENT_TREE can omit the Downloads root. The
+            # external-storage provider still exposes its Download child.
+            model=adb('shell','getprop','ro.product.model').stdout.strip()
+            if not native_tap(lambda n:n.get('text')==model and n.get('resource-id')=='android:id/title'):
+                raise RuntimeError('Internal storage document provider unavailable')
+            if not native_tap(lambda n:n.get('text')=='Download'):
+                raise RuntimeError('Download child folder unavailable')
         if not native_tap(lambda n:n.get('text')==name):
             raise RuntimeError('Fixture folder absent in Documents UI: '+name)
         if not native_tap(lambda n:n.get('text','').lower()=='use this folder'):
@@ -167,7 +181,6 @@ if args.workspace_flow:
         adb('shell','input','keyevent','KEYCODE_ENTER')
         adb('shell','input','text','D=A')
         wait_menu(lambda d:d.get('active_document',{}).get('text')=='@3\nD=A')
-        adb('shell','input','keyevent','KEYCODE_BACK')
         tap(read_menu(),'controls','saveButton')
         wait_menu(lambda d:not d.get('active_document',{}).get('dirty',True))
         tap(read_menu(),'controls','buildButton')
@@ -188,12 +201,26 @@ if args.workspace_flow:
         if adb('exec-out','cat',candidates[0].replace('Program.hack','Program.asm')).stdout.replace('\r\n','\n')!='@3\nD=A':
             raise RuntimeError('Exported edited source differs')
         screenshot('workspace-exported')
+        # Exercise HDL through the same imported workspace and actual UI taps.
+        tap(read_menu(),'workspace_controls','mobileFilesTab')
+        chip_files=wait_menu(lambda d:named(d,'workspace_controls','workspaceFile_Xor.hdl'))
+        tap(chip_files,'workspace_controls','workspaceFile_Xor.hdl')
+        chip_editor=wait_menu(lambda d:d.get('active_document',{}).get('name')=='Xor.hdl')
+        tap(chip_editor,'controls','buildButton')
+        loaded=wait_menu(lambda d:d.get('hardware_state',{}).get('chip')=='Xor' and not d.get('busy') and named(d,'workspace_controls','togglePin_b'))
+        tap(loaded,'workspace_controls','togglePin_b')
+        tap(read_menu(),'workspace_controls','hardwareEval')
+        evaluated=wait_menu(lambda d:d.get('hardware_evaluation')=='Eval completed: out=1' and not d.get('busy'))
+        if not any(p['name']=='out' and p['value']==1 for p in evaluated['hardware_state']['pins']):
+            raise RuntimeError('Xor Eval output did not update')
+        screenshot('xor-evaluated')
+        report['hdl_eval']={'passed':True,'chip':'reported composite Xor','inputs':{'a':0,'b':1},'out':1,'actual_taps':True}
         adb('shell','input','keyevent','KEYCODE_HOME')
         time.sleep(1)
         adb('shell','am','force-stop',package)
         adb('shell','run-as',package,'rm','-f','files/menu-report.json')
-        adb('shell','am','start','-W','-n',package+'/org.qtproject.qt.android.bindings.QtActivity','--ez','nandstudio.interactionCheck','true')
-        reopened=wait_menu(lambda d:d.get('workspace')==workspace and d.get('active_document',{}).get('name')=='Program.hack')
+        adb('shell','am','start','-W','-f','0x10008000','-n',package+'/org.qtproject.qt.android.bindings.QtActivity','--ez','nandstudio.interactionCheck','true')
+        reopened=wait_menu(lambda d:d.get('workspace')==workspace and d.get('active_document',{}).get('name')=='Xor.hdl')
         report['interaction']['workspace_selected']=True
         report['workspace_copy']={'passed':True,'provider':'Android Downloads','imported':True,'edited':True,'saved':True,'assembled':True,'exported':True,'reopened_after_process_restart':True,'original_unchanged':True,'all_providers_verified':False}
     except Exception:

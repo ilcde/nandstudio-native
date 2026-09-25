@@ -70,7 +70,7 @@ ApplicationWindow {
         TabBar {
             visible: root.compact; Layout.fillWidth: true; currentIndex: root.mobilePane
             onCurrentIndexChanged: root.mobilePane=currentIndex
-            TabButton { text: "Files"; implicitHeight: Theme.controlHeight } TabButton { text: "Editor"; implicitHeight: Theme.controlHeight } TabButton { text: "Machine"; implicitHeight: Theme.controlHeight } TabButton { text: "Console"; implicitHeight: Theme.controlHeight }
+            TabButton { objectName: "mobileFilesTab"; text: "Files"; implicitHeight: Theme.controlHeight } TabButton { text: "Editor"; implicitHeight: Theme.controlHeight } TabButton { text: "Machine"; implicitHeight: Theme.controlHeight } TabButton { text: "Console"; implicitHeight: Theme.controlHeight }
         }
         SplitView {
             id: horizontal; Layout.fillWidth: true; Layout.fillHeight: true

@@ -89,13 +89,14 @@ int main(int argc,char** argv){
                 const auto collect=[&](auto&& self,QQuickItem* parent)->void{
                     if(!parent||!parent->isVisible())return;
                     const auto name=parent->objectName();
-                    if(name=="importWorkspaceDialogConfirm"||name=="exportWorkspaceMenuItem"||name.startsWith("workspaceFile_")||name.startsWith("editor_")){
+                    if(name=="importWorkspaceDialogConfirm"||name=="exportWorkspaceMenuItem"||name=="mobileFilesTab"||name=="hardwareEval"||name.startsWith("togglePin_")||name.startsWith("workspaceFile_")||name.startsWith("editor_")){
                         const auto rect=parent->mapRectToScene(QRectF(0,0,parent->width(),parent->height()));
                         items.append(QJsonObject{{"name",name},{"x",rect.x()},{"y",rect.y()},{"width",rect.width()},{"height",rect.height()},{"inside_safe_area",usable.contains(rect.center())}});
                     }
                     for(auto* child:parent->childItems())self(self,child);
                 };collect(collect,window->contentItem());
                 report["workspace_controls"]=items;report["workspace"]=studio.workspace();report["busy"]=studio.busy();report["output"]=studio.output();
+                report["hardware_state"]=QJsonObject::fromVariantMap(studio.state());report["hardware_evaluation"]=studio.hardwareEvaluation();
                 if(studio.active()>=0){auto* d=qvariant_cast<Document*>(studio.documents()[studio.active()]);report["active_document"]=QJsonObject{{"name",d->name()},{"text",d->text()},{"dirty",d->dirty()}};}
             }
             QDir().mkpath(QFileInfo(destination).absolutePath());QFile file(destination);

@@ -7,6 +7,10 @@ Return carries indentation; bracket matching ignores comments and strings. Nativ
 Font size, wrapping, indentation, interface scale, theme and autosave are under More > Settings.
 More also displays the application version. Version 0.1.1 anchors Files/More menus
 below the toolbar and disables touch hover tooltips that could obstruct actions.
+Version 0.1.2 adds explicit [Android workspace copies](android-workspaces.md).
+For HDL, tap a one-bit input's 0/1 button or type a decimal value, then Eval.
+The result line shows evaluated output values. On a narrow screen, loading HDL
+opens the Machine pane. Unsaved HDL is detected even with a non-HDL tab active.
 The editor gutter displays line numbers. Open find/replace through More > Find and
 replace or Ctrl+F; Close hides it again. It supports case and whole-word matching;
 Replace All is a single undo operation, and the bar reports missing matches.

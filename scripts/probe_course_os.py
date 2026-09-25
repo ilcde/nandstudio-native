@@ -25,6 +25,29 @@ variables=[f'RAM[{address}]%D1.6.1' for address in range(5)]
 variables += [f'RAM[{16384+32*row}]%X1.4.1' for row in range(12)]
 files['Course.tst']='load, output-file Course.out, output-list '+' '.join(variables)+';\nrepeat 2000000 { vmstep; } output;\n'
 harness.test('course-Seven-explicit-OS','VMEmulator','VMEmulatorMain',files,['Course.tst'],['Course.out'])
+for name in ('ArrayTest','MathTest','MemoryTest','MemoryTest/MemoryDiag','StringTest','OutputTest','ScreenTest'):
+    directory=harness.BASE/'projects/12'/name
+    compilation=work/name;compilation.mkdir(parents=True,exist_ok=True)
+    for source in directory.glob('*.jack'):
+        (compilation/source.name).write_bytes(source.read_bytes())
+    result=harness.run([harness.native('JackCompiler'),'.'],compilation)
+    if result['code']!=0: raise RuntimeError(result)
+    inputs={p.name:p.read_bytes() for p in (harness.BASE/'tools/OS').glob('*.vm')}
+    inputs.update({p.name:p.read_bytes() for p in compilation.glob('*.vm')})
+    scripts=list(directory.glob('*.tst'))
+    if scripts:
+        inputs.update({p.name:p.read_bytes() for p in directory.iterdir() if p.suffix in ('.tst','.cmp')})
+        script=scripts[0].name;output=scripts[0].stem+'.out'
+    else:
+        # Compare the whole screen, including unchanged pixels, after a fixed
+        # instruction count. No image/whitespace normalization is permitted.
+        script='ScreenProbe.tst';output='ScreenProbe.out'
+        content='load, output-file '+output+';\nrepeat 2000000 { vmstep; }\n'
+        for start in range(16384,24576,16):
+            columns=[f'RAM[{address}]%X1.4.1' for address in range(start,start+16)]
+            content+='output-list '+' '.join(columns)+'; output;\n'
+        inputs[script]=content
+    harness.test('course-'+name.replace('/','-')+'-explicit-OS','VMEmulator','VMEmulatorMain',inputs,[script],[output])
 destination=root/'docs/evidence/course-os.json'
 destination.write_text(json.dumps(harness.report,indent=2)+'\n',encoding='utf-8')
 raise SystemExit(0 if all(case['passed'] for case in harness.report) else 1)

@@ -24,5 +24,187 @@
         ]
       }
     ]
+  },
+  {
+    "name": "course-ArrayTest-explicit-OS",
+    "tool": "VMEmulator",
+    "passed": true,
+    "outcome": "baseline-rejection-comparison",
+    "java": {
+      "code": 4294967295,
+      "stdout": "",
+      "stderr": "Comparison failure at line 2\r\n"
+    },
+    "native": {
+      "code": 4294967295,
+      "stdout": "",
+      "stderr": "Comparison failure at line 2\r\n"
+    },
+    "outputs": [
+      {
+        "file": "ArrayTest.out",
+        "equal": true,
+        "sha256": [
+          "c9636ef8941fdc38ab9a20cc77ddcfa44c8de989cf10ef9ae4632f0283a02643",
+          "c9636ef8941fdc38ab9a20cc77ddcfa44c8de989cf10ef9ae4632f0283a02643"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "course-MathTest-explicit-OS",
+    "tool": "VMEmulator",
+    "passed": true,
+    "outcome": "baseline-rejection-comparison",
+    "java": {
+      "code": 4294967295,
+      "stdout": "",
+      "stderr": "Comparison failure at line 2\r\n"
+    },
+    "native": {
+      "code": 4294967295,
+      "stdout": "",
+      "stderr": "Comparison failure at line 2\r\n"
+    },
+    "outputs": [
+      {
+        "file": "MathTest.out",
+        "equal": true,
+        "sha256": [
+          "82fcbb068c4c2826eb3ad9af0e90f176898fdb8dbee01a14d6180c8bf0be5c98",
+          "82fcbb068c4c2826eb3ad9af0e90f176898fdb8dbee01a14d6180c8bf0be5c98"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "course-MemoryTest-explicit-OS",
+    "tool": "VMEmulator",
+    "passed": true,
+    "outcome": "baseline-rejection-comparison",
+    "java": {
+      "code": 4294967295,
+      "stdout": "",
+      "stderr": "Comparison failure at line 2\r\n"
+    },
+    "native": {
+      "code": 4294967295,
+      "stdout": "",
+      "stderr": "Comparison failure at line 2\r\n"
+    },
+    "outputs": [
+      {
+        "file": "MemoryTest.out",
+        "equal": true,
+        "sha256": [
+          "ca5106352981c1276820d903afd821a0cfda9f82328ff1b5ea57e7b5ed698097",
+          "ca5106352981c1276820d903afd821a0cfda9f82328ff1b5ea57e7b5ed698097"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "course-MemoryTest-MemoryDiag-explicit-OS",
+    "tool": "VMEmulator",
+    "passed": true,
+    "outcome": "baseline-rejection-comparison",
+    "java": {
+      "code": 4294967295,
+      "stdout": "",
+      "stderr": "Comparison failure at line 2\r\n"
+    },
+    "native": {
+      "code": 4294967295,
+      "stdout": "",
+      "stderr": "Comparison failure at line 2\r\n"
+    },
+    "outputs": [
+      {
+        "file": "MemoryDiag.out",
+        "equal": true,
+        "sha256": [
+          "d2d7788aee67686cb2d908f45dfcf0ac3db5e838ddf19e7e744d99e48429b2ba",
+          "d2d7788aee67686cb2d908f45dfcf0ac3db5e838ddf19e7e744d99e48429b2ba"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "course-StringTest-explicit-OS",
+    "tool": "VMEmulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "ScreenProbe.out",
+        "equal": true,
+        "sha256": [
+          "c18f4af8ad3b06f954ba796dcef49cd1a729918946adbc480b4423e54360df0f",
+          "c18f4af8ad3b06f954ba796dcef49cd1a729918946adbc480b4423e54360df0f"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "course-OutputTest-explicit-OS",
+    "tool": "VMEmulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "ScreenProbe.out",
+        "equal": true,
+        "sha256": [
+          "cc1dcfaad4a698a245bc7e74a5873575c283f371e6c097fc42e1dfd28f95c49e",
+          "cc1dcfaad4a698a245bc7e74a5873575c283f371e6c097fc42e1dfd28f95c49e"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "course-ScreenTest-explicit-OS",
+    "tool": "VMEmulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "ScreenProbe.out",
+        "equal": true,
+        "sha256": [
+          "12b30c72d7fabb20a6d62d79c0f557d75cbe95b1b8d16d3e3c8349b12b53d65f",
+          "12b30c72d7fabb20a6d62d79c0f557d75cbe95b1b8d16d3e3c8349b12b53d65f"
+        ]
+      }
+    ]
   }
 ]

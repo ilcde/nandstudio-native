@@ -49,6 +49,12 @@ Reference tests include 65 differential cases, two reported-Xor cases and target
 hardware probes. They do not exhaust all programs or UI operations. Read the
 release manifest, linked CI run, `evidence/` and `parity-manifest.json` for scope.
 
+`scripts/probe_course_os.py` additionally passes eight native-versus-Java cases
+with explicit original OS VM files: Seven, Array, Math, Memory, MemoryDiag,
+String, Output and Screen. The latter three compare every screen word after a
+fixed execution budget; the four original scripted OS tests retain their `.cmp`
+files. Native built-in OS fallback and interactive keyboard tests remain pending.
+
 Android shares the C++ engines. Version 0.1.2 adds explicit workspace copies;
 broader SAF provider and lifecycle coverage still blocks a fully verified
 open/edit/save/test/run/export workflow. Legacy Java extension
