@@ -12,6 +12,8 @@ Pane {
         ColumnLayout {
             width: scroll.availableWidth; spacing: Theme.md
             Label { text: studio.state.mode; font.pixelSize: Theme.bodySize+5; font.bold: true; Layout.fillWidth: true; wrapMode: Text.WordWrap }
+            Label { text: studio.hardwareMessage; visible: text.length>0; Layout.fillWidth: true; wrapMode: Text.WordWrap; color: Theme.accent }
+            ActionButton { objectName: "initialHdlEval"; text: "Load & Eval HDL"; visible: !studio.state.hardware; enabled: !studio.busy; onClicked: studio.evaluateHardwareWithInputs({}); Layout.fillWidth: true }
             GridLayout {
                 columns: 3; Layout.fillWidth: true
                 ActionButton { text: "Load CPU"; Layout.fillWidth: true; Layout.minimumWidth: 0; enabled: !studio.busy; onClicked: studio.loadCpu() }

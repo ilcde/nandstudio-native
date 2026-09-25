@@ -8,11 +8,12 @@ ColumnLayout {
                             property int revision: 0; Layout.fillWidth: true
                             Label { objectName: "hardwareClockLabel"; text: studio.state.chip + " \u00b7 time " + studio.state.hardwareTime; font.bold: true }
                             RowLayout {
-                                ActionButton { Layout.fillWidth: true; Layout.minimumWidth: 0; text: "Eval"; objectName: "hardwareEval"; enabled: !studio.busy; onClicked: studio.hardwareActionWithInputs("eval",inspector.inputs()) }
+                                ActionButton { Layout.fillWidth: true; Layout.minimumWidth: 0; text: studio.hardwareNeedsReload ? "Reload & Eval" : "Eval"; objectName: "hardwareEval"; enabled: !studio.busy; onClicked: studio.evaluateHardwareWithInputs(inspector.inputs()) }
                                 ActionButton { Layout.fillWidth: true; Layout.minimumWidth: 0; text: "Tick"; objectName: "hardwareTick"; enabled: !studio.busy && !studio.state.clockUp; onClicked: studio.hardwareActionWithInputs("tick",inspector.inputs()) }
                                 ActionButton { Layout.fillWidth: true; Layout.minimumWidth: 0; text: "Tock"; objectName: "hardwareTock"; enabled: !studio.busy && studio.state.clockUp; onClicked: studio.hardwareActionWithInputs("tock",inspector.inputs()) }
                             }
                             Label { text: "PINS / INTERNAL WIRES"; opacity: 0.65; font.bold: true }
+                            Label { visible: studio.hardwareNeedsReload; text: "The visible HDL or an open dependency has changed. Reload & Eval uses those buffers and resets the hardware clock/state. Ordinary Eval keeps the loaded snapshot."; Layout.fillWidth: true; wrapMode: Text.WordWrap; color: Theme.accent }
                             Repeater {
                                 id: pinRows; model: studio.state.pins
                                 RowLayout {

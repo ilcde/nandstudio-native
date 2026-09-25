@@ -33,7 +33,7 @@ private:QByteArray conflictingBytes_;bool conflictPending_=false;
 };
 struct TaskResult {QString message,artifact,text,path;int line=0,column=0;bool error=false;};
 struct WorkspaceResult {QString path,error;QVariantList files;};
-struct ExecutionResult {nand::Cpu cpu;nand::Vm vm;nand::Hardware hardware;bool vmMode=false,hardwareMode=false;QString error;};
+struct ExecutionResult {nand::Cpu cpu;nand::Vm vm;nand::Hardware hardware;bool vmMode=false,hardwareMode=false;QString error,hardwarePath,hardwareMessage,errorPath;QMap<QString,QString> hardwareSources;int errorLine=0,errorColumn=0;};
 class Studio : public QObject {
     Q_OBJECT
     Q_PROPERTY(QVariantList documents READ documents NOTIFY documentsChanged)
@@ -47,12 +47,16 @@ class Studio : public QObject {
     Q_PROPERTY(QVariantList searchResults READ searchResults NOTIFY searchChanged)
     Q_PROPERTY(QVariantList diagnostics READ diagnostics NOTIFY diagnosticsChanged)
     Q_PROPERTY(QVariantList hardwareTrace READ hardwareTrace NOTIFY stateChanged)
+    Q_PROPERTY(bool hardwareNeedsReload READ hardwareNeedsReload NOTIFY hardwareSourceChanged)
+    Q_PROPERTY(QString hardwareMessage READ hardwareMessage NOTIFY stateChanged)
 public:
     Studio();~Studio()override;
     QVariantList documents()const;QVariantList files()const{return files_;}
     QString workspace()const{return workspace_;}QString output()const{return output_;}bool busy()const{return busy_;}
     QVariantMap state()const;int active()const{return active_;}void setActive(int a);
     QVariantList hardwareTrace()const{return hardwareTrace_;}
+    bool hardwareNeedsReload()const;
+    QString hardwareMessage()const{return hardwareMessage_;}
     Q_INVOKABLE void clearHardwareTrace();
     Q_INVOKABLE QString formatWord(int value,int radix=10)const;
     Q_INVOKABLE QVariantMap hardwareDiagram(const QString& path)const;
@@ -73,6 +77,7 @@ public:
     Q_INVOKABLE void build();Q_INVOKABLE void loadCpu();Q_INVOKABLE void loadVm();
     Q_INVOKABLE void loadHardware();Q_INVOKABLE void hardwareAction(const QString& action);
     Q_INVOKABLE void hardwareActionWithInputs(const QString& action,const QVariantMap& inputs);
+    Q_INVOKABLE void evaluateHardwareWithInputs(const QVariantMap& inputs);
     Q_INVOKABLE bool commitHardwareInputs(const QVariantMap& inputs);
     Q_INVOKABLE void setHardware(const QString& variable,int value);
     Q_INVOKABLE QString hardwareValue(const QString& variable)const;
@@ -90,10 +95,13 @@ signals:
     void documentsChanged();void filesChanged();void outputChanged();void stateChanged();void activeChanged();
     void diagnostic(int document,int line,int column,QString message);
     void conflict(Document* document);void searchChanged();void diagnosticsChanged();
+    void hardwareSourceChanged();
 private:
     Document* current()const;void recover();void saveSession();void runTest(nand::ScriptTool tool);
     std::shared_ptr<ExecutionResult> snapshot()const;
     void recordHardware(const QString& event);
+    void beginHardwareLoad(bool evaluate,const QVariantMap& inputs);
+    QString hardwarePath_,hardwareMessage_;QMap<QString,QString> hardwareSources_;
     QVariantList hardwareTrace_;QString hardwareEvent_;
     QList<Document*> docs_;QVariantList files_;QString workspace_,output_;int active_=-1;bool busy_=false,vmMode_=false,hardwareMode_=false;
     nand::Cpu cpu_;nand::Vm vm_;nand::Hardware hardware_;QTimer recoveryTimer_;

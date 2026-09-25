@@ -9,6 +9,6 @@
   "linux_reference":"Ubuntu 24.04 x86_64, GCC 13.3.0",
   "macos_reference":"macOS 14 build host, Xcode 16.2, deployment target 13.0, arm64 and x86_64",
   "android":{"qt":"6.11.1","min_sdk":28,"target_sdk":36,"sdk_build_tools":"36.0.0","ndk":"27.2.12479018","jdk":"21.0.7","gradle":"9.3.1","agp":"9.0.0","abis":["arm64-v8a","x86_64"]},
-  "development":{"aqtinstall":"3.3.0","reference_java":"21.0.8+12-LTS-250","python":"3.11.6"},
+  "development":{"aqtinstall":"3.3.0","reference_java":"21.0.8+12-LTS-250","python":"3.11.6","android_emulator":"36.3.10","android_emulator_build":"14472402","android_emulator_runner":"c9c93e6ba9c4194322e114c40970d5983d9a07cc (v2.38.0)","android_test_image":"API 36 google_apis x86_64; installed image revision must be recorded, not fully locked"},
   "status":"Windows and Ubuntu WSL builds exercised locally; Linux, both macOS architectures and both Android ABIs compiled in recorded CI runs. Android x86_64 installed/launched locally with SDK build-tools 36.1.0 (CI uses pinned 36.0.0). See docs/platforms.json for separate stage evidence. Full transitive dependency hashes and host tool exact-version enforcement incomplete."
 }

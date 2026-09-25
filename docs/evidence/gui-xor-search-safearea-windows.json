@@ -1,0 +1,978 @@
+[
+    {
+        "check": "create isolated fixture",
+        "passed": true
+    },
+    {
+        "check": "Qt Quick window instantiated",
+        "passed": true
+    },
+    {
+        "check": "GUI test window is exposed for native input",
+        "passed": true
+    },
+    {
+        "check": "menu punctuation renders correctly: openWorkspaceMenuItem",
+        "passed": true
+    },
+    {
+        "check": "menu punctuation renders correctly: openFileMenuItem",
+        "passed": true
+    },
+    {
+        "check": "menu punctuation renders correctly: settingsMenuItem",
+        "passed": true
+    },
+    {
+        "check": "editor reachable through document tab",
+        "passed": true
+    },
+    {
+        "check": "find and replace is hidden until requested",
+        "passed": true
+    },
+    {
+        "check": "find bar tracks the first asynchronously created editor",
+        "passed": true
+    },
+    {
+        "check": "keyboard editing marks document dirty",
+        "passed": true
+    },
+    {
+        "check": "keyboard editing reaches C++ document",
+        "passed": true
+    },
+    {
+        "check": "native editor undo",
+        "passed": true
+    },
+    {
+        "check": "native editor redo",
+        "passed": true
+    },
+    {
+        "check": "save through document service",
+        "passed": true
+    },
+    {
+        "check": "preserve CRLF and final-newline state",
+        "passed": true
+    },
+    {
+        "check": "simulate external writer",
+        "passed": true
+    },
+    {
+        "check": "external change blocks overwrite",
+        "passed": true
+    },
+    {
+        "check": "external bytes unchanged",
+        "passed": true
+    },
+    {
+        "check": "conflict reload preserves reviewed disk version",
+        "passed": true
+    },
+    {
+        "check": "conflict workflow has a dialog",
+        "passed": true
+    },
+    {
+        "check": "save reconciled document",
+        "passed": true
+    },
+    {
+        "check": "CPU execution updates memory inspector",
+        "passed": true
+    },
+    {
+        "check": "native assemble action emits artifact",
+        "passed": true
+    },
+    {
+        "check": "create independent HDL fixture",
+        "passed": true
+    },
+    {
+        "check": "first Eval loads and evaluates the user's composite Xor",
+        "passed": true
+    },
+    {
+        "check": "composite Xor Eval truth table 0,0",
+        "passed": true
+    },
+    {
+        "check": "composite Xor Eval truth table 0,1",
+        "passed": true
+    },
+    {
+        "check": "composite Xor Eval truth table 1,0",
+        "passed": true
+    },
+    {
+        "check": "composite Xor Eval truth table 1,1",
+        "passed": true
+    },
+    {
+        "check": "changed HDL explicitly offers Reload and Eval",
+        "passed": true
+    },
+    {
+        "check": "Reload and Eval uses unsaved source without saving it",
+        "passed": true
+    },
+    {
+        "check": "incomplete HDL preserves running chip and reports parser location",
+        "passed": true
+    },
+    {
+        "check": "unfinished local dependencies keep legacy precedence and show a warning",
+        "passed": true
+    },
+    {
+        "check": "Eval commits typed input fields without Return and evaluates And",
+        "passed": true
+    },
+    {
+        "check": "Eval button commits pending inputs: Nand.out",
+        "passed": true
+    },
+    {
+        "check": "Eval leaves clock unchanged: Nand",
+        "passed": true
+    },
+    {
+        "check": "Eval button commits pending inputs: Not.out",
+        "passed": true
+    },
+    {
+        "check": "Eval leaves clock unchanged: Not",
+        "passed": true
+    },
+    {
+        "check": "Eval button commits pending inputs: And.out",
+        "passed": true
+    },
+    {
+        "check": "Eval leaves clock unchanged: And",
+        "passed": true
+    },
+    {
+        "check": "Eval button commits pending inputs: Or.out",
+        "passed": true
+    },
+    {
+        "check": "Eval leaves clock unchanged: Or",
+        "passed": true
+    },
+    {
+        "check": "Eval button commits pending inputs: Xor.out",
+        "passed": true
+    },
+    {
+        "check": "Eval leaves clock unchanged: Xor",
+        "passed": true
+    },
+    {
+        "check": "Eval button commits pending inputs: Mux.out",
+        "passed": true
+    },
+    {
+        "check": "Eval leaves clock unchanged: Mux",
+        "passed": true
+    },
+    {
+        "check": "Eval button commits pending inputs: DMux.a",
+        "passed": true
+    },
+    {
+        "check": "Eval button commits pending inputs: DMux.b",
+        "passed": true
+    },
+    {
+        "check": "Eval leaves clock unchanged: DMux",
+        "passed": true
+    },
+    {
+        "check": "Eval button commits pending inputs: Not16.out",
+        "passed": true
+    },
+    {
+        "check": "Eval leaves clock unchanged: Not16",
+        "passed": true
+    },
+    {
+        "check": "Eval button commits pending inputs: And16.out",
+        "passed": true
+    },
+    {
+        "check": "Eval leaves clock unchanged: And16",
+        "passed": true
+    },
+    {
+        "check": "Eval button commits pending inputs: Or16.out",
+        "passed": true
+    },
+    {
+        "check": "Eval leaves clock unchanged: Or16",
+        "passed": true
+    },
+    {
+        "check": "Eval button commits pending inputs: Mux16.out",
+        "passed": true
+    },
+    {
+        "check": "Eval leaves clock unchanged: Mux16",
+        "passed": true
+    },
+    {
+        "check": "Eval button commits pending inputs: Or8Way.out",
+        "passed": true
+    },
+    {
+        "check": "Eval leaves clock unchanged: Or8Way",
+        "passed": true
+    },
+    {
+        "check": "Eval button commits pending inputs: Mux4Way16.out",
+        "passed": true
+    },
+    {
+        "check": "Eval leaves clock unchanged: Mux4Way16",
+        "passed": true
+    },
+    {
+        "check": "Eval button commits pending inputs: Mux8Way16.out",
+        "passed": true
+    },
+    {
+        "check": "Eval leaves clock unchanged: Mux8Way16",
+        "passed": true
+    },
+    {
+        "check": "Eval button commits pending inputs: DMux4Way.a",
+        "passed": true
+    },
+    {
+        "check": "Eval button commits pending inputs: DMux4Way.b",
+        "passed": true
+    },
+    {
+        "check": "Eval button commits pending inputs: DMux4Way.c",
+        "passed": true
+    },
+    {
+        "check": "Eval button commits pending inputs: DMux4Way.d",
+        "passed": true
+    },
+    {
+        "check": "Eval leaves clock unchanged: DMux4Way",
+        "passed": true
+    },
+    {
+        "check": "Eval button commits pending inputs: DMux8Way.a",
+        "passed": true
+    },
+    {
+        "check": "Eval button commits pending inputs: DMux8Way.h",
+        "passed": true
+    },
+    {
+        "check": "Eval leaves clock unchanged: DMux8Way",
+        "passed": true
+    },
+    {
+        "check": "Eval button commits pending inputs: HalfAdder.carry",
+        "passed": true
+    },
+    {
+        "check": "Eval button commits pending inputs: HalfAdder.sum",
+        "passed": true
+    },
+    {
+        "check": "Eval leaves clock unchanged: HalfAdder",
+        "passed": true
+    },
+    {
+        "check": "Eval button commits pending inputs: FullAdder.carry",
+        "passed": true
+    },
+    {
+        "check": "Eval button commits pending inputs: FullAdder.sum",
+        "passed": true
+    },
+    {
+        "check": "Eval leaves clock unchanged: FullAdder",
+        "passed": true
+    },
+    {
+        "check": "Eval button commits pending inputs: Add16.out",
+        "passed": true
+    },
+    {
+        "check": "Eval leaves clock unchanged: Add16",
+        "passed": true
+    },
+    {
+        "check": "Eval button commits pending inputs: Inc16.out",
+        "passed": true
+    },
+    {
+        "check": "Eval leaves clock unchanged: Inc16",
+        "passed": true
+    },
+    {
+        "check": "Eval button commits pending inputs: ALU.ng",
+        "passed": true
+    },
+    {
+        "check": "Eval button commits pending inputs: ALU.out",
+        "passed": true
+    },
+    {
+        "check": "Eval button commits pending inputs: ALU.zr",
+        "passed": true
+    },
+    {
+        "check": "Eval leaves clock unchanged: ALU",
+        "passed": true
+    },
+    {
+        "check": "hardware history resets on chip load and records explicit Eval",
+        "passed": true
+    },
+    {
+        "check": "history contains actual backend pin snapshot",
+        "passed": true
+    },
+    {
+        "check": "live hardware waveform view instantiated",
+        "passed": true
+    },
+    {
+        "check": "numeric views preserve signed 16-bit values",
+        "passed": true
+    },
+    {
+        "check": "invalid pending pin input preserves prior valid state",
+        "passed": true
+    },
+    {
+        "check": "Load HDL button loads native hierarchy",
+        "passed": true
+    },
+    {
+        "check": "hardware clock separator renders correctly",
+        "passed": true
+    },
+    {
+        "check": "diagram uses actual composite and Register connections",
+        "passed": true
+    },
+    {
+        "check": "hierarchical connection visualization reachable",
+        "passed": true
+    },
+    {
+        "check": "pin editor reaches hardware backend",
+        "passed": true
+    },
+    {
+        "check": "Tick samples without publishing register output",
+        "passed": true
+    },
+    {
+        "check": "Tock publishes register output to inspector",
+        "passed": true
+    },
+    {
+        "check": "history distinguishes Tick and Tock phases",
+        "passed": true
+    },
+    {
+        "check": "waveform snapshots preserve sequential timing",
+        "passed": true
+    },
+    {
+        "check": "clearing history preserves simulation state",
+        "passed": true
+    },
+    {
+        "check": "editing does not reset running hardware",
+        "passed": true
+    },
+    {
+        "check": "failed explicit reload preserves last valid hardware",
+        "passed": true
+    },
+    {
+        "check": "theme changes",
+        "passed": true
+    },
+    {
+        "check": "desktop frame rendered",
+        "passed": true
+    },
+    {
+        "check": "persistent preferences service available",
+        "passed": true
+    },
+    {
+        "check": "filename field exists",
+        "passed": true
+    },
+    {
+        "check": "file dialog surface exists",
+        "passed": true
+    },
+    {
+        "check": "filename field within dialog 320x640 scale 1",
+        "passed": true
+    },
+    {
+        "check": "dialog within window 320x640 scale 1",
+        "passed": true
+    },
+    {
+        "check": "pathCancel within dialog 320x640 scale 1",
+        "passed": true
+    },
+    {
+        "check": "pathSubmit within dialog 320x640 scale 1",
+        "passed": true
+    },
+    {
+        "check": "long filename does not expand dialog 320x640 scale 1",
+        "passed": true
+    },
+    {
+        "check": "dialog screenshot 320x640 scale 1",
+        "passed": true
+    },
+    {
+        "check": "filename field exists",
+        "passed": true
+    },
+    {
+        "check": "file dialog surface exists",
+        "passed": true
+    },
+    {
+        "check": "filename field within dialog 320x640 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "dialog within window 320x640 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "pathCancel within dialog 320x640 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "pathSubmit within dialog 320x640 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "long filename does not expand dialog 320x640 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "dialog screenshot 320x640 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "filename field exists",
+        "passed": true
+    },
+    {
+        "check": "file dialog surface exists",
+        "passed": true
+    },
+    {
+        "check": "filename field within dialog 412x820 scale 1",
+        "passed": true
+    },
+    {
+        "check": "dialog within window 412x820 scale 1",
+        "passed": true
+    },
+    {
+        "check": "pathCancel within dialog 412x820 scale 1",
+        "passed": true
+    },
+    {
+        "check": "pathSubmit within dialog 412x820 scale 1",
+        "passed": true
+    },
+    {
+        "check": "long filename does not expand dialog 412x820 scale 1",
+        "passed": true
+    },
+    {
+        "check": "dialog screenshot 412x820 scale 1",
+        "passed": true
+    },
+    {
+        "check": "filename field exists",
+        "passed": true
+    },
+    {
+        "check": "file dialog surface exists",
+        "passed": true
+    },
+    {
+        "check": "filename field within dialog 412x820 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "dialog within window 412x820 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "pathCancel within dialog 412x820 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "pathSubmit within dialog 412x820 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "long filename does not expand dialog 412x820 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "dialog screenshot 412x820 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "filename field exists",
+        "passed": true
+    },
+    {
+        "check": "file dialog surface exists",
+        "passed": true
+    },
+    {
+        "check": "filename field within dialog 820x412 scale 1",
+        "passed": true
+    },
+    {
+        "check": "dialog within window 820x412 scale 1",
+        "passed": true
+    },
+    {
+        "check": "pathCancel within dialog 820x412 scale 1",
+        "passed": true
+    },
+    {
+        "check": "pathSubmit within dialog 820x412 scale 1",
+        "passed": true
+    },
+    {
+        "check": "long filename does not expand dialog 820x412 scale 1",
+        "passed": true
+    },
+    {
+        "check": "dialog screenshot 820x412 scale 1",
+        "passed": true
+    },
+    {
+        "check": "filename field exists",
+        "passed": true
+    },
+    {
+        "check": "file dialog surface exists",
+        "passed": true
+    },
+    {
+        "check": "filename field within dialog 820x412 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "dialog within window 820x412 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "pathCancel within dialog 820x412 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "pathSubmit within dialog 820x412 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "long filename does not expand dialog 820x412 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "dialog screenshot 820x412 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "filename field exists",
+        "passed": true
+    },
+    {
+        "check": "file dialog surface exists",
+        "passed": true
+    },
+    {
+        "check": "filename field within dialog 768x1024 scale 1",
+        "passed": true
+    },
+    {
+        "check": "dialog within window 768x1024 scale 1",
+        "passed": true
+    },
+    {
+        "check": "pathCancel within dialog 768x1024 scale 1",
+        "passed": true
+    },
+    {
+        "check": "pathSubmit within dialog 768x1024 scale 1",
+        "passed": true
+    },
+    {
+        "check": "long filename does not expand dialog 768x1024 scale 1",
+        "passed": true
+    },
+    {
+        "check": "dialog screenshot 768x1024 scale 1",
+        "passed": true
+    },
+    {
+        "check": "filename field exists",
+        "passed": true
+    },
+    {
+        "check": "file dialog surface exists",
+        "passed": true
+    },
+    {
+        "check": "filename field within dialog 768x1024 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "dialog within window 768x1024 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "pathCancel within dialog 768x1024 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "pathSubmit within dialog 768x1024 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "long filename does not expand dialog 768x1024 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "dialog screenshot 768x1024 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "filename field exists",
+        "passed": true
+    },
+    {
+        "check": "file dialog surface exists",
+        "passed": true
+    },
+    {
+        "check": "filename field within dialog 1320x860 scale 1",
+        "passed": true
+    },
+    {
+        "check": "dialog within window 1320x860 scale 1",
+        "passed": true
+    },
+    {
+        "check": "pathCancel within dialog 1320x860 scale 1",
+        "passed": true
+    },
+    {
+        "check": "pathSubmit within dialog 1320x860 scale 1",
+        "passed": true
+    },
+    {
+        "check": "long filename does not expand dialog 1320x860 scale 1",
+        "passed": true
+    },
+    {
+        "check": "dialog screenshot 1320x860 scale 1",
+        "passed": true
+    },
+    {
+        "check": "filename field exists",
+        "passed": true
+    },
+    {
+        "check": "file dialog surface exists",
+        "passed": true
+    },
+    {
+        "check": "filename field within dialog 1320x860 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "dialog within window 1320x860 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "pathCancel within dialog 1320x860 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "pathSubmit within dialog 1320x860 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "long filename does not expand dialog 1320x860 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "dialog screenshot 1320x860 scale 1.5",
+        "passed": true
+    },
+    {
+        "check": "lineDialog reachable",
+        "passed": true
+    },
+    {
+        "check": "lineDialog bounded at 320",
+        "passed": true
+    },
+    {
+        "check": "settingsDialog reachable",
+        "passed": true
+    },
+    {
+        "check": "settingsDialog bounded at 320",
+        "passed": true
+    },
+    {
+        "check": "closeDocumentDialog reachable",
+        "passed": true
+    },
+    {
+        "check": "closeDocumentDialog bounded at 320",
+        "passed": true
+    },
+    {
+        "check": "exitDialog reachable",
+        "passed": true
+    },
+    {
+        "check": "exitDialog bounded at 320",
+        "passed": true
+    },
+    {
+        "check": "trashDialog reachable",
+        "passed": true
+    },
+    {
+        "check": "trashDialog bounded at 320",
+        "passed": true
+    },
+    {
+        "check": "conflictDialog reachable",
+        "passed": true
+    },
+    {
+        "check": "conflictDialog bounded at 320",
+        "passed": true
+    },
+    {
+        "check": "lineDialog reachable",
+        "passed": true
+    },
+    {
+        "check": "lineDialog bounded at 820",
+        "passed": true
+    },
+    {
+        "check": "settingsDialog reachable",
+        "passed": true
+    },
+    {
+        "check": "settingsDialog bounded at 820",
+        "passed": true
+    },
+    {
+        "check": "closeDocumentDialog reachable",
+        "passed": true
+    },
+    {
+        "check": "closeDocumentDialog bounded at 820",
+        "passed": true
+    },
+    {
+        "check": "exitDialog reachable",
+        "passed": true
+    },
+    {
+        "check": "exitDialog bounded at 820",
+        "passed": true
+    },
+    {
+        "check": "trashDialog reachable",
+        "passed": true
+    },
+    {
+        "check": "trashDialog bounded at 820",
+        "passed": true
+    },
+    {
+        "check": "conflictDialog reachable",
+        "passed": true
+    },
+    {
+        "check": "conflictDialog bounded at 820",
+        "passed": true
+    },
+    {
+        "check": "More menu opens find and replace",
+        "passed": true
+    },
+    {
+        "check": "Find Next button selects a match in the current editor",
+        "passed": true
+    },
+    {
+        "check": "Replace button updates the actual document",
+        "passed": true
+    },
+    {
+        "check": "single replacement is one undo operation",
+        "passed": true
+    },
+    {
+        "check": "Replace All button changes every matching occurrence",
+        "passed": true
+    },
+    {
+        "check": "find and replace closes without hiding the editor",
+        "passed": true
+    },
+    {
+        "check": "toolbar controls respect a top system inset",
+        "passed": true
+    },
+    {
+        "check": "whole-word replace all uses document model",
+        "passed": true
+    },
+    {
+        "check": "replace all is one undo operation",
+        "passed": true
+    },
+    {
+        "check": "selected lines indent together",
+        "passed": true
+    },
+    {
+        "check": "selected lines unindent together",
+        "passed": true
+    },
+    {
+        "check": "comment toggling uses C++ editor service",
+        "passed": true
+    },
+    {
+        "check": "comment toggling reverses",
+        "passed": true
+    },
+    {
+        "check": "bracket matching skips comments and strings",
+        "passed": true
+    },
+    {
+        "check": "create parser-negative GUI fixture",
+        "passed": true
+    },
+    {
+        "check": "worker diagnostics retain originating document",
+        "passed": true
+    },
+    {
+        "check": "diagnostic navigation selects error document after active tab changes",
+        "passed": true
+    },
+    {
+        "check": "workspace creation rejects traversal",
+        "passed": true
+    },
+    {
+        "check": "Return in Create File creates a real workspace file",
+        "passed": true
+    },
+    {
+        "check": "trash refuses unsaved documents",
+        "passed": true
+    },
+    {
+        "check": "rename follows the open document",
+        "passed": true
+    },
+    {
+        "check": "project search reads unsaved buffers with locations",
+        "passed": true
+    },
+    {
+        "check": "saved file moves to recoverable workspace trash",
+        "passed": true
+    },
+    {
+        "check": "trashed file leaves its original location",
+        "passed": true
+    },
+    {
+        "check": "recovery trash preserves file bytes",
+        "passed": true
+    },
+    {
+        "check": "prepare second save conflict",
+        "passed": true
+    },
+    {
+        "check": "second conflict is detected",
+        "passed": true
+    },
+    {
+        "check": "external writer changes reviewed version",
+        "passed": true
+    },
+    {
+        "check": "overwrite stops if disk changed again",
+        "passed": true
+    },
+    {
+        "check": "explicit overwrite saves only reviewed conflict version",
+        "passed": true
+    },
+    {
+        "check": "phone-width responsive navigation enabled",
+        "passed": true
+    },
+    {
+        "check": "phone-width machine pane rendered",
+        "passed": true
+    },
+    {
+        "check": "recent workspaces contain opened local folder",
+        "passed": true
+    },
+    {
+        "check": "recent workspaces survive settings reload",
+        "passed": true
+    },
+    {
+        "check": "no runtime QML binding, type, or settings serialization errors",
+        "passed": true
+    }
+]

@@ -131,6 +131,37 @@ jobs:
           path: |
             build-android-${{ matrix.abi }}/**/*.apk
             build-android-${{ matrix.abi }}/**/*.aab
+  android-toolbar:
+    needs: android
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - uses: actions/setup-python@v5.6.0
+        with: {python-version: '3.11.6'}
+      - uses: actions/download-artifact@v4.3.0
+        with:
+          name: android-development-x86_64
+          path: android-package
+      - name: Enable emulator acceleration
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Verify Android status-bar geometry on emulator
+        uses: reactivecircus/android-emulator-runner@c9c93e6ba9c4194322e114c40970d5983d9a07cc # v2.38.0
+        with:
+          api-level: 36
+          arch: x86_64
+          target: google_apis
+          profile: pixel_7_pro
+          emulator-build: 14472402 # 36.3.10, same version observed locally
+          script: python scripts/check_android_toolbar.py $(find android-package -path '*/outputs/apk/debug/android-build-debug.apk') android-test/toolbar.json
+      - uses: actions/upload-artifact@v4.6.2
+        if: always()
+        with:
+          name: evidence-android-toolbar
+          path: android-test/
   sanitizers:
     runs-on: ubuntu-24.04
     steps:

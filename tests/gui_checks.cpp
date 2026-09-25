@@ -43,6 +43,9 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         }
         std::function<QQuickItem*(QQuickItem*)> findEditor=[&](QQuickItem* item)->QQuickItem*{if(item->objectName()=="editor_Ui.asm")return item;for(auto* child:item->childItems())if(auto* found=findEditor(child))return found;return nullptr;};
         auto* editor=findEditor(window->contentItem());check(editor!=nullptr,"editor reachable through document tab");editor->forceActiveFocus();QTest::qWait(30);
+        auto* searchBar=window->findChild<QQuickItem*>("findReplaceBar");
+        check(searchBar&&!searchBar->isVisible(),"find and replace is hidden until requested");
+        check(searchBar->property("editor").value<QObject*>()!=nullptr,"find bar tracks the first asynchronously created editor");
         auto letter=[&](int key,const QString& text){QKeyEvent press(QEvent::KeyPress,key,Qt::ShiftModifier,text);QCoreApplication::sendEvent(window,&press);QKeyEvent release(QEvent::KeyRelease,key,Qt::ShiftModifier,text);QCoreApplication::sendEvent(window,&release);};
         editor->setProperty("cursorPosition",editor->property("text").toString().size());QTest::keyClick(window,Qt::Key_At);QTest::keyClick(window,Qt::Key_0);QTest::keyClick(window,Qt::Key_Return);letter(Qt::Key_M,"M");QTest::keyClick(window,Qt::Key_Equal);letter(Qt::Key_D,"D");
         QTest::qWait(30);auto* doc=qvariant_cast<Document*>(studio.documents()[studio.active()]);check(doc&&doc->dirty(),"keyboard editing marks document dirty");
@@ -58,6 +61,22 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         std::function<QQuickItem*(QQuickItem*,const QString&)> findItem=[&](QQuickItem* item,const QString& name)->QQuickItem*{if(item->objectName()==name)return item;for(auto* child:item->childItems())if(auto* found=findItem(child,name))return found;return nullptr;};
         auto wait=[&]{for(int i=0;studio.busy()&&i<300;++i)QTest::qWait(10);QTest::qWait(30);};
         auto click=[&](const QString& name){auto* item=findItem(window->contentItem(),name);if(!item)throw std::runtime_error("Missing control "+name.toStdString());QTest::mouseClick(window,Qt::LeftButton,Qt::NoModifier,item->mapToScene(QPointF(item->width()/2,item->height()/2)).toPoint());wait();};
+        auto xorFolder=QDir(dir).filePath("requested-xor");QDir().mkpath(xorFolder);QFile::remove(QDir(xorFolder).filePath("Not.hdl"));auto xorPath=QDir(xorFolder).filePath("Xor.hdl");
+        const QByteArray xorSource="CHIP Xor { IN a,b; OUT out; PARTS: Not(in=a,out=Nota); Not(in=b,out=Notb); And(a=a,b=Notb,out=aAndNotb); And(a=Nota,b=b,out=NotaAndb); Or(a=aAndNotb,b=NotaAndb,out=out); }";
+        write(xorPath,xorSource);studio.open(QUrl::fromLocalFile(xorPath));wait();
+        studio.evaluateHardwareWithInputs({{"a",1},{"b",0}});wait();check(studio.hardwareValue("out")=="1","first Eval loads and evaluates the user's composite Xor");
+        for(int a=0;a<2;++a)for(int b=0;b<2;++b){
+            for(auto pair:{qMakePair(QString("a"),a),qMakePair(QString("b"),b)}){auto* field=findItem(window->contentItem(),"pin_"+pair.first);if(!field)throw std::runtime_error("Xor pin missing");field->forceActiveFocus();QTest::keySequence(window,QKeySequence::SelectAll);QTest::keyClick(window,pair.second?Qt::Key_1:Qt::Key_0);}
+            click("hardwareEval");check(studio.hardwareValue("out")==QString::number(a^b),QString("composite Xor Eval truth table %1,%2").arg(a).arg(b));
+        }
+        auto* xorDocument=qvariant_cast<Document*>(studio.documents()[studio.active()]);xorDocument->setText(QString::fromUtf8(xorSource).replace("Or(a=aAndNotb","And(a=aAndNotb"));QTest::qWait(30);
+        check(studio.hardwareNeedsReload()&&findItem(window->contentItem(),"hardwareEval")->property("text")=="Reload & Eval","changed HDL explicitly offers Reload and Eval");
+        studio.evaluateHardwareWithInputs({{"a",1},{"b",0}});wait();check(studio.hardwareValue("out")=="0"&&bytes(xorPath)==xorSource,"Reload and Eval uses unsaved source without saving it");
+        xorDocument->setText(QString::fromUtf8(xorSource));studio.evaluateHardwareWithInputs({{"a",1},{"b",0}});wait();
+        xorDocument->setText("CHIP Xor { PARTS: Not(");studio.evaluateHardwareWithInputs({});wait();
+        check(studio.hardwareValue("out")=="1"&&!studio.diagnostics().isEmpty()&&studio.diagnostics().last().toMap()["path"]==xorPath,"incomplete HDL preserves running chip and reports parser location");
+        xorDocument->setText(QString::fromUtf8(xorSource));write(QDir(xorFolder).filePath("Not.hdl"),"CHIP Not { IN in; OUT out; PARTS: }");studio.loadHardware();wait();studio.hardwareActionWithInputs("eval",{{"a",1},{"b",0}});wait();
+        check(studio.hardwareValue("out")=="0"&&studio.hardwareMessage().contains("Not has an empty PARTS"),"unfinished local dependencies keep legacy precedence and show a warning");
         auto andPath=QDir(dir).filePath("And.hdl");write(andPath,"CHIP And { IN a,b; OUT out; BUILTIN And; }");studio.open(QUrl::fromLocalFile(andPath));QTest::qWait(30);click("loadHdl");
         for(auto name:{"a","b"}){auto* input=findItem(window->contentItem(),QString("pin_")+name);if(!input)throw std::runtime_error("And input control missing after Load HDL");input->forceActiveFocus();QTest::keyClick(window,Qt::Key_A,Qt::ControlModifier);QTest::keyClick(window,Qt::Key_1);}
         click("hardwareEval");check(studio.hardwareValue("out")=="1","Eval commits typed input fields without Return and evaluates And");
@@ -157,6 +176,14 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         studio.open(QUrl::fromLocalFile(path));QTest::qWait(40);editor=findEditor(window->contentItem());
         auto* services=qobject_cast<EditorServices*>(engine.rootContext()->contextProperty("editorTools").value<QObject*>());
         auto* textDocument=editor->property("textDocument").value<QQuickTextDocument*>();
+        click("moreButton");click("findReplaceMenuItem");check(searchBar->isVisible(),"More menu opens find and replace");
+        doc->setText("cat catapult CAT");QTest::qWait(30);editor->setProperty("cursorPosition",0);
+        findItem(window->contentItem(),"searchField")->setProperty("text","cat");findItem(window->contentItem(),"replaceField")->setProperty("text","dog");click("findNext");
+        check(editor->property("selectedText")=="cat","Find Next button selects a match in the current editor");click("replaceOne");check(doc->text().startsWith("dog "),"Replace button updates the actual document");
+        editor->forceActiveFocus();QTest::keySequence(window,QKeySequence::Undo);QTest::qWait(20);check(doc->text()=="cat catapult CAT","single replacement is one undo operation");
+        click("replaceAll");check(doc->text()=="dog dogapult dog","Replace All button changes every matching occurrence");click("closeSearch");check(!searchBar->isVisible(),"find and replace closes without hiding the editor");
+        auto* toolbar=findItem(window->contentItem(),"appToolbar");toolbar->setProperty("safeTop",48);QTest::qWait(40);
+        check(findItem(window->contentItem(),"filesButton")->mapToScene(QPointF(0,0)).y()>=48,"toolbar controls respect a top system inset");toolbar->setProperty("safeTop",0);QTest::qWait(30);
         doc->setText("let a = 1;\nlet aa = 2;\n// a\n");QTest::qWait(30);
         check(services->replaceAll(textDocument,"a","counter",true,true)==2&&doc->text().contains("let aa"),"whole-word replace all uses document model");
         editor->forceActiveFocus();QTest::keySequence(window,QKeySequence(QKeySequence::Undo));QTest::qWait(20);check(doc->text()=="let a = 1;\nlet aa = 2;\n// a\n","replace all is one undo operation");

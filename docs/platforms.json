@@ -9,7 +9,7 @@
       "packaged": true,
       "installed": false,
       "launched": "Windows platform plugin and offscreen; local packaged builds",
-      "functionally_tested": "2012 core, 2139 hardware, 225 GUI checks pass on current text-fix source. Packaging verification in progress. Earlier circuit package passed 221 GUI checks and 65+23 differential probes.",
+      "functionally_tested": "Current increment: 2012 core, 2144 hardware, 244 GUI checks pass. Two reported-Xor differential cases match Java bytes. Previous release passed packaged 226-check CI.",
       "full_workflow_verified": false
     },
     {
@@ -90,11 +90,12 @@
       "signing": "Existing workstation Android debug key; not release signing"
     }
   ],
-  "ci": "Run 35992557632: Linux, both macOS architectures, both Android ABIs and sanitizers passed. Windows Qt extraction failed; native 7-Zip extraction fix is prepared for the next run. GitHub approval access restored on 2026-09-24.",
+  "ci": "Previous release a9be82a: all six targets plus sanitizers passed run 35997152136. Current Xor/search/safe-area increment is locally tested; new CI/device verification pending.",
   "release_publication": {
     "requested": true,
-    "published": false,
+    "published": true,
     "workflow": ".github/workflows/release.yml",
-    "status": "Automatic development publication follows successful all-platform CI on main. Current corrected-text source not yet published."
-  }
+    "status": "Automatic development publication enabled after successful six-target CI. Published preceding text-fix release; current increment pending."
+  },
+  "latest_published_release": "https://github.com/ilcde/nandstudio-native/releases/tag/development-35997152136"
 }

@@ -24,6 +24,11 @@ int main() {
       });
     };
     check(nand::Hardware::builtins().size() == 35);
+    files["Xor"]="CHIP Xor { IN a,b; OUT out; PARTS: Not(in=a,out=Nota); Not(in=b,out=Notb); And(a=a,b=Notb,out=aAndNotb); And(a=Nota,b=b,out=NotaAndb); Or(a=aAndNotb,b=NotaAndb,out=out); }";
+    load("Xor");
+    for(int a=0;a<2;++a)for(int b=0;b<2;++b){h.set("a",a);h.set("b",b);h.eval();check(h.get("out")== (a^b));}
+    files["Not"]="CHIP Not { IN in; OUT out; PARTS: }";load("Xor");h.set("a",1);h.set("b",0);h.eval();check(h.get("out")==0);
+    files.clear();
     for (auto &name : nand::Hardware::builtins()) {
       load(name);
       h.eval();

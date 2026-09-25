@@ -1,5 +1,6 @@
 """Release safety checks, using deliberately tiny non-executable fixtures."""
 import copy
+import hashlib
 import importlib.util
 import json
 import pathlib
@@ -30,6 +31,9 @@ class ReleaseStaging(unittest.TestCase):
                 report = self.root / 'artifacts' / artifact / 'package-test/checks.json'
                 report.parent.mkdir()
                 report.write_text('[{"check":"fixture","passed":true}]')
+        report=self.root/'artifacts/evidence-android-toolbar/toolbar.json'
+        report.parent.mkdir()
+        report.write_text(json.dumps({'passed':True,'safe_top':24,'apk_sha256':hashlib.sha256(self.files[-1].read_bytes()).hexdigest()}))
 
     def stage(self, run=None):
         return release.stage(self.root/'artifacts', self.root/'staged', run or self.run, 'a'*40)
@@ -38,7 +42,11 @@ class ReleaseStaging(unittest.TestCase):
         result = self.stage()
         self.assertEqual(len(result['assets']), 6)
         self.assertTrue(all(not a['full_workflow_verified'] for a in result['assets']))
-        self.assertEqual(len((self.root/'staged/SHA256SUMS').read_text().splitlines()), 6)
+        self.assertEqual(len((self.root/'staged/SHA256SUMS').read_text().splitlines()), 7)
+
+    def test_android_evidence_for_different_apk_is_rejected(self):
+        self.files[-1].write_bytes(b'changed-package')
+        with self.assertRaises(ValueError): self.stage()
 
     def test_missing_android_aborts_before_staging(self):
         self.files[-1].unlink()

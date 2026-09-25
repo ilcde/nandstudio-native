@@ -44,7 +44,7 @@ ApplicationWindow {
         function onSearchChanged() { if(root.compact)root.mobilePane=3 }
         function onConflict(document) { conflictDialog.document=document;conflictDialog.open() }
     }
-    header: AppToolbar { onFolderRequested: folder.open();onFileRequested: openFile.open();onSettingsRequested: settingsDialog.open() }
+    header: AppToolbar { onFolderRequested: folder.open();onFileRequested: openFile.open();onSettingsRequested: settingsDialog.open();onSearchRequested: {if(root.compact)root.mobilePane=1;editorArea.focusSearch()} }
     FileDialog { id: openFile; title: "Open project file"; onAccepted: {studio.open(selectedFile);if(root.compact)root.mobilePane=1} }
     FolderDialog { id: folder; title: "Open workspace"; onAccepted: studio.openWorkspace(selectedFolder) }
     PathDialog {

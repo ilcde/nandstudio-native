@@ -21,6 +21,14 @@ Corrupted menu ellipses and the hardware time separator have been corrected,
 with regression checks against the actual QML text properties.
 The integrated editor and native tools remain under active development.
 
+This increment adds explicit Reload & Eval for modified HDL buffers, structured
+HDL load diagnostics, and warnings for empty project-local dependencies. The
+reported composite Xor is tested against the original Java engine, including
+the original behavior when local student starters override built-ins. Find and
+replace now opens from More or Ctrl+F, targets the active editor and supports
+single-operation undo. The Android toolbar accounts for the status bar/cutout
+safe area; a device layout-report entry point records its actual control bounds.
+
 Release blockers include Android Storage Access Framework access and lifecycle
 workflows, full native VM OS service fallback, existing Java extension binary
 compatibility, complete script/diagnostic parity, and the remaining GUI operations.

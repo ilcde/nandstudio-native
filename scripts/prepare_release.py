@@ -46,9 +46,17 @@ def stage(artifacts, destination, run, expected_sha):
                 raise ValueError(f'{platform}: packaged GUI tests failed or absent')
             checks = len(results)
         selected.append((platform, matches[0], name, checks))
+    android_report_path = artifacts/'evidence-android-toolbar/toolbar.json'
+    android_report = json.loads(android_report_path.read_text(encoding='utf-8'))
+    android_apk = next(source for platform,source,_,_ in selected if platform=='android-x86_64')
+    with android_apk.open('rb') as stream:
+        android_hash = hashlib.file_digest(stream, 'sha256').hexdigest()
+    if (android_report.get('passed') is not True or android_report.get('safe_top',0)<=0
+            or android_report.get('apk_sha256') != android_hash):
+        raise ValueError('Android toolbar check must pass for this exact x86_64 APK with a real top inset')
     destination.mkdir(parents=True, exist_ok=False)
     manifest = {'status': 'incomplete-development-prerelease', 'source_revision': expected_sha,
-                'ci_run': run['html_url'], 'assets': []}
+                'ci_run': run['html_url'], 'android_toolbar_evidence':'android-toolbar.json', 'assets': []}
     checksums = []
     for platform, source, name, checks in selected:
         target = destination / name
@@ -60,6 +68,8 @@ def stage(artifacts, destination, run, expected_sha):
                                    'signing': 'Android debug key' if platform.startswith('android') else 'unsigned',
                                    'full_workflow_verified': False})
         checksums.append(f'{digest}  {name}')
+    shutil.copyfile(android_report_path,destination/'android-toolbar.json')
+    checksums.append(hashlib.sha256((destination/'android-toolbar.json').read_bytes()).hexdigest()+'  android-toolbar.json')
     (destination / 'manifest.json').write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
     (destination / 'SHA256SUMS').write_text('\n'.join(checksums) + '\n', encoding='utf-8')
     return manifest

@@ -8,9 +8,9 @@ Item {
     required property var document
     property alias editor: edit
     function goTo(line,column) { let parts=edit.text.split("\n"),pos=0; for(let i=0;i<Math.min(parts.length,line-1);++i)pos+=parts[i].length+1;edit.cursorPosition=Math.min(edit.length,pos+Math.max(0,column-1));edit.forceActiveFocus() }
-    function find(query,sensitive,word) { let m=editorTools.find(edit.text,query,edit.selectionEnd,!!sensitive,!!word);if(m.start>=0){edit.select(m.start,m.end);edit.forceActiveFocus()} }
-    function replaceSelection(query,replacement,sensitive,word) { if(edit.selectedText.length && (sensitive ? edit.selectedText===query : edit.selectedText.toLowerCase()===query.toLowerCase())){let p=edit.selectionStart;edit.remove(p,edit.selectionEnd);edit.insert(p,replacement)}else find(query,sensitive,word) }
-    function replaceAll(query,replacement,sensitive,word) { editorTools.replaceAll(edit.textDocument,query,replacement,!!sensitive,!!word) }
+    function find(query,sensitive,word) { let m=editorTools.find(edit.text,query,edit.selectionEnd,!!sensitive,!!word);if(m.start<0)return false;edit.select(m.start,m.end);edit.forceActiveFocus();return true }
+    function replaceSelection(query,replacement,sensitive,word) { let m=editorTools.replaceOne(edit.textDocument,query,replacement,edit.selectionStart,!!sensitive,!!word);if(m.start<0)return false;edit.select(m.start,m.end);edit.forceActiveFocus();return true }
+    function replaceAll(query,replacement,sensitive,word) { return editorTools.replaceAll(edit.textDocument,query,replacement,!!sensitive,!!word) }
     function applySelection(range) { if(range.start!==undefined){edit.select(range.start,range.end);edit.forceActiveFocus()} }
     Rectangle { anchors.fill: parent; color: Theme.canvas }
     LineNumberGutter {

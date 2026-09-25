@@ -25,6 +25,7 @@ public:using QObject::QObject;
     Q_INVOKABLE int newline(QQuickTextDocument*,int position,int width,bool tabs);
     Q_INVOKABLE QVariantMap find(const QString& text,const QString& query,int from,bool sensitive,bool word)const;
     Q_INVOKABLE int replaceAll(QQuickTextDocument*,const QString& query,const QString& replacement,bool sensitive,bool word);
+    Q_INVOKABLE QVariantMap replaceOne(QQuickTextDocument*,const QString& query,const QString& replacement,int from,bool sensitive,bool word);
     Q_INVOKABLE int matchingBracket(const QString& text,int cursor)const;
 };
 class LineNumberGutter : public QQuickPaintedItem {

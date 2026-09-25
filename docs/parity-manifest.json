@@ -1296,7 +1296,8 @@
       "regression_tests": [
         "hardware_tests",
         "scripts/differential.py",
-        "gui_workflow"
+        "gui_workflow",
+        "docs/evidence/gui-xor-search-safearea-windows.json"
       ],
       "platform_coverage": {
         "windows-x86_64": "limited-local-tests",
@@ -1308,7 +1309,7 @@
       },
       "status": "partial",
       "release_blocker": true,
-      "notes": "Implemented subset; see docs/hardware.md for known numerical, hierarchy, diagnostics and GUI gaps. Windows-only evidence."
+      "notes": "Implemented subset; see docs/hardware.md for known numerical, hierarchy, diagnostics and GUI gaps. Windows-only evidence. Empty project-local chips still override built-ins as in Java; visible warnings name empty PARTS dependencies. Original student files untouched."
     },
     {
       "id": "hardware.cycle-detection",
@@ -1384,7 +1385,8 @@
       "regression_tests": [
         "tests/gui_checks.cpp",
         "tests/hardware_tests.cpp",
-        "docs/evidence/hardware-known-differences.json"
+        "docs/evidence/hardware-known-differences.json",
+        "docs/evidence/gui-xor-search-safearea-windows.json"
       ],
       "platform_coverage": {
         "windows-x86_64": "native GUI action tests passed",
@@ -1396,7 +1398,7 @@
       },
       "status": "partial",
       "release_blocker": true,
-      "notes": "Fixed uncommitted text fields: Eval validates and commits all input edits atomically before async evaluation. GUI key/mouse tests cover 21 chips, invalid input preservation, clock unchanged, sequential Tick/Tock and failed reload preservation. Tests pass on Windows and Linux."
+      "notes": "Fixed uncommitted text fields: Eval validates and commits all input edits atomically before async evaluation. GUI key/mouse tests cover 21 chips, invalid input preservation, clock unchanged, sequential Tick/Tock and failed reload preservation. Tests pass on Windows and Linux. Reported composite Xor truth table and unfinished local dependencies match the Java baseline byte-for-byte (docs/evidence/xor-eval.json). GUI Eval commits inputs; explicit Reload & Eval consumes modified buffers and preserves last valid state on parse failure."
     },
     {
       "id": "hardware.reload",
@@ -1406,7 +1408,8 @@
       "regression_tests": [
         "hardware_tests",
         "scripts/differential.py",
-        "gui_workflow"
+        "gui_workflow",
+        "docs/evidence/gui-xor-search-safearea-windows.json"
       ],
       "platform_coverage": {
         "windows-x86_64": "limited-local-tests",
@@ -1418,7 +1421,7 @@
       },
       "status": "partial",
       "release_blocker": true,
-      "notes": "Implemented subset; see docs/hardware.md for known numerical, hierarchy, diagnostics and GUI gaps. Windows-only evidence."
+      "notes": "Implemented subset; see docs/hardware.md for known numerical, hierarchy, diagnostics and GUI gaps. Windows-only evidence. The action changes to Reload & Eval when active HDL/open dependencies differ from the loaded snapshot, with a visible clock/state reset explanation. No reload on keystrokes."
     },
     {
       "id": "hardware.pin-inspection",
@@ -3484,7 +3487,9 @@
       "kind": "addition",
       "original_evidence": "User-requested addition",
       "native_implementation": "src/app/studio.cpp; src/app/Main.qml",
-      "regression_tests": [],
+      "regression_tests": [
+        "docs/evidence/gui-xor-search-safearea-windows.json"
+      ],
       "platform_coverage": {
         "windows-x86_64": "not-verified",
         "macos-arm64": "not-verified",
@@ -3495,7 +3500,7 @@
       },
       "status": "partial",
       "release_blocker": true,
-      "notes": "Implemented subset; not all edge cases tested. See user-guide.md."
+      "notes": "Implemented subset; not all edge cases tested. See user-guide.md. Hidden by default; More or Ctrl+F opens it. Tracks asynchronous editor creation/tab switches. GUI Next/Replace/All, feedback and one-step undo tested."
     },
     {
       "id": "editor.go-to-line",
@@ -3556,7 +3561,9 @@
       "kind": "addition",
       "original_evidence": "User-requested addition",
       "native_implementation": "src/app/studio.cpp; src/app/Main.qml",
-      "regression_tests": [],
+      "regression_tests": [
+        "docs/evidence/gui-xor-search-safearea-windows.json"
+      ],
       "platform_coverage": {
         "windows-x86_64": "not-verified",
         "macos-arm64": "not-verified",
@@ -3567,7 +3574,7 @@
       },
       "status": "partial",
       "release_blocker": true,
-      "notes": "Implemented subset; not all edge cases tested. See user-guide.md."
+      "notes": "Implemented subset; not all edge cases tested. See user-guide.md. HDL load parser diagnostics now retain file/line/column and are routed to the matching open document; failed reload preserves prior hardware."
     },
     {
       "id": "editor.recovery",
@@ -4428,6 +4435,24 @@
       "status": "partial",
       "release_blocker": true,
       "notes": "Four malformed literals replaced with Unicode escapes; correct Unicode labels and user file content preserved. Cross-platform package verification pending."
+    },
+    {
+      "id": "android.header-safe-area",
+      "kind": "addition",
+      "original_evidence": "User Android screenshot shows Files/Save/Build/More behind the status bar. Qt ApplicationWindow does not inset headers automatically.",
+      "native_implementation": "src/app/AppToolbar.qml; src/app/main.cpp --layout-report / Android layoutCheck intent",
+      "regression_tests": [
+        "244 Windows GUI checks including injected 48-unit top inset",
+        "On-device layout-report pending"
+      ],
+      "platform_coverage": {
+        "windows-x86_64": "local GUI geometry passed",
+        "android-arm64-v8a": "device test pending",
+        "android-x86_64": "emulator test pending"
+      },
+      "status": "partial",
+      "release_blocker": true,
+      "notes": "Toolbar pads top/left/right using Qt SafeArea margins; device geometry verification pending."
     }
   ],
   "gui_discovery": [
