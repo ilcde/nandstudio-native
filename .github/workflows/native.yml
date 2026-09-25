@@ -156,7 +156,7 @@ jobs:
           target: google_apis
           profile: pixel_7_pro
           emulator-build: 14472402 # 36.3.10, same version observed locally
-          script: python scripts/check_android_toolbar.py $(find android-package -path '*/outputs/apk/debug/android-build-debug.apk') android-test/toolbar.json
+          script: python scripts/check_android_toolbar.py $(find android-package -path '*/outputs/apk/debug/android-build-debug.apk') android-test/toolbar.json --workspace-flow
       - uses: actions/upload-artifact@v4.6.2
         if: always()
         with:

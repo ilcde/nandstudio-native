@@ -18,7 +18,7 @@ coverage are complete. The initial inventory is not claimed exhaustive.
 | Jack OS | Original VM assets preserved | Native service implementations, fallback confirmation/precedence and bundled offline assets pending |
 | Extensions | Source APIs audited initially | Java binary compatibility, native interface, callbacks and GUI extensions unresolved |
 | Editor | Native Qt Quick editor and C++ documents/services | Multi-document editing, save conflicts, recovery, snapshot builds; remaining conveniences and edge cases in manifest |
-| Android | Shared core compiles in CMake design; responsive QML exists | No Android build produced. SAF, grants, lifecycle, import/export and device workflow missing |
+| Android | ARM64/x86-64 APKs built; actual emulator Files/More/folder chooser touch test passes (CI 36154176790) | Version 0.1.2 adds explicit workspace copies; broader provider, lifecycle, rendering and physical-device verification remains incomplete. See android-workspaces.md |
 
 Actual results are in `evidence/differential.json`, `build/gui-test/checks.json`,
 and `platforms.json`. Phone-width rendering on Windows is **not Android testing**.

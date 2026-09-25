@@ -5,7 +5,7 @@ import QtQuick.Layouts
 Pane {
     id: toolbar
     objectName: "appToolbar"
-    signal folderRequested(); signal fileRequested(); signal settingsRequested(); signal searchRequested()
+    signal folderRequested(); signal fileRequested(); signal settingsRequested(); signal searchRequested(); signal exportRequested()
     property real safeTop: SafeArea.margins.top
     // Button menus belong below the header, never centered on its short height.
     function openMenu(menu, button) {
@@ -45,6 +45,7 @@ Pane {
         MenuSeparator {}
         MenuItem { text: "Save all"; onTriggered: studio.saveAll() }
         MenuItem { text: "Refresh workspace"; onTriggered: studio.refreshWorkspace() }
+        MenuItem { objectName: "exportWorkspaceMenuItem"; text: "Export workspace copy\u2026"; enabled: studio.workspace.length>0 && !studio.busy; onTriggered: toolbar.exportRequested() }
     }
     Menu {
         id: moreMenu; objectName: "moreMenu"

@@ -18,6 +18,7 @@ Pane {
             ScrollBar.vertical: ScrollBar {}
             delegate: ItemDelegate {
                 required property var modelData
+                objectName: "workspaceFile_"+modelData.name
                 width: ListView.view.width; height: Math.max(Theme.controlHeight, label.implicitHeight+Theme.sm*2)
                 contentItem: RowLayout {
                     Label { id: label; text: modelData.name; elide: Text.ElideMiddle; verticalAlignment: Text.AlignVCenter; color: Theme.text; Layout.fillWidth: true; Layout.minimumWidth: 0 }

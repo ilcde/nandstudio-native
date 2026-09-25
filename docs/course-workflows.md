@@ -49,7 +49,8 @@ Reference tests include 65 differential cases, two reported-Xor cases and target
 hardware probes. They do not exhaust all programs or UI operations. Read the
 release manifest, linked CI run, `evidence/` and `parity-manifest.json` for scope.
 
-Android shares the C++ engines, but SAF, import/export and lifecycle work blocks
-the complete open/edit/save/test/run/export workflow. Legacy Java extension
+Android shares the C++ engines. Version 0.1.2 adds explicit workspace copies;
+broader SAF provider and lifecycle coverage still blocks a fully verified
+open/edit/save/test/run/export workflow. Legacy Java extension
 binaries and other original capabilities also remain release blockers. Course-wide
 completion requires implemented, reachable features and platform workflow tests.

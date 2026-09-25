@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "app/studio.hpp"
 #include "app/editor_services.hpp"
+#include "app/storage.hpp"
 #include "builtin_hdl.hpp"
 #include <QQmlContext>
 #include <QQuickTextDocument>
@@ -19,6 +20,7 @@
 #include <QKeyEvent>
 #include <QDateTime>
 #include <QDirIterator>
+#include <QTemporaryDir>
 void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& dir){
     QJsonArray checks;int exitCode=0;QDir().mkpath(dir);
     auto check=[&](bool passed,const QString& label){checks.append(QJsonObject{{"check",label},{"passed",passed}});QFile progress(QDir(dir).filePath("checks.json"));if(progress.open(QIODevice::WriteOnly))progress.write(QJsonDocument(checks).toJson());if(!passed)throw std::runtime_error(label.toStdString());};
@@ -219,6 +221,15 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         window->resize(412,820);QTest::qWait(40);check(window->property("compact").toBool(),"phone-width responsive navigation enabled");window->setProperty("mobilePane",2);QTest::qWait(40);check(window->grabWindow().save(QDir(dir).filePath("phone-width.png")),"phone-width machine pane rendered");
         check(preferences->values()["recentWorkspaces"].toStringList().contains(studio.workspace()),"recent workspaces contain opened local folder");
         Preferences reloadedPreferences;check(reloadedPreferences.values()["recentWorkspaces"]==preferences->values()["recentWorkspaces"],"recent workspaces survive settings reload");
+        QTemporaryDir copyFixtures(QDir(dir).filePath("copy-XXXXXX"));check(copyFixtures.isValid(),"isolated workspace-copy fixture available");
+        auto sourceCopy=copyFixtures.path()+"/source";auto targetCopies=copyFixtures.path()+"/targets";QDir().mkpath(sourceCopy+"/nested");QDir().mkpath(targetCopies);
+        write(sourceCopy+"/nested/program.vm","push constant 7\r\n");write(sourceCopy+"/.config.txt","keep hidden configuration");
+        auto copied=storage::copyWorkspace(QUrl::fromLocalFile(sourceCopy),QUrl::fromLocalFile(targetCopies),"editable-copy");
+        check(bytes(copied.toLocalFile()+"/nested/program.vm")=="push constant 7\r\n"&&bytes(copied.toLocalFile()+"/.config.txt")=="keep hidden configuration","workspace copy preserves nested file bytes and hidden configuration");
+        write(copied.toLocalFile()+"/nested/program.vm","local change");check(bytes(sourceCopy+"/nested/program.vm")=="push constant 7\r\n","editing imported copy preserves original project");
+        bool copyRejected=false;try{storage::copyWorkspace(QUrl::fromLocalFile(sourceCopy),QUrl::fromLocalFile(targetCopies),"editable-copy");}catch(const std::exception&){copyRejected=true;}check(copyRejected&&bytes(copied.toLocalFile()+"/nested/program.vm")=="local change","copy refuses to replace an existing destination");
+        copyRejected=false;try{storage::copyWorkspace(QUrl::fromLocalFile(sourceCopy),QUrl::fromLocalFile(sourceCopy),"recursive");}catch(const std::exception&){copyRejected=true;}check(copyRejected,"copy rejects a destination inside its source");
+        copyRejected=false;try{storage::copyWorkspace(QUrl::fromLocalFile(sourceCopy),QUrl::fromLocalFile(targetCopies),"cancelled",[]{return true;});}catch(const std::exception&){copyRejected=true;}check(copyRejected&&!QFileInfo::exists(targetCopies+"/cancelled"),"cancelled workspace copy creates no destination");
         auto runtimeLog=bytes(qEnvironmentVariable("NAND_TEST_STATE_DIR")+"/qt.log");runtimeLog=runtimeLog.mid(runtimeLog.lastIndexOf("Creating application"));
         check(!runtimeLog.contains("Binding loop")&&!runtimeLog.contains("TypeError")&&!runtimeLog.contains("ReferenceError")&&!runtimeLog.contains("QDataStream::operator"),"no runtime QML binding, type, or settings serialization errors");
     }catch(const std::exception& e){qWarning("GUI check failed: %s",e.what());exitCode=1;}

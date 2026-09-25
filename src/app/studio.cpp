@@ -56,6 +56,7 @@ bool Document::resolveConflict(const QString& action){
 }
 void Document::highlight(QQuickTextDocument* d){if(d&&d->textDocument())new Highlight(d->textDocument());}
 Studio::Studio(){
+    connect(&transfer_,&QFutureWatcher<TaskResult>::finished,this,[this]{auto r=transfer_.result();busy_=false;log(r.message);if(!r.error&&!r.path.isEmpty())openWorkspace(QUrl::fromLocalFile(r.path));emit stateChanged();});
     connect(&task_,&QFutureWatcher<TaskResult>::finished,this,[this]{busy_=false;auto r=task_.result();log(r.message);if(r.error){diagnostics_.append(QVariantMap{{"path",r.path},{"line",r.line},{"column",r.column},{"message",r.message}});emit diagnosticsChanged();for(int i=0;i<docs_.size();++i)if(docs_[i]->path()==r.path){emit diagnostic(i,r.line,r.column,r.message);break;}}else if(!r.artifact.isEmpty()){log("Generated: "+r.artifact);for(auto* d:docs_)if(d->path()==r.artifact&&!d->dirty()){try{auto bytes=read(r.artifact);d->original=bytes;d->text_=QString::fromUtf8(bytes).replace("\r\n","\n");emit d->textChanged();emit d->changed();}catch(const std::exception& e){log(e.what());}}open(QUrl::fromLocalFile(r.artifact));}emit stateChanged();});
     connect(&execution_,&QFutureWatcher<std::shared_ptr<ExecutionResult>>::finished,this,[this]{
         busy_=false;auto r=execution_.result();
@@ -76,7 +77,7 @@ Studio::Studio(){
     connect(&autosaveTimer_,&QTimer::timeout,this,[this]{if(!busy_)for(auto* d:docs_)if(d->dirty()&&!d->hasConflict())d->save();});
     connect(&recoveryTimer_,&QTimer::timeout,this,&Studio::saveSession);recoveryTimer_.start(5000);if(!QCoreApplication::arguments().contains("--self-test"))recover();
 }
-Studio::~Studio(){cancelled_=true;task_.waitForFinished();execution_.waitForFinished();workspaceTask_.waitForFinished();searchTask_.waitForFinished();saveSession();}
+Studio::~Studio(){cancelled_=true;task_.waitForFinished();execution_.waitForFinished();workspaceTask_.waitForFinished();searchTask_.waitForFinished();transfer_.waitForFinished();saveSession();}
 QVariantList Studio::documents()const{QVariantList r;for(auto* d:docs_)r.append(QVariant::fromValue(d));return r;}
 Document* Studio::current()const{return active_>=0&&active_<docs_.size()?docs_[active_]:nullptr;}
 void Studio::setActive(int i){if(i>=0&&i<docs_.size()&&active_!=i){active_=i;emit activeChanged();}}
@@ -87,8 +88,19 @@ void Studio::open(const QUrl& url){
     try{auto* d=new Document(path,this);connect(d,&Document::error,this,&Studio::log);connect(d,&Document::conflict,this,[this,d]{emit conflict(d);});connect(d,&Document::textChanged,this,&Studio::hardwareSourceChanged);docs_.append(d);active_=int(docs_.size())-1;emit documentsChanged();emit activeChanged();}catch(const std::exception& e){log(QString::fromUtf8(e.what()));}
 }
 void Studio::openWorkspace(const QUrl& url){
-    if(!url.isLocalFile()){log("This provider requires local import before the workspace can be edited");return;}
+    if(!url.isLocalFile()){emit workspaceImportRequested(url);return;}
     auto path=QFileInfo(url.toLocalFile()).absoluteFilePath();if(!QFileInfo(path).isDir()){log("Workspace must be a folder");return;}workspace_=path;refreshWorkspace();
+}
+void Studio::importWorkspace(const QUrl& url){
+    if(busy_)return;auto parent=QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)+"/workspaces";
+    if(!QDir().mkpath(parent)){log("Cannot create local workspace storage");return;}
+    auto name="Project-"+QUuid::createUuid().toString(QUuid::WithoutBraces);cancelled_=false;busy_=true;emit stateChanged();
+    transfer_.setFuture(QtConcurrent::run([this,url,parent,name]{TaskResult r;try{auto copy=storage::copyWorkspace(url,QUrl::fromLocalFile(parent),name,[this]{return cancelled_.load();});r.path=copy.toLocalFile();r.message="Imported separate editable local copy: "+r.path+". Save changes this local copy only; use Export workspace copy to share results. Original folder unchanged.";}catch(const std::exception& e){r.error=true;r.message=e.what();}return r;}));
+}
+void Studio::exportWorkspace(const QUrl& destination){
+    if(busy_||workspace_.isEmpty())return;if(hasDirtyDocuments()){log("Save open documents before exporting; unsaved buffers were not exported");return;}
+    auto source=QUrl::fromLocalFile(workspace_);auto name="NandStudio-export-"+QUuid::createUuid().toString(QUuid::WithoutBraces);cancelled_=false;busy_=true;emit stateChanged();
+    transfer_.setFuture(QtConcurrent::run([this,source,destination,name]{TaskResult r;try{auto copy=storage::copyWorkspace(source,destination,name,[this]{return cancelled_.load();});r.message="Exported saved workspace as a new folder: "+copy.toString()+". Existing provider files were not overwritten.";}catch(const std::exception& e){r.error=true;r.message=e.what();}return r;}));
 }
 void Studio::refreshWorkspace(){
     auto path=workspace_;if(path.isEmpty())return;emit filesChanged();workspaceTask_.setFuture(QtConcurrent::run([path]{WorkspaceResult result;result.path=path;try{

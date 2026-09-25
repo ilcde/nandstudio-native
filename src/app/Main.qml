@@ -16,6 +16,7 @@ ApplicationWindow {
     property int closingDocument: -1
     property string pathOperation: "create"
     property string operationPath: ""
+    property url pendingImport
     font.family: Qt.platform.os === "windows" ? "Segoe UI" : "sans-serif"
     font.pixelSize: Theme.bodySize
     color: Theme.canvas
@@ -43,10 +44,13 @@ ApplicationWindow {
         function onFilesChanged() { if(studio.workspace.length){let recent=(preferences.values.recentWorkspaces || []).filter(p => p!==studio.workspace);recent.unshift(studio.workspace);preferences.set("recentWorkspaces",recent.slice(0,10))} }
         function onSearchChanged() { if(root.compact)root.mobilePane=3 }
         function onConflict(document) { conflictDialog.document=document;conflictDialog.open() }
+        function onWorkspaceImportRequested(url) { root.pendingImport=url;importDialog.open() }
     }
-    header: AppToolbar { onFolderRequested: folder.open();onFileRequested: openFile.open();onSettingsRequested: settingsDialog.open();onSearchRequested: {if(root.compact)root.mobilePane=1;editorArea.focusSearch()} }
+    header: AppToolbar { onFolderRequested: folder.open();onFileRequested: openFile.open();onSettingsRequested: settingsDialog.open();onSearchRequested: {if(root.compact)root.mobilePane=1;editorArea.focusSearch()} onExportRequested: exportFolder.open() }
     FileDialog { id: openFile; title: "Open project file"; onAccepted: {studio.open(selectedFile);if(root.compact)root.mobilePane=1} }
     FolderDialog { id: folder; objectName: "workspaceFolderDialog"; title: "Open workspace"; onAccepted: studio.openWorkspace(selectedFolder) }
+    FolderDialog { id: exportFolder; title: "Select destination for a new workspace copy"; onAccepted: studio.exportWorkspace(selectedFolder) }
+    ConfirmDialog { id: importDialog; objectName: "importWorkspaceDialog"; title: "Import an editable workspace copy"; actionText: "Import copy"; message: "Copy this provider folder into NandStudio's local storage? Save will update only that local copy. The original folder stays unchanged; use Files > Export workspace copy to copy saved results back into a new folder. Copies exclude .git and recovery trash. App-private copies may be lost on uninstall, so export important work."; onConfirmed: studio.importWorkspace(root.pendingImport) }
     PathDialog {
         id: pathDialog
         onSubmitted: value => {

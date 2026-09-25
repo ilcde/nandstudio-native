@@ -64,7 +64,7 @@ int main(int argc,char** argv){
         const auto destination=arguments[at+1];
         const bool menuCheck=arguments.contains("--menu-check");
         auto* reportTimer=new QTimer(&app);reportTimer->setInterval(menuCheck?300:1500);reportTimer->setSingleShot(!menuCheck);
-        QObject::connect(reportTimer,&QTimer::timeout,&app,[&app,&engine,destination,menuCheck]{
+        QObject::connect(reportTimer,&QTimer::timeout,&app,[&app,&engine,&studio,destination,menuCheck]{
             auto* window=qobject_cast<QQuickWindow*>(engine.rootObjects().first());
             if(!window){QCoreApplication::exit(1);return;}
             const auto margins=window->safeAreaMargins();
@@ -84,6 +84,20 @@ int main(int argc,char** argv){
             }
             auto* folder=window->findChild<QObject*>("workspaceFolderDialog");
             QJsonObject report{{"platform",QGuiApplication::platformName()},{"width",window->width()},{"height",window->height()},{"device_pixel_ratio",window->devicePixelRatio()},{"safe_top",margins.top()},{"safe_bottom",margins.bottom()},{"safe_left",margins.left()},{"safe_right",margins.right()},{"controls",controls},{"menu_items",menuItems},{"folder_dialog_visible",folder&&folder->property("visible").toBool()},{"passed",passed}};
+            if(menuCheck){
+                QJsonArray items;
+                const auto collect=[&](auto&& self,QQuickItem* parent)->void{
+                    if(!parent||!parent->isVisible())return;
+                    const auto name=parent->objectName();
+                    if(name=="importWorkspaceDialogConfirm"||name=="exportWorkspaceMenuItem"||name.startsWith("workspaceFile_")||name.startsWith("editor_")){
+                        const auto rect=parent->mapRectToScene(QRectF(0,0,parent->width(),parent->height()));
+                        items.append(QJsonObject{{"name",name},{"x",rect.x()},{"y",rect.y()},{"width",rect.width()},{"height",rect.height()},{"inside_safe_area",usable.contains(rect.center())}});
+                    }
+                    for(auto* child:parent->childItems())self(self,child);
+                };collect(collect,window->contentItem());
+                report["workspace_controls"]=items;report["workspace"]=studio.workspace();report["busy"]=studio.busy();report["output"]=studio.output();
+                if(studio.active()>=0){auto* d=qvariant_cast<Document*>(studio.documents()[studio.active()]);report["active_document"]=QJsonObject{{"name",d->name()},{"text",d->text()},{"dirty",d->dirty()}};}
+            }
             QDir().mkpath(QFileInfo(destination).absolutePath());QFile file(destination);
             if(!file.open(QIODevice::WriteOnly)||file.write(QJsonDocument(report).toJson())<0)passed=false;
             if(!menuCheck){qInfo("Toolbar safe-area check: %s (top=%d)",passed?"passed":"FAILED",margins.top());QCoreApplication::exit(passed?0:1);}

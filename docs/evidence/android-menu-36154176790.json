@@ -1,0 +1,100 @@
+{
+  "controls": [
+    {
+      "height": 44,
+      "inside_safe_area": true,
+      "name": "filesButton",
+      "width": 90,
+      "x": 8,
+      "y": 49
+    },
+    {
+      "height": 44,
+      "inside_safe_area": true,
+      "name": "saveButton",
+      "width": 91,
+      "x": 106,
+      "y": 49
+    },
+    {
+      "height": 44,
+      "inside_safe_area": true,
+      "name": "buildButton",
+      "width": 90,
+      "x": 205,
+      "y": 49
+    },
+    {
+      "height": 44,
+      "inside_safe_area": true,
+      "name": "moreButton",
+      "width": 92,
+      "x": 311,
+      "y": 49
+    }
+  ],
+  "device_pixel_ratio": 3.5,
+  "folder_dialog_visible": false,
+  "height": 891,
+  "menu_items": [],
+  "passed": true,
+  "platform": "android",
+  "safe_bottom": 24,
+  "safe_left": 0,
+  "safe_right": 0,
+  "safe_top": 41,
+  "width": 411,
+  "apk_sha256": "8e5446f932d6ce372d1b76e6954b432b26a3439fa2253ce91cfb64ab1c0f94f3",
+  "abi": "x86_64",
+  "android_api": "36",
+  "page_size": "4096",
+  "full_workflow_verified": false,
+  "interaction": {
+    "passed": true,
+    "files_menu": [
+      {
+        "height": 31,
+        "inside_safe_area": true,
+        "name": "openWorkspaceMenuItem",
+        "width": 318,
+        "x": 9,
+        "y": 102
+      },
+      {
+        "height": 31,
+        "inside_safe_area": true,
+        "name": "openFileMenuItem",
+        "width": 318,
+        "x": 9,
+        "y": 133
+      }
+    ],
+    "more_menu": [
+      {
+        "height": 31,
+        "inside_safe_area": true,
+        "name": "findReplaceMenuItem",
+        "width": 318,
+        "x": 84,
+        "y": 102
+      },
+      {
+        "height": 31,
+        "inside_safe_area": true,
+        "name": "settingsMenuItem",
+        "width": 318,
+        "x": 84,
+        "y": 164
+      }
+    ],
+    "workspace_chooser_opened": true,
+    "chooser": {
+      "kind": "android-documents-ui",
+      "resumed_activity": [
+        "topResumedActivity=ActivityRecord{162773224 u0 com.google.android.documentsui/com.android.documentsui.picker.PickActivity t9}",
+        "ResumedActivity: ActivityRecord{162773224 u0 com.google.android.documentsui/com.android.documentsui.picker.PickActivity t9}"
+      ]
+    },
+    "workspace_selected": false
+  }
+}

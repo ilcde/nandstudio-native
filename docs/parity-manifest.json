@@ -3980,39 +3980,45 @@
     },
     {
       "id": "android.SAF-document-URIs",
-      "kind": "legacy",
+      "kind": "addition",
       "original_evidence": "User requirement; Qt 6.11 and Android platform contracts",
-      "native_implementation": null,
-      "regression_tests": [],
+      "native_implementation": "src/app/storage.cpp; src/app/studio.cpp; src/app/Main.qml",
+      "regression_tests": [
+        "gui_workflow",
+        "scripts/check_android_toolbar.py --workspace-flow"
+      ],
       "platform_coverage": {
-        "windows-x86_64": "not-verified",
+        "windows-x86_64": "253 GUI assertions passed; shared copy storage behavior tested",
         "macos-arm64": "not-verified",
         "macos-x86_64": "not-verified",
         "linux-x86_64": "not-verified",
         "android-arm64-v8a": "not-verified",
         "android-x86_64": "not-verified"
       },
-      "status": "not-implemented",
+      "status": "partial",
       "release_blocker": true,
-      "notes": "No Android Qt kit or NDK installed. SAF and lifecycle implementation missing, independently of toolchain blocker."
+      "notes": "Version 0.1.2 explicit import to editable local copy and export to new provider folder. Qt content URIs used without local-path conversion. Android provider test pending; direct provider editing, individual files and grant recovery incomplete. See docs/android-workspaces.md."
     },
     {
       "id": "android.directory-tree-grants",
-      "kind": "legacy",
+      "kind": "addition",
       "original_evidence": "User requirement; Qt 6.11 and Android platform contracts",
-      "native_implementation": null,
-      "regression_tests": [],
+      "native_implementation": "src/app/storage.cpp; src/app/studio.cpp; src/app/Main.qml",
+      "regression_tests": [
+        "gui_workflow",
+        "scripts/check_android_toolbar.py --workspace-flow"
+      ],
       "platform_coverage": {
-        "windows-x86_64": "not-verified",
+        "windows-x86_64": "253 GUI assertions passed; shared copy storage behavior tested",
         "macos-arm64": "not-verified",
         "macos-x86_64": "not-verified",
         "linux-x86_64": "not-verified",
         "android-arm64-v8a": "not-verified",
         "android-x86_64": "not-verified"
       },
-      "status": "not-implemented",
+      "status": "partial",
       "release_blocker": true,
-      "notes": "No Android Qt kit or NDK installed. SAF and lifecycle implementation missing, independently of toolchain blocker."
+      "notes": "Version 0.1.2 explicit import to editable local copy and export to new provider folder. Qt content URIs used without local-path conversion. Android provider test pending; direct provider editing, individual files and grant recovery incomplete. See docs/android-workspaces.md."
     },
     {
       "id": "android.grant-recovery",
@@ -4030,25 +4036,28 @@
       },
       "status": "not-implemented",
       "release_blocker": true,
-      "notes": "No Android Qt kit or NDK installed. SAF and lifecycle implementation missing, independently of toolchain blocker."
+      "notes": "Android ARM64 and x86-64 packages are now compiled in CI. This feature still needs implementation and/or device workflow verification; build success alone is insufficient."
     },
     {
       "id": "android.local-import-export",
-      "kind": "legacy",
+      "kind": "addition",
       "original_evidence": "User requirement; Qt 6.11 and Android platform contracts",
-      "native_implementation": null,
-      "regression_tests": [],
+      "native_implementation": "src/app/storage.cpp; src/app/studio.cpp; src/app/Main.qml",
+      "regression_tests": [
+        "gui_workflow",
+        "scripts/check_android_toolbar.py --workspace-flow"
+      ],
       "platform_coverage": {
-        "windows-x86_64": "not-verified",
+        "windows-x86_64": "253 GUI assertions passed; shared copy storage behavior tested",
         "macos-arm64": "not-verified",
         "macos-x86_64": "not-verified",
         "linux-x86_64": "not-verified",
         "android-arm64-v8a": "not-verified",
         "android-x86_64": "not-verified"
       },
-      "status": "not-implemented",
+      "status": "partial",
       "release_blocker": true,
-      "notes": "No Android Qt kit or NDK installed. SAF and lifecycle implementation missing, independently of toolchain blocker."
+      "notes": "Version 0.1.2 explicit import to editable local copy and export to new provider folder. Qt content URIs used without local-path conversion. Android provider test pending; direct provider editing, individual files and grant recovery incomplete. See docs/android-workspaces.md."
     },
     {
       "id": "android.IME",
@@ -4066,7 +4075,7 @@
       },
       "status": "not-implemented",
       "release_blocker": true,
-      "notes": "No Android Qt kit or NDK installed. SAF and lifecycle implementation missing, independently of toolchain blocker."
+      "notes": "Android ARM64 and x86-64 packages are now compiled in CI. This feature still needs implementation and/or device workflow verification; build success alone is insufficient."
     },
     {
       "id": "android.lifecycle",
@@ -4084,7 +4093,7 @@
       },
       "status": "not-implemented",
       "release_blocker": true,
-      "notes": "No Android Qt kit or NDK installed. SAF and lifecycle implementation missing, independently of toolchain blocker."
+      "notes": "Android ARM64 and x86-64 packages are now compiled in CI. This feature still needs implementation and/or device workflow verification; build success alone is insufficient."
     },
     {
       "id": "android.offline-assets",
@@ -4102,7 +4111,7 @@
       },
       "status": "not-implemented",
       "release_blocker": true,
-      "notes": "No Android Qt kit or NDK installed. SAF and lifecycle implementation missing, independently of toolchain blocker."
+      "notes": "Android ARM64 and x86-64 packages are now compiled in CI. This feature still needs implementation and/or device workflow verification; build success alone is insufficient."
     },
     {
       "id": "android.16KB-package-verification",
@@ -4120,7 +4129,7 @@
       },
       "status": "not-implemented",
       "release_blocker": true,
-      "notes": "No Android Qt kit or NDK installed. SAF and lifecycle implementation missing, independently of toolchain blocker."
+      "notes": "Android ARM64 and x86-64 packages are now compiled in CI. This feature still needs implementation and/or device workflow verification; build success alone is insufficient."
     },
     {
       "id": "android.device-workflow",
@@ -4138,7 +4147,7 @@
       },
       "status": "not-implemented",
       "release_blocker": true,
-      "notes": "No Android Qt kit or NDK installed. SAF and lifecycle implementation missing, independently of toolchain blocker."
+      "notes": "Android ARM64 and x86-64 packages are now compiled in CI. This feature still needs implementation and/or device workflow verification; build success alone is insufficient."
     },
     {
       "id": "launcher.HardwareSimulator",
@@ -4479,11 +4488,12 @@
       "regression_tests": [
         "gui_workflow",
         "scripts/check_android_toolbar.py",
-        "tests/test_release_staging.py"
+        "tests/test_release_staging.py",
+        "docs/evidence/android-menu-36154176790.json"
       ],
       "platform_coverage": {
         "windows-x86_64": "247 GUI checks passed, including popup and folder chooser interactions",
-        "android-x86_64": "CI touch test pending",
+        "android-x86_64": "API 36 emulator: actual More/Files/Open workspace taps passed in CI 36154176790",
         "android-arm64-v8a": "physical device test pending"
       },
       "status": "partial",

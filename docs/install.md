@@ -92,8 +92,12 @@ between releases. If an update fails because of a signature mismatch, do not
 uninstall before backing up important data. Uninstallation normally erases
 app-private documents/settings. A stable production update channel is not configured.
 
-**Unfinished workflows:** Storage Access Framework directory grants, provider-backed
-editing, import/export and lifecycle/process recreation. Installing the APK does
+Version 0.1.2 introduces explicit [workspace import/export](android-workspaces.md).
+Select a provider folder, confirm Import copy, edit the local copy, save, then
+export into a new destination folder. The original folder is unchanged.
+
+**Unfinished workflows:** Direct provider-backed editing, individual document
+opening, broad provider/grant recovery and lifecycle coverage. Installing the APK does
 not establish a complete course-project workflow. Do not assume a document URI is
 a filesystem folder. ELF/ZIP alignment is checked for 16 KB, but 16 KB runtime
 testing remains pending. Release layout reports record the emulator/API/page size

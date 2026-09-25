@@ -1,11 +1,17 @@
 # NandStudio development packages
 
+Version 0.1.2 adds explicit Android folder import into an editable local copy and
+export into a new provider folder. Save changes the local copy; the original stays
+unchanged. See `docs/android-workspaces.md`. Publication requires an emulator
+import/edit/save/assemble/export/reopen test for the exact x86-64 APK. This one
+provider workflow does not establish complete Android or course-wide parity.
+
 Version 0.1.1 fixes Android Files/More menus opening over the status bar. Menus
 are anchored below the header and touch devices no longer display hover tooltips
 over their actions. More displays the app version so an installed older APK can
 be identified. Android release validation now taps More, Files and Open workspace,
 checks popup bounds, and verifies that the folder chooser opens. This does not
-claim that Android document-provider workspaces can yet be imported or edited.
+claim complete Android document-provider compatibility.
 
 This is an incomplete C++/Qt migration, not a feature-complete release of the
 Nand2Tetris suite. The attached manifest identifies the exact source revision,

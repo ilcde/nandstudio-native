@@ -33,7 +33,7 @@ class ReleaseStaging(unittest.TestCase):
                 report.write_text('[{"check":"fixture","passed":true}]')
         report=self.root/'artifacts/evidence-android-toolbar/toolbar.json'
         report.parent.mkdir()
-        report.write_text(json.dumps({'passed':True,'safe_top':24,'interaction':{'passed':True,'workspace_chooser_opened':True},'apk_sha256':hashlib.sha256(self.files[-1].read_bytes()).hexdigest()}))
+        report.write_text(json.dumps({'passed':True,'safe_top':24,'interaction':{'passed':True,'workspace_chooser_opened':True},'workspace_copy':{'passed':True},'apk_sha256':hashlib.sha256(self.files[-1].read_bytes()).hexdigest()}))
 
     def stage(self, run=None):
         return release.stage(self.root/'artifacts', self.root/'staged', run or self.run, 'a'*40)
@@ -57,6 +57,11 @@ class ReleaseStaging(unittest.TestCase):
         self.files[-1].unlink()
         with self.assertRaises(ValueError): self.stage()
         self.assertFalse((self.root/'staged').exists())
+
+    def test_chooser_without_workspace_workflow_is_rejected(self):
+        path=self.root/'artifacts/evidence-android-toolbar/toolbar.json'
+        data=json.loads(path.read_text());data.pop('workspace_copy');path.write_text(json.dumps(data))
+        with self.assertRaises(ValueError): self.stage()
 
     def test_failed_or_foreign_run_rejected(self):
         for field, value in [('conclusion', 'failure'), ('status', 'in_progress'),

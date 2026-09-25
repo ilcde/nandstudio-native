@@ -54,8 +54,9 @@ def stage(artifacts, destination, run, expected_sha):
     interaction=android_report.get('interaction',{})
     if (android_report.get('passed') is not True or android_report.get('safe_top',0)<=0
             or interaction.get('passed') is not True or interaction.get('workspace_chooser_opened') is not True
+            or android_report.get('workspace_copy',{}).get('passed') is not True
             or android_report.get('apk_sha256') != android_hash):
-        raise ValueError('Android toolbar and Open workspace touch checks must pass for this exact x86_64 APK')
+        raise ValueError('Android toolbar, workspace touch and import/edit/build/export checks must pass for this exact x86_64 APK')
     destination.mkdir(parents=True, exist_ok=False)
     manifest = {'status': 'incomplete-development-prerelease', 'source_revision': expected_sha,
                 'ci_run': run['html_url'], 'android_toolbar_evidence':'android-toolbar.json', 'assets': []}

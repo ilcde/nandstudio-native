@@ -63,6 +63,8 @@ public:
     QString lastError()const{return lastError_;}QVariantList searchResults()const{return searchResults_;}QVariantList diagnostics()const{return diagnostics_;}
     Q_INVOKABLE void open(const QUrl& url);
     Q_INVOKABLE void openWorkspace(const QUrl& url);
+    Q_INVOKABLE void importWorkspace(const QUrl& url);
+    Q_INVOKABLE void exportWorkspace(const QUrl& destination);
     Q_INVOKABLE void openLocalWorkspace(const QString& path) { openWorkspace(QUrl::fromLocalFile(path)); }
     Q_INVOKABLE bool createFile(const QString& relative);
     Q_INVOKABLE bool createFolder(const QString& relative);
@@ -96,6 +98,7 @@ signals:
     void diagnostic(int document,int line,int column,QString message);
     void conflict(Document* document);void searchChanged();void diagnosticsChanged();
     void hardwareSourceChanged();
+    void workspaceImportRequested(QUrl url);
 private:
     Document* current()const;void recover();void saveSession();void runTest(nand::ScriptTool tool);
     std::shared_ptr<ExecutionResult> snapshot()const;
@@ -108,6 +111,7 @@ private:
     QTimer autosaveTimer_;QString lastError_;QVariantList searchResults_,diagnostics_;
     QFutureWatcher<WorkspaceResult> workspaceTask_;QFutureWatcher<QVariantList> searchTask_;
     QFutureWatcher<TaskResult> task_;QFutureWatcher<std::shared_ptr<ExecutionResult>> execution_;
+    QFutureWatcher<TaskResult> transfer_;
     std::atomic_bool cancelled_{false};
     std::atomic_int keyboard_{0};
 };
