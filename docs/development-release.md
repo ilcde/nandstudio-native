@@ -40,6 +40,12 @@ compatibility, complete script/diagnostic parity, and the remaining GUI operatio
 See `docs/parity-manifest.json` and `docs/platforms.json` in the source archive.
 Preserve existing project backups when trying development builds.
 
+Known Android emulator visual limitation: local emulator 36.3.10 with SwiftShader
+showed triangular background/button artifacts. The real-inset toolbar check passes,
+but does not certify rendering or complete touch workflows. Physical ARM64 visual
+testing remains pending. No speculative rendering override is shipped. See the
+repository's `docs/release-2026-09-25.md` and parity register for recorded evidence.
+
 Source ZIPs attached here contain the tracked native project. The uploaded legacy
 reference archive is not in Git or this release ZIP; differential testing requires
 that original archive and the development-only Java reference setup documented

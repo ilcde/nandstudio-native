@@ -127,5 +127,9 @@ the new package separately. Preserve project backups. Do not overwrite expected
   in the project until native built-in fallback is implemented.
 - **Save conflict:** review the disk version in the conflict dialog. Autosave
   does not silently overwrite external changes.
+- **Android emulator graphics artifacts:** emulator 36.3.10 with SwiftShader
+  showed triangular backgrounds/buttons locally despite passing toolbar bounds.
+  Disabling emulator Vulkan did not fix it; forcing Qt software rendering gave
+  a blank surface. This remains tracked, and no renderer override is shipped.
 
 Report other problems using [the issue guide](../CONTRIBUTING.md).

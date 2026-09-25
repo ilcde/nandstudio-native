@@ -1,0 +1,49 @@
+{
+  "controls": [
+    {
+      "height": 44,
+      "inside_safe_area": true,
+      "name": "filesButton",
+      "width": 90,
+      "x": 8,
+      "y": 49
+    },
+    {
+      "height": 44,
+      "inside_safe_area": true,
+      "name": "saveButton",
+      "width": 91,
+      "x": 106,
+      "y": 49
+    },
+    {
+      "height": 44,
+      "inside_safe_area": true,
+      "name": "buildButton",
+      "width": 90,
+      "x": 205,
+      "y": 49
+    },
+    {
+      "height": 44,
+      "inside_safe_area": true,
+      "name": "moreButton",
+      "width": 92,
+      "x": 311,
+      "y": 49
+    }
+  ],
+  "height": 891,
+  "passed": true,
+  "platform": "android",
+  "safe_bottom": 24,
+  "safe_left": 0,
+  "safe_right": 0,
+  "safe_top": 41,
+  "width": 411,
+  "apk_sha256": "261c398ef7070b1c1709199e26dafebae9ec5f054373c11662c6d36be9e4655e",
+  "abi": "x86_64",
+  "android_api": "36",
+  "page_size": "4096",
+  "full_workflow_verified": false
+}

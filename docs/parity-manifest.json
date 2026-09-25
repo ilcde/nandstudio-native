@@ -4442,17 +4442,34 @@
       "original_evidence": "User Android screenshot shows Files/Save/Build/More behind the status bar. Qt ApplicationWindow does not inset headers automatically.",
       "native_implementation": "src/app/AppToolbar.qml; src/app/main.cpp --layout-report / Android layoutCheck intent",
       "regression_tests": [
-        "244 Windows GUI checks including injected 48-unit top inset",
-        "On-device layout-report pending"
+        "scripts/check_android_toolbar.py",
+        "docs/evidence/android-toolbar-ci.json",
+        "gui_workflow"
       ],
       "platform_coverage": {
         "windows-x86_64": "local GUI geometry passed",
         "android-arm64-v8a": "device test pending",
-        "android-x86_64": "emulator test pending"
+        "android-x86_64": "API 36 emulator: local top inset 24, CI inset 41; toolbar controls within usable bounds"
       },
       "status": "partial",
       "release_blocker": true,
-      "notes": "Toolbar pads top/left/right using Qt SafeArea margins; device geometry verification pending."
+      "notes": "Header geometry verified on x86_64 emulators with actual insets. ARM64 physical devices, orientation and touch workflows remain unverified."
+    },
+    {
+      "id": "android.emulator-rendering",
+      "kind": "addition",
+      "original_evidence": "Local API 36.1 emulator visual inspection of CI APK from source 7d33b89",
+      "native_implementation": "src/app/Main.qml; Qt 6.11.1",
+      "regression_tests": [
+        "docs/evidence/android-emulator-rendering.png"
+      ],
+      "platform_coverage": {
+        "android-x86_64": "failed visual inspection with emulator 36.3.10 swiftshader_indirect; geometry passes",
+        "android-arm64-v8a": "not-verified"
+      },
+      "status": "partial",
+      "release_blocker": true,
+      "notes": "Local Windows-hosted emulator renders triangular background/button artifacts. Disabling emulator Vulkan did not resolve them; forcing Qt Quick software produced a blank surface with EGL 3005 errors. No renderer override is shipped. CI toolbar geometry success does not establish visual correctness. Physical-device behavior unverified."
     }
   ],
   "gui_discovery": [
