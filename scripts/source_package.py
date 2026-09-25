@@ -11,7 +11,7 @@ import zipfile
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 DIRECTORIES = ('src', 'resources', 'tests', 'scripts', 'docs', 'licenses', '.github')
-FILES = ('CMakeLists.txt', 'CMakePresets.json', 'README.md', 'NOTICE.md',
+FILES = ('CMakeLists.txt', 'CMakePresets.json', 'README.md', 'CONTRIBUTING.md', 'NOTICE.md',
          'toolchain-lock.json', '.gitignore', '.editorconfig', 'nand2tetris.zip')
 
 

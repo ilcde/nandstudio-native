@@ -1,8 +1,11 @@
 # Build, test and package
 
-Only Windows x86-64 has been built and exercised locally. Other configurations
-are reproducible starting points, not verified platform support. See
-`platforms.json` for stage-by-stage status.
+Windows and Linux have been built and exercised locally. CI builds Windows,
+Linux, both macOS architectures and both Android ABIs. Packaged desktop tests
+run on their native platforms. Android x86-64 has local emulator launch/toolbar
+evidence; full workflows remain unverified. Read `platforms.json` and each
+release's manifest/CI run for stage-by-stage evidence. End users should start
+with [installation instructions](install.md).
 
 ## Windows
 
@@ -33,7 +36,7 @@ No signing keys are created or embedded.
 ## Linux / macOS
 
 Install Qt 6.11.1 including Quick, Quick Controls, Concurrent and Test, CMake
-3.30.5 and Ninja 1.12.1. Configure with the Qt kit prefix:
+3.30.5 and Ninja 1.13.2. Configure with the Qt kit prefix:
 
 ```sh
 cmake --preset desktop -DCMAKE_PREFIX_PATH=/absolute/path/to/Qt/6.11.1/kit
@@ -46,8 +49,11 @@ Target Linux baseline: Ubuntu 24.04, x86-64, GCC 13.3.0, glibc 2.39. Qt's offici
 6.11 binary packages use Ubuntu 24.04; older glibc requires rebuilding Qt.
 Target macOS: 13+, arm64 and x86-64, built with Xcode 16.2; set
 `CMAKE_OSX_DEPLOYMENT_TARGET=13.0` and `CMAKE_OSX_ARCHITECTURES` appropriately.
-CMake enables an app bundle. DMG/notarization and Linux distribution dependency
-validation are not finished. These hosts were not available in this session.
+CMake enables an app bundle. CI creates separate DMGs and tests the packaged
+Cocoa applications; signing/notarization is not configured. Linux packages are
+tested with both offscreen and X11/Xvfb. Clean-device installation and all
+workflows remain unverified. Consult `.github/workflows/native.yml` for the
+executed host setup; hosted runner compiler/image updates are not fully locked.
 
 Core-only tests do not need Qt or a display:
 
@@ -58,7 +64,7 @@ ctest --preset core
 ```
 
 The `asan` preset enables AddressSanitizer/UBSan for compatible GCC/Clang hosts.
-It has not been run on this Windows MSVC workstation.
+It passes in the Linux CI job; it is not run with this Windows MSVC toolchain.
 
 ## Android
 
@@ -67,7 +73,8 @@ specifies Android 9–16, NDK r27c (27.2.12479018), JDK 21, Gradle 9.3.1 and AGP
 9.0.0. Intended ABIs are arm64-v8a and x86_64. Minimum API is 28, target 36.
 Pin SDK build-tools 36.0.0. This machine has Android SDK platforms 34/35/36,
 build-tools 34.0.0/35.0.0/36.1.0 and an API 36.1 emulator definition. It has no
-Android Qt kit, no NDK, and no attached device at inspection time.
+Android Qt kit or NDK locally. CI installs both pinned Android kits/NDK; a local
+API 36.1 x86-64 emulator has exercised a downloaded CI APK with real safe insets.
 
 After installing matching host and Android Qt 6.11.1 kits and the pinned NDK:
 
@@ -169,4 +176,5 @@ provenance. It refuses missing packages, failed desktop package checks, a failed
 CI run or mismatched source revision. Existing releases are never overwritten.
 Android development APKs use Gradle's debug signing; release keys, macOS signing
 and notarization are not configured. This workflow is prepared and locally
-validated but has not yet executed remotely.
+validated and has published development packages remotely. The added Android
+runtime gate must pass for the exact x86-64 APK before newer releases publish.

@@ -5,8 +5,9 @@ documents; a dot marks unsaved changes. Save uses Ctrl+S. Find uses Ctrl+F,
 go-to-line Ctrl+G, build Ctrl+B. Ctrl+/ toggles a line comment. Tab and Shift+Tab indent/unindent selected lines using the configured width or tabs.
 Return carries indentation; bracket matching ignores comments and strings. Native Qt editing supplies undo/redo, selection and clipboard operations.
 Font size, wrapping, indentation, interface scale, theme and autosave are under More > Settings.
-The editor gutter displays line numbers. Find/replace supports case and whole-word matching;
-Replace All is a single undo operation.
+The editor gutter displays line numbers. Open find/replace through More > Find and
+replace or Ctrl+F; Close hides it again. It supports case and whole-word matching;
+Replace All is a single undo operation, and the bar reports missing matches.
 
 For `.asm` or `.jack`, Build compiles the **visible buffer snapshot**, including
 unsaved text, and creates a sibling `.hack` or `.vm` artifact. This is logged in
@@ -37,20 +38,26 @@ requires another review. Autosave skips pending conflicts; no automatic merge oc
 On narrow windows, Files, Editor, Machine and Console become separate panes.
 This responsive desktop UI does not establish Android device support.
 
-For hardware, open an `.hdl` file and choose **Load HDL**. The loader captures all
+For hardware, open an `.hdl` file and choose **Load & Eval HDL** or **Load HDL**.
+Build also loads HDL. The loader captures all
 sibling HDL files and overlays open buffers, then resolves absent dependencies
 from the embedded built-ins. Change input pins with Return, then use Eval, Tick
 and Tock. Step completes one clock cycle; Run 10k runs a cancellable batch. Pins,
 internal wires and selected built-in component pins show backend state. Select
 a memory component to inspect/edit an address. Open an ASM/HACK file and use
 **Load current ASM/HACK into ROM** for the selected ROM32K component. Screen and
-keyboard share the normal input surface. Edits never reload the running chip;
-failed explicit reloads retain its last valid state.
+keyboard share the normal input surface. Edits never reload the running chip.
+After edits, **Reload & Eval** explicitly loads the visible buffers and resets
+hardware state and the clock; ordinary Eval retains the loaded state. Failed
+explicit reloads retain the last valid chip and report a navigable source error.
+Project-local chips take precedence over built-ins, including empty student
+starters. A warning names empty dependencies; implement those course exercises
+before expecting a composite chip to work with them.
 
 HardwareSimulator SCRIPT.tst and the in-app HDL test use the same native engine.
 Common hardware scripts are supported; complete compatibility is not established.
-In particular, negative values on narrow pins differ from the reference. Consult
-hardware.md and the parity register before relying on unverified workflows.
+Signed narrow-pin behavior has targeted reference coverage. Consult hardware.md
+and the parity register before relying on unverified workflows.
 
 The Files menu lists recent workspaces. Create files or folders from the workspace
 pane. Each file's ellipsis menu provides rename and Move to recovery trash. Modified

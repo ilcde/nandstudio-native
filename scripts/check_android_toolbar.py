@@ -18,7 +18,10 @@ adb('install','-r',str(args.apk))
 adb('shell','am','force-stop',package)
 # Delete only this tool's previous report, never app documents/settings.
 adb('shell','run-as',package,'rm','-f','files/layout-report.json')
-adb('shell','am','start','-W','-n',package+'/org.qtproject.qt.android.bindings.QtActivity','--ez','nandstudio.layoutCheck','true')
+args.report.parent.mkdir(parents=True,exist_ok=True)
+adb('logcat','-c')
+launch=adb('shell','am','start','-W','-n',package+'/org.qtproject.qt.android.bindings.QtActivity','--ez','nandstudio.layoutCheck','true')
+args.report.with_suffix('.launch.txt').write_text(launch.stdout+launch.stderr,encoding='utf-8')
 report=None
 for _ in range(45):
     result=adb('exec-out','run-as',package,'cat','files/layout-report.json',check=False)
@@ -27,9 +30,11 @@ for _ in range(45):
         except json.JSONDecodeError: pass
         if report is not None: break
     time.sleep(1)
-args.report.parent.mkdir(parents=True,exist_ok=True)
 if report is None:
-    args.report.with_suffix('.log').write_text(adb('logcat','-d','-t','1000').stdout,encoding='utf-8')
+    # Retain the complete bounded emulator log buffer: startup failures can be
+    # displaced by unrelated system messages within the last 1,000 lines.
+    args.report.with_suffix('.log').write_text(adb('logcat','-d').stdout,encoding='utf-8')
+    args.report.with_suffix('.files.txt').write_text(adb('shell','run-as',package,'find','files','-maxdepth','2','-type','f',check=False).stdout,encoding='utf-8')
     raise RuntimeError('Application did not produce its Android layout report')
 report.update(apk_sha256=hashlib.sha256(args.apk.read_bytes()).hexdigest(),
     abi=adb('shell','getprop','ro.product.cpu.abi').stdout.strip(),

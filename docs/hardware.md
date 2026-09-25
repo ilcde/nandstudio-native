@@ -56,8 +56,8 @@ student HDL stubs remain unchanged. Independent circuits are under
   stepping, stop punctuation, ALU expression visualization, screen interaction,
   keyboard mappings and hierarchy navigation are not yet fully implemented or
   covered. Component selection currently exposes primitive built-ins.
-* HDL diagnostic text carries source locations but does not yet navigate the
-  editor to dependency errors. Script file I/O remains local-path based; Android
+* HDL load diagnostics navigate the editor to dependency source locations and
+  failed loads preserve the last valid chip. Script file I/O remains local-path based; Android
   SAF, lifecycle and on-device hardware testing are still blocked.
 
 Bounds: 32 MiB source, one million tokens, dependency depth 128, two million

@@ -28,6 +28,11 @@ the original behavior when local student starters override built-ins. Find and
 replace now opens from More or Ctrl+F, targets the active editor and supports
 single-operation undo. The Android toolbar accounts for the status bar/cutout
 safe area; a device layout-report entry point records its actual control bounds.
+Installation, updates, troubleshooting and course-project coverage are documented
+in `docs/install.md`, `docs/user-guide.md` and `docs/course-workflows.md` in the
+source ZIP and desktop package's `share/nandstudio/docs`. The repository README
+links each platform's package and guide. The attached `android-toolbar.json`
+records the runtime check for this exact release's emulator APK.
 
 Release blockers include Android Storage Access Framework access and lifecycle
 workflows, full native VM OS service fallback, existing Java extension binary
