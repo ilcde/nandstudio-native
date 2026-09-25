@@ -87,9 +87,23 @@ files=wait_menu(lambda data:named(data,'menu_items','openWorkspaceMenuItem'))
 if not all(item['inside_safe_area'] for item in files['menu_items']): raise RuntimeError('Files menu intersects system UI')
 screenshot('files-menu')
 tap(files,'menu_items','openWorkspaceMenuItem')
-folder=wait_menu(lambda data:data.get('folder_dialog_visible'))
+# Android may suspend Qt timers while its native document chooser owns focus.
+# In that case verify the resumed system chooser instead of waiting on a timer.
+chooser=None
+for _ in range(60):
+    folder=read_menu()
+    activities=adb('shell','dumpsys','activity','activities').stdout
+    resumed=[line.strip() for line in activities.splitlines() if 'ResumedActivity' in line and 'documentsui' in line.lower()]
+    if resumed:
+        chooser={'kind':'android-documents-ui','resumed_activity':resumed};break
+    if folder and folder.get('folder_dialog_visible'):
+        chooser={'kind':'qt-folder-dialog','visible':True};break
+    time.sleep(0.5)
+if chooser is None:
+    args.report.with_suffix('.chooser.log').write_text(adb('logcat','-d').stdout,encoding='utf-8')
+    raise RuntimeError('Open workspace touch did not open a folder chooser')
 screenshot('workspace-chooser')
-report['interaction']={'passed':True,'files_menu':files['menu_items'],'more_menu':more['menu_items'],'workspace_chooser_opened':True,'workspace_selected':False}
+report['interaction']={'passed':True,'files_menu':files['menu_items'],'more_menu':more['menu_items'],'workspace_chooser_opened':True,'chooser':chooser,'workspace_selected':False}
 args.report.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
 print('Actual Android taps: More, Files and Open workspace passed')
 adb('shell','input','keyevent','4')
