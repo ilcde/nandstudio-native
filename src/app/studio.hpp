@@ -49,6 +49,7 @@ class Studio : public QObject {
     Q_PROPERTY(QVariantList hardwareTrace READ hardwareTrace NOTIFY stateChanged)
     Q_PROPERTY(bool hardwareNeedsReload READ hardwareNeedsReload NOTIFY hardwareSourceChanged)
     Q_PROPERTY(QString hardwareMessage READ hardwareMessage NOTIFY stateChanged)
+    Q_PROPERTY(QString hardwareEvaluation READ hardwareEvaluation NOTIFY stateChanged)
 public:
     Studio();~Studio()override;
     QVariantList documents()const;QVariantList files()const{return files_;}
@@ -57,6 +58,7 @@ public:
     QVariantList hardwareTrace()const{return hardwareTrace_;}
     bool hardwareNeedsReload()const;
     QString hardwareMessage()const{return hardwareMessage_;}
+    QString hardwareEvaluation()const{return hardwareEvaluation_;}
     Q_INVOKABLE void clearHardwareTrace();
     Q_INVOKABLE QString formatWord(int value,int radix=10)const;
     Q_INVOKABLE QVariantMap hardwareDiagram(const QString& path)const;
@@ -98,13 +100,14 @@ signals:
     void diagnostic(int document,int line,int column,QString message);
     void conflict(Document* document);void searchChanged();void diagnosticsChanged();
     void hardwareSourceChanged();
+    void hardwareLoaded();
     void workspaceImportRequested(QUrl url);
 private:
     Document* current()const;void recover();void saveSession();void runTest(nand::ScriptTool tool);
     std::shared_ptr<ExecutionResult> snapshot()const;
     void recordHardware(const QString& event);
     void beginHardwareLoad(bool evaluate,const QVariantMap& inputs);
-    QString hardwarePath_,hardwareMessage_;QMap<QString,QString> hardwareSources_;
+    QString hardwarePath_,hardwareMessage_,hardwareEvaluation_;QMap<QString,QString> hardwareSources_;
     QVariantList hardwareTrace_;QString hardwareEvent_;
     QList<Document*> docs_;QVariantList files_;QString workspace_,output_;int active_=-1;bool busy_=false,vmMode_=false,hardwareMode_=false;
     nand::Cpu cpu_;nand::Vm vm_;nand::Hardware hardware_;QTimer recoveryTimer_;

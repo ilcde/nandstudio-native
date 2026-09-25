@@ -6,6 +6,12 @@ unchanged. See `docs/android-workspaces.md`. Publication requires an emulator
 import/edit/save/assemble/export/reopen test for the exact x86-64 APK. This one
 provider workflow does not establish complete Android or course-wide parity.
 
+Eval now detects unsaved HDL even after switching to a non-HDL editor tab.
+One-bit pin inputs have tap toggles; completed evaluations display output values.
+On narrow screens, loading HDL opens the Machine pane. Script hexadecimal output
+uses the legacy lowercase convention, tested with the course Seven application
+and explicit OS VM files. The implementation checklist is in `docs/TODO.md`.
+
 Version 0.1.1 fixes Android Files/More menus opening over the status bar. Menus
 are anchored below the header and touch devices no longer display hover tooltips
 over their actions. More displays the app version so an installed older APK can

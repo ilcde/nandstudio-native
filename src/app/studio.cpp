@@ -69,7 +69,13 @@ Studio::Studio(){
             hardwareMessage_=r->error;log(r->error);
             if(!r->errorPath.isEmpty()){diagnostics_.append(QVariantMap{{"path",r->errorPath},{"line",r->errorLine},{"column",r->errorColumn},{"message",r->error}});emit diagnosticsChanged();for(int i=0;i<docs_.size();++i)if(docs_[i]->path()==r->errorPath){emit diagnostic(i,r->errorLine,r->errorColumn,r->error);break;}}
         }
-        hardware_.keyboard(nand::Word(keyboard_.load()));(vmMode_?vm_.ram:cpu_.ram)[24576]=nand::Word(keyboard_.load());hardwareEvent_.clear();emit stateChanged();emit hardwareSourceChanged();
+        const bool loaded=r->error.isEmpty()&&hardwareEvent_.startsWith("load");
+        if(r->error.isEmpty()&&hardwareMode_&&(hardwareEvent_=="eval"||hardwareEvent_=="load-eval")){
+            QStringList values;for(const auto& pin:hardware_.pins())if(pin.direction=="output")values.append(QString::fromStdString(pin.name)+"="+QString::number(nand::signedWord(pin.value)));
+            hardwareEvaluation_="Eval completed: "+values.join(", ");
+            log(hardwareEvaluation_);
+        }
+        hardware_.keyboard(nand::Word(keyboard_.load()));(vmMode_?vm_.ram:cpu_.ram)[24576]=nand::Word(keyboard_.load());hardwareEvent_.clear();emit stateChanged();emit hardwareSourceChanged();if(loaded)emit hardwareLoaded();
     });
     connect(this,&Studio::activeChanged,this,&Studio::hardwareSourceChanged);
     connect(&workspaceTask_,&QFutureWatcher<WorkspaceResult>::finished,this,[this]{auto r=workspaceTask_.result();if(r.path!=workspace_)return;if(!r.error.isEmpty())log(r.error);files_=r.files;emit filesChanged();});
@@ -161,8 +167,8 @@ void Studio::runTest(nand::ScriptTool tool){if(!current()||busy_)return;for(auto
     auto result=nand::runScript(p,tool,10000000,[this]{return cancelled_.load();});r.message=QString::fromStdString(result.message+"\n"+result.output);r.error=!result.passed;}catch(const std::exception& e){r.error=true;r.message=e.what();}return r;}));}
 std::shared_ptr<ExecutionResult> Studio::snapshot()const{auto r=std::make_shared<ExecutionResult>();r->cpu=cpu_;r->vm=vm_;r->hardware=hardware_;r->vmMode=vmMode_;r->hardwareMode=hardwareMode_;r->hardwarePath=hardwarePath_;r->hardwareSources=hardwareSources_;r->hardwareMessage=hardwareMessage_;return r;}
 bool Studio::hardwareNeedsReload()const{
-    if(!current()||!current()->path().endsWith(".hdl"))return false;
-    if(!hardwareMode_||current()->path()!=hardwarePath_)return true;
+    if(current()&&current()->path().endsWith(".hdl")&&(!hardwareMode_||current()->path()!=hardwarePath_))return true;
+    if(!hardwareMode_)return false;
     for(auto* d:docs_)if(d->path().endsWith(".hdl")&&QFileInfo(d->path()).absolutePath()==QFileInfo(hardwarePath_).absolutePath()&&hardwareSources_.value(d->path())!=d->text())return true;
     return false;
 }
@@ -170,10 +176,12 @@ namespace {void applyPinEdits(nand::Hardware&,const QVariantMap&);}
 void Studio::loadHardware(){beginHardwareLoad(false,{});}
 void Studio::evaluateHardwareWithInputs(const QVariantMap& inputs){if(hardwareNeedsReload())beginHardwareLoad(true,inputs);else if(hardwareMode_)hardwareActionWithInputs("eval",inputs);else{hardwareMessage_="Open an HDL file and choose Load & Eval HDL first.";log(hardwareMessage_);emit stateChanged();}}
 void Studio::beginHardwareLoad(bool evaluate,const QVariantMap& inputs){
-    if(!current()||busy_)return;if(QFileInfo(current()->path()).suffix()!="hdl"){log("Open an .hdl file first");return;}
+    if(busy_)return;
+    const auto target=current()&&current()->path().endsWith(".hdl")?current()->path():hardwareMode_?hardwarePath_:QString();
+    if(target.isEmpty()){log("Open an .hdl file first");return;}
     // The resolver owns immutable text for every project-local dependency.
-    try{std::map<std::string,std::string> files;QMap<QString,QString> sources;auto dir=QFileInfo(current()->path()).absolutePath();QDirIterator it(dir,{"*.hdl"},QDir::Files);while(it.hasNext()){auto path=it.next();sources[path]=QString::fromUtf8(read(path)).replace("\r\n","\n");}for(auto* d:docs_)if(QFileInfo(d->path()).absolutePath()==dir&&d->path().endsWith(".hdl"))sources[d->path()]=d->text();for(auto i=sources.cbegin();i!=sources.cend();++i)files[QFileInfo(i.key()).completeBaseName().toStdString()]=i.value().toStdString();
-        hardwareEvent_=evaluate?"load-eval":"load";auto path=current()->path();auto chip=QFileInfo(path).completeBaseName().toStdString();auto next=snapshot();cancelled_=false;busy_=true;emit stateChanged();log("Loading HDL folder snapshot including visible buffers");
+    try{std::map<std::string,std::string> files;QMap<QString,QString> sources;auto dir=QFileInfo(target).absolutePath();QDirIterator it(dir,{"*.hdl"},QDir::Files);while(it.hasNext()){auto path=it.next();sources[path]=QString::fromUtf8(read(path)).replace("\r\n","\n");}for(auto* d:docs_)if(QFileInfo(d->path()).absolutePath()==dir&&d->path().endsWith(".hdl"))sources[d->path()]=d->text();for(auto i=sources.cbegin();i!=sources.cend();++i)files[QFileInfo(i.key()).completeBaseName().toStdString()]=i.value().toStdString();
+        hardwareEvent_=evaluate?"load-eval":"load";auto path=target;auto chip=QFileInfo(path).completeBaseName().toStdString();auto next=snapshot();cancelled_=false;busy_=true;emit stateChanged();log("Loading HDL folder snapshot including visible buffers");
         execution_.setFuture(QtConcurrent::run([this,next,files=std::move(files),sources,path,dir,chip,evaluate,inputs]{try{
             next->hardware.load(chip,[&](const std::string& n)->std::optional<std::string>{auto i=files.find(n);if(i==files.end())return std::nullopt;return i->second;},[this]{return cancelled_.load();});
             if(evaluate){QVariantMap valid;for(auto& pin:next->hardware.pins())if(pin.direction=="input"&&inputs.contains(QString::fromStdString(pin.name)))valid[QString::fromStdString(pin.name)]=inputs[QString::fromStdString(pin.name)];applyPinEdits(next->hardware,valid);next->hardware.eval();}
@@ -204,7 +212,7 @@ void Studio::hardwareAction(const QString& action){if(action=="eval")evaluateHar
 void Studio::hardwareActionWithInputs(const QString& action,const QVariantMap& inputs){
     if(busy_||!hardwareMode_)return;
     auto next=snapshot();
-    try{applyPinEdits(next->hardware,inputs);}catch(const std::exception& e){log(QString("Hardware input error: ")+e.what());return;}
+    try{applyPinEdits(next->hardware,inputs);}catch(const std::exception& e){hardwareEvaluation_=QString("Hardware input error: ")+e.what();log(hardwareEvaluation_);emit stateChanged();return;}
     hardwareEvent_=action;busy_=true;emit stateChanged();
     execution_.setFuture(QtConcurrent::run([next,action]{try{
         if(action=="eval")next->hardware.eval();

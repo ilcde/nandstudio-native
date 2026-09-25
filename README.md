@@ -48,6 +48,8 @@ unfinished. Installing an APK does not yet provide the complete desktop workflow
 - [Installation, upgrades and troubleshooting](docs/install.md)
 - [Editor, simulators and console](docs/user-guide.md)
 - [Course projects 1–12: coverage and remaining work](docs/course-workflows.md)
+- [Implementation to-do list](docs/TODO.md)
+- [Android workspace copies](docs/android-workspaces.md)
 - [Build, test and package](docs/build.md)
 - [Architecture](docs/architecture.md) and [baseline provenance](docs/baseline.md)
 - [Feature parity](docs/feature-parity.md) and [machine-readable status](docs/parity-manifest.json)

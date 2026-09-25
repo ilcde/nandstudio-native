@@ -1,0 +1,28 @@
+[
+  {
+    "name": "course-Seven-explicit-OS",
+    "tool": "VMEmulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Course.out",
+        "equal": true,
+        "sha256": [
+          "ba5fbce65f09a71efc787ead7b9d10ff7e1c09303ce344af985d26389dca4811",
+          "ba5fbce65f09a71efc787ead7b9d10ff7e1c09303ce344af985d26389dca4811"
+        ]
+      }
+    ]
+  }
+]

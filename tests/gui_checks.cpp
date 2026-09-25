@@ -72,6 +72,11 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
             click("hardwareEval");check(studio.hardwareValue("out")==QString::number(a^b),QString("composite Xor Eval truth table %1,%2").arg(a).arg(b));
         }
         auto* xorDocument=qvariant_cast<Document*>(studio.documents()[studio.active()]);xorDocument->setText(QString::fromUtf8(xorSource).replace("Or(a=aAndNotb","And(a=aAndNotb"));QTest::qWait(30);
+        studio.open(QUrl::fromLocalFile(path));wait();check(studio.hardwareNeedsReload(),"changed HDL remains reloadable when a non-HDL tab is active");
+        studio.evaluateHardwareWithInputs({{"a",1},{"b",0}});wait();check(studio.hardwareValue("out")=="0","Eval reloads the running HDL snapshot from a non-HDL tab");
+        studio.open(QUrl::fromLocalFile(xorPath));wait();xorDocument->setText(QString::fromUtf8(xorSource));studio.evaluateHardwareWithInputs({{"a",0},{"b",0}});wait();
+        click("togglePin_b");click("hardwareEval");check(studio.hardwareValue("out")=="1"&&studio.hardwareEvaluation()=="Eval completed: out=1","tap input and Eval publish an explicit live Xor result");
+        xorDocument->setText(QString::fromUtf8(xorSource).replace("Or(a=aAndNotb","And(a=aAndNotb"));QTest::qWait(30);
         check(studio.hardwareNeedsReload()&&findItem(window->contentItem(),"hardwareEval")->property("text")=="Reload & Eval","changed HDL explicitly offers Reload and Eval");
         studio.evaluateHardwareWithInputs({{"a",1},{"b",0}});wait();check(studio.hardwareValue("out")=="0"&&bytes(xorPath)==xorSource,"Reload and Eval uses unsaved source without saving it");
         xorDocument->setText(QString::fromUtf8(xorSource));studio.evaluateHardwareWithInputs({{"a",1},{"b",0}});wait();

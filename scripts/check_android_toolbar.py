@@ -16,13 +16,21 @@ parser.add_argument('--workspace-flow',action='store_true')
 args=parser.parse_args()
 package='org.qtproject.example.NandStudio'
 def adb(*command,check=True):
-    return subprocess.run([args.adb,*command],capture_output=True,text=True,encoding='utf-8',errors='replace',check=check,timeout=90)
+    result=subprocess.run([args.adb,*command],capture_output=True,text=True,encoding='utf-8',errors='replace',check=False,timeout=90)
+    if check and result.returncode:
+        raise RuntimeError('adb '+repr(command)+': '+result.stdout+result.stderr)
+    return result
 if args.workspace_flow:
     fixture=args.report.parent/'Program.asm'
     fixture.parent.mkdir(parents=True,exist_ok=True)
     fixture.write_bytes(b'@2\r\nD=A\r\n')
-    adb('shell','mkdir','-p','/sdcard/Download/NandStudioSmoke','/sdcard/Download/NandStudioExports')
-    adb('push',str(fixture),'/sdcard/Download/NandStudioSmoke/Program.asm')
+    # sys.boot_completed can precede emulated shared storage becoming writable.
+    for attempt in range(30):
+        adb('shell','mkdir','-p','/sdcard/Download/NandStudioSmoke','/sdcard/Download/NandStudioExports',check=False)
+        pushed=adb('push',str(fixture),'/sdcard/Download/NandStudioSmoke/Program.asm',check=False)
+        if pushed.returncode==0: break
+        time.sleep(1)
+    else: raise RuntimeError('Android fixture storage unavailable: '+pushed.stdout+pushed.stderr)
 adb('install','-r',str(args.apk))
 adb('shell','am','force-stop',package)
 # Delete only this tool's previous report, never app documents/settings.

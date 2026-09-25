@@ -45,6 +45,7 @@ ApplicationWindow {
         function onSearchChanged() { if(root.compact)root.mobilePane=3 }
         function onConflict(document) { conflictDialog.document=document;conflictDialog.open() }
         function onWorkspaceImportRequested(url) { root.pendingImport=url;importDialog.open() }
+        function onHardwareLoaded() { if(root.compact)root.mobilePane=2 }
     }
     header: AppToolbar { onFolderRequested: folder.open();onFileRequested: openFile.open();onSettingsRequested: settingsDialog.open();onSearchRequested: {if(root.compact)root.mobilePane=1;editorArea.focusSearch()} onExportRequested: exportFolder.open() }
     FileDialog { id: openFile; title: "Open project file"; onAccepted: {studio.open(selectedFile);if(root.compact)root.mobilePane=1} }

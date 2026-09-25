@@ -13,6 +13,7 @@ ColumnLayout {
                                 ActionButton { Layout.fillWidth: true; Layout.minimumWidth: 0; text: "Tock"; objectName: "hardwareTock"; enabled: !studio.busy && studio.state.clockUp; onClicked: studio.hardwareActionWithInputs("tock",inspector.inputs()) }
                             }
                             Label { text: "PINS / INTERNAL WIRES"; opacity: 0.65; font.bold: true }
+                            Label { objectName: "hardwareEvaluationResult"; text: studio.hardwareEvaluation; visible: text.length>0; Layout.fillWidth: true; wrapMode: Text.WordWrap; color: Theme.accent }
                             Label { visible: studio.hardwareNeedsReload; text: "The visible HDL or an open dependency has changed. Reload & Eval uses those buffers and resets the hardware clock/state. Ordinary Eval keeps the loaded snapshot."; Layout.fillWidth: true; wrapMode: Text.WordWrap; color: Theme.accent }
                             Repeater {
                                 id: pinRows; model: studio.state.pins
@@ -23,6 +24,7 @@ ColumnLayout {
                                     Label { text: modelData.name + (modelData.width > 1 ? "[" + modelData.width + "]" : ""); Layout.fillWidth: true }
                                     Label { text: modelData.direction; opacity: 0.6; font.pixelSize: 11 }
                                     AppField { id: pinField; objectName: "pin_" + modelData.name; text: modelData.value; readOnly: modelData.direction !== "input" || studio.busy; Layout.preferredWidth: 80; onAccepted: studio.commitHardwareInputs(inspector.inputs()) }
+                                    ActionButton { objectName: "togglePin_"+modelData.name; visible: modelData.direction==="input" && modelData.width===1; enabled: !studio.busy; text: pinField.text==="1" ? "1" : "0"; Accessible.name: "Toggle "+modelData.name; Layout.minimumWidth: 0; Layout.preferredWidth: Theme.controlHeight; onClicked: pinField.text=pinField.text==="1" ? "0" : "1" }
                                 }
                             }
                             Label { text: "COMPONENTS"; opacity: 0.65; font.bold: true }

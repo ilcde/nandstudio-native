@@ -4499,6 +4499,40 @@
       "status": "partial",
       "release_blocker": true,
       "notes": "Version 0.1.1 explicitly anchors menus below header. Release gate requires actual Files/More/Open workspace taps; provider import/editing remains separate unfinished work."
+    },
+    {
+      "id": "hardware.eval-active-tab",
+      "kind": "addition",
+      "original_evidence": "User Xor report; official web IDE Xor 0,1 evaluates to 1",
+      "native_implementation": "src/app/studio.cpp; src/app/HardwareInspector.qml",
+      "regression_tests": [
+        "gui_workflow",
+        "docs/evidence/gui-eval-followup-windows.json"
+      ],
+      "platform_coverage": {
+        "windows-x86_64": "256 GUI checks passed",
+        "android-x86_64": "device Eval pending",
+        "android-arm64-v8a": "device test pending"
+      },
+      "status": "partial",
+      "release_blocker": true,
+      "notes": "Reload detection works after switching away from modified HDL. One-bit tap inputs and visible evaluation result added. Original local starter precedence retained."
+    },
+    {
+      "id": "script.hex-case",
+      "kind": "legacy",
+      "original_evidence": "Uploaded Java VMEmulator; Conversions.decimalToHex uses Integer.toHexString",
+      "native_implementation": "src/script.cpp",
+      "regression_tests": [
+        "scripts/probe_course_os.py",
+        "docs/evidence/course-os.json"
+      ],
+      "platform_coverage": {
+        "windows-x86_64": "Seven with explicit OS: exact output match after 2 million steps"
+      },
+      "status": "partial",
+      "release_blocker": true,
+      "notes": "Lowercase hexadecimal output restored. Course probe compares VM pointers and 12 screen words. Full OS fallback and all formatting modes still require coverage."
     }
   ],
   "gui_discovery": [
