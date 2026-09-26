@@ -97,5 +97,5 @@ arguments, while the native parser currently accepts more; track that parser gap
 - [x] Add an explicit, non-overwriting editable course-copy action.
 - [x] Add two independent HDL/TST/CMP demonstrations; Java/native output bytes match.
 - [ ] Exercise course-copy UI on Android and verify all packaged resources in CI.
-- [ ] Complete the full documentation consistency and spelling audit.
+- [x] Review maintained guides for stale instructions, spelling/encoding problems and local links; add a mechanical UTF-8/link check. Historical evidence remains labelled and preserved.
 - [x] Add a real application screenshot and accessible demo caption; animated demos remain optional.

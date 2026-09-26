@@ -23,8 +23,9 @@ comparison catches external edits, but the small check/commit race still needs a
 stronger storage transaction. Recovery journals edited buffers after 250 ms of idle typing, active-document
 changes immediately, and flushes on backgrounding. It never autosaves onto
 external project files. A conflict dialog supports keeping the buffer, reloading
-the reviewed disk version, or explicit overwrite; configurable autosave remains
-incomplete.
+the reviewed disk version, or explicit overwrite. Optional document autosave
+is configurable from 5 to 600 seconds (0 disables it), skips known conflicts,
+and uses the ordinary save conflict checks; it is separate from recovery.
 
 Android import/export uses a URI-based storage adapter through Qt's content
 file engine. It creates explicit local workspace copies for native tools and

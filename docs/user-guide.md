@@ -123,8 +123,10 @@ is not implemented. Nested creation requires an existing parent folder.
 
 Project search runs in a worker and includes unsaved open buffers. Search and Problems
 in the console show located results; clicking opens the corresponding document.
-Desktop splitter sizes are saved after dragging. These additions have Windows-only
-evidence; URI providers and Android lifecycle restoration remain release blockers.
+Desktop splitter sizes are saved after dragging. Shared GUI regressions run on
+Windows, Linux and both macOS architectures. Android Downloads import/export
+and process-restart tests cover a narrower workflow; other providers, lifecycle
+cases and physical ARM64 devices still need verification.
 
 ## Start with the bundled course projects
 

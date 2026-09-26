@@ -36,7 +36,7 @@ Keyboard; focused GUI key events update it. ROM commands use `ROM32K load FILE`.
 | Run test script | HardwareSimulator executable, HDL test button, `test-hdl` | 36 hardware reference cases (one expected rejection) |
 
 The differential harness also retains all 29 earlier assembler/CPU/VM/compiler/
-comparison cases. Its 65 matching cases are not an exhaustive parity claim.
+comparison cases. Its 67 matching cases are not an exhaustive parity claim.
 Original project 1–3 tests run in isolated directories against built-ins; the
 student HDL stubs remain unchanged. Independent circuits are under
 `tests/fixtures/hardware`. Byte comparison includes whitespace and CRLF.

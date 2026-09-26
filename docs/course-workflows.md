@@ -46,7 +46,7 @@ must be identified as additions rather than claimed as preserved functionality.
 
 ## Evidence and blockers
 
-Reference tests include 65 differential cases, two reported-Xor cases and targeted
+Reference tests include 67 differential cases, two reported-Xor cases and targeted
 hardware probes. They do not exhaust all programs or UI operations. Read the
 release manifest, linked CI run, `evidence/` and `parity-manifest.json` for scope.
 

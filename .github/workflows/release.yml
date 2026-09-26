@@ -86,6 +86,11 @@ jobs:
           git archive --format=zip --output=release-assets/NandStudio-source.zip HEAD
           cd release-assets
           sha256sum NandStudio-source.zip >> SHA256SUMS
+      - name: Retain verified assets for publication recovery
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: verified-release-${{ env.BUILD_RUN }}
+          path: release-assets/
       - name: Publish development prerelease
         env:
           SOURCE_SHA: ${{ steps.source.outputs.sha }}
