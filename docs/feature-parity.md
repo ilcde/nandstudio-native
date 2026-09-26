@@ -1,4 +1,4 @@
-# Feature parity â€” release blocked
+# Feature parity ” release blocked
 
 This is a working native development increment, **not a completed migration**.
 No tool or platform is certified to have full parity. The machine-readable
