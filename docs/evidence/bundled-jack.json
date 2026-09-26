@@ -1,0 +1,572 @@
+[
+  {
+    "name": "bundled-jack-9-Average",
+    "tool": "JackCompiler",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\bundled-jack-9-Average\\native\"\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Main.vm",
+        "equal": true,
+        "sha256": [
+          "2af92667f1830e00cd5be46293ecb21843af6dbeef1c4a6ec9a0a30893e051b2",
+          "2af92667f1830e00cd5be46293ecb21843af6dbeef1c4a6ec9a0a30893e051b2"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "bundled-jack-9-ComplexArrays",
+    "tool": "JackCompiler",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\bundled-jack-9-ComplexArrays\\native\"\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Main.vm",
+        "equal": true,
+        "sha256": [
+          "0be7685016ade7833c9c1d103cb76d9d98b527b5bc59656972bcccb0c3de09e7",
+          "0be7685016ade7833c9c1d103cb76d9d98b527b5bc59656972bcccb0c3de09e7"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "bundled-jack-9-ConvertToBin",
+    "tool": "JackCompiler",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\bundled-jack-9-ConvertToBin\\native\"\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Main.vm",
+        "equal": true,
+        "sha256": [
+          "3c45ab9bbece6ba6e7b0ab23f63183e3e0ca3bfd5ddf09797891e37d5a152deb",
+          "3c45ab9bbece6ba6e7b0ab23f63183e3e0ca3bfd5ddf09797891e37d5a152deb"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "bundled-jack-9-Fraction",
+    "tool": "JackCompiler",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\bundled-jack-9-Fraction\\native\"\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Fraction.vm",
+        "equal": true,
+        "sha256": [
+          "ebc8d3ec8c65032caba7c798efba6adbd4924f72d4ae67a18568f872a6dca461",
+          "ebc8d3ec8c65032caba7c798efba6adbd4924f72d4ae67a18568f872a6dca461"
+        ]
+      },
+      {
+        "file": "Main.vm",
+        "equal": true,
+        "sha256": [
+          "fa87370ad4314323fe47b3caad7b4663092c75ad595ec22b982c8e347a3f0f78",
+          "fa87370ad4314323fe47b3caad7b4663092c75ad595ec22b982c8e347a3f0f78"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "bundled-jack-9-HelloWorld",
+    "tool": "JackCompiler",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\bundled-jack-9-HelloWorld\\native\"\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Main.vm",
+        "equal": true,
+        "sha256": [
+          "ee5d7df0ed10cf8ed695435cb7b5390ecbd4459d919cda5a6f1a32a83424b187",
+          "ee5d7df0ed10cf8ed695435cb7b5390ecbd4459d919cda5a6f1a32a83424b187"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "bundled-jack-9-List",
+    "tool": "JackCompiler",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\bundled-jack-9-List\\native\"\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "List.vm",
+        "equal": true,
+        "sha256": [
+          "af26ee14bc023de982e7e54918a5198a328fcd0464ee97559b2d9d12b92cc4cb",
+          "af26ee14bc023de982e7e54918a5198a328fcd0464ee97559b2d9d12b92cc4cb"
+        ]
+      },
+      {
+        "file": "Main.vm",
+        "equal": true,
+        "sha256": [
+          "d6651e3412eac73627da72376a5dd2e08cae8527b84fcb955eb99faf985536b7",
+          "d6651e3412eac73627da72376a5dd2e08cae8527b84fcb955eb99faf985536b7"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "bundled-jack-9-Pong",
+    "tool": "JackCompiler",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\bundled-jack-9-Pong\\native\"\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Ball.vm",
+        "equal": true,
+        "sha256": [
+          "23fd70c4fc2857d608e82c5e9f32270a29ff0416b208f9685253f2e6464b6d04",
+          "23fd70c4fc2857d608e82c5e9f32270a29ff0416b208f9685253f2e6464b6d04"
+        ]
+      },
+      {
+        "file": "Bat.vm",
+        "equal": true,
+        "sha256": [
+          "1b3f26bd3af379ed692c7bebc71ddca49faaba302f1dd62ec5ee0e1c20084466",
+          "1b3f26bd3af379ed692c7bebc71ddca49faaba302f1dd62ec5ee0e1c20084466"
+        ]
+      },
+      {
+        "file": "Main.vm",
+        "equal": true,
+        "sha256": [
+          "68eea3ab46ce2f4e4af9301704f666f348f89febd8fcd3c21ae464d7a97845aa",
+          "68eea3ab46ce2f4e4af9301704f666f348f89febd8fcd3c21ae464d7a97845aa"
+        ]
+      },
+      {
+        "file": "PongGame.vm",
+        "equal": true,
+        "sha256": [
+          "b246a845e8262a002f1c29164bb1f0e8301e511bf4aecd9b92146cb1f617ac2a",
+          "b246a845e8262a002f1c29164bb1f0e8301e511bf4aecd9b92146cb1f617ac2a"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "bundled-jack-9-Square",
+    "tool": "JackCompiler",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\bundled-jack-9-Square\\native\"\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Main.vm",
+        "equal": true,
+        "sha256": [
+          "550fcb732dfd950d1521467db8322f32dc668fc20d008a5c92a9fcb467c7a2f1",
+          "550fcb732dfd950d1521467db8322f32dc668fc20d008a5c92a9fcb467c7a2f1"
+        ]
+      },
+      {
+        "file": "Square.vm",
+        "equal": true,
+        "sha256": [
+          "008ba9f18caa10f0f29a8a51be79a7e95003191d3de3fe4b49e29619c6b3949b",
+          "008ba9f18caa10f0f29a8a51be79a7e95003191d3de3fe4b49e29619c6b3949b"
+        ]
+      },
+      {
+        "file": "SquareGame.vm",
+        "equal": true,
+        "sha256": [
+          "cd7a5d1acaecc4f5aa90485664bd5c147cb90c25fd947eb0e0fec970afb5432c",
+          "cd7a5d1acaecc4f5aa90485664bd5c147cb90c25fd947eb0e0fec970afb5432c"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "bundled-jack-10-ArrayTest",
+    "tool": "JackCompiler",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\bundled-jack-10-ArrayTest\\native\"\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Main.vm",
+        "equal": true,
+        "sha256": [
+          "c713bd416aa0851b2dac8861c3b1e11bfa35041c64790849c6c6b33c1f8bcdbd",
+          "c713bd416aa0851b2dac8861c3b1e11bfa35041c64790849c6c6b33c1f8bcdbd"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "bundled-jack-10-ExpressionLessSquare",
+    "tool": "JackCompiler",
+    "passed": false,
+    "outcome": "baseline-rejection-comparison",
+    "java": {
+      "code": 1,
+      "stdout": "",
+      "stderr": "In Square.jack (line 18): In subroutine new: A constructor must return 'this'\r\nIn SquareGame.jack (line 15): In subroutine new: A constructor must return 'this'\r\nIn SquareGame.jack (line 36): In subroutine run: a boolean value is expected\r\nIn SquareGame.jack (line 46): In subroutine run: an int value is expected\r\nIn SquareGame.jack (line 47): In subroutine run: an int value is expected\r\n"
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\bundled-jack-10-ExpressionLessSquare\\native\"\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Main.vm",
+        "equal": true,
+        "sha256": [
+          "14fdd56e2c0a69d60b468face3a8b8536c6ec242cc709cd4e97bfcbfa98d395b",
+          "14fdd56e2c0a69d60b468face3a8b8536c6ec242cc709cd4e97bfcbfa98d395b"
+        ]
+      },
+      {
+        "file": "Square.vm",
+        "equal": false,
+        "sha256": [
+          null,
+          "386158ba9e7ef8b273bcefad7f712a808021811df69b81b7c807f6d966ee9c94"
+        ]
+      },
+      {
+        "file": "SquareGame.vm",
+        "equal": false,
+        "sha256": [
+          null,
+          "b4501057587dd230703a2c926a8fabb0ae39f02a560fd667d700e703d70cd0e3"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "bundled-jack-10-Square",
+    "tool": "JackCompiler",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\bundled-jack-10-Square\\native\"\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Main.vm",
+        "equal": true,
+        "sha256": [
+          "da34d9420f99f4e26f4bdf59c38a6c652dfaa0165fd862460357dbc7aef7dcec",
+          "da34d9420f99f4e26f4bdf59c38a6c652dfaa0165fd862460357dbc7aef7dcec"
+        ]
+      },
+      {
+        "file": "Square.vm",
+        "equal": true,
+        "sha256": [
+          "008ba9f18caa10f0f29a8a51be79a7e95003191d3de3fe4b49e29619c6b3949b",
+          "008ba9f18caa10f0f29a8a51be79a7e95003191d3de3fe4b49e29619c6b3949b"
+        ]
+      },
+      {
+        "file": "SquareGame.vm",
+        "equal": true,
+        "sha256": [
+          "cd7a5d1acaecc4f5aa90485664bd5c147cb90c25fd947eb0e0fec970afb5432c",
+          "cd7a5d1acaecc4f5aa90485664bd5c147cb90c25fd947eb0e0fec970afb5432c"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "bundled-jack-11-Average",
+    "tool": "JackCompiler",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\bundled-jack-11-Average\\native\"\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Main.vm",
+        "equal": true,
+        "sha256": [
+          "2af92667f1830e00cd5be46293ecb21843af6dbeef1c4a6ec9a0a30893e051b2",
+          "2af92667f1830e00cd5be46293ecb21843af6dbeef1c4a6ec9a0a30893e051b2"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "bundled-jack-11-ComplexArrays",
+    "tool": "JackCompiler",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\bundled-jack-11-ComplexArrays\\native\"\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Main.vm",
+        "equal": true,
+        "sha256": [
+          "0be7685016ade7833c9c1d103cb76d9d98b527b5bc59656972bcccb0c3de09e7",
+          "0be7685016ade7833c9c1d103cb76d9d98b527b5bc59656972bcccb0c3de09e7"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "bundled-jack-11-ConvertToBin",
+    "tool": "JackCompiler",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\bundled-jack-11-ConvertToBin\\native\"\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Main.vm",
+        "equal": true,
+        "sha256": [
+          "3c45ab9bbece6ba6e7b0ab23f63183e3e0ca3bfd5ddf09797891e37d5a152deb",
+          "3c45ab9bbece6ba6e7b0ab23f63183e3e0ca3bfd5ddf09797891e37d5a152deb"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "bundled-jack-11-Pong",
+    "tool": "JackCompiler",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\bundled-jack-11-Pong\\native\"\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Ball.vm",
+        "equal": true,
+        "sha256": [
+          "23fd70c4fc2857d608e82c5e9f32270a29ff0416b208f9685253f2e6464b6d04",
+          "23fd70c4fc2857d608e82c5e9f32270a29ff0416b208f9685253f2e6464b6d04"
+        ]
+      },
+      {
+        "file": "Bat.vm",
+        "equal": true,
+        "sha256": [
+          "1b3f26bd3af379ed692c7bebc71ddca49faaba302f1dd62ec5ee0e1c20084466",
+          "1b3f26bd3af379ed692c7bebc71ddca49faaba302f1dd62ec5ee0e1c20084466"
+        ]
+      },
+      {
+        "file": "Main.vm",
+        "equal": true,
+        "sha256": [
+          "68eea3ab46ce2f4e4af9301704f666f348f89febd8fcd3c21ae464d7a97845aa",
+          "68eea3ab46ce2f4e4af9301704f666f348f89febd8fcd3c21ae464d7a97845aa"
+        ]
+      },
+      {
+        "file": "PongGame.vm",
+        "equal": true,
+        "sha256": [
+          "b246a845e8262a002f1c29164bb1f0e8301e511bf4aecd9b92146cb1f617ac2a",
+          "b246a845e8262a002f1c29164bb1f0e8301e511bf4aecd9b92146cb1f617ac2a"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "bundled-jack-11-Seven",
+    "tool": "JackCompiler",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\bundled-jack-11-Seven\\native\"\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Main.vm",
+        "equal": true,
+        "sha256": [
+          "0359830f502138154398c15bc8efde84b2bffc950f5f25779e62724ec5a95ab0",
+          "0359830f502138154398c15bc8efde84b2bffc950f5f25779e62724ec5a95ab0"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "bundled-jack-11-Square",
+    "tool": "JackCompiler",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\bundled-jack-11-Square\\native\"\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "Main.vm",
+        "equal": true,
+        "sha256": [
+          "550fcb732dfd950d1521467db8322f32dc668fc20d008a5c92a9fcb467c7a2f1",
+          "550fcb732dfd950d1521467db8322f32dc668fc20d008a5c92a9fcb467c7a2f1"
+        ]
+      },
+      {
+        "file": "Square.vm",
+        "equal": true,
+        "sha256": [
+          "008ba9f18caa10f0f29a8a51be79a7e95003191d3de3fe4b49e29619c6b3949b",
+          "008ba9f18caa10f0f29a8a51be79a7e95003191d3de3fe4b49e29619c6b3949b"
+        ]
+      },
+      {
+        "file": "SquareGame.vm",
+        "equal": true,
+        "sha256": [
+          "cd7a5d1acaecc4f5aa90485664bd5c147cb90c25fd947eb0e0fec970afb5432c",
+          "cd7a5d1acaecc4f5aa90485664bd5c147cb90c25fd947eb0e0fec970afb5432c"
+        ]
+      }
+    ]
+  }
+]

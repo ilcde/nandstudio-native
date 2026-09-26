@@ -4,6 +4,22 @@
   "audit_status": "initial_inventory_not_exhaustive",
   "features": [
     {
+      "id": "compiler.expressionless-semantic-rejection",
+      "kind": "legacy",
+      "original_evidence": "Uploaded Java compiler rejects projects/10/ExpressionLessSquare: constructor return and assignment type diagnostics; docs/evidence/bundled-jack.json",
+      "native_implementation": "src/jack.cpp currently accepts these semantically invalid sources",
+      "regression_tests": [
+        "scripts/probe_bundled_jack.py: 16/17 match; ExpressionLessSquare mismatch retained"
+      ],
+      "platform_coverage": {
+        "windows-x86_64": "confirmed difference",
+        "other-platforms": "shared compiler, not independently exercised"
+      },
+      "status": "known-difference",
+      "release_blocker": true,
+      "notes": "ExpressionLessSquare is a syntax-analysis fixture, not a valid compiled application. Preserve it unchanged. Native compiler must match semantic rejection and generated-file behavior; do not substitute assignment solutions or suppress diagnostics."
+    },
+    {
       "id": "workspace.bundled-course",
       "kind": "addition",
       "original_evidence": "Uploaded projects directory: 249 unchanged files, folders 0–13; resources/starters/manifest.json",

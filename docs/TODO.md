@@ -99,3 +99,9 @@ arguments, while the native parser currently accepts more; track that parser gap
 - [ ] Exercise course-copy UI on Android and verify all packaged resources in CI.
 - [x] Review maintained guides for stale instructions, spelling/encoding problems and local links; add a mechanical UTF-8/link check. Historical evidence remains labelled and preserved.
 - [x] Add a real application screenshot and accessible demo caption; animated demos remain optional.
+
+## Newly confirmed compatibility defect
+
+- [ ] Match Java semantic rejection and output-file behavior for the untouched
+  project 10 ExpressionLessSquare fixture. The full bundled Jack audit is 16/17,
+  with the mismatch retained in `evidence/bundled-jack.json`.

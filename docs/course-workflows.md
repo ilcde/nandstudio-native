@@ -61,3 +61,12 @@ broader SAF provider and lifecycle coverage still blocks a fully verified
 open/edit/save/test/run/export workflow. Legacy Java extension
 binaries and other original capabilities also remain release blockers. Course-wide
 completion requires implemented, reachable features and platform workflow tests.
+
+## Complete bundled Jack inventory check
+
+`scripts/probe_bundled_jack.py` checks all 17 supplied application folders in
+projects 9–11. Sixteen match Java-generated VM files byte for byte.
+`10/ExpressionLessSquare` is a syntax-analysis fixture: the Java compiler rejects
+its constructor returns and assignment types, while the native compiler currently
+accepts them. This is a recorded compiler parity defect, not an exercise to edit
+until it passes. See `evidence/bundled-jack.json` and the parity manifest.
