@@ -38,6 +38,18 @@ jobs:
           assert re.fullmatch('[0-9a-f]{40}',r['head_sha'])
           with open(os.environ['GITHUB_OUTPUT'],'a') as f: f.write('sha='+r['head_sha']+'\n')
           PY
+          gh api --paginate "repos/$REPOSITORY/actions/runs/$BUILD_RUN/artifacts" > "$RUNNER_TEMP/artifacts.json"
+          python3 - <<'PY'
+          import json, os
+          artifacts=json.load(open(os.environ['RUNNER_TEMP']+'/artifacts.json'))['artifacts']
+          latest={}
+          for a in artifacts:
+              if a['expired']: continue
+              if a['name'] not in latest or a['created_at']>latest[a['name']]['created_at']:
+                  latest[a['name']]=a
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write('artifact_ids='+','.join(str(a['id']) for a in latest.values())+'\n')
+          PY
       - uses: actions/checkout@v4.2.2
         with:
           ref: ${{ steps.source.outputs.sha }}
@@ -46,6 +58,7 @@ jobs:
       - uses: actions/download-artifact@v4.3.0
         with:
           run-id: ${{ env.BUILD_RUN }}
+          artifact-ids: ${{ steps.source.outputs.artifact_ids }}
           github-token: ${{ github.token }}
           path: downloaded
       - name: Verify and stage complete asset set

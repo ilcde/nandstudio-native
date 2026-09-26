@@ -20,7 +20,7 @@ unchanged; use separately identified regression fixtures for completed circuits.
 - [x] Verify follow-up Eval CI and publish from successful run 36209394882 (publication run 36209869977).
 - [x] Shared desktop Eval tests passed on Windows, Linux, macOS ARM64 and Intel in CI 36211395573; Android Xor interaction also passed.
 - [x] Implement Eval detection of changed, added and removed closed HDL dependency files; open buffers remain authoritative.
-- [ ] Verify the new closed-dependency Eval regressions across platform CI.
+- [x] Verify shared closed-dependency Eval regressions in desktop CI 36221941023; Android Xor tap rerun passed with the same APK.
 - [ ] Resolve emulator rendering artifacts and verify a physical ARM64 device.
 - [ ] Configure a stable externally supplied release-signing key for updates.
 
@@ -90,3 +90,12 @@ million VM steps. All eight cases pass with explicit bundled OS VM files. This
 does not establish native built-in service fallback or interactive keyboard parity.
 The probe also found that legacy output-list declarations accept at most 20
 arguments, while the native parser currently accepts more; track that parser gap.
+
+## Offline starters and documentation
+
+- [x] Embed all 249 unchanged original project files; preserve per-file hashes.
+- [x] Add an explicit, non-overwriting editable course-copy action.
+- [x] Add two independent HDL/TST/CMP demonstrations; Java/native output bytes match.
+- [ ] Exercise course-copy UI on Android and verify all packaged resources in CI.
+- [ ] Complete the full documentation consistency and spelling audit.
+- [x] Add a real application screenshot and accessible demo caption; animated demos remain optional.

@@ -1,5 +1,9 @@
 # Continuation work inventory
 
+> Historical checkpoint. For current instructions and status, read the
+> [user guide](user-guide.md), [checklist](TODO.md), and [parity register](feature-parity.md).
+
+
 Initial continuation audit: uploaded working ZIP matched source before this increment. 227 parity entries: 125 partial, 102 not implemented. No statuses upgraded during audit.
 
 P0 sequence: reproducible source packaging and fresh builds; dialog/pane geometry tests and component refactor; Linux build; storage/SAF and lifecycle; OS/VM fallback; narrow HDL semantics.

@@ -21,15 +21,36 @@
 #include <QDateTime>
 #include <QDirIterator>
 #include <QTemporaryDir>
+#include <QCryptographicHash>
 void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& dir){
     QJsonArray checks;int exitCode=0;QDir().mkpath(dir);
     auto check=[&](bool passed,const QString& label){checks.append(QJsonObject{{"check",label},{"passed",passed}});QFile progress(QDir(dir).filePath("checks.json"));if(progress.open(QIODevice::WriteOnly))progress.write(QJsonDocument(checks).toJson());if(!passed)throw std::runtime_error(label.toStdString());};
     auto write=[](const QString& path,const QByteArray& bytes){QFile f(path);return f.open(QIODevice::WriteOnly)&&f.write(bytes)==bytes.size();};
     auto bytes=[](const QString& path){QFile f(path);if(!f.open(QIODevice::ReadOnly))return QByteArray{};return f.readAll();};
     try{
+        QTemporaryDir courseDir;
+        const auto course=storage::copyCourseWorkspace(QUrl::fromLocalFile(courseDir.path()),"Course").toLocalFile();
+        const auto courseManifest=QJsonDocument::fromJson(bytes(course+"/manifest.json")).object().value("files").toArray();
+        check(courseManifest.size()==249,"all original starter files are bundled");
+        bool courseBytesMatch=true;
+        for(const auto& value:courseManifest){auto entry=value.toObject();auto file=course+"/projects/"+entry["path"].toString();courseBytesMatch &= QFile::exists(file)&&QString::fromLatin1(QCryptographicHash::hash(bytes(file),QCryptographicHash::Sha256).toHex())==entry["sha256"].toString();}
+        check(courseBytesMatch,"every copied course file matches the original SHA-256");
+        check(write(course+"/projects/1/Xor.hdl","student work"),"course copies are writable");
+        bool duplicateRejected=false;try{storage::copyCourseWorkspace(QUrl::fromLocalFile(courseDir.path()),"Course");}catch(const std::exception&){duplicateRejected=true;}
+        check(duplicateRejected&&bytes(course+"/projects/1/Xor.hdl")=="student work","creating a course copy never overwrites existing student work");
         auto path=QDir(dir).absoluteFilePath("Ui.asm");check(write(path,"@2\r\nD=A\r\n"),"create isolated fixture");studio.openWorkspace(QUrl::fromLocalFile(QDir(dir).absolutePath()));studio.open(QUrl::fromLocalFile(path));
         QTest::qWait(100);auto* window=qobject_cast<QQuickWindow*>(engine.rootObjects().first());check(window!=nullptr,"Qt Quick window instantiated");
         check(QTest::qWaitForWindowExposed(window,5000),"GUI test window is exposed for native input");
+        if(qEnvironmentVariableIsSet("NAND_DEMO_CAPTURE")){
+            studio.closeDocument(studio.active());
+            studio.openWorkspace(QUrl::fromLocalFile(course+"/examples"));
+            studio.open(QUrl::fromLocalFile(course+"/examples/EntryAlarm.hdl"));
+            studio.evaluateHardwareWithInputs({{"enabled",1},{"door",1},{"window",0}});
+            for(int i=0;i<600&&studio.busy();++i)QTest::qWait(50);
+            check(!studio.busy()&&studio.hardwareValue("alarm")=="1","demo uses a real evaluated circuit");
+            QTest::qWait(500);check(window->grabWindow().save(QDir(dir).filePath("course-demo.png")),"capture actual application demo");
+            QCoreApplication::exit(0);return;
+        }
         for(auto name:{"openWorkspaceMenuItem","openFileMenuItem","settingsMenuItem"}){
             auto* item=window->findChild<QObject*>(name);
             const auto prefix=QString(name)=="openWorkspaceMenuItem" ? "Open workspace" : QString(name)=="openFileMenuItem" ? "Open file" : "Settings";
@@ -121,6 +142,7 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         studio.evaluateHardwareWithInputs({{"a",1},{"b",0}});wait();check(studio.hardwareValue("out")=="0","Eval reloads the running HDL snapshot from a non-HDL tab");
         studio.open(QUrl::fromLocalFile(xorPath));wait();xorDocument->setText(QString::fromUtf8(xorSource));studio.evaluateHardwareWithInputs({{"a",0},{"b",0}});wait();
         click("togglePin_b");click("hardwareEval");check(studio.hardwareValue("out")=="1"&&studio.hardwareEvaluation()=="Eval completed: out=1","tap input and Eval publish an explicit live Xor result");
+        QTest::qWait(80);check(window->grabWindow().save(QDir(dir).filePath("xor-demo.png")),"capture real composite Xor evaluation for documentation");
         xorDocument->setText(QString::fromUtf8(xorSource).replace("Or(a=aAndNotb","And(a=aAndNotb"));QTest::qWait(30);
         check(studio.hardwareNeedsReload()&&findItem(window->contentItem(),"hardwareEval")->property("text")=="Reload & Eval","changed HDL explicitly offers Reload and Eval");
         studio.evaluateHardwareWithInputs({{"a",1},{"b",0}});wait();check(studio.hardwareValue("out")=="0"&&bytes(xorPath)==xorSource,"Reload and Eval uses unsaved source without saving it");
@@ -309,6 +331,9 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         auto* vmDocument=qvariant_cast<Document*>(studio.documents()[studio.active()]);vmDocument->setText(vmDocument->text()+"// recovery marker\n");QTest::qWait(350);
         recovery=QJsonDocument::fromJson(bytes(recoveryPath)).object();check(recovery["documents"].toArray().at(recovery["active"].toInt()).toObject()["text"].toString().endsWith("// recovery marker\n"),"edited buffer is journaled shortly after typing");
         check(vmDocument->save(),"VM recovery fixture saved");studio.closeDocument(studio.active());studio.open(QUrl::fromLocalFile(path));
+        auto* courseAction=window->findChild<QObject*>("createCourseWorkspaceMenuItem");
+        check(courseAction&&QMetaObject::invokeMethod(courseAction,"triggered"),"course-copy action is reachable through Files menu");wait();
+        check(QFile::exists(studio.workspace()+"/projects/12/MemoryTest/MemoryTest.tst")&&QFile::exists(studio.workspace()+"/examples/EntryAlarm.hdl"),"course action opens the copied projects and new examples");
         auto runtimeLog=bytes(qEnvironmentVariable("NAND_TEST_STATE_DIR")+"/qt.log");runtimeLog=runtimeLog.mid(runtimeLog.lastIndexOf("Creating application"));
         check(!runtimeLog.contains("Binding loop")&&!runtimeLog.contains("TypeError")&&!runtimeLog.contains("ReferenceError")&&!runtimeLog.contains("QDataStream::operator"),"no runtime QML binding, type, or settings serialization errors");
     }catch(const std::exception& e){qWarning("GUI check failed: %s",e.what());exitCode=1;}

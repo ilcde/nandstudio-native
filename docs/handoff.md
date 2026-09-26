@@ -1,5 +1,9 @@
 # Development handoff — incomplete migration
 
+> Historical checkpoint. For current instructions and status, read the
+> [user guide](user-guide.md), [checklist](TODO.md), and [parity register](feature-parity.md).
+
+
 The working application and native services have been implemented directly in
 this workspace. The result is a tested development increment, not the complete
 cross-platform migration requested.

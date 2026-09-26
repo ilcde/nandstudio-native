@@ -1,4 +1,15 @@
-# NandStudio development packages
+# NandStudio 0.1.4 development packages
+
+This version embeds all 249 unchanged course starter files (projects 0–13).
+Choose **Files > Create course workspace** to create an editable offline copy
+on any platform. Two separate HDL/TST/CMP examples, EntryAlarm and
+SignalMismatch, demonstrate pin editing and truth-table tests. Export local
+work before uninstalling Android development builds.
+
+Eval now detects changed, added and removed closed HDL dependencies on explicit
+evaluation, through shared application code on Windows, macOS, Linux and Android.
+VM-to-ASM translation, HDL validation previews, PC breakpoints and live watches
+are available; see the user guide for their scope and limitations.
 
 Version 0.1.2 adds explicit Android folder import into an editable local copy and
 export into a new provider folder. Save changes the local copy; the original stays
@@ -57,8 +68,8 @@ source ZIP and desktop package's `share/nandstudio/docs`. The repository README
 links each platform's package and guide. The attached `android-toolbar.json`
 records the runtime check for this exact release's emulator APK.
 
-Release blockers include Android Storage Access Framework access and lifecycle
-workflows, full native VM OS service fallback, existing Java extension binary
+Release blockers include broader Android provider and device/lifecycle
+qualification, full native VM OS service fallback, existing Java extension binary
 compatibility, complete script/diagnostic parity, and the remaining GUI operations.
 See `docs/parity-manifest.json` and `docs/platforms.json` in the source archive.
 Preserve existing project backups when trying development builds.

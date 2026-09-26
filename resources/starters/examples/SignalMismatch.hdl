@@ -1,0 +1,8 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Independent NandStudio demonstration (2026), not a course solution.
+CHIP SignalMismatch {
+    IN left, right;
+    OUT alarm;
+    PARTS:
+    Xor(a=left,b=right,out=alarm);
+}

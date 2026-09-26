@@ -6,6 +6,7 @@
 #include <QDir>
 #include <QRegularExpression>
 #include <QSet>
+#include <QDirIterator>
 #include <stdexcept>
 namespace storage { namespace {
 [[noreturn]]void fail(const QString& message){throw std::runtime_error(message.toStdString());}
@@ -57,6 +58,29 @@ public:
     QUrl rename(const QUrl&,const QString&)const override{fail("Direct provider rename is not supported; edit the imported local copy");}
 };
 #endif
+}
+QUrl copyCourseWorkspace(const QUrl& destinationParent,const QString& newName,const std::function<bool()>& cancelled){
+    validateName(newName);
+    auto destination=provider(destinationParent).create(destinationParent,newName,true);
+    try{
+        QDirIterator files(":/starters",QDir::Files|QDir::Hidden,QDirIterator::Subdirectories);
+        int count=0;
+        while(files.hasNext()){
+            if(cancelled&&cancelled())fail("Course copy cancelled");
+            const auto path=files.next();auto parts=path.mid(QString(":/starters/").size()).split('/');
+            auto parent=destination;
+            for(int i=0;i+1<parts.size();++i){
+                bool found=false;
+                for(const auto& entry:provider(parent).list(parent))if(entry.name==parts[i]){if(!entry.directory)fail("Course folder collision");parent=entry.url;found=true;break;}
+                if(!found)parent=provider(parent).create(parent,parts[i],true);
+            }
+            QFile file(path);if(!file.open(QIODevice::ReadOnly))fail(file.errorString());
+            auto target=provider(parent).create(parent,parts.last(),false);
+            provider(target).write(target,file.readAll());++count;
+        }
+        if(count==0)fail("Bundled course resources are missing");
+    }catch(const std::exception& error){fail(QString::fromUtf8(error.what())+". Incomplete copy retained at "+destination.toString());}
+    return destination;
 }
 const Provider& provider(const QUrl& url){static FileProvider files;if(url.isLocalFile())return files;
 #ifdef Q_OS_ANDROID

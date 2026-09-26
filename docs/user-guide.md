@@ -125,3 +125,14 @@ Project search runs in a worker and includes unsaved open buffers. Search and Pr
 in the console show located results; clicking opens the corresponding document.
 Desktop splitter sizes are saved after dragging. These additions have Windows-only
 evidence; URI providers and Android lifecycle restoration remain release blockers.
+
+## Start with the bundled course projects
+
+Choose **Files > Create course workspace** on Windows, macOS, Linux or Android.
+The app creates a new editable local copy of all supplied project folders, 0–13,
+without downloading anything. Original starter exercises remain incomplete.
+Open files under `projects/1`, for example, to begin the Boolean logic exercises.
+Each invocation creates a separate folder; it never resets earlier student work.
+Use **Files > Export workspace copy** to export saved work. On Android these
+copies live in app-private storage: export them before uninstalling.
+The additional `examples` folder contains independent NandStudio demonstrations.

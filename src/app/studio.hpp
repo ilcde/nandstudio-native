@@ -77,6 +77,7 @@ public:
     Q_INVOKABLE void open(const QUrl& url);
     Q_INVOKABLE void openWorkspace(const QUrl& url);
     Q_INVOKABLE void importWorkspace(const QUrl& url);
+    Q_INVOKABLE void createCourseWorkspace();
     Q_INVOKABLE void exportWorkspace(const QUrl& destination);
     Q_INVOKABLE void openLocalWorkspace(const QString& path) { openWorkspace(QUrl::fromLocalFile(path)); }
     Q_INVOKABLE bool createFile(const QString& relative);

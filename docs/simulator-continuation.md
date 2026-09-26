@@ -1,5 +1,9 @@
 # Simulator and platform verification increment - 24 September 2026
 
+> Historical checkpoint. For current instructions and status, read the
+> [user guide](user-guide.md), [checklist](TODO.md), and [parity register](feature-parity.md).
+
+
 The migration remains incomplete. This report supersedes the earlier editor-only
 continuation report for the changes described here.
 

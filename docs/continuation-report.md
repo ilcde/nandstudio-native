@@ -1,5 +1,9 @@
 # Editor and reproducible-build continuation — 24 September 2026
 
+> Historical checkpoint. For current instructions and status, read the
+> [user guide](user-guide.md), [checklist](TODO.md), and [parity register](feature-parity.md).
+
+
 This is an implemented development increment. The complete migration remains blocked.
 
 ## Changes

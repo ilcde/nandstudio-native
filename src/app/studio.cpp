@@ -18,6 +18,7 @@
 #include <QUrl>
 #include <QTextStream>
 #include <QCoreApplication>
+#include <algorithm>
 namespace {
 QByteArray read(const QString& p){return storage::provider(QUrl::fromLocalFile(p)).read(QUrl::fromLocalFile(p));}
 bool atomicSave(const QString& p,const QByteArray& bytes){try{storage::provider(QUrl::fromLocalFile(p)).write(QUrl::fromLocalFile(p),bytes);return true;}catch(...){return false;}}
@@ -131,6 +132,17 @@ void Studio::importWorkspace(const QUrl& url){
     auto name="Project-"+QUuid::createUuid().toString(QUuid::WithoutBraces);cancelled_=false;busy_=true;emit stateChanged();
     transfer_.setFuture(QtConcurrent::run([this,url,parent,name]{TaskResult r;try{auto copy=storage::copyWorkspace(url,QUrl::fromLocalFile(parent),name,[this]{return cancelled_.load();});r.path=copy.toLocalFile();r.message="Imported separate editable local copy: "+r.path+". Save changes this local copy only; use Export workspace copy to share results. Original folder unchanged.";}catch(const std::exception& e){r.error=true;r.message=e.what();}return r;}));
 }
+void Studio::createCourseWorkspace(){
+    if(busy_)return;
+    auto parent=QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)+"/workspaces";
+    if(!QDir().mkpath(parent)){log("Cannot create local workspace storage");return;}
+    auto name="Nand2Tetris-"+QUuid::createUuid().toString(QUuid::WithoutBraces);
+    cancelled_=false;busy_=true;emit stateChanged();
+    transfer_.setFuture(QtConcurrent::run([this,parent,name]{TaskResult r;try{
+        r.path=storage::copyCourseWorkspace(QUrl::fromLocalFile(parent),name,[this]{return cancelled_.load();}).toLocalFile();
+        r.message="Created editable course workspace: "+r.path+". Bundled originals remain unchanged. Export important work before uninstalling.";
+    }catch(const std::exception& e){r.error=true;r.message=e.what();}return r;}));
+}
 void Studio::exportWorkspace(const QUrl& destination){
     if(busy_||workspace_.isEmpty())return;if(hasDirtyDocuments()){log("Save open documents before exporting; unsaved buffers were not exported");return;}
     auto source=QUrl::fromLocalFile(workspace_);auto name="NandStudio-export-"+QUuid::createUuid().toString(QUuid::WithoutBraces);cancelled_=false;busy_=true;emit stateChanged();
@@ -139,6 +151,7 @@ void Studio::exportWorkspace(const QUrl& destination){
 void Studio::refreshWorkspace(){
     auto path=workspace_;if(path.isEmpty())return;emit filesChanged();workspaceTask_.setFuture(QtConcurrent::run([path]{WorkspaceResult result;result.path=path;try{
         QList<QUrl> pending{QUrl::fromLocalFile(path)};while(!pending.isEmpty()&&result.files.size()<10000){auto folder=pending.takeLast();for(auto& entry:storage::provider(folder).list(folder)){if(entry.directory){if(entry.name.startsWith('.')||entry.name.startsWith("build")||entry.name=="reference"||entry.name=="dist")continue;pending.append(entry.url);}else{auto ext=QFileInfo(entry.name).suffix().toLower();if(!QStringList{"hdl","jack","asm","hack","vm","tst","cmp","out","xml","txt","md","dat"}.contains(ext))continue;result.files.append(QVariantMap{{"path",entry.url},{"name",QDir(path).relativeFilePath(entry.url.toLocalFile())}});}}}
+        std::sort(result.files.begin(),result.files.end(),[](const QVariant& a,const QVariant& b){return a.toMap()["name"].toString()<b.toMap()["name"].toString();});
     }catch(const std::exception& e){result.error=e.what();}return result;}));
 }
 bool Studio::createFile(const QString& relative){try{auto target=storage::workspaceChild(QUrl::fromLocalFile(workspace_),relative);auto parent=QUrl::fromLocalFile(QFileInfo(target.toLocalFile()).absolutePath());auto created=storage::provider(parent).create(parent,QFileInfo(target.toLocalFile()).fileName(),false);refreshWorkspace();open(created);return true;}catch(const std::exception& e){lastError_=e.what();log(lastError_);return false;}}

@@ -1,4 +1,4 @@
-# Feature parity ” release blocked
+# Feature parity — release blocked
 
 This is a working native development increment, **not a completed migration**.
 No tool or platform is certified to have full parity. The machine-readable
@@ -9,15 +9,16 @@ coverage are complete. The initial inventory is not claimed exhaustive.
 | Area | Native implementation | Evidence and outstanding work |
 |---|---|---|
 | Assembler | C++ grammar, symbols, compact addressing, binary output; GUI build | Matrix differential tests; incremental interactive controls and exact invalid-input behavior pending |
-| CPU Emulator | C++ state, ALU, RAM/ROM, reset, steps; Qt screen and inspector | Instruction trace tests; full controls, numeric modes, breakpoints and keyboard tests pending |
+| CPU Emulator | C++ state, ALU, RAM/ROM, reset, steps; Qt screen; PC breakpoints, watches, decoded instruction and ASM source navigation | Instruction traces and GUI regressions; conditional breakpoints, full controls and keyboard parity pending |
 | VM Emulator | All command categories, segments, branches, calls/returns, statics; live instruction, frame-pointer, stack and call-stack inspection | Bundled differential cases and a call/return GUI test; load ordering, bounds, bootstrap/fallback, full legacy call-stack controls and diagnostics incomplete |
+| VM Translator (addition) | Native VM-to-ASM for files/folders, explicit bootstrap, editor previews/build and CLI | 174 execution assertions and 11 unchanged course CPU scripts with Java/native byte comparisons; no claim this was a bundled legacy utility |
 | Jack Compiler | Tokenizer, recursive parser, symbol scopes, VM generation | Byte equality for tested bundled programs; type checking, warnings, cross-file validation and negative diagnostics incomplete |
 | TextComparer | Native comparison and CLI | Seven differential cases; non-ASCII/default-encoding compatibility incomplete |
 | Test scripts | CPU/VM/HDL load/set/step/loops/output/compare subset | Bundled cases; 36 hardware differential cases; breakpoints, stop semantics and full grammar pending |
 | Hardware Simulator | C++ HDL parser, hierarchical net graph, 35 embedded declarations, built-ins, clocks, pins/components/memory and ROM controls | 29 bundled + 7 independent reference cases; 23 passing narrow-negative probes and remaining scheduling/GUI gaps in hardware.md |
 | Jack OS | Original VM assets preserved | Native service implementations, fallback confirmation/precedence and bundled offline assets pending |
 | Extensions | Source APIs audited initially | Java binary compatibility, native interface, callbacks and GUI extensions unresolved |
-| Editor | Native Qt Quick editor and C++ documents/services | Multi-document editing, save conflicts, recovery, snapshot builds; remaining conveniences and edge cases in manifest |
+| Editor | Native Qt Quick editor and C++ documents/services; live HDL/VM/Jack/ASM/Hack previews, number converter, navigable diagnostics | Multi-document editing, save conflicts, recovery, snapshot builds; remaining conveniences and edge cases in manifest |
 | Android | ARM64/x86-64 APKs built; actual emulator Files/More/folder chooser touch test passes (CI 36154176790) | Version 0.1.2 adds explicit workspace copies; broader provider, lifecycle, rendering and physical-device verification remains incomplete. See android-workspaces.md |
 
 Actual results are in `evidence/differential.json`, `build/gui-test/checks.json`,

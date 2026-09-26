@@ -4,12 +4,40 @@
   "audit_status": "initial_inventory_not_exhaustive",
   "features": [
     {
+      "id": "workspace.bundled-course",
+      "kind": "addition",
+      "original_evidence": "Uploaded projects directory: 249 unchanged files, folders 0–13; resources/starters/manifest.json",
+      "native_implementation": "Qt resources; storage::copyCourseWorkspace; Files > Create course workspace",
+      "regression_tests": [
+        "gui_workflow: all 249 SHA-256 hashes, writable copy, refusal to overwrite",
+        "differential: two independent examples"
+      ],
+      "platform_coverage": {
+        "windows-x86_64": "local copy tests passed",
+        "android": "pending CI workflow",
+        "linux": "pending CI",
+        "macos": "pending CI"
+      },
+      "status": "partial",
+      "release_blocker": true,
+      "notes": "Same read-only resource bundle on every GUI target. Student work stays in separate writable copies. Android app-private data must be exported before uninstall."
+    },
+    {
       "id": "editor.conversion-preview",
       "kind": "addition",
       "original_evidence": "User request for native converters and advanced diagnostics; not claimed as legacy parity",
       "native_implementation": "src/app/conversion.cpp; src/app/ToolsDialog.qml",
-      "regression_tests": ["gui_workflow: signed conversion bounds, unsaved ASM preview, exact Jack VM output, stale worker rejection, live diagnostics"],
-      "platform_coverage": {"windows-x86_64": "local GUI tests", "android-arm64-v8a": "not-verified", "android-x86_64": "not-verified", "linux-x86_64": "not-verified", "macos-arm64": "not-verified", "macos-x86_64": "not-verified"},
+      "regression_tests": [
+        "gui_workflow: signed conversion bounds, unsaved ASM preview, exact Jack VM output, stale worker rejection, live diagnostics"
+      ],
+      "platform_coverage": {
+        "windows-x86_64": "local GUI tests",
+        "android-arm64-v8a": "not-verified",
+        "android-x86_64": "not-verified",
+        "linux-x86_64": "not-verified",
+        "macos-arm64": "not-verified",
+        "macos-x86_64": "not-verified"
+      },
       "status": "partial",
       "release_blocker": true,
       "notes": "Native 16-bit converter and ASM/Jack/VM/Hack/HDL previews. HDL/VM folder snapshots overlay open buffers; validation never resets live simulation. Optional live checks after 600 ms idle. VM translation has explicit bootstrap selection and a folder artifact action. Platform qualification beyond Windows remains pending."
@@ -19,9 +47,21 @@
       "kind": "addition",
       "original_evidence": "Course projects 7/8 VM specification and unchanged original CPU scripts; not a bundled legacy utility",
       "native_implementation": "src/vm_translate.cpp; nand VMTranslator; Studio::build",
-      "regression_tests": ["translator_tests: 174 execution checks", "scripts/probe_translator.py: 11 original course cases with Java/native CPU byte comparison", "gui_workflow"],
-      "platform_coverage": {"windows-x86_64":"local passed", "android-arm64-v8a":"not-verified", "android-x86_64":"not-verified", "linux-x86_64":"not-verified", "macos-arm64":"not-verified", "macos-x86_64":"not-verified"},
-      "status": "partial", "release_blocker": true,
+      "regression_tests": [
+        "translator_tests: 174 execution checks",
+        "scripts/probe_translator.py: 11 original course cases with Java/native CPU byte comparison",
+        "gui_workflow"
+      ],
+      "platform_coverage": {
+        "windows-x86_64": "local passed",
+        "android-arm64-v8a": "not-verified",
+        "android-x86_64": "not-verified",
+        "linux-x86_64": "not-verified",
+        "macos-arm64": "not-verified",
+        "macos-x86_64": "not-verified"
+      },
+      "status": "partial",
+      "release_blocker": true,
       "notes": "All VM commands, segments, signed comparisons, statics, calls, return, recursion, explicit bootstrap. Requires implementations of all called functions; no OS fallback. Output ROM/resource limits enforced."
     },
     {
@@ -29,9 +69,19 @@
       "kind": "legacy",
       "original_evidence": "Legacy CPU/VM debugger controls; original complete breakpoint semantics remain under audit",
       "native_implementation": "src/app/debugger.cpp; src/app/RuntimeInspector.qml; Studio::step",
-      "regression_tests": ["gui_workflow: CPU and VM PC stops, step bypass, watches"],
-      "platform_coverage": {"windows-x86_64":"local passed", "android-arm64-v8a":"not-verified", "android-x86_64":"not-verified", "linux-x86_64":"not-verified", "macos-arm64":"not-verified", "macos-x86_64":"not-verified"},
-      "status": "partial", "release_blocker": true,
+      "regression_tests": [
+        "gui_workflow: CPU and VM PC stops, step bypass, watches"
+      ],
+      "platform_coverage": {
+        "windows-x86_64": "local passed",
+        "android-arm64-v8a": "not-verified",
+        "android-x86_64": "not-verified",
+        "linux-x86_64": "not-verified",
+        "macos-arm64": "not-verified",
+        "macos-x86_64": "not-verified"
+      },
+      "status": "partial",
+      "release_blocker": true,
       "notes": "Session PC breakpoint sets for CPU/VM and up to 64 expression watches. CPU instruction decoding and source navigation disable stale mappings after edits. Run pauses before instruction; Step bypasses PC stop. Persistent, conditional/data-change and HDL breakpoints remain missing."
     },
     {
@@ -594,7 +644,9 @@
       "kind": "legacy",
       "original_evidence": "VMProgram.java; VMEmulator.java; VMEmulatorComponent.java",
       "native_implementation": "src/app/studio.cpp::vmInspection; src/app/VmInspector.qml",
-      "regression_tests": ["gui_workflow: actual call/return and frame pointer inspection"],
+      "regression_tests": [
+        "gui_workflow: actual call/return and frame pointer inspection"
+      ],
       "platform_coverage": {
         "windows-x86_64": "local GUI test passed; packaged build pending",
         "macos-arm64": "not-verified",
@@ -3612,7 +3664,9 @@
       "kind": "addition",
       "original_evidence": "User-requested addition",
       "native_implementation": "src/app/studio.cpp; src/app/Main.qml",
-      "regression_tests": ["gui_workflow: immediate active-document journal and 250 ms dirty-buffer journal"],
+      "regression_tests": [
+        "gui_workflow: immediate active-document journal and 250 ms dirty-buffer journal"
+      ],
       "platform_coverage": {
         "windows-x86_64": "local GUI test passed; packaged build pending",
         "macos-arm64": "not-verified",
@@ -3630,7 +3684,9 @@
       "kind": "addition",
       "original_evidence": "User-requested addition",
       "native_implementation": "src/app/studio.cpp; src/app/Main.qml",
-      "regression_tests": ["gui_workflow: immediate active-document journal and 250 ms dirty-buffer journal"],
+      "regression_tests": [
+        "gui_workflow: immediate active-document journal and 250 ms dirty-buffer journal"
+      ],
       "platform_coverage": {
         "windows-x86_64": "local GUI test passed; packaged build pending",
         "macos-arm64": "not-verified",
@@ -4113,7 +4169,9 @@
       "kind": "legacy",
       "original_evidence": "User requirement; Qt 6.11 and Android platform contracts",
       "native_implementation": "src/app/main.cpp application state callback; src/app/studio.cpp session journal",
-      "regression_tests": ["gui_workflow: immediate active-document and debounced dirty-buffer session journal"],
+      "regression_tests": [
+        "gui_workflow: immediate active-document and debounced dirty-buffer session journal"
+      ],
       "platform_coverage": {
         "windows-x86_64": "local GUI journal test passed",
         "macos-arm64": "not-verified",

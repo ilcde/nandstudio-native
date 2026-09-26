@@ -1,0 +1,1251 @@
+{
+  "source": "Uploaded nand2tetris.zip, projects directory; byte-identical to extracted baseline",
+  "license": "CC-BY-NC-SA-3.0; original notices retained",
+  "files": [
+    {
+      "path": ".DS_Store",
+      "sha256": "b7f367e9a9fc296fa1d91e408c32318e7fb59ca3ab1e339c8863d4235b8c19ea",
+      "bytes": 6148
+    },
+    {
+      "path": "0/file.txt",
+      "sha256": "d443533cc5fcd8f1c508106b952ed04aba900dfed4edce711159322ab1716cc7",
+      "bytes": 262
+    },
+    {
+      "path": "1/And.cmp",
+      "sha256": "3527f29d04dd32ceb0591c5780e25b6b5831b8e74f521845daf354ae370b17d5",
+      "bytes": 70
+    },
+    {
+      "path": "1/And.hdl",
+      "sha256": "4b2c888b1f1df98bf36957e36b7275bcf7a36fe776907c5400a0682fa56f2199",
+      "bytes": 340
+    },
+    {
+      "path": "1/And.tst",
+      "sha256": "86e38d8506e878c27266aa5c20a90e7d9da9f66678899736e91979fe04b5c21b",
+      "bytes": 404
+    },
+    {
+      "path": "1/And16.cmp",
+      "sha256": "3639bc10334c9fdc4c41235bf93f9b5512f62beb66cb7cce5c8eda262194f6e0",
+      "bytes": 413
+    },
+    {
+      "path": "1/And16.hdl",
+      "sha256": "4f1e42c58ecb81f14bd591fbacef3fea6950de67e90658f0fc8247e8e75d6b21",
+      "bytes": 371
+    },
+    {
+      "path": "1/And16.tst",
+      "sha256": "d3cfaab032595c18d94e5d02fb966753f96bb0430c3419e9915ee6fa5f17b386",
+      "bytes": 714
+    },
+    {
+      "path": "1/DMux.cmp",
+      "sha256": "1daac6e3e7841510b5798ca34095ff9745b1d2aa3a6f4e6c31350c4b7629a1d1",
+      "bytes": 90
+    },
+    {
+      "path": "1/DMux.hdl",
+      "sha256": "5238e6a096e741f1b32b9d5fe0deceeb2adf88964850d145bb63191b28e41334",
+      "bytes": 373
+    },
+    {
+      "path": "1/DMux.tst",
+      "sha256": "be42c5613a3ea4ec156d829728c54233542f6b6558ed7f9b3e6f1c00e2febd90",
+      "bytes": 401
+    },
+    {
+      "path": "1/DMux4Way.cmp",
+      "sha256": "144856552ad4c2d67dbf0838f876b98a3eab3b88c920706172a70987d90f28a4",
+      "bytes": 261
+    },
+    {
+      "path": "1/DMux4Way.hdl",
+      "sha256": "1571fbb81377df0e4c0cd7c0eeb09305bfbb39a2faf61111ac52d22e848cb42d",
+      "bytes": 510
+    },
+    {
+      "path": "1/DMux4Way.tst",
+      "sha256": "4dd67c5334c64184bd7878dc8b6124bcd1140ed0824e03789c365365b52ed833",
+      "bytes": 572
+    },
+    {
+      "path": "1/DMux8Way.cmp",
+      "sha256": "51a8c1379b2991300e68af03410969182fb1c1e085ab4c6a0f7a12ccb5b99643",
+      "bytes": 782
+    },
+    {
+      "path": "1/DMux8Way.hdl",
+      "sha256": "541c50b5f55440fb64c5b5a4d134715c0b249036a523da63816d3cae76b98c07",
+      "bytes": 952
+    },
+    {
+      "path": "1/DMux8Way.tst",
+      "sha256": "bdb975582fa1432454043688b1b1834080a6ab42f0439315a2e0d56f77592c3c",
+      "bytes": 860
+    },
+    {
+      "path": "1/Mux.cmp",
+      "sha256": "45cc20367a2890c9046872f150146f33804ca3e9cce56df8e3c9765c02b9c6ec",
+      "bytes": 162
+    },
+    {
+      "path": "1/Mux.hdl",
+      "sha256": "c14227b23c7e496e70a12e8a85efbd068dfbc03cbb323e5116bc0f78e6c320ab",
+      "bytes": 344
+    },
+    {
+      "path": "1/Mux.tst",
+      "sha256": "009c7d03c1613cc49c3749dcf40dc6c06a4493f1e3f78b6a611e8285d828f979",
+      "bytes": 576
+    },
+    {
+      "path": "1/Mux16.cmp",
+      "sha256": "5d8d49def697bcc9bac53be7729a75c35f661993bf45e4122cfe110a13d007d9",
+      "bytes": 567
+    },
+    {
+      "path": "1/Mux16.hdl",
+      "sha256": "0f9bec7738968c9e5fe31a38eab6377b2e254dcf645988729fe4f9ccef0d8a84",
+      "bytes": 405
+    },
+    {
+      "path": "1/Mux16.tst",
+      "sha256": "c4d5d462493c45e60dec99567b0eb29454c4f0fd2d098b2d89abddc564603486",
+      "bytes": 708
+    },
+    {
+      "path": "1/Mux4Way16.cmp",
+      "sha256": "876200b057a33aaa1e6ce59a5a9bf03eaef6af7e45e0eea0ca8163112d87b052",
+      "bytes": 936
+    },
+    {
+      "path": "1/Mux4Way16.hdl",
+      "sha256": "8b17cd81aa3d9feca629be3a15ccb1e5de17f4f59bdf71728a31371aa7f39155",
+      "bytes": 458
+    },
+    {
+      "path": "1/Mux4Way16.tst",
+      "sha256": "b9d02ab49943e5d089cb6d97600c26578ef5f9f8dba7542a9341d7af6442e262",
+      "bytes": 719
+    },
+    {
+      "path": "1/Mux8Way16.cmp",
+      "sha256": "dd7982d9508b4bbb6cee70075676c824cb50dca7144db9a71ed6b0191de7355a",
+      "bytes": 3077
+    },
+    {
+      "path": "1/Mux8Way16.hdl",
+      "sha256": "2e1f063951836b3d0232d5af04622d174407b9c2695d14f872e08505e6625199",
+      "bytes": 604
+    },
+    {
+      "path": "1/Mux8Way16.tst",
+      "sha256": "d2802a54038b5c5bf00d6ae6283912d756ad4a002cde64db177b1543d717612b",
+      "bytes": 1147
+    },
+    {
+      "path": "1/Not.cmp",
+      "sha256": "f41f9bc26c8054066529f4953c1c5ae62b9d9c2fd776bf802c2711cd83fb470c",
+      "bytes": 30
+    },
+    {
+      "path": "1/Not.hdl",
+      "sha256": "8a82c4c9109be1d08f4077d4d31333a11b87ad630be8ccab56545cf0de153eaf",
+      "bytes": 330
+    },
+    {
+      "path": "1/Not.tst",
+      "sha256": "b784bc6321d7ca9eb598c97b0a85f06dc7a1badbbcba547a57615ab431cf9204",
+      "bytes": 309
+    },
+    {
+      "path": "1/Not16.cmp",
+      "sha256": "eac0f471afe8d1bb2a344b6c44598f82f5093fcf654f8422ce33dffeef9c8a7a",
+      "bytes": 240
+    },
+    {
+      "path": "1/Not16.hdl",
+      "sha256": "643f8cdee1faf5c3bee235d2b99c3665723e5f05aa0f7c45b1ffd8a2a1e4d1b3",
+      "bytes": 360
+    },
+    {
+      "path": "1/Not16.tst",
+      "sha256": "30e1b8996e2b673b36d6046ea48b169c156da2fb6d6c28e2dc7d0fd67a7d7c63",
+      "bytes": 503
+    },
+    {
+      "path": "1/Or.cmp",
+      "sha256": "a5b04b804fb70452dc8f97f543ea2364ce1756c2b2498153140da3698666ab1a",
+      "bytes": 70
+    },
+    {
+      "path": "1/Or.hdl",
+      "sha256": "02e47290cb2d904c98b7d748a5a91e532829b66df5f7129d6e17ccd900492048",
+      "bytes": 334
+    },
+    {
+      "path": "1/Or.tst",
+      "sha256": "2a3e965a1517eb6f46f6398348ba70b86bb529cbbbb7619c23ef0aad9a5b1708",
+      "bytes": 400
+    },
+    {
+      "path": "1/Or16.cmp",
+      "sha256": "15189e2a5f5239435dccd47ce690b69eb683d39e3bab6ebd588ca3818d21212c",
+      "bytes": 413
+    },
+    {
+      "path": "1/Or16.hdl",
+      "sha256": "a4d3720e4184f8d89f74e4ecbe5c97abf7e983433339962bc98c6a6a4ec8dde0",
+      "bytes": 367
+    },
+    {
+      "path": "1/Or16.tst",
+      "sha256": "871e47484b57a5f085713e1e53dccd9abca75164f975d8bf76a2ada687268913",
+      "bytes": 710
+    },
+    {
+      "path": "1/Or8Way.cmp",
+      "sha256": "6db801a0fcd26e377be233542a22d246754bbf167bec68ce11a8aa11ce5fcbc8",
+      "bytes": 114
+    },
+    {
+      "path": "1/Or8Way.hdl",
+      "sha256": "76bd67de855e1f008778366ed7db36903b8fadc344f75a199aae50437126b99c",
+      "bytes": 350
+    },
+    {
+      "path": "1/Or8Way.tst",
+      "sha256": "0d3d687a01f255e08599041449cc60e05fe1b158ef3ffd903dc9dc6d4d3b505b",
+      "bytes": 458
+    },
+    {
+      "path": "1/Xor.cmp",
+      "sha256": "7a6bb3e00b726c70e95333a07f8960fa590e75a63f3c78e7d04373b8d6fc6f85",
+      "bytes": 70
+    },
+    {
+      "path": "1/Xor.hdl",
+      "sha256": "b94eae0d94bde7ef606e8270240e6f85dd67db73086e4b93f4588641014365db",
+      "bytes": 369
+    },
+    {
+      "path": "1/Xor.tst",
+      "sha256": "d2123bbc6687ef8ad8ebfc36a7ec6cec91d79c7f053a97d061d7681381e403f2",
+      "bytes": 404
+    },
+    {
+      "path": "10/ArrayTest/Main.jack",
+      "sha256": "d7cc654883084218ad4827d6367d0f99141b4a2ee3045343c02777beda1d6baa",
+      "bytes": 853
+    },
+    {
+      "path": "10/ArrayTest/Main.xml",
+      "sha256": "793d2ba2c87953c07842c4d6ad0e932aa281d49945a7e0c557a2cdd7a1b1ce30",
+      "bytes": 9117
+    },
+    {
+      "path": "10/ArrayTest/MainT.xml",
+      "sha256": "2c49f3ae3ecf275809026e4a08dd764bd72da97d63d97cb6f7e2b39bfe9866ed",
+      "bytes": 3851
+    },
+    {
+      "path": "10/ExpressionLessSquare/Main.jack",
+      "sha256": "4303964f43b10e812e84d15719a5c5bb47e30d815082dcf06a07f16ae8aa2954",
+      "bytes": 846
+    },
+    {
+      "path": "10/ExpressionLessSquare/Main.xml",
+      "sha256": "43ff43e9d901bc92487cc73aca96656081aacd728362405302dfc21c64c683bb",
+      "bytes": 3245
+    },
+    {
+      "path": "10/ExpressionLessSquare/MainT.xml",
+      "sha256": "0f73e742ab746b704b19b3c1d6d39ac83345cd4b9e8c201253583aec6941da9a",
+      "bytes": 1638
+    },
+    {
+      "path": "10/ExpressionLessSquare/Square.jack",
+      "sha256": "f4d9f1dd6573f95b49340f1d4a265a7b2a6d9e690dfa0a5005527dcc9466b738",
+      "bytes": 2049
+    },
+    {
+      "path": "10/ExpressionLessSquare/Square.xml",
+      "sha256": "5e2f7402439cec614cdd3f79fad6ee640b94682fdc928463c34c3865e08348e9",
+      "bytes": 30616
+    },
+    {
+      "path": "10/ExpressionLessSquare/SquareGame.jack",
+      "sha256": "b9dec5547ff8d2d89eb3b15a2cc158851f4930fbf75a1bb97e8051bb04178793",
+      "bytes": 1529
+    },
+    {
+      "path": "10/ExpressionLessSquare/SquareGame.xml",
+      "sha256": "14624725a4fc32e773ba621c4100ebf908e4fc9a5aa4444805c03dcd63bd1373",
+      "bytes": 17608
+    },
+    {
+      "path": "10/ExpressionLessSquare/SquareGameT.xml",
+      "sha256": "15b205d8e26c16d2ec720f8eeb8d3704df5c31250d05827e089ba102d559df09",
+      "bytes": 7000
+    },
+    {
+      "path": "10/ExpressionLessSquare/SquareT.xml",
+      "sha256": "3a1c072976d21512a3fc0488f68877a5e74fb123fc92dd973b5a86cc2f946c80",
+      "bytes": 11755
+    },
+    {
+      "path": "10/Square/Main.jack",
+      "sha256": "3037f6b23c08335e8e526e9dfad41a3352f45aa01c88425fe8a80288ad5b5e4b",
+      "bytes": 1169
+    },
+    {
+      "path": "10/Square/Main.xml",
+      "sha256": "43ff155d8f4190b84fa3a6d11ce96b470ac83045de2a8524fbaa929ed8c84200",
+      "bytes": 7649
+    },
+    {
+      "path": "10/Square/MainT.xml",
+      "sha256": "06d62d055622afd7c0742035e967387a735f060eebd8c22dec076cf4c00ebf8e",
+      "bytes": 3278
+    },
+    {
+      "path": "10/Square/Square.jack",
+      "sha256": "8b535757b4c622cc0ba2d3738fac9183db289774c77ec4681679c6e879a7bbc7",
+      "bytes": 2920
+    },
+    {
+      "path": "10/Square/Square.xml",
+      "sha256": "380b1cb0e36ad461b555ba2b629b468555e81876762dc9c3860a04888f17252d",
+      "bytes": 39285
+    },
+    {
+      "path": "10/Square/SquareGame.jack",
+      "sha256": "4670145e02151af882f4ead680c6c3f0e3f2657d0b597c9f5a762c6665311086",
+      "bytes": 2843
+    },
+    {
+      "path": "10/Square/SquareGame.xml",
+      "sha256": "7a6b158d10e8bd70241469c4ecb104ae9c66d96cf2a0545965cb3fe91bda722d",
+      "bytes": 21236
+    },
+    {
+      "path": "10/Square/SquareGameT.xml",
+      "sha256": "561d4fa65b78cfb474173613fa410add4c1d6c16d2dc13075ae5aa668cb53228",
+      "bytes": 8388
+    },
+    {
+      "path": "10/Square/SquareT.xml",
+      "sha256": "1e793360c645d1a83f962571b9421babfec61aafe621278a7f13c542fa96617e",
+      "bytes": 14874
+    },
+    {
+      "path": "11/Average/Main.jack",
+      "sha256": "bffe00cbce43c5ad23b3a331f1dc3887e49f435e18509acdf2caf13e6b5a1fde",
+      "bytes": 729
+    },
+    {
+      "path": "11/ComplexArrays/Main.jack",
+      "sha256": "999da1cdba4807f7f48b956de7a88888ec12691cd0406a81871e8b4a4229f454",
+      "bytes": 2149
+    },
+    {
+      "path": "11/ConvertToBin/Main.jack",
+      "sha256": "171de9ee2618e826d30feb1ff84413a8c913b64118f0b86aac6d8b4bdf5b1c94",
+      "bytes": 2593
+    },
+    {
+      "path": "11/Pong/Ball.jack",
+      "sha256": "b35965cb5869096bffd361782363734e15d1818b855b63eb34553a8c8740ae8c",
+      "bytes": 5960
+    },
+    {
+      "path": "11/Pong/Bat.jack",
+      "sha256": "1a24146802be21ec7303309b80101e3e5d04497f81adc9a108a58899d4f1071c",
+      "bytes": 3129
+    },
+    {
+      "path": "11/Pong/Main.jack",
+      "sha256": "24f27770f2e9e0befd1f3d04557310631b109dd6a30729ab0fd03d4833788e30",
+      "bytes": 551
+    },
+    {
+      "path": "11/Pong/PongGame.jack",
+      "sha256": "0ac19fe791be9edea3efad1805d80242bc5a1616e4d7e587cf7ded218230bc15",
+      "bytes": 4291
+    },
+    {
+      "path": "11/Seven/Main.jack",
+      "sha256": "d64586a3baef5473d1ca0adeabf5232aafe3a6bae9f3f25252beafc7ae9a83f0",
+      "bytes": 395
+    },
+    {
+      "path": "11/Square/Main.jack",
+      "sha256": "13bdf07da33a14db00be52c3b0060e45d810762b72feb1e275715b0bba3601af",
+      "bytes": 432
+    },
+    {
+      "path": "11/Square/Square.jack",
+      "sha256": "e492ec426f7425aca4b96ff13d571d7b1146f2d6c7186e469658e4b6d9fb96ce",
+      "bytes": 3302
+    },
+    {
+      "path": "11/Square/SquareGame.jack",
+      "sha256": "0f2d9e27d4886ca91de5efa193a0378b70c5b1966e6c9f84a1342f454b9b3b95",
+      "bytes": 2741
+    },
+    {
+      "path": "12/Array.jack",
+      "sha256": "1506f5e1a6cb300092a9919daf4a39aa3e5b1823cd25bd00c583f83fa51fc6f2",
+      "bytes": 693
+    },
+    {
+      "path": "12/ArrayTest/ArrayTest.cmp",
+      "sha256": "e2043e5e25625b69873b3f0d3ce2a76a32a287e505f2b400377eae971a5c9d9c",
+      "bytes": 86
+    },
+    {
+      "path": "12/ArrayTest/ArrayTest.tst",
+      "sha256": "1ea2c99ce106a88b774e4c4c35d0ac141d9550749a87e71e988eb6f7377c5d46",
+      "bytes": 378
+    },
+    {
+      "path": "12/ArrayTest/Main.jack",
+      "sha256": "344ca9adfd6f98d3d4974071e25aef272532e6d132c8862d10091901130e28e5",
+      "bytes": 1126
+    },
+    {
+      "path": "12/Keyboard.jack",
+      "sha256": "e1ac45e6d142c4dc2983eded4c2ad64b0ede36a8bb846a47d85aed6f329e6129",
+      "bytes": 1839
+    },
+    {
+      "path": "12/KeyboardTest/KeyboardTestOutput.png",
+      "sha256": "f1aa49ff7dcfb3ddd393a4dd4e303d6cd8045092ca233bf3af672813ccbc63c1",
+      "bytes": 14085
+    },
+    {
+      "path": "12/KeyboardTest/Main.jack",
+      "sha256": "ca04ed6d55b11846cc1af3c644847cb1dc64a72ed8e7c436a442ac09f368f1dc",
+      "bytes": 2850
+    },
+    {
+      "path": "12/Math.jack",
+      "sha256": "d6101fd7658692b5dcb8d4d8b6e5ee3efce944569afdbc4d4ed2963df86019a3",
+      "bytes": 1720
+    },
+    {
+      "path": "12/MathTest/Main.jack",
+      "sha256": "835d21a8db45814bd9b129c9f00cdaaee8f6da7a02b5082d8c2c360f38ba81a6",
+      "bytes": 1295
+    },
+    {
+      "path": "12/MathTest/MathTest.cmp",
+      "sha256": "0e904edfafdcefa7b9f9447b30ed7cf0f0a03fe61a7a94b390e29df81b1bb02d",
+      "bytes": 286
+    },
+    {
+      "path": "12/MathTest/MathTest.tst",
+      "sha256": "d699742796957326fac2907fa3c5d431fb0a0211a51a81fd1566d071db6ab443",
+      "bytes": 544
+    },
+    {
+      "path": "12/Memory.jack",
+      "sha256": "9136759a234775a1b6ad5c5d71893c67c20b4ef1b437d6ab4161d743d44084b0",
+      "bytes": 1059
+    },
+    {
+      "path": "12/MemoryTest/Main.jack",
+      "sha256": "8232e6c451f9c7480174fc594486b804e75d519693f7a071115e2865d7bfb88c",
+      "bytes": 1640
+    },
+    {
+      "path": "12/MemoryTest/MemoryDiag/Main.jack",
+      "sha256": "8d92ff5d81b36ebc92a17609c0ffa67584ee3fc576517da2eb927f3fc0415c49",
+      "bytes": 5981
+    },
+    {
+      "path": "12/MemoryTest/MemoryDiag/MemoryDiag.cmp",
+      "sha256": "91a22eaa99cf794114b2f761aff5a06199f082a5ecc13a78e44006e559d0db22",
+      "bytes": 186
+    },
+    {
+      "path": "12/MemoryTest/MemoryDiag/MemoryDiag.tst",
+      "sha256": "8f98151dfc6e69b3bf4b64d91415d7cf21e03df98a83bdac5dfcd5e286a8197a",
+      "bytes": 580
+    },
+    {
+      "path": "12/MemoryTest/MemoryDiag/README.html",
+      "sha256": "7c8f931e6f2d13e5c29f206455f357c1e3124f99788bf1bc413e3cf4e59685ca",
+      "bytes": 3312
+    },
+    {
+      "path": "12/MemoryTest/MemoryTest.cmp",
+      "sha256": "df24b6ea57e6dba75d82364896c5a43354b03abe99f54b8abb01fbc8b579afde",
+      "bytes": 126
+    },
+    {
+      "path": "12/MemoryTest/MemoryTest.tst",
+      "sha256": "44fd6e22001283829260d8c7bbc5937d9e542715fa43cb046497474df00fb1ac",
+      "bytes": 416
+    },
+    {
+      "path": "12/MemoryTest/README.txt",
+      "sha256": "cfb8deb50d8183e9ba5bb570d8b5e85be0b1a54bd4566351c4211aa244b381bf",
+      "bytes": 349
+    },
+    {
+      "path": "12/Output.jack",
+      "sha256": "b58c28d33675503f489de3274e12322f44720b58447013c710528f6f27b871c0",
+      "bytes": 9942
+    },
+    {
+      "path": "12/OutputTest/Main.jack",
+      "sha256": "0d38f3d1594d0eeba95ade37e54aea2499371b30ec87b89063e7751f52baecb3",
+      "bytes": 1292
+    },
+    {
+      "path": "12/OutputTest/OutputTestOutput.gif",
+      "sha256": "9effda54fde9126a72c6733b96786a2688d073f0b93461e9ba0ddec63064e981",
+      "bytes": 6184
+    },
+    {
+      "path": "12/Screen.jack",
+      "sha256": "100d13e1462d9de1a31fd6db1cde54e3d8b3dcc28b2c04807c7e32908ce70da8",
+      "bytes": 1449
+    },
+    {
+      "path": "12/ScreenTest/Main.jack",
+      "sha256": "a93671c8f8a1d82f003f0dee9442dc5c6acb518a52c7448e9efe699f5ffc6f35",
+      "bytes": 1384
+    },
+    {
+      "path": "12/ScreenTest/ScreenTestOutput.gif",
+      "sha256": "63d6f40f4bb24dff57dbbc2454c9f938afadba61e5755091636158b9bd54df26",
+      "bytes": 4563
+    },
+    {
+      "path": "12/String.jack",
+      "sha256": "e15da2b7cf30c402555c0f93883c623fc3b2ccdd52cefe93f7b119242a4c179f",
+      "bytes": 1839
+    },
+    {
+      "path": "12/StringTest/Main.jack",
+      "sha256": "21a4c102e825fac73cb17bb4216c15e5187fb4fb4ba3bf0105c8996eebbb1174",
+      "bytes": 2946
+    },
+    {
+      "path": "12/StringTest/StringTestOutput.gif",
+      "sha256": "683e8bfb53c1df58bebfddf9ee7b35df4a837e5ed007836d136aab8f560cd595",
+      "bytes": 8126
+    },
+    {
+      "path": "12/Sys.jack",
+      "sha256": "24c67a2cf33732e45d8f92fe06ec270d95403bd3aedf823145821898458c351e",
+      "bytes": 728
+    },
+    {
+      "path": "12/SysTest/Main.jack",
+      "sha256": "d52bd8d47edc322df8d588437bcef5667435d3faadd94343ce85079d2766891d",
+      "bytes": 881
+    },
+    {
+      "path": "13/more fun to go.txt",
+      "sha256": "ae3f6a3a076007d0a60460d4615346d2e69bf622cc462799e95888c2ce8dbb90",
+      "bytes": 184
+    },
+    {
+      "path": "2/Add16.cmp",
+      "sha256": "550cb70e3c678ec29648b55e35352ed231b651a1bc9bd5763d4945611b4b2c31",
+      "bytes": 413
+    },
+    {
+      "path": "2/Add16.hdl",
+      "sha256": "ea619e75f620f1737430fb33b231ef886b1a924b189315894c91e60953569edb",
+      "bytes": 404
+    },
+    {
+      "path": "2/Add16.tst",
+      "sha256": "0f08220734f9256d21cb50c014ef50b5112c813229554bbf8d8f9daf62e0aa8d",
+      "bytes": 716
+    },
+    {
+      "path": "2/ALU-basic.cmp",
+      "sha256": "81df6ca6ece256488861f68508f2360242623329c3b3666aa54140d4068f6b90",
+      "bytes": 3071
+    },
+    {
+      "path": "2/ALU-basic.tst",
+      "sha256": "d8ddd42f2eb63f5c551973b9da00782ecbc2872a0107ac50dbb2b5bd49dd2c74",
+      "bytes": 3666
+    },
+    {
+      "path": "2/ALU.cmp",
+      "sha256": "1a4e0a47b0e82df692f0ce12d6bb9df5befbbabbd0026b30fd5e5319fc7bdcd5",
+      "bytes": 3367
+    },
+    {
+      "path": "2/ALU.hdl",
+      "sha256": "7470d01960136d65c38465488826e93d00fc06cfebbae3af2d71be26f0a6f460",
+      "bytes": 1664
+    },
+    {
+      "path": "2/ALU.tst",
+      "sha256": "92c334b0498440d7ff6bd935e638be665159e818f2f8b54bcad54abdb92ab5d8",
+      "bytes": 4062
+    },
+    {
+      "path": "2/FullAdder.cmp",
+      "sha256": "fd2295b09d10d8909701f999fa794a56633b66d45ff2cddb15fdfe96897a3625",
+      "bytes": 216
+    },
+    {
+      "path": "2/FullAdder.hdl",
+      "sha256": "01790f3fc0dff3d6dd8c7f907b36912ef192994c19c387825914d46bef6a221b",
+      "bytes": 423
+    },
+    {
+      "path": "2/FullAdder.tst",
+      "sha256": "8122c44f3cfa9e098ec12b8c4c109603a97aea445c036d9435c99cb4cdfe4b3d",
+      "bytes": 575
+    },
+    {
+      "path": "2/HalfAdder.cmp",
+      "sha256": "e4cf6e39e4f7bc79a6ff4bc99145ea804e301f4e04fd29e7a639548a4e57b907",
+      "bytes": 90
+    },
+    {
+      "path": "2/HalfAdder.hdl",
+      "sha256": "e7cb891931c8b564097bc5e1572686a43b4aa10190854e2ad6b6d83a9760fc5c",
+      "bytes": 413
+    },
+    {
+      "path": "2/HalfAdder.tst",
+      "sha256": "516159298f525039a8321ee0d68a2eab8514587be0feca5975aa15963656ebf2",
+      "bytes": 434
+    },
+    {
+      "path": "2/Inc16.cmp",
+      "sha256": "e9ef288f637c664ffba284e2b1c50b1e07c2585ab62ee0777d64f71f04f3b828",
+      "bytes": 200
+    },
+    {
+      "path": "2/Inc16.hdl",
+      "sha256": "e72f6f608132a641b4d78f0dc19ef4cc0a5cf5352677f0b933c020dca8b1bd4f",
+      "bytes": 333
+    },
+    {
+      "path": "2/Inc16.tst",
+      "sha256": "519ec12a62e988afe79c27649d16b17e13ba7b52b64008b539fa1d36bd07a3bb",
+      "bytes": 505
+    },
+    {
+      "path": "3/a/Bit.cmp",
+      "sha256": "caa90bc66a5c020216e989ff2687d15d46b921efb0ffbf6ecbed276f0b89707b",
+      "bytes": 4730
+    },
+    {
+      "path": "3/a/Bit.hdl",
+      "sha256": "c5ce036e1e68075c638e3e7452ac4eb0d91c31a78812d5f1201d3ab7b6df4105",
+      "bytes": 485
+    },
+    {
+      "path": "3/a/Bit.tst",
+      "sha256": "9f7faa9a541d4fa599d5be69fbd08eb98b376dc9f9f8ee3e520929638c6d3a37",
+      "bytes": 6697
+    },
+    {
+      "path": "3/a/PC.cmp",
+      "sha256": "ec47485e91acafdf68505016c74c4962065a02430c2f0f7ed1c54f5a15e2d855",
+      "bytes": 1364
+    },
+    {
+      "path": "3/a/PC.hdl",
+      "sha256": "c1be7eea186422f9dd187182d148954c28dfd41145fce666a3fa223b05b4a773",
+      "bytes": 491
+    },
+    {
+      "path": "3/a/PC.tst",
+      "sha256": "bcecac13f1e08b38979ddabcc9ef0f487b4cdd8e4d5cc6a7201e486f5ed5eddb",
+      "bytes": 1195
+    },
+    {
+      "path": "3/a/RAM64.cmp",
+      "sha256": "f919d786f8b4e839607a13322822988bbc05c17c4f43cfcc161a78f35549b1b1",
+      "bytes": 12480
+    },
+    {
+      "path": "3/a/RAM64.hdl",
+      "sha256": "b6a1c2795713d1d2775e444cca8bdc77af5fe8ed8807c0dd9ec795810093d53d",
+      "bytes": 542
+    },
+    {
+      "path": "3/a/RAM64.tst",
+      "sha256": "309f465203bdd9de478fe29f12bb6229a02fc0b71d8b7e66b197183dfd11e3eb",
+      "bytes": 12488
+    },
+    {
+      "path": "3/a/RAM8.cmp",
+      "sha256": "f664d9678f006a07d10352451fb624f2133cd1e06a2d4c4feb75c1da035a1dd2",
+      "bytes": 6747
+    },
+    {
+      "path": "3/a/RAM8.hdl",
+      "sha256": "c942e9ff6f36842611b06dc50e17eb50340d70723b1ade14047e7a67ba30dddc",
+      "bytes": 535
+    },
+    {
+      "path": "3/a/RAM8.tst",
+      "sha256": "e4c36199e3bbea33a30a0a94fc80686aca90d62e43573811fa17683392954f1f",
+      "bytes": 5974
+    },
+    {
+      "path": "3/a/Register.cmp",
+      "sha256": "13b3c5e98b33138304e33487fe4b046d35ac55c24d046c09a9969ded882ec0a5",
+      "bytes": 4619
+    },
+    {
+      "path": "3/a/Register.hdl",
+      "sha256": "1bc6368f413822726942ab993408f6c92b69e9e76152f7babed19551f0b8b68a",
+      "bytes": 505
+    },
+    {
+      "path": "3/a/Register.tst",
+      "sha256": "74b865153b714baec1d3071617117014c596bce64ec6c62411d1b476561982be",
+      "bytes": 4971
+    },
+    {
+      "path": "3/b/RAM16K.cmp",
+      "sha256": "31bc8cbba65303ccb53b803444c64ceb63c7d564a1c66aea30a5a9a7abfa9496",
+      "bytes": 13120
+    },
+    {
+      "path": "3/b/RAM16K.hdl",
+      "sha256": "d7703579669919146d39f199956774cde7ef4c320b249fe454780d1278957f04",
+      "bytes": 538
+    },
+    {
+      "path": "3/b/RAM16K.tst",
+      "sha256": "964b6a4e46c18d6d40d0267bd84b430541150baa0c3830ae459bc148233601d5",
+      "bytes": 14302
+    },
+    {
+      "path": "3/b/RAM4K.cmp",
+      "sha256": "bd15429dc627b5c540f9e7d70a9b2eabe247b2300547e7c13a5e2e0db7429610",
+      "bytes": 12800
+    },
+    {
+      "path": "3/b/RAM4K.hdl",
+      "sha256": "4d7f7e9573edcd81f678d7494edc022ac9675257a66862b87c75dc7b8451104c",
+      "bytes": 535
+    },
+    {
+      "path": "3/b/RAM4K.tst",
+      "sha256": "5946b21663d042d3edbbf626ea92ae8db4b7d7f4ecdac6bddccb8299056065f1",
+      "bytes": 13844
+    },
+    {
+      "path": "3/b/RAM512.cmp",
+      "sha256": "2c7e0b079e399669a0747401bfb8d4316c41be9a457c85a23ca56cf9b6aa97de",
+      "bytes": 12480
+    },
+    {
+      "path": "3/b/RAM512.hdl",
+      "sha256": "6a92d4cdaa537cfecb25efca80de1f0e07094753afd09e54b6831a51e810204a",
+      "bytes": 537
+    },
+    {
+      "path": "3/b/RAM512.tst",
+      "sha256": "0e20328dd7ebc49ddcb28bc7eb2af4c85a9b63bf3fb48104aa3a2a1802061f8e",
+      "bytes": 13173
+    },
+    {
+      "path": "4/fill/Fill.asm",
+      "sha256": "c19d5e3334322196f25cf31f1326a43b858a4f96b491e83fe4c7e318de2ef19f",
+      "bytes": 450
+    },
+    {
+      "path": "4/fill/Fill.tst",
+      "sha256": "b6a9f79f3b7f4bab66000a923d27ebca6d0019a8d3940ac4daf7a30fb51b4789",
+      "bytes": 411
+    },
+    {
+      "path": "4/fill/FillAutomatic.cmp",
+      "sha256": "7b07dd584cce8a131e4a1daa62b86cd71ef265d801e5ee589061007841fb9533",
+      "bytes": 404
+    },
+    {
+      "path": "4/fill/FillAutomatic.tst",
+      "sha256": "b5fdca6ada38f6db8aae46cf07918b8a5641f3d34ad7ecc01bb6fc2d1313d31c",
+      "bytes": 1505
+    },
+    {
+      "path": "4/mult/Mult.asm",
+      "sha256": "021a37807a080c5f25b7b6b971101d02b844be5373898d675ed8dd9ccde4eaef",
+      "bytes": 391
+    },
+    {
+      "path": "4/mult/Mult.cmp",
+      "sha256": "e322d44cda004d48f0526c6260b17f603abc54117736dc15417103e0a788b56f",
+      "bytes": 245
+    },
+    {
+      "path": "4/mult/Mult.tst",
+      "sha256": "07923a3dfec594ac2844a3792e0516d5eec7f0cc53039c81a251fd22526041d3",
+      "bytes": 2077
+    },
+    {
+      "path": "5/Add.hack",
+      "sha256": "5fa539f315a8507490b48d955076302628a16a20f1c13481a844033db89ed933",
+      "bytes": 108
+    },
+    {
+      "path": "5/Computer.hdl",
+      "sha256": "9e8b8a9297b11e55c1bb3a72970b65a76258d21a55de95a859ed7a2610b9fd3c",
+      "bytes": 841
+    },
+    {
+      "path": "5/ComputerAdd.cmp",
+      "sha256": "18ddff544c81120f4d04b8ffae5ed5e975e9111c3fd730e8ef3040232a50e2e7",
+      "bytes": 1035
+    },
+    {
+      "path": "5/ComputerAdd.tst",
+      "sha256": "bdfeb49f835a3e87156114e515436633a72a6e79d9f50efe5e27dd4c8e1d3506",
+      "bytes": 1042
+    },
+    {
+      "path": "5/ComputerMax.cmp",
+      "sha256": "de12efb8024a46b2e0c50dc49d8e02671e65ea3ed4377b29ffb2d47c6d252c5b",
+      "bytes": 1932
+    },
+    {
+      "path": "5/ComputerMax.tst",
+      "sha256": "f28759d791a80fb8a4279818378345c1f0fb6a0748293a183e69bec4b6f77892",
+      "bytes": 1159
+    },
+    {
+      "path": "5/ComputerRect.cmp",
+      "sha256": "8a823e4e745bcf119852f263af7a5ec1d9d15ab52adef1a80ca60d9a232742a7",
+      "bytes": 4095
+    },
+    {
+      "path": "5/ComputerRect.tst",
+      "sha256": "10d493f5b326daf1c296bec74d8bcf716325e1bafbd60a0f38ca8dd329ef697a",
+      "bytes": 1133
+    },
+    {
+      "path": "5/CPU-external.cmp",
+      "sha256": "0a076d89dc489c82ce0356ea3aa8ef35ae66019439e800b16e29f44a79262eab",
+      "bytes": 6499
+    },
+    {
+      "path": "5/CPU-external.tst",
+      "sha256": "b93a33f267ae12c585ae9e51feffda32ed0d7a2e4f3bc21ae5b27c9c55bec020",
+      "bytes": 4402
+    },
+    {
+      "path": "5/CPU.cmp",
+      "sha256": "5a0da9d1e46ecef00d65e280f97158728ffdd553dc0ac1b197104b5bba9083b0",
+      "bytes": 7469
+    },
+    {
+      "path": "5/CPU.hdl",
+      "sha256": "575c5b9bea1d8be1e33e930ee9ad46e55ed56a2f021178e24e847e385f27fda9",
+      "bytes": 1801
+    },
+    {
+      "path": "5/CPU.tst",
+      "sha256": "0faad09c606afc3246d674452a1782db47cc5535e7be6918d7d1c0749588c34f",
+      "bytes": 4423
+    },
+    {
+      "path": "5/Max.hack",
+      "sha256": "187069c62bcba01e4dd6bd0c831c8b96d6c29c8b36562226265c164cd73f99be",
+      "bytes": 288
+    },
+    {
+      "path": "5/Memory.cmp",
+      "sha256": "8f9ebf8c2dcabdc75da57bd72b7684d8f95bbef01d7054eb4b7ac34f1d82fcaf",
+      "bytes": 2992
+    },
+    {
+      "path": "5/Memory.hdl",
+      "sha256": "cda613feff5fe9f73ba1a5f921042225b5f4255354ef5742989573261fc02c03",
+      "bytes": 1284
+    },
+    {
+      "path": "5/Memory.tst",
+      "sha256": "ea53755f0b47263b7a3eda37d672d0006ea2feeed9246d1e4b469f5a33c6d4c6",
+      "bytes": 5261
+    },
+    {
+      "path": "5/Rect.hack",
+      "sha256": "54cf3828ba3cbbb2a85e3fba4009b2f4b5011109bd1065ecfb18c86993c487a4",
+      "bytes": 450
+    },
+    {
+      "path": "6/add/Add.asm",
+      "sha256": "ab45f51fe7f3508cb5bd7523e1c5113e71a4037f658e88b82e8b0a27ae0a2e18",
+      "bytes": 254
+    },
+    {
+      "path": "6/max/Max.asm",
+      "sha256": "1ebb36d0f90c05fadac97dcffb9e487c4dd62183f93838dbc72fd2ab9bb75b9c",
+      "bytes": 525
+    },
+    {
+      "path": "6/max/MaxL.asm",
+      "sha256": "97e5642fb8cc8a1e5160076b6bccdd2297cad8eed7004c1e53bca065271efbee",
+      "bytes": 371
+    },
+    {
+      "path": "6/pong/Pong.asm",
+      "sha256": "106d3be3103a868b52152c49540d5e86cc8a0e94aa6e215f1c3801b99922c4ac",
+      "bytes": 200041
+    },
+    {
+      "path": "6/pong/PongL.asm",
+      "sha256": "8b9153fcec4c9daef76edd2f6a1df2eb84e207f3ca72e048f1f6e695b32103fe",
+      "bytes": 155712
+    },
+    {
+      "path": "6/rect/Rect.asm",
+      "sha256": "f785c31557a8f5be82b49f00d10578e24cde5f925a96062eab94c8a1bb56e408",
+      "bytes": 772
+    },
+    {
+      "path": "6/rect/RectL.asm",
+      "sha256": "e65362a1fc1cc275773308d5341c75d4b223517312d97182149b92430ae86f5a",
+      "bytes": 431
+    },
+    {
+      "path": "7/MemoryAccess/BasicTest/BasicTest.cmp",
+      "sha256": "fe5e52f4aee5ca1cd7c5dde20c140b70d10b3af5198d55e30062c44c0e1dcad8",
+      "bytes": 150
+    },
+    {
+      "path": "7/MemoryAccess/BasicTest/BasicTest.tst",
+      "sha256": "2528ee86f92a3d8834ea313cb2933f651df549897085f4704d0e34db3675f15f",
+      "bytes": 939
+    },
+    {
+      "path": "7/MemoryAccess/BasicTest/BasicTest.vm",
+      "sha256": "3ef8c683b00fffbd0c062155ee67c05bfe928894773f1536e2ab6a512e5fe11a",
+      "bytes": 566
+    },
+    {
+      "path": "7/MemoryAccess/BasicTest/BasicTestVME.tst",
+      "sha256": "74ff4e1aa0bc8010280991435aae1413ebaee607d4ca4c38d2dc7b8998a588cd",
+      "bytes": 1076
+    },
+    {
+      "path": "7/MemoryAccess/PointerTest/PointerTest.cmp",
+      "sha256": "89f8323fef666728619f4ca1af48abe856cba3d6954090bf35d382a26003d602",
+      "bytes": 96
+    },
+    {
+      "path": "7/MemoryAccess/PointerTest/PointerTest.tst",
+      "sha256": "ae7d6846eb75c5df28b6649ce80907b30d802d78b2e3c294a1c6067a3b78b21e",
+      "bytes": 698
+    },
+    {
+      "path": "7/MemoryAccess/PointerTest/PointerTest.vm",
+      "sha256": "197ace2179ed68d2359b29a4e44dff204c3176b13a87025c136eeea17236f777",
+      "bytes": 493
+    },
+    {
+      "path": "7/MemoryAccess/PointerTest/PointerTestVME.tst",
+      "sha256": "5abc0a6b8fec80f521c8bf6adfa6de61af76eaf3809a6abec14634815f56cc6a",
+      "bytes": 691
+    },
+    {
+      "path": "7/MemoryAccess/StaticTest/StaticTest.cmp",
+      "sha256": "e1c1b5fbeba0e212da46a74f3d55f21c959ff7a4d18a9ae6da24fac8a4b817be",
+      "bytes": 24
+    },
+    {
+      "path": "7/MemoryAccess/StaticTest/StaticTest.tst",
+      "sha256": "dd451e7d3abb41c38821160fb825f4051155912b8f1573ae795b862ef471663f",
+      "bytes": 550
+    },
+    {
+      "path": "7/MemoryAccess/StaticTest/StaticTest.vm",
+      "sha256": "8cb9ea48c2be3175387cc24119a1561f8119eefeac91db09690b0f38983bcca1",
+      "bytes": 419
+    },
+    {
+      "path": "7/MemoryAccess/StaticTest/StaticTestVME.tst",
+      "sha256": "556a92cba311059e25688661f3c520438634567908be7984a0dc02c935eb0746",
+      "bytes": 550
+    },
+    {
+      "path": "7/StackArithmetic/SimpleAdd/SimpleAdd.cmp",
+      "sha256": "14318baa70c03067c1f8ba257cc73a63f602267033bd51b286fa6ca58967d924",
+      "bytes": 50
+    },
+    {
+      "path": "7/StackArithmetic/SimpleAdd/SimpleAdd.tst",
+      "sha256": "a108e02b45cfaf7cb66e85c9f2e8c061ccf296d20a829aae13d7bc7c32ea53e8",
+      "bytes": 579
+    },
+    {
+      "path": "7/StackArithmetic/SimpleAdd/SimpleAdd.vm",
+      "sha256": "a320931ff936ddd1bed3d1f2a18dd36774d287f590e81cd81bfeb7f96b976051",
+      "bytes": 279
+    },
+    {
+      "path": "7/StackArithmetic/SimpleAdd/SimpleAddVME.tst",
+      "sha256": "3474f6b680e4dbb6d414fa9da71475fcaf1d0e01ad4ec669860ae53d3700f634",
+      "bytes": 584
+    },
+    {
+      "path": "7/StackArithmetic/StackTest/StackTest.cmp",
+      "sha256": "ca2aba27bc5315114d33a9ee45a645f51df372804c333d34b1be03c85cebef07",
+      "bytes": 254
+    },
+    {
+      "path": "7/StackArithmetic/StackTest/StackTest.tst",
+      "sha256": "4a0348369972aebd1c601c2b5eb279ec020da40a271af66c8b97d0a4caf3fc2c",
+      "bytes": 763
+    },
+    {
+      "path": "7/StackArithmetic/StackTest/StackTest.vm",
+      "sha256": "d38a3ebf31acfc40d6e51fe7d0d848237e48ec264dd77307734a922bf52443f3",
+      "bytes": 785
+    },
+    {
+      "path": "7/StackArithmetic/StackTest/StackTestVME.tst",
+      "sha256": "b0e739e86853ea5779e67db7268f0ae70be94aef691cb34a119473e4640a9205",
+      "bytes": 779
+    },
+    {
+      "path": "8/FunctionCalls/FibonacciElement/FibonacciElement.cmp",
+      "sha256": "261c46c7fb48ab600883c5a30ce54145d1c7b1de81b189d8720b1c59efd7acbe",
+      "bytes": 42
+    },
+    {
+      "path": "8/FunctionCalls/FibonacciElement/FibonacciElement.tst",
+      "sha256": "77d8bb2b1a18a4fe5582ceab2fc85b87257ef0951a686d4649bff737b4dd3172",
+      "bytes": 731
+    },
+    {
+      "path": "8/FunctionCalls/FibonacciElement/FibonacciElementVME.tst",
+      "sha256": "706a0c99baf052bf71c062d3b3546b25e7fb37176e44b6096e599c955c90b3b5",
+      "bytes": 662
+    },
+    {
+      "path": "8/FunctionCalls/FibonacciElement/Main.vm",
+      "sha256": "33acdba865d099844e8ddbf9075515fe295e1fbd309147e56f5e573748d3c612",
+      "bytes": 1022
+    },
+    {
+      "path": "8/FunctionCalls/FibonacciElement/Sys.vm",
+      "sha256": "0f4e2080309596f42a443112571a783cdbdf57fa20d3a83e91dbcce6fccd0ca8",
+      "bytes": 735
+    },
+    {
+      "path": "8/FunctionCalls/NestedCall/NestedCall.cmp",
+      "sha256": "2755cd1371e974da45b7045359c43b38e4416057c858484e67a4917a4d698a96",
+      "bytes": 132
+    },
+    {
+      "path": "8/FunctionCalls/NestedCall/NestedCall.html",
+      "sha256": "5b4ddd84338aee57ba4849d51ef81f62cf51edc699259285f1e558f5b3a17591",
+      "bytes": 9973
+    },
+    {
+      "path": "8/FunctionCalls/NestedCall/NestedCall.tst",
+      "sha256": "72613c47466180704f6f72b105c25ccc2298e60c455492fa54912f708699520f",
+      "bytes": 1614
+    },
+    {
+      "path": "8/FunctionCalls/NestedCall/NestedCallStack.html",
+      "sha256": "ea469e4c90c63eb0bde90741f4215943796eafd58c332ce8489d8f19933d1398",
+      "bytes": 19301
+    },
+    {
+      "path": "8/FunctionCalls/NestedCall/NestedCallVME.tst",
+      "sha256": "62ee8c9f591736d97bf0d1ac19bfdbc415b71c8bdf4b7a590def5b898203c09c",
+      "bytes": 1551
+    },
+    {
+      "path": "8/FunctionCalls/NestedCall/Sys.vm",
+      "sha256": "1033283fe4f5cee1c81b8f6d60ceaa5aa549bbc42d66c6e33709ad48b96effdc",
+      "bytes": 1473
+    },
+    {
+      "path": "8/FunctionCalls/SimpleFunction/SimpleFunction.cmp",
+      "sha256": "579a687cdd3424faa7113a6b11d37bff9a53fd5273ff2fe2ed391afd77638094",
+      "bytes": 114
+    },
+    {
+      "path": "8/FunctionCalls/SimpleFunction/SimpleFunction.tst",
+      "sha256": "dee6f8e4816426cfbe59dd64c248d094777731e734d636a33ec56705053f936d",
+      "bytes": 1255
+    },
+    {
+      "path": "8/FunctionCalls/SimpleFunction/SimpleFunction.vm",
+      "sha256": "003235164352deb34261b5cbf9865f346be1b660d9c43d5e2c18a25475efeab7",
+      "bytes": 442
+    },
+    {
+      "path": "8/FunctionCalls/SimpleFunction/SimpleFunctionVME.tst",
+      "sha256": "76ae8f38ee9a377556788842221e6a00d6e5b7946243f5b66c8fae48edf2c206",
+      "bytes": 992
+    },
+    {
+      "path": "8/FunctionCalls/StaticsTest/Class1.vm",
+      "sha256": "811d3ea6830de89dfe64758fcd5f9e7e1022a1e32c7834d3730fc3041e894bc6",
+      "bytes": 485
+    },
+    {
+      "path": "8/FunctionCalls/StaticsTest/Class2.vm",
+      "sha256": "b043d7dccde4f8eb24199b72bde5468ec53a1630d0bcf71b8e37782c33d4383f",
+      "bytes": 485
+    },
+    {
+      "path": "8/FunctionCalls/StaticsTest/StaticsTest.cmp",
+      "sha256": "52e4aa6a6678ee5154af29e8a5ab0395b2b87efd9a0828f12f529daf651d9bb0",
+      "bytes": 60
+    },
+    {
+      "path": "8/FunctionCalls/StaticsTest/StaticsTest.tst",
+      "sha256": "f9c95f5669f6affbbbe0fd5d9e93c61c4afe0cfed4853793573f2d007916782d",
+      "bytes": 530
+    },
+    {
+      "path": "8/FunctionCalls/StaticsTest/StaticsTestVME.tst",
+      "sha256": "df0ac14901af4e968326ed03ffd092b22edd8e33d75938553b831c8b0ebf18b8",
+      "bytes": 505
+    },
+    {
+      "path": "8/FunctionCalls/StaticsTest/Sys.vm",
+      "sha256": "c97a77d5cc6fc8dbebd280f50b8006eb75c6fb2bf2b18aae163f2a7e28340635",
+      "bytes": 594
+    },
+    {
+      "path": "8/ProgramFlow/BasicLoop/BasicLoop.cmp",
+      "sha256": "9b8a1c4e6ba72070b33ba022226cb5e7368a4916c7a8264d57d89ad48021e5c3",
+      "bytes": 42
+    },
+    {
+      "path": "8/ProgramFlow/BasicLoop/BasicLoop.out",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "8/ProgramFlow/BasicLoop/BasicLoop.tst",
+      "sha256": "44b3fab1fbeb602e76b0b1e03fa7385b3e18cb2cd59c9ce949cb45ae4b2b45ae",
+      "bytes": 731
+    },
+    {
+      "path": "8/ProgramFlow/BasicLoop/BasicLoop.vm",
+      "sha256": "3697b6bb458b0f8dc9be5700099d5c204b1175800d29021d03fe006263f9967f",
+      "bytes": 721
+    },
+    {
+      "path": "8/ProgramFlow/BasicLoop/BasicLoopVME.tst",
+      "sha256": "a93f1f2105f3bd10ad861035c1fdb81eb525ae90c06a4314188aa87f6f1a1add",
+      "bytes": 707
+    },
+    {
+      "path": "8/ProgramFlow/FibonacciSeries/FibonacciSeries.cmp",
+      "sha256": "4f45d4dbbbd45781759dba82ed3e0c56c4cb3f4e4d55dca8b4f87b0950cd9dac",
+      "bytes": 126
+    },
+    {
+      "path": "8/ProgramFlow/FibonacciSeries/FibonacciSeries.tst",
+      "sha256": "1c44ebdb057ab03c1d4c183f2f51627ac401765f8da5e46140329e8f5a443056",
+      "bytes": 960
+    },
+    {
+      "path": "8/ProgramFlow/FibonacciSeries/FibonacciSeries.vm",
+      "sha256": "1a2a3a25ebde62f5624da6ce01d2ed7aeab72c8a325da53f1a888d58c7718e41",
+      "bytes": 1449
+    },
+    {
+      "path": "8/ProgramFlow/FibonacciSeries/FibonacciSeriesVME.tst",
+      "sha256": "b8ff41b3ffd5b34a70908566362b21df273b81ed65b4b3742a3f26ab0fe7d1f5",
+      "bytes": 925
+    },
+    {
+      "path": "9/Average/Main.jack",
+      "sha256": "aa48d5923fce0867dd346898cf13aa7e3b5a1cde9725da570d03cdda2be397ce",
+      "bytes": 728
+    },
+    {
+      "path": "9/ComplexArrays/Main.jack",
+      "sha256": "fc5b45162c15206817c39134625df9571270eba06a513e4959792767682d8c13",
+      "bytes": 2148
+    },
+    {
+      "path": "9/ConvertToBin/Main.jack",
+      "sha256": "bcb33d28d6e23bd886c9dda271360dada08922b3a8a583ccb52f3acb2e802ee3",
+      "bytes": 2608
+    },
+    {
+      "path": "9/Fraction/Fraction.jack",
+      "sha256": "a1331eb2570fb560e6dcd941f01265be0c2cbaac7ca2504370179725d9fdd02f",
+      "bytes": 2143
+    },
+    {
+      "path": "9/Fraction/Main.jack",
+      "sha256": "b0c8fd5529d5d295f1046886c5b25ea5d3b68e359131476709482d222667e835",
+      "bytes": 483
+    },
+    {
+      "path": "9/HelloWorld/Main.jack",
+      "sha256": "8c22a7a69c51b790d6b0cf943fed1b2143334917983589b7db439b21f9c55dd7",
+      "bytes": 414
+    },
+    {
+      "path": "9/List/List.jack",
+      "sha256": "27d93ce91e356ad84c1361647e5e81c16158c96cf6c49042ea5456c7a25d506d",
+      "bytes": 1431
+    },
+    {
+      "path": "9/List/Main.jack",
+      "sha256": "4e0848ed202bbf2707b97372b69b6d310e0a04da08410a50485c684b1c187fc7",
+      "bytes": 515
+    },
+    {
+      "path": "9/Pong/Ball.jack",
+      "sha256": "53502e1d632d81a62aa5ff0cf482812f36259f30711b7854f3800d413ffb5e7a",
+      "bytes": 5919
+    },
+    {
+      "path": "9/Pong/Bat.jack",
+      "sha256": "f1b0e88383c3c2d8bdc7db74bc8421631e2e10ee8119d3e327c7e7bb866335b4",
+      "bytes": 3088
+    },
+    {
+      "path": "9/Pong/Main.jack",
+      "sha256": "0808eebe92a20bc93e808769286ecf5dfe1b7e39c83fe4a56850171f67a8423a",
+      "bytes": 508
+    },
+    {
+      "path": "9/Pong/PongGame.jack",
+      "sha256": "e6b21fba50568664da0735028a53b2bf6c85771b4223b9e9ef58ca8648854771",
+      "bytes": 4246
+    },
+    {
+      "path": "9/Square/Main.jack",
+      "sha256": "c336415fc085b799b81fd5118763499212cb86c5bb443951ee787e59cd969ea7",
+      "bytes": 431
+    },
+    {
+      "path": "9/Square/Square.jack",
+      "sha256": "ca19ef83dff470c0f8c211eb360b95ef236b165bc748616e6b8d4d418b99bbaf",
+      "bytes": 3301
+    },
+    {
+      "path": "9/Square/SquareGame.jack",
+      "sha256": "2a3b12b35061bbb952f5d0652518b8bfc1e13e2ba2bda0f46a3789f56c7843af",
+      "bytes": 2741
+    }
+  ]
+}

@@ -754,6 +754,58 @@
     ]
   },
   {
+    "name": "starter-EntryAlarm",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "EntryAlarm.out",
+        "equal": true,
+        "sha256": [
+          "64556f9cef8b20fdb8c82bb39c9ffcc0250915e4c2e92031dda566205fac567e",
+          "64556f9cef8b20fdb8c82bb39c9ffcc0250915e4c2e92031dda566205fac567e"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "starter-SignalMismatch",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "SignalMismatch.out",
+        "equal": true,
+        "sha256": [
+          "e5ea58ad8ab3003e2c712fa8084919b894a76fafaaa8f20df0d27c0c6881a6ea",
+          "e5ea58ad8ab3003e2c712fa8084919b894a76fafaaa8f20df0d27c0c6881a6ea"
+        ]
+      }
+    ]
+  },
+  {
     "name": "hardware-custom-ClockWire",
     "tool": "HardwareSimulator",
     "passed": true,

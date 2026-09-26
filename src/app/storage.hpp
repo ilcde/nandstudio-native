@@ -20,6 +20,8 @@ public:
     virtual QUrl rename(const QUrl&,const QString&)const=0;
 };
 const Provider& provider(const QUrl&);
+QUrl copyCourseWorkspace(const QUrl& destinationParent,const QString& newName,
+                         const std::function<bool()>& cancelled = {});
 // Resolves through existing ancestors and rejects workspace escape/symlinks.
 QUrl workspaceChild(const QUrl& root,const QString& relative);
 // Copies into a new child folder. Never overwrites an existing project. The

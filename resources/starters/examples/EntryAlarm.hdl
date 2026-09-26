@@ -1,0 +1,8 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Independent NandStudio demonstration (2026), not a course solution.
+CHIP EntryAlarm {
+    IN enabled, door, window;
+    OUT alarm;
+    PARTS:
+    Or(a=door,b=window,out=opened); And(a=enabled,b=opened,out=alarm);
+}

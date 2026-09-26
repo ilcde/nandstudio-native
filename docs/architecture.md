@@ -20,14 +20,23 @@ Documents preserve UTF-8 BOM, dominant newline style and final-newline state;
 no-op saves do not rewrite files. Other encodings are refused. Mixed-newline edit
 preservation remains incomplete. QSaveFile commits atomically; pre-save byte
 comparison catches external edits, but the small check/commit race still needs a
-stronger storage transaction. Recovery saves buffers separately every five
-seconds; it never autosaves onto external project files. Full conflict-resolution
-UI and configurable autosave remain incomplete.
+stronger storage transaction. Recovery journals edited buffers after 250 ms of idle typing, active-document
+changes immediately, and flushes on backgrounding. It never autosaves onto
+external project files. A conflict dialog supports keeping the buffer, reloading
+the reviewed disk version, or explicit overwrite; configurable autosave remains
+incomplete.
 
-The current file services are local-path based. An Android document-provider
-storage adapter is **not implemented**. It must replace path assumptions with
-workspace-relative identifiers, URI grants and explicit import/export capabilities
-before Android can be called supported. QML has no alternate simulator or parser.
+Android import/export uses a URI-based storage adapter through Qt's content
+file engine. It creates explicit local workspace copies for native tools and
+exports saved files into a new provider folder. Direct provider editing and
+permission-recovery qualification remain incomplete; see android-workspaces.md.
+QML has no alternate simulator or parser.
+
+All GUI packages embed read-only course starter resources. Creating a course
+workspace runs the same C++ copy service in a worker on every platform, creates
+a unique writable folder and never overwrites an earlier copy. The manifest
+records SHA-256 for every original project file. Independent examples have their
+own provenance and do not replace student starter implementations.
 
 The reference tree is development-only. Java runs only in differential testing.
 No Java executable, simulator JAR, Python runtime or browser is needed by native

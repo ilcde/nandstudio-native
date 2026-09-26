@@ -9,10 +9,10 @@
       "packaged": true,
       "installed": false,
       "launched": "Windows platform plugin and offscreen; local packaged builds",
-      "functionally_tested": "All three build-tree suites and packaged GUI checks passed in run 36104136260. Current suites: 2012 core, 2144 hardware, 244 GUI checks. Linux also exercised X11/Xvfb. Full workflows unverified.",
+      "functionally_tested": "Four CTest suites and packaged GUI checks passed in CI 36221941023, including shared Xor and closed-dependency Eval regressions. Local Windows GUI suite: 301 assertions. Full workflows remain unverified.",
       "full_workflow_verified": false,
-      "source_revision": "9452ec3966b087a84b8744ebc35cc2146d87c964",
-      "ci_run": "https://github.com/ilcde/nandstudio-native/actions/runs/36104136260"
+      "source_revision": "be2e440a66c808caee823b083b592defe80803a9",
+      "ci_run": "https://github.com/ilcde/nandstudio-native/actions/runs/36221941023"
     },
     {
       "target": "macOS arm64",
@@ -21,15 +21,15 @@
       "packaged": true,
       "installed": false,
       "launched": "Packaged Cocoa application in GitHub macos-14 runner",
-      "functionally_tested": "All three build-tree suites and packaged GUI checks passed in run 36104136260. Current suites: 2012 core, 2144 hardware, 244 GUI checks. Linux also exercised X11/Xvfb. Full workflows unverified.",
+      "functionally_tested": "Four CTest suites and packaged GUI checks passed in CI 36221941023, including shared Xor and closed-dependency Eval regressions. Local Windows GUI suite: 301 assertions. Full workflows remain unverified.",
       "blockers": [
         "No installation or manual device workflow verification",
         "Release signing/notarization not performed",
         "Remaining functional parity gaps"
       ],
       "full_workflow_verified": false,
-      "source_revision": "9452ec3966b087a84b8744ebc35cc2146d87c964",
-      "ci_run": "https://github.com/ilcde/nandstudio-native/actions/runs/36104136260"
+      "source_revision": "be2e440a66c808caee823b083b592defe80803a9",
+      "ci_run": "https://github.com/ilcde/nandstudio-native/actions/runs/36221941023"
     },
     {
       "target": "macOS x86-64",
@@ -38,15 +38,15 @@
       "packaged": true,
       "installed": false,
       "launched": "Cocoa packaged application and offscreen build tree in GitHub macos-15-intel",
-      "functionally_tested": "All three build-tree suites and packaged GUI checks passed in run 36104136260. Current suites: 2012 core, 2144 hardware, 244 GUI checks. Linux also exercised X11/Xvfb. Full workflows unverified.",
+      "functionally_tested": "Four CTest suites and packaged GUI checks passed in CI 36221941023, including shared Xor and closed-dependency Eval regressions. Local Windows GUI suite: 301 assertions. Full workflows remain unverified.",
       "blockers": [
         "No clean-device installation/manual workflow",
         "Signing/notarization not performed",
         "Remaining functional parity gaps"
       ],
       "full_workflow_verified": false,
-      "source_revision": "9452ec3966b087a84b8744ebc35cc2146d87c964",
-      "ci_run": "https://github.com/ilcde/nandstudio-native/actions/runs/36104136260"
+      "source_revision": "be2e440a66c808caee823b083b592defe80803a9",
+      "ci_run": "https://github.com/ilcde/nandstudio-native/actions/runs/36221941023"
     },
     {
       "target": "Linux x86-64",
@@ -55,14 +55,14 @@
       "packaged": true,
       "installed": false,
       "launched": "WSL2 Ubuntu 24.04: offscreen, Xvfb X11, visible WSLg smoke launch; GitHub Ubuntu runner",
-      "functionally_tested": "All three build-tree suites and packaged GUI checks passed in run 36104136260. Current suites: 2012 core, 2144 hardware, 244 GUI checks. Linux also exercised X11/Xvfb. Full workflows unverified.",
+      "functionally_tested": "Four CTest suites and packaged GUI checks passed in CI 36221941023, including shared Xor and closed-dependency Eval regressions. Local Windows GUI suite: 301 assertions. Full workflows remain unverified.",
       "blockers": [
         "Complete parity gaps remain",
         "Not installed on a separate clean physical Linux system"
       ],
       "full_workflow_verified": false,
-      "source_revision": "9452ec3966b087a84b8744ebc35cc2146d87c964",
-      "ci_run": "https://github.com/ilcde/nandstudio-native/actions/runs/36104136260"
+      "source_revision": "be2e440a66c808caee823b083b592defe80803a9",
+      "ci_run": "https://github.com/ilcde/nandstudio-native/actions/runs/36221941023"
     },
     {
       "target": "Android arm64-v8a",
@@ -103,7 +103,7 @@
       "ci_run": "https://github.com/ilcde/nandstudio-native/actions/runs/36104136260"
     }
   ],
-  "ci": "All six target builds, packaged desktop GUI checks, sanitizers and Android toolbar runtime check passed run 36104136260 at 9452ec3. Java reference differential suite also passed 65/65 locally plus two Xor cases.",
+  "ci": "Run 36221941023 passed, including Android interaction rerun. First Android failure remains recorded. Release blocked by stale duplicate evidence selection; workflow fix in progress.",
   "release_publication": {
     "requested": true,
     "published": true,

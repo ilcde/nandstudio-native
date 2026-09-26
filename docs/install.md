@@ -14,7 +14,8 @@ Server 2022 in CI. There is no native Windows ARM64 package.
 1. Extract `NandStudio-windows-x86_64.zip` into a writable user folder.
 2. Run `bin\NandStudio.exe`. Keep DLLs, plugins, QML and resources together;
    copying only the EXE does not work.
-3. Choose Files > Open workspace and select a copy of your project.
+3. Choose **Files > Create course workspace** for the bundled starters, or
+   **Files > Open workspace** for your own project folder.
 
 No administrator installation is required. The package is unsigned. Check the
 source and checksum before deciding to run it. If graphics initialization fails:
@@ -137,3 +138,12 @@ the new package separately. Preserve project backups. Do not overwrite expected
   a blank surface. This remains tracked, and no renderer override is shipped.
 
 Report other problems using [the issue guide](../CONTRIBUTING.md).
+
+## Offline starter projects
+
+Version 0.1.4 embeds the same course resources on every platform. No separate
+download is needed. **Files > Create course workspace** creates a new local
+editable copy of folders 0–13 and independent examples. It preserves earlier
+workspaces. **Files > Export workspace copy** exports saved files to a new folder.
+The educational resources retain their original noncommercial share-alike
+license; see the bundled README and the repository notices.

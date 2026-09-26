@@ -90,7 +90,7 @@ int main(int argc,char** argv){
                 const auto collect=[&](auto&& self,QQuickItem* parent)->void{
                     if(!parent||!parent->isVisible())return;
                     const auto name=parent->objectName();
-                    if(name=="importWorkspaceDialogConfirm"||name=="exportWorkspaceMenuItem"||name=="mobileFilesTab"||name=="hardwareEval"||name.startsWith("togglePin_")||name.startsWith("workspaceFile_")||name.startsWith("editor_")){
+                    if(name=="createCourseWorkspaceMenuItem"||name=="importWorkspaceDialogConfirm"||name=="exportWorkspaceMenuItem"||name=="mobileFilesTab"||name=="hardwareEval"||name.startsWith("togglePin_")||name.startsWith("workspaceFile_")||name.startsWith("editor_")){
                         const auto rect=parent->mapRectToScene(QRectF(0,0,parent->width(),parent->height()));
                         items.append(QJsonObject{{"name",name},{"x",rect.x()},{"y",rect.y()},{"width",rect.width()},{"height",rect.height()},{"inside_safe_area",usable.contains(rect.center())}});
                     }

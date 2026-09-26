@@ -56,6 +56,10 @@ def main():
             for cmp in path.parent.glob('*.cmp'): files[cmp.name]=cmp.read_bytes()
             test('hardware-'+path.stem,'HardwareSimulator','HardwareSimulatorMain',files,[path.name],[path.stem+'.out'])
     fixture_dir=ROOT/'tests/fixtures/hardware'
+    examples=ROOT/'resources/starters/examples'
+    for path in sorted(examples.glob('*.tst')):
+        files={p.name:p.read_bytes() for p in examples.iterdir() if p.suffix in ('.hdl','.tst','.cmp')}
+        test('starter-'+path.stem,'HardwareSimulator','HardwareSimulatorMain',files,[path.name],[path.stem+'.out'])
     for path in sorted(fixture_dir.glob('*.tst')):
         files={p.name:p.read_bytes() for p in fixture_dir.iterdir() if p.suffix in ('.hdl','.asm','.hack')}
         files[path.name]=path.read_bytes()

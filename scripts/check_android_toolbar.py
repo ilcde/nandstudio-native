@@ -234,6 +234,22 @@ if args.workspace_flow:
         reopened=wait_menu(lambda d:d.get('workspace')==workspace and d.get('active_document',{}).get('name')=='Xor.hdl')
         report['interaction']['workspace_selected']=True
         report['workspace_copy']={'passed':True,'provider':'Android Downloads','imported':True,'edited':True,'saved':True,'assembled':True,'exported':True,'reopened_after_process_restart':True,'original_unchanged':True,'all_providers_verified':False}
+        tap(reopened,'controls','filesButton')
+        course_menu=wait_menu(lambda d:named(d,'workspace_controls','createCourseWorkspaceMenuItem'))
+        tap(course_menu,'workspace_controls','createCourseWorkspaceMenuItem')
+        course_ready=wait_menu(lambda d:d.get('workspace')!=workspace and 'Created editable course workspace:' in d.get('output','') and not d.get('busy'))
+        tap(course_ready,'workspace_controls','mobileFilesTab')
+        course_files=wait_menu(lambda d:named(d,'workspace_controls','workspaceFile_examples/EntryAlarm.hdl'))
+        tap(course_files,'workspace_controls','workspaceFile_examples/EntryAlarm.hdl')
+        alarm=wait_menu(lambda d:d.get('active_document',{}).get('name')=='EntryAlarm.hdl')
+        tap(alarm,'controls','buildButton')
+        loaded_alarm=wait_menu(lambda d:d.get('hardware_state',{}).get('chip')=='EntryAlarm' and not d.get('busy') and named(d,'workspace_controls','togglePin_enabled'))
+        tap(loaded_alarm,'workspace_controls','togglePin_enabled')
+        tap(read_menu(),'workspace_controls','togglePin_door')
+        tap(read_menu(),'workspace_controls','hardwareEval')
+        wait_menu(lambda d:d.get('hardware_evaluation')=='Eval completed: alarm=1' and not d.get('busy'))
+        screenshot('course-example-evaluated')
+        report['course_workspace']={'passed':True,'created_offline_copy':True,'opened_bundled_example':True,'actual_eval_taps':True,'alarm':1}
     except Exception:
         args.report.with_suffix('.workspace.log').write_text(adb('logcat','-d').stdout,encoding='utf-8')
         current=read_menu()

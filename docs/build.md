@@ -3,7 +3,8 @@
 Windows and Linux have been built and exercised locally. CI builds Windows,
 Linux, both macOS architectures and both Android ABIs. Packaged desktop tests
 run on their native platforms. Android x86-64 has local emulator launch/toolbar
-evidence; full workflows remain unverified. Read `platforms.json` and each
+evidence and a CI Downloads-provider edit/build/export/reopen test; comprehensive
+device workflows remain unverified. Read `platforms.json` and each
 release's manifest/CI run for stage-by-stage evidence. End users should start
 with [installation instructions](install.md).
 

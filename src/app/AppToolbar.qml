@@ -39,6 +39,7 @@ Pane {
         leftMargin: Math.max(Theme.sm,toolbar.SafeArea.margins.left); rightMargin: Math.max(Theme.sm,toolbar.SafeArea.margins.right)
         MenuItem { objectName: "openWorkspaceMenuItem"; text: "Open workspace\u2026"; onTriggered: toolbar.folderRequested() }
         MenuItem { objectName: "openFileMenuItem"; text: "Open file\u2026"; onTriggered: toolbar.fileRequested() }
+        MenuItem { objectName: "createCourseWorkspaceMenuItem"; text: "Create course workspace"; enabled: !studio.busy; onTriggered: studio.createCourseWorkspace() }
         Menu {
             id: recentMenu; title: "Recent workspaces"
             Instantiator { model: preferences.values.recentWorkspaces; delegate: MenuItem { required property string modelData; text: modelData; onTriggered: studio.openLocalWorkspace(modelData) } onObjectAdded: (index,object) => recentMenu.insertItem(index,object); onObjectRemoved: (index,object) => recentMenu.removeItem(object) }

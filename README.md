@@ -7,8 +7,8 @@ and test scripts, inspect hardware, and run native tools locally. No JRE, Python
 or web service is required by the application.
 
 **Development preview.** The migration is incomplete. Packages exist for Windows,
-macOS, Linux and Android; full course compatibility and Android project workflows
-remain unfinished. Read the [parity register](docs/feature-parity.md) and
+macOS, Linux and Android; full course compatibility and comprehensive device
+qualification remain unfinished. Read the [parity register](docs/feature-parity.md) and
 [platform evidence](docs/platforms.json) before relying on a workflow.
 
 ## Download
@@ -32,16 +32,27 @@ No store publication, Apple notarization or production signing is claimed.
 ## Get started
 
 1. Extract/install the package and launch NandStudio.
-2. On desktop, choose **Files > Open workspace** and select a copy of a project.
+2. Choose **Files > Create course workspace** for an offline editable copy of all
+   bundled projects, or **Files > Open workspace** for your own folder.
 3. Open a source file. **More > Find and replace** (Ctrl+F) opens search.
-4. **Build** compiles the visible ASM/Jack buffer or loads HDL. After HDL edits,
+4. **Build** compiles the visible ASM/Jack buffer, translates VM to ASM, or loads HDL. After HDL edits,
    **Reload & Eval** explicitly replaces the loaded chip and resets its state.
 5. Open a saved `.tst`, choose CPU, VM or HDL test, and inspect console results.
 
 Project-local HDL overrides built-ins. Empty student dependencies remain empty
 and can keep outputs at zero; the app warns instead of completing exercises.
-Android directory-provider access, import/export and lifecycle workflows are
-unfinished. Installing an APK does not yet provide the complete desktop workflow.
+Android supports explicit workspace import/export copies. The Downloads-provider
+edit/build/export/reopen workflow has emulator coverage; other providers and
+physical ARM64 devices still need qualification. See the Android workspace guide.
+
+## Application preview
+
+![Native editor and Hardware Simulator evaluating EntryAlarm](docs/images/course-demo.png)
+
+Actual Windows Qt application capture from the bundled independent example:
+`enabled=1`, `door=1`, `window=0` produces `alarm=1`.
+The source, pins, component inspector and evaluation result are real application
+state. This screenshot does not establish full course or platform parity.
 
 ## Documentation
 

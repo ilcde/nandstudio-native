@@ -22,7 +22,7 @@ Pane {
                 width: ListView.view.width; height: Math.max(Theme.controlHeight, label.implicitHeight+Theme.sm*2)
                 contentItem: RowLayout {
                     Label { id: label; text: modelData.name; elide: Text.ElideMiddle; verticalAlignment: Text.AlignVCenter; color: Theme.text; Layout.fillWidth: true; Layout.minimumWidth: 0 }
-                    ToolButton { text: "⋯"; implicitWidth: Theme.controlHeight; implicitHeight: Theme.controlHeight; Accessible.name: "Actions for "+modelData.name; onClicked: entryMenu.popup() }
+                    ToolButton { text: "..."; implicitWidth: Theme.controlHeight; implicitHeight: Theme.controlHeight; Accessible.name: "Actions for "+modelData.name; onClicked: entryMenu.popup() }
                 }
                 Menu { id: entryMenu; MenuItem { text: "Rename…"; onTriggered: pane.renameRequested(modelData.name) } MenuItem { text: "Move to recovery trash…"; onTriggered: pane.trashRequested(modelData.name) } }
                 background: Rectangle { radius: Theme.radius; color: parent.hovered || parent.activeFocus ? Theme.raised : "transparent"; border.color: parent.activeFocus ? Theme.accent : "transparent" }

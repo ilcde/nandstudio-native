@@ -1,0 +1,24 @@
+{
+  "source_revision": "be2e440a66c808caee823b083b592defe80803a9",
+  "ci_run": "https://github.com/ilcde/nandstudio-native/actions/runs/36221941023",
+  "implementation": "Shared Studio::evaluateHardwareWithInputs and C++ HDL engine",
+  "regression": "Closed dependency changes, addition and removal are detected on explicit Eval; editor buffers retain precedence",
+  "desktop_results": {
+    "windows-x86_64": "build, four CTest suites, packaged GUI checks passed",
+    "linux-x86_64": "build, four CTest suites, packaged GUI checks passed",
+    "macos-arm64": "build, four CTest suites, packaged GUI checks passed",
+    "macos-x86_64": "build, four CTest suites, packaged GUI checks passed"
+  },
+  "local_windows_gui_assertions": 301,
+  "sanitizers": "passed",
+  "android": {
+    "arm64_package": "compiled and alignment checks passed; no physical device workflow",
+    "x86_64_package": "compiled and alignment checks passed",
+    "first_runtime_attempt": "More-menu interaction timed out before HDL test; no app crash identified in retained log",
+    "first_attempt_evidence_artifact_id": "10899940434",
+    "repeat_runtime_attempt": "passed: actual menu, import/edit/save/build/export, Xor Eval and process restart checks; same APK",
+    "repeat_evidence_artifact_id": "10899527562"
+  },
+  "full_feature_parity": false,
+  "release": "Initial publication rejected stale same-name artifact from first attempt; selection fix pending publication"
+}
