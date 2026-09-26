@@ -37,6 +37,7 @@ int main(int argc,char** argv){
     qmlRegisterType<LineNumberGutter>("NandStudio.Native",1,0,"LineNumberGutter");
     Preferences preferences;EditorServices editorTools;
     QQuickStyle::setStyle("Fusion");auto owner=std::make_unique<Studio>();auto& studio=*owner;QQmlApplicationEngine engine;
+    QObject::connect(&app,&QGuiApplication::applicationStateChanged,&studio,[&studio](Qt::ApplicationState state){if(state!=Qt::ApplicationActive)studio.suspend();});
     qInfo("Loading QML");
     studio.setAutosaveSeconds(preferences.values()["autosaveSeconds"].toInt());
     QObject::connect(&preferences,&Preferences::changed,&studio,[&]{studio.setAutosaveSeconds(preferences.values()["autosaveSeconds"].toInt());});

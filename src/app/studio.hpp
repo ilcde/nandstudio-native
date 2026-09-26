@@ -111,7 +111,7 @@ private:
     QString hardwarePath_,hardwareMessage_,hardwareEvaluation_;QMap<QString,QString> hardwareSources_;
     QVariantList hardwareTrace_;QString hardwareEvent_;
     QList<Document*> docs_;QVariantList files_;QString workspace_,output_;int active_=-1;bool busy_=false,vmMode_=false,hardwareMode_=false;
-    nand::Cpu cpu_;nand::Vm vm_;nand::Hardware hardware_;QTimer recoveryTimer_;
+    nand::Cpu cpu_;nand::Vm vm_;nand::Hardware hardware_;QTimer recoveryTimer_,sessionDebounce_;
     QTimer autosaveTimer_;QString lastError_;QVariantList searchResults_,diagnostics_;
     QFutureWatcher<WorkspaceResult> workspaceTask_;QFutureWatcher<QVariantList> searchTask_;
     QFutureWatcher<TaskResult> task_;QFutureWatcher<std::shared_ptr<ExecutionResult>> execution_;

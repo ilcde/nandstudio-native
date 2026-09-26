@@ -82,6 +82,11 @@ Studio::Studio(){
     connect(&searchTask_,&QFutureWatcher<QVariantList>::finished,this,[this]{searchResults_=searchTask_.result();emit searchChanged();log(QString::number(searchResults_.size())+" search matches");});
     connect(&autosaveTimer_,&QTimer::timeout,this,[this]{if(!busy_)for(auto* d:docs_)if(d->dirty()&&!d->hasConflict())d->save();});
     connect(&recoveryTimer_,&QTimer::timeout,this,&Studio::saveSession);recoveryTimer_.start(5000);if(!QCoreApplication::arguments().contains("--self-test"))recover();
+    sessionDebounce_.setSingleShot(true);sessionDebounce_.setInterval(250);
+    connect(&sessionDebounce_,&QTimer::timeout,this,&Studio::saveSession);
+    connect(this,&Studio::activeChanged,this,&Studio::saveSession);
+    connect(this,&Studio::documentsChanged,this,&Studio::saveSession);
+    connect(this,&Studio::filesChanged,this,&Studio::saveSession);
 }
 Studio::~Studio(){cancelled_=true;task_.waitForFinished();execution_.waitForFinished();workspaceTask_.waitForFinished();searchTask_.waitForFinished();transfer_.waitForFinished();saveSession();}
 QVariantList Studio::documents()const{QVariantList r;for(auto* d:docs_)r.append(QVariant::fromValue(d));return r;}
@@ -91,7 +96,7 @@ void Studio::log(QString s){output_+=s+'\n';if(output_.size()>100000)output_=out
 void Studio::open(const QUrl& url){
     if(!url.isLocalFile()){log("This build does not yet implement Android document-provider URIs. Import/export and persistable grants are release blockers.");return;}
     auto path=QFileInfo(url.toLocalFile()).absoluteFilePath();for(int i=0;i<docs_.size();++i)if(docs_[i]->path()==path){setActive(i);return;}
-    try{auto* d=new Document(path,this);connect(d,&Document::error,this,&Studio::log);connect(d,&Document::conflict,this,[this,d]{emit conflict(d);});connect(d,&Document::textChanged,this,&Studio::hardwareSourceChanged);docs_.append(d);active_=int(docs_.size())-1;emit documentsChanged();emit activeChanged();}catch(const std::exception& e){log(QString::fromUtf8(e.what()));}
+    try{auto* d=new Document(path,this);connect(d,&Document::error,this,&Studio::log);connect(d,&Document::conflict,this,[this,d]{emit conflict(d);});connect(d,&Document::textChanged,this,&Studio::hardwareSourceChanged);connect(d,&Document::textChanged,&sessionDebounce_,qOverload<>(&QTimer::start));docs_.append(d);active_=int(docs_.size())-1;emit documentsChanged();emit activeChanged();}catch(const std::exception& e){log(QString::fromUtf8(e.what()));}
 }
 void Studio::openWorkspace(const QUrl& url){
     if(!url.isLocalFile()){emit workspaceImportRequested(url);return;}

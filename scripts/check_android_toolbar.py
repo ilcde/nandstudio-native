@@ -13,7 +13,10 @@ parser.add_argument('apk',type=pathlib.Path)
 parser.add_argument('report',type=pathlib.Path)
 parser.add_argument('--adb',default='adb')
 parser.add_argument('--workspace-flow',action='store_true')
+parser.add_argument('--export-folder',default='NandStudioExports')
 args=parser.parse_args()
+if not re.fullmatch(r'[A-Za-z0-9_-]{1,64}',args.export_folder):
+    parser.error('--export-folder must be a simple folder name')
 package='org.qtproject.example.NandStudio'
 def adb(*command,check=True):
     result=subprocess.run([args.adb,*command],capture_output=True,text=True,encoding='utf-8',errors='replace',check=False,timeout=90)
@@ -28,7 +31,7 @@ if args.workspace_flow:
     chip.write_text('CHIP Xor { IN a,b; OUT out; PARTS: Not(in=a,out=Nota); Not(in=b,out=Notb); And(a=a,b=Notb,out=aAndNotb); And(a=Nota,b=b,out=NotaAndb); Or(a=aAndNotb,b=NotaAndb,out=out); }',encoding='utf-8')
     # sys.boot_completed can precede emulated shared storage becoming writable.
     for attempt in range(30):
-        adb('shell','mkdir','-p','/sdcard/Download/NandStudioSmoke','/sdcard/Download/NandStudioExports',check=False)
+        adb('shell','mkdir','-p','/sdcard/Download/NandStudioSmoke','/sdcard/Download/'+args.export_folder,check=False)
         pushed=adb('push',str(fixture),'/sdcard/Download/NandStudioSmoke/Program.asm',check=False)
         if pushed.returncode==0: break
         time.sleep(1)
@@ -154,14 +157,20 @@ if args.workspace_flow:
         # a single early dump can still show the previous Qt activity.
         model=adb('shell','getprop','ro.product.model').stdout.strip()
         if not native_tap(lambda n:n.get('text')=='Download' and n.get('resource-id')=='android:id/title'):
-            if not native_tap(lambda n:n.get('content-desc') in ('Show roots','Open navigation drawer')):
-                raise RuntimeError('Document-provider drawer unavailable')
-            if not native_tap(lambda n:n.get('text')=='Downloads',attempts=2):
-                # ACTION_OPEN_DOCUMENT_TREE can omit the Downloads root.
-                if not native_tap(lambda n:n.get('text')==model and n.get('resource-id')=='android:id/title'):
-                    raise RuntimeError('Internal storage document provider unavailable')
-                if not native_tap(lambda n:n.get('text')=='Download'):
-                    raise RuntimeError('Download child folder unavailable')
+            breadcrumbs=[n.get('text') for n in native_nodes() if n.get('resource-id')=='com.google.android.documentsui:id/breadcrumb_text']
+            if 'Download' in breadcrumbs and breadcrumbs[-1]!='Download':
+                # A second picker can reopen inside the previously imported
+                # folder. Back returns to its Download parent on DocumentsUI.
+                adb('shell','input','keyevent','4')
+            else:
+                if not native_tap(lambda n:n.get('content-desc') in ('Show roots','Open navigation drawer')):
+                    raise RuntimeError('Document-provider navigation unavailable')
+                if not native_tap(lambda n:n.get('text')=='Downloads',attempts=2):
+                    # ACTION_OPEN_DOCUMENT_TREE can omit the Downloads root.
+                    if not native_tap(lambda n:n.get('text')==model and n.get('resource-id')=='android:id/title'):
+                        raise RuntimeError('Internal storage document provider unavailable')
+                    if not native_tap(lambda n:n.get('text')=='Download'):
+                        raise RuntimeError('Download child folder unavailable')
         if not native_tap(lambda n:n.get('text')==name):
             raise RuntimeError('Fixture folder absent in Documents UI: '+name)
         if not native_tap(lambda n:n.get('text','').lower()=='use this folder'):
@@ -195,9 +204,9 @@ if args.workspace_flow:
         tap(built,'controls','filesButton')
         export_menu=wait_menu(lambda d:named(d,'workspace_controls','exportWorkspaceMenuItem'))
         tap(export_menu,'workspace_controls','exportWorkspaceMenuItem')
-        select_folder('NandStudioExports')
+        select_folder(args.export_folder)
         exported=wait_menu(lambda d:not d.get('busy') and 'Exported saved workspace as a new folder:' in d.get('output',''))
-        candidates=adb('shell','find','/sdcard/Download/NandStudioExports','-name','Program.hack').stdout.splitlines()
+        candidates=adb('shell','find','/sdcard/Download/'+args.export_folder,'-name','Program.hack').stdout.splitlines()
         if len(candidates)!=1: raise RuntimeError('Expected one exported artifact')
         if adb('exec-out','cat',candidates[0]).stdout!=expected: raise RuntimeError('Exported machine code differs')
         if adb('exec-out','cat',candidates[0].replace('Program.hack','Program.asm')).stdout.replace('\r\n','\n')!='@3\nD=A':

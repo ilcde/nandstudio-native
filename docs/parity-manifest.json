@@ -3581,9 +3581,9 @@
       "kind": "addition",
       "original_evidence": "User-requested addition",
       "native_implementation": "src/app/studio.cpp; src/app/Main.qml",
-      "regression_tests": [],
+      "regression_tests": ["gui_workflow: immediate active-document journal and 250 ms dirty-buffer journal"],
       "platform_coverage": {
-        "windows-x86_64": "not-verified",
+        "windows-x86_64": "local GUI test passed; packaged build pending",
         "macos-arm64": "not-verified",
         "macos-x86_64": "not-verified",
         "linux-x86_64": "not-verified",
@@ -3592,16 +3592,16 @@
       },
       "status": "partial",
       "release_blocker": true,
-      "notes": "Implemented subset; not all edge cases tested. See user-guide.md."
+      "notes": "Active documents persist immediately; dirty text is journaled after 250 ms and on application backgrounding. Interrupted provider transfers and Android process recreation with modified buffers still need device tests. See user-guide.md."
     },
     {
       "id": "editor.session-restore",
       "kind": "addition",
       "original_evidence": "User-requested addition",
       "native_implementation": "src/app/studio.cpp; src/app/Main.qml",
-      "regression_tests": [],
+      "regression_tests": ["gui_workflow: immediate active-document journal and 250 ms dirty-buffer journal"],
       "platform_coverage": {
-        "windows-x86_64": "not-verified",
+        "windows-x86_64": "local GUI test passed; packaged build pending",
         "macos-arm64": "not-verified",
         "macos-x86_64": "not-verified",
         "linux-x86_64": "not-verified",
@@ -3610,7 +3610,7 @@
       },
       "status": "partial",
       "release_blocker": true,
-      "notes": "Implemented subset; not all edge cases tested. See user-guide.md."
+      "notes": "Open and active documents are journaled at state changes; text uses a 250 ms debounce and backgrounding forces a save. Full lifecycle and crash-recovery scenarios remain unverified."
     },
     {
       "id": "editor.external-change-detection",
@@ -4081,19 +4081,19 @@
       "id": "android.lifecycle",
       "kind": "legacy",
       "original_evidence": "User requirement; Qt 6.11 and Android platform contracts",
-      "native_implementation": null,
-      "regression_tests": [],
+      "native_implementation": "src/app/main.cpp application state callback; src/app/studio.cpp session journal",
+      "regression_tests": ["gui_workflow: immediate active-document and debounced dirty-buffer session journal"],
       "platform_coverage": {
-        "windows-x86_64": "not-verified",
+        "windows-x86_64": "local GUI journal test passed",
         "macos-arm64": "not-verified",
         "macos-x86_64": "not-verified",
         "linux-x86_64": "not-verified",
         "android-arm64-v8a": "not-verified",
         "android-x86_64": "not-verified"
       },
-      "status": "not-implemented",
+      "status": "partial",
       "release_blocker": true,
-      "notes": "Android ARM64 and x86-64 packages are now compiled in CI. This feature still needs implementation and/or device workflow verification; build success alone is insufficient."
+      "notes": "Backgrounding clears simulated keyboard input, cancels execution and journals the session. Process recreation, orientation, IME, interrupted transfer and physical-device scenarios remain unverified."
     },
     {
       "id": "android.offline-assets",

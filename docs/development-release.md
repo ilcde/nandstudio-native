@@ -7,6 +7,8 @@ import/edit/save/assemble/export/reopen test for the exact x86-64 APK. This one
 provider workflow does not establish complete Android or course-wide parity.
 The VM Machine pane now shows the next command, source line, frame pointers,
 recent stack words and call stack from the actual execution state.
+Session recovery now records active-document changes immediately and edited
+buffers after a short pause; backgrounding flushes a session snapshot.
 
 Eval now detects unsaved HDL even after switching to a non-HDL editor tab.
 One-bit pin inputs have tap toggles; completed evaluations display output values.
