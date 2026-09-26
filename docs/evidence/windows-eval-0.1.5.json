@@ -1,0 +1,13 @@
+{
+  "version": "0.1.5",
+  "source_revision": "e53c462",
+  "platform": "Windows x86-64",
+  "backend": "Qt windows platform plugin, software scenegraph; packaged runtime with Qt paths removed",
+  "gui_assertions": 311,
+  "passed": true,
+  "package": "dist/windows-eval-0.1.5.zip",
+  "sha256": "81f3653571e4f10a0dcafbf0e1ce5032136acd7c9616c0320517437e9bb64d0a",
+  "reference_tests": "windows-xor-dependencies.json: empty local chips -> 0; isolated Xor -> 1; both Java/native match",
+  "original_project_files_modified": false,
+  "full_parity": false
+}
