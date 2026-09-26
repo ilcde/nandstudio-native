@@ -150,14 +150,10 @@ if args.workspace_flow:
     def select_folder(name):
         # DocumentsUI can start at a protected storage root with a direct
         # Download child and no navigation drawer. Other launches start on a
-        # provider page with a drawer. Only select an enabled provider target.
+        # provider page with a drawer. Wait for the root to finish rendering:
+        # a single early dump can still show the previous Qt activity.
         model=adb('shell','getprop','ro.product.model').stdout.strip()
-        nodes=native_nodes()
-        at_storage_root=any(n.get('text')==model and n.get('resource-id')=='com.google.android.documentsui:id/breadcrumb_text' for n in nodes)
-        if at_storage_root:
-            if not native_tap(lambda n:n.get('text')=='Download' and n.get('resource-id')=='android:id/title'):
-                raise RuntimeError('Download child folder unavailable')
-        else:
+        if not native_tap(lambda n:n.get('text')=='Download' and n.get('resource-id')=='android:id/title'):
             if not native_tap(lambda n:n.get('content-desc') in ('Show roots','Open navigation drawer')):
                 raise RuntimeError('Document-provider drawer unavailable')
             if not native_tap(lambda n:n.get('text')=='Downloads',attempts=2):
