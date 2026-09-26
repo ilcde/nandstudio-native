@@ -5,6 +5,8 @@ export into a new provider folder. Save changes the local copy; the original sta
 unchanged. See `docs/android-workspaces.md`. Publication requires an emulator
 import/edit/save/assemble/export/reopen test for the exact x86-64 APK. This one
 provider workflow does not establish complete Android or course-wide parity.
+The VM Machine pane now shows the next command, source line, frame pointers,
+recent stack words and call stack from the actual execution state.
 
 Eval now detects unsaved HDL even after switching to a non-HDL editor tab.
 One-bit pin inputs have tap toggles; completed evaluations display output values.

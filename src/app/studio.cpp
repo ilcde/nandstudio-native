@@ -148,6 +148,22 @@ void Studio::reset(){if(busy_)return;if(hardwareMode_){log("To reset hardware, e
 void Studio::cancel(){cancelled_=true;}
 void Studio::setMemory(int a,int v){if(busy_||a<0||a>=32768)return;(vmMode_?vm_.ram:cpu_.ram)[std::size_t(a)]=nand::Word(v);emit stateChanged();}
 int Studio::memory(int a)const{return a<0||a>=32768?0:nand::signedWord((vmMode_?vm_.ram:cpu_.ram)[std::size_t(a)]);}
+QVariantMap Studio::vmInspection()const{
+    if(!vmMode_)return {};
+    QVariantList stack,frames,segments;
+    const auto sp=int(vm_.ram[0]);
+    if(sp<=int(vm_.ram.size()))for(int address=std::max(256,sp-16);address<sp;++address)stack.append(QVariantMap{{"address",address},{"value",nand::signedWord(vm_.ram[std::size_t(address)])}});
+    for(const auto& function:vm_.callStack)frames.append(QString::fromStdString(function));
+    for(auto pair:{qMakePair("SP",0),qMakePair("LCL",1),qMakePair("ARG",2),qMakePair("THIS",3),qMakePair("THAT",4)})segments.append(QVariantMap{{"name",pair.first},{"value",int(vm_.ram[std::size_t(pair.second)])}});
+    QVariantMap result{{"stack",stack},{"calls",frames},{"segments",segments},{"validSP",sp<=int(vm_.ram.size())},{"function",QString()},{"instruction",QString("Program counter outside loaded program")}};
+    if(vm_.pc<vm_.code.size()){
+        const auto& instruction=vm_.code[vm_.pc];QString command=QString::fromStdString(instruction.op);
+        if(!instruction.arg.empty())command+=" "+QString::fromStdString(instruction.arg);
+        if(instruction.op=="push"||instruction.op=="pop"||instruction.op=="function"||instruction.op=="call")command+=" "+QString::number(instruction.index);
+        result["instruction"]=command;result["function"]=QString::fromStdString(instruction.scope);result["source"]=QString::fromStdString(instruction.file)+".vm:"+QString::number(instruction.line);
+    }
+    return result;
+}
 void Studio::key(int value){keyboard_=value;if(!busy_){hardware_.keyboard(nand::Word(value));(vmMode_?vm_.ram:cpu_.ram)[24576]=nand::Word(value);emit stateChanged();}}
 QVariantMap Studio::state()const{
     QVariantList pins,parts;for(auto& p:hardware_.pins())pins.append(QVariantMap{{"name",QString::fromStdString(p.name)},{"direction",QString::fromStdString(p.direction)},{"width",p.width},{"value",nand::signedWord(p.value)}});

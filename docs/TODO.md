@@ -13,6 +13,7 @@ unchanged; use separately identified regression fixtures for completed circuits.
 - [x] Compare the reported composite Xor with the official web IDE (0,1 -> 1).
 - [x] Add one-bit tap inputs and explicit Eval result feedback.
 - [x] Fix modified HDL detection when a non-HDL document becomes active.
+- [x] Show live VM instruction, frame pointers, stack words and call stack.
 - [ ] Verify Eval on Android with the reported composite and publish new APKs.
 - [ ] Resolve emulator rendering artifacts and verify a physical ARM64 device.
 - [ ] Configure a stable externally supplied release-signing key for updates.

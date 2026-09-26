@@ -62,6 +62,7 @@ public:
     Q_INVOKABLE void clearHardwareTrace();
     Q_INVOKABLE QString formatWord(int value,int radix=10)const;
     Q_INVOKABLE QVariantMap hardwareDiagram(const QString& path)const;
+    Q_INVOKABLE QVariantMap vmInspection()const;
     QString lastError()const{return lastError_;}QVariantList searchResults()const{return searchResults_;}QVariantList diagnostics()const{return diagnostics_;}
     Q_INVOKABLE void open(const QUrl& url);
     Q_INVOKABLE void openWorkspace(const QUrl& url);

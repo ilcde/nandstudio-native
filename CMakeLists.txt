@@ -100,6 +100,7 @@ if(NAND_BUILD_GUI)
     src/app/SettingsDialog.qml
     src/app/Theme.qml
     src/app/WorkspacePane.qml
+    src/app/VmInspector.qml
   )
   set_target_properties(NandStudio PROPERTIES WIN32_EXECUTABLE TRUE MACOSX_BUNDLE TRUE)
   target_compile_definitions(NandStudio PRIVATE NAND_VERSION="${PROJECT_VERSION}")

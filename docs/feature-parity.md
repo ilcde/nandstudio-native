@@ -10,7 +10,7 @@ coverage are complete. The initial inventory is not claimed exhaustive.
 |---|---|---|
 | Assembler | C++ grammar, symbols, compact addressing, binary output; GUI build | Matrix differential tests; incremental interactive controls and exact invalid-input behavior pending |
 | CPU Emulator | C++ state, ALU, RAM/ROM, reset, steps; Qt screen and inspector | Instruction trace tests; full controls, numeric modes, breakpoints and keyboard tests pending |
-| VM Emulator | All command categories, segments, branches, calls/returns, statics | Bundled differential cases; load ordering, bounds, bootstrap/fallback, call-stack UI and diagnostics incomplete |
+| VM Emulator | All command categories, segments, branches, calls/returns, statics; live instruction, frame-pointer, stack and call-stack inspection | Bundled differential cases and a call/return GUI test; load ordering, bounds, bootstrap/fallback, full legacy call-stack controls and diagnostics incomplete |
 | Jack Compiler | Tokenizer, recursive parser, symbol scopes, VM generation | Byte equality for tested bundled programs; type checking, warnings, cross-file validation and negative diagnostics incomplete |
 | TextComparer | Native comparison and CLI | Seven differential cases; non-ASCII/default-encoding compatibility incomplete |
 | Test scripts | CPU/VM/HDL load/set/step/loops/output/compare subset | Bundled cases; 36 hardware differential cases; breakpoints, stop semantics and full grammar pending |

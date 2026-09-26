@@ -562,19 +562,19 @@
       "id": "vm.call-stack-view",
       "kind": "legacy",
       "original_evidence": "VMProgram.java; VMEmulator.java; VMEmulatorComponent.java",
-      "native_implementation": null,
-      "regression_tests": [],
+      "native_implementation": "src/app/studio.cpp::vmInspection; src/app/VmInspector.qml",
+      "regression_tests": ["gui_workflow: actual call/return and frame pointer inspection"],
       "platform_coverage": {
-        "windows-x86_64": "not-verified",
+        "windows-x86_64": "local GUI test passed; packaged build pending",
         "macos-arm64": "not-verified",
         "macos-x86_64": "not-verified",
         "linux-x86_64": "not-verified",
         "android-arm64-v8a": "not-verified",
         "android-x86_64": "not-verified"
       },
-      "status": "not-implemented",
+      "status": "partial",
       "release_blocker": true,
-      "notes": ""
+      "notes": "Shows actual next VM instruction, source location, call stack, current scope, frame pointers and last 16 stack words on the shared Machine pane. Full legacy call-stack controls, breakpoints, navigation and platform interaction coverage remain incomplete."
     },
     {
       "id": "vm.segment-views",

@@ -235,6 +235,13 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         bool copyRejected=false;try{storage::copyWorkspace(QUrl::fromLocalFile(sourceCopy),QUrl::fromLocalFile(targetCopies),"editable-copy");}catch(const std::exception&){copyRejected=true;}check(copyRejected&&bytes(copied.toLocalFile()+"/nested/program.vm")=="local change","copy refuses to replace an existing destination");
         copyRejected=false;try{storage::copyWorkspace(QUrl::fromLocalFile(sourceCopy),QUrl::fromLocalFile(sourceCopy),"recursive");}catch(const std::exception&){copyRejected=true;}check(copyRejected,"copy rejects a destination inside its source");
         copyRejected=false;try{storage::copyWorkspace(QUrl::fromLocalFile(sourceCopy),QUrl::fromLocalFile(targetCopies),"cancelled",[]{return true;});}catch(const std::exception&){copyRejected=true;}check(copyRejected&&!QFileInfo::exists(targetCopies+"/cancelled"),"cancelled workspace copy creates no destination");
+        auto vmPath=sourceCopy+"/Flow.vm";
+        write(vmPath,"function Sys.init 0\npush constant 7\ncall Foo.double 1\npop temp 0\nlabel END\ngoto END\nfunction Foo.double 0\npush argument 0\npush argument 0\nadd\nreturn\n");
+        studio.open(QUrl::fromLocalFile(vmPath));studio.loadVm();studio.step(3);wait();
+        auto vmView=studio.vmInspection();check(vmView["calls"].toList()==QVariantList{QString("Foo.double")}&&vmView["instruction"]=="function Foo.double 0","VM inspector records actual call and current instruction");
+        check(vmView["segments"].toList()[1].toMap()["value"]==262&&!vmView["stack"].toList().isEmpty(),"VM inspector exposes frame pointers and RAM stack words");
+        studio.step(5);wait();vmView=studio.vmInspection();check(vmView["calls"].toList().isEmpty()&&vmView["instruction"]=="pop temp 0"&&vmView["stack"].toList().last().toMap()["value"]==14,"VM return updates visible calls and stack result");
+        check(findItem(window->contentItem(),"vmInstruction")!=nullptr,"VM instruction inspector is present in the shared responsive UI");studio.closeDocument(studio.active());studio.open(QUrl::fromLocalFile(path));
         auto runtimeLog=bytes(qEnvironmentVariable("NAND_TEST_STATE_DIR")+"/qt.log");runtimeLog=runtimeLog.mid(runtimeLog.lastIndexOf("Creating application"));
         check(!runtimeLog.contains("Binding loop")&&!runtimeLog.contains("TypeError")&&!runtimeLog.contains("ReferenceError")&&!runtimeLog.contains("QDataStream::operator"),"no runtime QML binding, type, or settings serialization errors");
     }catch(const std::exception& e){qWarning("GUI check failed: %s",e.what());exitCode=1;}

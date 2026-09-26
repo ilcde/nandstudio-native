@@ -29,6 +29,7 @@ Pane {
                 Repeater { model: ["A","D","PC","SP","time"]; RowLayout { required property string modelData; Layout.fillWidth: true; Label { text: modelData; color: Theme.muted } Label { text: studio.state[modelData]; font.family: "monospace"; font.bold: true; Layout.fillWidth: true; elide: Text.ElideLeft } } }
             }
             HardwareInspector { visible: studio.state.hardware; Layout.fillWidth: true; revision: pane.revision }
+            VmInspector { visible: studio.state.mode==="VM Emulator"; Layout.fillWidth: true; revision: pane.revision }
             ScreenView { Layout.fillWidth: true; revision: pane.revision }
             MemoryInspector { visible: !studio.state.hardware; Layout.fillWidth: true; revision: pane.revision }
             GridLayout {

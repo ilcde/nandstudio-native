@@ -148,18 +148,24 @@ if args.workspace_flow:
         return False
 
     def select_folder(name):
-        # Always choose Downloads from the drawer; no assumption about the
-        # last selected provider/folder or filesystem conversion in the app.
-        if not native_tap(lambda n:n.get('content-desc') in ('Show roots','Open navigation drawer')):
-            raise RuntimeError('Document-provider drawer unavailable')
-        if not native_tap(lambda n:n.get('text')=='Downloads',attempts=2):
-            # ACTION_OPEN_DOCUMENT_TREE can omit the Downloads root. The
-            # external-storage provider still exposes its Download child.
-            model=adb('shell','getprop','ro.product.model').stdout.strip()
-            if not native_tap(lambda n:n.get('text')==model and n.get('resource-id')=='android:id/title'):
-                raise RuntimeError('Internal storage document provider unavailable')
-            if not native_tap(lambda n:n.get('text')=='Download'):
+        # DocumentsUI can start at a protected storage root with a direct
+        # Download child and no navigation drawer. Other launches start on a
+        # provider page with a drawer. Only select an enabled provider target.
+        model=adb('shell','getprop','ro.product.model').stdout.strip()
+        nodes=native_nodes()
+        at_storage_root=any(n.get('text')==model and n.get('resource-id')=='com.google.android.documentsui:id/breadcrumb_text' for n in nodes)
+        if at_storage_root:
+            if not native_tap(lambda n:n.get('text')=='Download' and n.get('resource-id')=='android:id/title'):
                 raise RuntimeError('Download child folder unavailable')
+        else:
+            if not native_tap(lambda n:n.get('content-desc') in ('Show roots','Open navigation drawer')):
+                raise RuntimeError('Document-provider drawer unavailable')
+            if not native_tap(lambda n:n.get('text')=='Downloads',attempts=2):
+                # ACTION_OPEN_DOCUMENT_TREE can omit the Downloads root.
+                if not native_tap(lambda n:n.get('text')==model and n.get('resource-id')=='android:id/title'):
+                    raise RuntimeError('Internal storage document provider unavailable')
+                if not native_tap(lambda n:n.get('text')=='Download'):
+                    raise RuntimeError('Download child folder unavailable')
         if not native_tap(lambda n:n.get('text')==name):
             raise RuntimeError('Fixture folder absent in Documents UI: '+name)
         if not native_tap(lambda n:n.get('text','').lower()=='use this folder'):
