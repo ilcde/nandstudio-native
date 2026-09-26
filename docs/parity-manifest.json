@@ -4547,7 +4547,7 @@
       },
       "status": "partial",
       "release_blocker": true,
-      "notes": "Reload detection works after switching away from modified HDL. Same-chip Eval reloads preserve inputs when not explicitly supplied. Parser failures replace stale success feedback; explicit Load clears prior Eval results. Follow-up changes tested on Windows; Android verification pending. Original local starter precedence retained."
+      "notes": "Shared C++/QML Eval regressions passed across desktop CI 36211395573 and Android Xor interaction. Reload detection now also compares closed disk dependencies (changed/added/removed), with new Windows tests and cross-platform CI pending. Open buffers retain precedence. Same-chip reload preserves inputs; parser failures replace stale success. Original local starter precedence retained."
     },
     {
       "id": "script.hex-case",

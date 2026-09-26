@@ -14,7 +14,7 @@ ColumnLayout {
                             }
                             Label { text: "PINS / INTERNAL WIRES"; opacity: 0.65; font.bold: true }
                             Label { objectName: "hardwareEvaluationResult"; text: studio.hardwareEvaluation; visible: text.length>0; Layout.fillWidth: true; wrapMode: Text.WordWrap; color: Theme.accent }
-                            Label { visible: studio.hardwareNeedsReload; text: "The visible HDL or an open dependency has changed. Reload & Eval uses those buffers and resets the hardware clock/state. Ordinary Eval keeps the loaded snapshot."; Layout.fillWidth: true; wrapMode: Text.WordWrap; color: Theme.accent }
+                            Label { visible: studio.hardwareNeedsReload; text: "HDL sources have changed. Reload & Eval uses open editor buffers and current closed dependency files, and resets the hardware clock/state."; Layout.fillWidth: true; wrapMode: Text.WordWrap; color: Theme.accent }
                             Repeater {
                                 id: pinRows; model: studio.state.pins
                                 RowLayout {

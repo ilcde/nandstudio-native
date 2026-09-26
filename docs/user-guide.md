@@ -40,6 +40,10 @@ failure leaves the previous valid circuit running and displays a failure instead
 of the previous successful Eval result. Explicit Load clears the old Eval result.
 Project-local dependencies keep their original precedence: an unfinished local
 Not.hdl, And.hdl or Or.hdl is not automatically replaced by a solved built-in.
+Eval also checks closed HDL dependencies for disk changes, additions and removal.
+Those changes are loaded on the next explicit Eval. Open documents continue to
+use their visible editor buffers. This implementation is shared by Windows,
+Linux, both macOS architectures and Android; it is not an Android-only fix.
 
 Launch `bin/NandStudio.exe` from the Windows portable package, `NandStudio.app`
 on macOS, or `NandStudio.sh` on Linux. On Android, install the ARM64 APK on a

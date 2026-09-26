@@ -133,6 +133,16 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         check(studio.hardwareValue("a")=="1"&&studio.hardwareValue("b")=="0"&&studio.hardwareValue("out")=="1","Eval without pin arguments retains inputs when reloading the same circuit");
         xorDocument->setText(QString::fromUtf8(xorSource));write(QDir(xorFolder).filePath("Not.hdl"),"CHIP Not { IN in; OUT out; PARTS: }");studio.loadHardware();wait();studio.hardwareActionWithInputs("eval",{{"a",1},{"b",0}});wait();
         check(studio.hardwareValue("out")=="0"&&studio.hardwareMessage().contains("Not has an empty PARTS"),"unfinished local dependencies keep legacy precedence and show a warning");
+        const auto localNot=QDir(xorFolder).filePath("Not.hdl");
+        write(localNot,"CHIP Not { IN in; OUT out; PARTS: Nand(a=in,b=in,out=out); }");
+        studio.evaluateHardwareWithInputs({{"a",1},{"b",0}});wait();
+        check(studio.hardwareValue("out")=="1","Eval reloads externally changed dependency and computes Xor");
+        write(localNot,"CHIP Not { IN in; OUT out; PARTS: }");studio.evaluateHardwareWithInputs({{"a",1},{"b",0}});wait();
+        check(studio.hardwareValue("out")=="0","Eval notices a later closed dependency change");
+        QFile::remove(localNot);studio.evaluateHardwareWithInputs({{"a",1},{"b",0}});wait();
+        check(studio.hardwareValue("out")=="1","Eval detects dependency removal and uses normal builtin lookup");
+        write(localNot,"CHIP Not { IN in; OUT out; PARTS: }");studio.evaluateHardwareWithInputs({{"a",1},{"b",0}});wait();
+        check(studio.hardwareValue("out")=="0","Eval detects a newly added local dependency and preserves its precedence");
         studio.loadHardware();wait();check(studio.hardwareEvaluation().isEmpty(),"explicit Load clears previous Eval result");
         auto andPath=QDir(dir).filePath("And.hdl");write(andPath,"CHIP And { IN a,b; OUT out; BUILTIN And; }");studio.open(QUrl::fromLocalFile(andPath));QTest::qWait(30);click("loadHdl");
         for(auto name:{"a","b"}){auto* input=findItem(window->contentItem(),QString("pin_")+name);if(!input)throw std::runtime_error("And input control missing after Load HDL");input->forceActiveFocus();QTest::keyClick(window,Qt::Key_A,Qt::ControlModifier);QTest::keyClick(window,Qt::Key_1);}

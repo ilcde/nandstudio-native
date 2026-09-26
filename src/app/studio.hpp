@@ -124,6 +124,7 @@ private:
     std::shared_ptr<ExecutionResult> snapshot()const;
     void recordHardware(const QString& event);
     void beginHardwareLoad(bool evaluate,const QVariantMap& inputs);
+    QMap<QString,QString> collectHardwareSources(const QString& target)const;
     QString hardwarePath_,hardwareMessage_,hardwareEvaluation_;QMap<QString,QString> hardwareSources_;
     QVariantList hardwareTrace_;QString hardwareEvent_;
     QList<Document*> docs_;QVariantList files_;QString workspace_,output_;int active_=-1;bool busy_=false,vmMode_=false,hardwareMode_=false;

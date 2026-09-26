@@ -18,6 +18,9 @@ unchanged; use separately identified regression fixtures for completed circuits.
 - [x] Publish and verify 0.1.2 packages from successful CI 36208034521.
 - [x] Preserve input values on same-chip Eval reloads without pin arguments; clear stale success after parser failure or explicit Load (266 Windows GUI checks).
 - [x] Verify follow-up Eval CI and publish from successful run 36209394882 (publication run 36209869977).
+- [x] Shared desktop Eval tests passed on Windows, Linux, macOS ARM64 and Intel in CI 36211395573; Android Xor interaction also passed.
+- [x] Implement Eval detection of changed, added and removed closed HDL dependency files; open buffers remain authoritative.
+- [ ] Verify the new closed-dependency Eval regressions across platform CI.
 - [ ] Resolve emulator rendering artifacts and verify a physical ARM64 device.
 - [ ] Configure a stable externally supplied release-signing key for updates.
 

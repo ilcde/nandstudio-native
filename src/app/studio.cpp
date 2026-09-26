@@ -239,15 +239,35 @@ bool Studio::hardwareNeedsReload()const{
     for(auto* d:docs_)if(d->path().endsWith(".hdl")&&QFileInfo(d->path()).absolutePath()==QFileInfo(hardwarePath_).absolutePath()&&hardwareSources_.value(d->path())!=d->text())return true;
     return false;
 }
+QMap<QString,QString> Studio::collectHardwareSources(const QString& target)const{
+    QMap<QString,QString> sources;const auto dir=QFileInfo(target).absolutePath();
+    QDirIterator it(dir,{"*.hdl"},QDir::Files);
+    while(it.hasNext()){
+        const auto path=it.next();auto text=QString::fromUtf8(read(path));
+        if(text.startsWith(QChar(0xfeff)))text.remove(0,1);
+        text.replace("\r\n","\n");text.replace('\r','\n');sources[path]=text;
+    }
+    // Visible editor snapshots remain authoritative; closed dependencies use disk.
+    for(auto* d:docs_)if(QFileInfo(d->path()).absolutePath()==dir&&d->path().endsWith(".hdl"))sources[d->path()]=d->text();
+    return sources;
+}
 namespace {void applyPinEdits(nand::Hardware&,const QVariantMap&);}
 void Studio::loadHardware(){beginHardwareLoad(false,{});}
-void Studio::evaluateHardwareWithInputs(const QVariantMap& inputs){if(hardwareNeedsReload())beginHardwareLoad(true,inputs);else if(hardwareMode_)hardwareActionWithInputs("eval",inputs);else{hardwareMessage_="Open an HDL file and choose Load & Eval HDL first.";log(hardwareMessage_);emit stateChanged();}}
+void Studio::evaluateHardwareWithInputs(const QVariantMap& inputs){
+    if(busy_)return;
+    bool reload=hardwareNeedsReload();
+    // Disk reads belong to the explicit action, not frequently evaluated QML bindings.
+    if(!reload&&hardwareMode_)try{reload=collectHardwareSources(hardwarePath_)!=hardwareSources_;}catch(const std::exception&){reload=true;}
+    if(reload)beginHardwareLoad(true,inputs);
+    else if(hardwareMode_)hardwareActionWithInputs("eval",inputs);
+    else{hardwareMessage_="Open an HDL file and choose Load & Eval HDL first.";log(hardwareMessage_);emit stateChanged();}
+}
 void Studio::beginHardwareLoad(bool evaluate,const QVariantMap& inputs){
     if(busy_)return;
     const auto target=current()&&current()->path().endsWith(".hdl")?current()->path():hardwareMode_?hardwarePath_:QString();
     if(target.isEmpty()){log("Open an .hdl file first");return;}
     // The resolver owns immutable text for every project-local dependency.
-    try{std::map<std::string,std::string> files;QMap<QString,QString> sources;auto dir=QFileInfo(target).absolutePath();QDirIterator it(dir,{"*.hdl"},QDir::Files);while(it.hasNext()){auto path=it.next();sources[path]=QString::fromUtf8(read(path)).replace("\r\n","\n");}for(auto* d:docs_)if(QFileInfo(d->path()).absolutePath()==dir&&d->path().endsWith(".hdl"))sources[d->path()]=d->text();for(auto i=sources.cbegin();i!=sources.cend();++i)files[QFileInfo(i.key()).completeBaseName().toStdString()]=i.value().toStdString();
+    try{std::map<std::string,std::string> files;auto sources=collectHardwareSources(target);auto dir=QFileInfo(target).absolutePath();for(auto i=sources.cbegin();i!=sources.cend();++i)files[QFileInfo(i.key()).completeBaseName().toStdString()]=i.value().toStdString();
         hardwareEvent_=evaluate?"load-eval":"load";auto path=target;auto chip=QFileInfo(path).completeBaseName().toStdString();auto next=snapshot();cancelled_=false;busy_=true;emit stateChanged();log("Loading HDL folder snapshot including visible buffers");
         execution_.setFuture(QtConcurrent::run([this,next,files=std::move(files),sources,path,dir,chip,evaluate,inputs]{try{
             QVariantMap previousInputs;
@@ -265,7 +285,7 @@ void Studio::beginHardwareLoad(bool evaluate,const QVariantMap& inputs){
             for(const auto& item:hierarchy)if(!item.builtin){bool child=false;for(const auto& other:hierarchy)if(other.path.starts_with(item.path+"/")){child=true;break;}if(!child&&!empty.contains(QString::fromStdString(item.chip)))empty.append(QString::fromStdString(item.chip));}
             if(!empty.isEmpty())next->hardwareMessage+=" Warning: "+empty.join(", ")+" has an empty PARTS section. Project-local chips override built-ins; unfinished dependencies can keep outputs at zero.";
         }catch(const nand::Error& e){next->error=QString::fromStdString(e.file)+":"+QString::number(e.line)+":"+QString::number(e.column)+": "+e.what();next->errorPath=e.file.empty()?path:QDir(dir).filePath(QString::fromStdString(e.file));next->errorLine=e.line;next->errorColumn=e.column;}catch(const std::exception& e){next->error=e.what();next->errorPath=path;}return next;}));
-    }catch(const std::exception& e){log(e.what());}
+    }catch(const std::exception& e){hardwareMessage_=QString::fromUtf8(e.what());hardwareEvaluation_="HDL load failed: "+hardwareMessage_;log(hardwareEvaluation_);emit stateChanged();}
 }
 namespace {
 void applyPinEdits(nand::Hardware& hardware,const QVariantMap& inputs){
