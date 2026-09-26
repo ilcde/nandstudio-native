@@ -62,12 +62,20 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         auto hdlPath=QDir(dir).absoluteFilePath("Ui.hdl");check(write(hdlPath,"CHIP Ui { IN in[16], load; OUT out[16]; PARTS: Register(in=in,load=load,out=out); }"),"create independent HDL fixture");studio.open(QUrl::fromLocalFile(hdlPath));QTest::qWait(40);
         std::function<QQuickItem*(QQuickItem*,const QString&)> findItem=[&](QQuickItem* item,const QString& name)->QQuickItem*{if(item->objectName()==name)return item;for(auto* child:item->childItems())if(auto* found=findItem(child,name))return found;return nullptr;};
         auto wait=[&]{for(int i=0;studio.busy()&&i<300;++i)QTest::qWait(10);QTest::qWait(30);};
+        studio.open(QUrl::fromLocalFile(path));studio.loadCpu();studio.setBreakpoint(2,true);studio.step(100);wait();
+        check(studio.state()["PC"]==2&&studio.state()["pauseReason"].toString().contains("Breakpoint"),"CPU run stops before executing breakpoint instruction");
+        check(studio.cpuInstruction()["decoded"]=="@0"&&studio.cpuInstruction()["line"]==3&&studio.cpuInstruction()["canNavigate"].toBool(),"CPU inspector decodes instruction and maps PC to original ASM line");
+        studio.step(1);wait();check(studio.state()["PC"]==3,"single step advances past a breakpoint");studio.setBreakpoint(2,false);
+        studio.addWatch("D");studio.addWatch("RAM[0]");studio.addWatch("missing");auto watches=studio.watchValues();
+        check(watches.size()==3&&watches[0].toMap()["value"].toString().startsWith("2 / 0x0002")&&!watches[2].toMap()["value"].toString().isEmpty(),"live watches show machine state and safe expression errors");
+        studio.removeWatch("D");studio.removeWatch("RAM[0]");studio.removeWatch("missing");
         check(studio.convertWord("-1",10)["binary"]=="1111111111111111"&&studio.convertWord("ffff",16)["signed"]==-1,"word converter preserves signed two's complement");
         check(studio.convertWord("1000000000000000",2)["signed"]==-32768&&studio.convertWord("65536",10).contains("error")&&studio.convertWord("2",2).contains("error"),"word converter validates radix and 16-bit bounds");
         studio.open(QUrl::fromLocalFile(path));wait();
         auto previewWait=[&]{for(int i=0;studio.conversion()["busy"].toBool()&&i<200;++i)QTest::qWait(10);check(!studio.conversion()["busy"].toBool(),"conversion worker completes");};
         auto* previewDoc=qvariant_cast<Document*>(studio.documents()[studio.active()]);
         auto diskBeforePreview=bytes(path);previewDoc->setText("@3\nD=A\n");
+        check(!studio.cpuInstruction()["canNavigate"].toBool()&&studio.cpuInstruction()["sourceChanged"].toBool(),"CPU source navigation is disabled when editor differs from loaded snapshot");
         studio.previewConversion();previewWait();
         check(studio.conversion()["output"]=="0000000000000011\n1110110000010000\n"&&bytes(path)==diskBeforePreview,"ASM preview consumes unsaved buffer without writing source");
         previewDoc->setText("D=INVALID\n");check(studio.conversion()["stale"].toBool()&&studio.conversion()["output"].toString().isEmpty(),"editing invalidates previous conversion preview");
@@ -87,11 +95,23 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         previewDoc->setText(QString::fromUtf8(diskBeforePreview).replace("\r\n","\n"));
         const auto previewJack=QDir(dir).absoluteFilePath("Preview.jack");write(previewJack,"class Preview { function void main() { return; } }");studio.open(QUrl::fromLocalFile(previewJack));
         studio.previewConversion();previewWait();check(studio.conversion()["output"]=="function Preview.main 0\npush constant 0\nreturn\n"&&!QFile::exists(QDir(dir).filePath("Preview.vm")),"Jack preview produces exact VM without generating a file");
+        QTemporaryDir vmPreviewFolder(QDir(dir).filePath("vm-preview-XXXXXX"));check(vmPreviewFolder.isValid(),"create isolated VM conversion workspace");
+        const auto vmPreviewPath=QDir(vmPreviewFolder.path()).filePath("Main.vm");write(vmPreviewPath,"push constant 7\npush constant 8\nadd\n");studio.open(QUrl::fromLocalFile(vmPreviewPath));
+        studio.previewConversion();previewWait();check(!studio.conversion()["error"].toBool()&&!nand::assemble(studio.conversion()["output"].toString().toStdString()).words.empty(),"VM folder preview produces valid native assembly");
+        studio.build();wait();check(QFile::exists(QDir(vmPreviewFolder.path()).filePath("Main.asm")),"Build VM exposes its assembly artifact in the editor");
+        write(vmPreviewPath,"function Sys.init 0\ncall Other.value 0\npop temp 0\nlabel END\ngoto END\n");
+        const auto otherVm=QDir(vmPreviewFolder.path()).filePath("Other.vm");write(otherVm,"function Other.value 0\npush constant 9\nreturn\n");
+        studio.open(QUrl::fromLocalFile(otherVm));qvariant_cast<Document*>(studio.documents()[studio.active()])->setText("function Other.value 0\npush constant 11\nreturn\n");
+        studio.open(QUrl::fromLocalFile(vmPreviewPath));qvariant_cast<Document*>(studio.documents()[studio.active()])->setText(QString::fromUtf8(bytes(vmPreviewPath)));
+        studio.build(true,true);wait();const auto folderAsm=QDir(vmPreviewFolder.path()).filePath(QFileInfo(vmPreviewFolder.path()).fileName()+".asm");
+        auto translated=nand::assemble(bytes(folderAsm).toStdString());nand::Cpu translatedCpu;translatedCpu.load(translated.words);int translatedSteps=0;while(translatedCpu.pc!=translated.symbols.at("Sys.init$END")&&translatedSteps++<10000)translatedCpu.step();
+        check(translatedCpu.ram[5]==11&&bytes(otherVm).contains("constant 9"),"VM folder translation uses unsaved dependency snapshot with bootstrap without saving originals");
         auto click=[&](const QString& name){auto* item=findItem(window->contentItem(),name);if(!item)throw std::runtime_error("Missing control "+name.toStdString());QTest::mouseClick(window,Qt::LeftButton,Qt::NoModifier,item->mapToScene(QPointF(item->width()/2,item->height()/2)).toPoint());wait();};
         auto xorFolder=QDir(dir).filePath("requested-xor");QDir().mkpath(xorFolder);QFile::remove(QDir(xorFolder).filePath("Not.hdl"));auto xorPath=QDir(xorFolder).filePath("Xor.hdl");
         const QByteArray xorSource="CHIP Xor { IN a,b; OUT out; PARTS: Not(in=a,out=Nota); Not(in=b,out=Notb); And(a=a,b=Notb,out=aAndNotb); And(a=Nota,b=b,out=NotaAndb); Or(a=aAndNotb,b=NotaAndb,out=out); }";
         write(xorPath,xorSource);studio.open(QUrl::fromLocalFile(xorPath));wait();
         studio.evaluateHardwareWithInputs({{"a",1},{"b",0}});wait();check(studio.hardwareValue("out")=="1","first Eval loads and evaluates the user's composite Xor");
+        studio.previewConversion();previewWait();check(!studio.conversion()["error"].toBool()&&studio.hardwareValue("out")=="1","HDL hierarchy validation preserves live circuit outputs");
         for(int a=0;a<2;++a)for(int b=0;b<2;++b){
             for(auto pair:{qMakePair(QString("a"),a),qMakePair(QString("b"),b)}){auto* field=findItem(window->contentItem(),"pin_"+pair.first);if(!field)throw std::runtime_error("Xor pin missing");field->forceActiveFocus();QTest::keySequence(window,QKeySequence::SelectAll);QTest::keyClick(window,pair.second?Qt::Key_1:Qt::Key_0);}
             click("hardwareEval");check(studio.hardwareValue("out")==QString::number(a^b),QString("composite Xor Eval truth table %1,%2").arg(a).arg(b));
@@ -274,6 +294,7 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         auto vmView=studio.vmInspection();check(vmView["calls"].toList()==QVariantList{QString("Foo.double")}&&vmView["instruction"]=="function Foo.double 0","VM inspector records actual call and current instruction");
         check(vmView["segments"].toList()[1].toMap()["value"]==262&&!vmView["stack"].toList().isEmpty(),"VM inspector exposes frame pointers and RAM stack words");
         studio.step(5);wait();vmView=studio.vmInspection();check(vmView["calls"].toList().isEmpty()&&vmView["instruction"]=="pop temp 0"&&vmView["stack"].toList().last().toMap()["value"]==14,"VM return updates visible calls and stack result");
+        studio.setBreakpoint(5,true);studio.step(100);wait();check(studio.state()["PC"]==5&&studio.memory(5)==14,"VM run stops at PC breakpoint after publishing returned value");studio.setBreakpoint(5,false);
         check(findItem(window->contentItem(),"vmInstruction")!=nullptr,"VM instruction inspector is present in the shared responsive UI");
         auto* vmDocument=qvariant_cast<Document*>(studio.documents()[studio.active()]);vmDocument->setText(vmDocument->text()+"// recovery marker\n");QTest::qWait(350);
         recovery=QJsonDocument::fromJson(bytes(recoveryPath)).object();check(recovery["documents"].toArray().at(recovery["active"].toInt()).toObject()["text"].toString().endsWith("// recovery marker\n"),"edited buffer is journaled shortly after typing");

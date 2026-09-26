@@ -13,8 +13,8 @@ The project inventory follows the [official course](https://www.nand2tetris.org/
 | 4 | Machine language | Assembly, CPU step/run, RAM/screen/keyboard | Full breakpoint, animation and ROM editor parity |
 | 5 | Computer architecture | Hierarchical HDL, built-in memories/ROM | All chip visualizations and interactions |
 | 6 | Assembler | Native ASM-to-Hack and named CLI | Incremental translation and full diagnostics |
-| 7 | VM stack arithmetic | Native VM commands and VME tests | All debugger/diagnostic operations |
-| 8 | VM program control | Branch/call/return/static execution; live call-stack, frame-pointer and instruction views | Full debugger controls, OS fallback, loader edge cases |
+| 7 | VM stack arithmetic | VM execution and added VM-to-ASM translator; segment/arithmetic CPU tests | Full debugger/diagnostic parity |
+| 8 | VM program control | Branch/call/return/static translation and execution; PC breakpoints, watches, call-stack and frame views | Conditional breakpoints, OS fallback, loader edge cases |
 | 9 | High-level language | Jack editing/compilation and VM with OS files | Complete application/device workflows |
 | 10 | Syntax analysis | Jack editing/compilation | Standalone XML analyzer is not claimed as a bundled legacy utility |
 | 11 | Compiler | File/directory Jack compilation; byte comparisons | Complete semantic/diagnostic/output-mode audit |

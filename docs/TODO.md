@@ -28,10 +28,12 @@ unchanged; use separately identified regression fixtures for completed circuits.
 - [x] Optional debounced parser diagnostics of the active editor buffer.
 - [x] Discard stale preview output, replace previous preview errors and navigate to diagnostics.
 - [ ] Exercise converter UI and live diagnostics on Android devices and all desktop platforms.
-- [ ] Add HDL/VM project-aware live validation without resetting simulation.
-- [ ] Add VM-to-ASM translator as an explicitly new utility, with reference tests.
-- [ ] Add CPU instruction decoding, source-linked execution and configurable watches.
+- [x] Implement HDL/VM folder-aware preview validation without resetting simulation (Windows tests; platform qualification remains above).
+- [x] Implement VM-to-ASM translation as a new utility; 11 unchanged project 7/8 CPU scripts pass in Java and native CPU engines.
+- [x] Add native CPU/VM PC breakpoints, single-step bypass and live expression watches (Windows tests).
+- [x] Add CPU instruction decoding, source navigation and configurable watches; edited-source mapping is explicitly invalidated (Windows tests).
 - [ ] Add full breakpoint controls, richer waveform inspection and parser-backed completion.
+- [ ] Persist debugger configuration; implement conditional/data-change breakpoints and HDL breakpoint parity.
 
 ## Course projects 1–12 coverage
 

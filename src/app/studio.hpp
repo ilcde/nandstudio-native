@@ -10,6 +10,7 @@
 #include <QImage>
 #include <QQuickImageProvider>
 #include <atomic>
+#include <QSet>
 #include <memory>
 class Document : public QObject {
     Q_OBJECT
@@ -31,9 +32,9 @@ public:
 signals:void changed();void textChanged();void error(QString message);void conflict();
 private:QByteArray conflictingBytes_;bool conflictPending_=false;
 };
-struct TaskResult {QString message,artifact,text,path;int line=0,column=0;bool error=false;};
+struct TaskResult {QString message,artifact,text,path,errorPath;int line=0,column=0;bool error=false;quint64 revision=0;};
 struct WorkspaceResult {QString path,error;QVariantList files;};
-struct ExecutionResult {nand::Cpu cpu;nand::Vm vm;nand::Hardware hardware;bool vmMode=false,hardwareMode=false;QString error,hardwarePath,hardwareMessage,errorPath;QMap<QString,QString> hardwareSources;int errorLine=0,errorColumn=0;};
+struct ExecutionResult {nand::Cpu cpu;nand::Vm vm;nand::Hardware hardware;bool vmMode=false,hardwareMode=false;QString error,hardwarePath,hardwareMessage,errorPath,pauseReason;QMap<QString,QString> hardwareSources;int errorLine=0,errorColumn=0;};
 class Studio : public QObject {
     Q_OBJECT
     Q_PROPERTY(QVariantList documents READ documents NOTIFY documentsChanged)
@@ -54,7 +55,12 @@ class Studio : public QObject {
 public:
     QVariantMap conversion()const{return conversion_;}
     Q_INVOKABLE QVariantMap convertWord(const QString& text,int base)const;
-    Q_INVOKABLE void previewConversion();
+    Q_INVOKABLE void previewConversion(bool bootstrap=false);
+    Q_INVOKABLE void setBreakpoint(int pc,bool enabled);
+    Q_INVOKABLE void addWatch(const QString& expression);
+    Q_INVOKABLE void removeWatch(const QString& expression);
+    Q_INVOKABLE QVariantList watchValues()const;
+    Q_INVOKABLE QVariantMap cpuInstruction()const;
     Studio();~Studio()override;
     QVariantList documents()const;QVariantList files()const{return files_;}
     QString workspace()const{return workspace_;}QString output()const{return output_;}bool busy()const{return busy_;}
@@ -83,7 +89,7 @@ public:
     Q_INVOKABLE void discardRecovery();Q_INVOKABLE void suspend();
     Q_INVOKABLE void setAutosaveSeconds(int seconds);
     Q_INVOKABLE void navigateTo(const QString& path,int line,int column);
-    Q_INVOKABLE void build();Q_INVOKABLE void loadCpu();Q_INVOKABLE void loadVm();
+    Q_INVOKABLE void build(bool vmFolder=false,bool bootstrap=false);Q_INVOKABLE void loadCpu();Q_INVOKABLE void loadVm();
     Q_INVOKABLE void loadHardware();Q_INVOKABLE void hardwareAction(const QString& action);
     Q_INVOKABLE void hardwareActionWithInputs(const QString& action,const QVariantMap& inputs);
     Q_INVOKABLE void evaluateHardwareWithInputs(const QVariantMap& inputs);
@@ -109,7 +115,10 @@ signals:
     void hardwareLoaded();
     void workspaceImportRequested(QUrl url);
 private:
+    QSet<int> cpuBreakpoints_,vmBreakpoints_;QStringList watches_;QString pauseReason_;
+    QString cpuSourcePath_,cpuSourceText_;std::vector<int> cpuSourceLines_;
     QVariantMap conversion_;
+    quint64 conversionRevision_=0;
     QFutureWatcher<TaskResult> conversionTask_;
     Document* current()const;void recover();void saveSession();void runTest(nand::ScriptTool tool);
     std::shared_ptr<ExecutionResult> snapshot()const;

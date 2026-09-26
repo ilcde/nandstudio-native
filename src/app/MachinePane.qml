@@ -30,6 +30,7 @@ Pane {
             }
             HardwareInspector { visible: studio.state.hardware; Layout.fillWidth: true; revision: pane.revision }
             VmInspector { visible: studio.state.mode==="VM Emulator"; Layout.fillWidth: true; revision: pane.revision }
+            RuntimeInspector { Layout.fillWidth: true }
             ScreenView { Layout.fillWidth: true; revision: pane.revision }
             MemoryInspector { visible: !studio.state.hardware; Layout.fillWidth: true; revision: pane.revision }
             GridLayout {

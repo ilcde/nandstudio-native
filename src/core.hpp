@@ -38,6 +38,8 @@ struct Cpu {
     void set(std::string_view variable, int value);
 };
 std::string compileJack(std::string_view source);
+// Additional native utility; bootstrap calls Sys.init when explicitly requested.
+std::string translateVm(const std::map<std::string,std::string>& files,bool bootstrap=false);
 struct VmInstruction { std::string op, arg, file, scope; int index = 0, line = 1; };
 struct Vm {
     std::array<Word, 32768> ram{};

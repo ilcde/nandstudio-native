@@ -12,7 +12,27 @@
       "platform_coverage": {"windows-x86_64": "local GUI tests", "android-arm64-v8a": "not-verified", "android-x86_64": "not-verified", "linux-x86_64": "not-verified", "macos-arm64": "not-verified", "macos-x86_64": "not-verified"},
       "status": "partial",
       "release_blocker": true,
-      "notes": "Native 16-bit number converter and read-only ASM/Jack/Hack preview. Optional live checks run after 600 ms idle. No generated files or simulation resets. Preview supports up to 1 MiB input. HDL/VM live validation and VM-to-ASM translation remain pending."
+      "notes": "Native 16-bit converter and ASM/Jack/VM/Hack/HDL previews. HDL/VM folder snapshots overlay open buffers; validation never resets live simulation. Optional live checks after 600 ms idle. VM translation has explicit bootstrap selection and a folder artifact action. Platform qualification beyond Windows remains pending."
+    },
+    {
+      "id": "addition.vm-translator",
+      "kind": "addition",
+      "original_evidence": "Course projects 7/8 VM specification and unchanged original CPU scripts; not a bundled legacy utility",
+      "native_implementation": "src/vm_translate.cpp; nand VMTranslator; Studio::build",
+      "regression_tests": ["translator_tests: 174 execution checks", "scripts/probe_translator.py: 11 original course cases with Java/native CPU byte comparison", "gui_workflow"],
+      "platform_coverage": {"windows-x86_64":"local passed", "android-arm64-v8a":"not-verified", "android-x86_64":"not-verified", "linux-x86_64":"not-verified", "macos-arm64":"not-verified", "macos-x86_64":"not-verified"},
+      "status": "partial", "release_blocker": true,
+      "notes": "All VM commands, segments, signed comparisons, statics, calls, return, recursion, explicit bootstrap. Requires implementations of all called functions; no OS fallback. Output ROM/resource limits enforced."
+    },
+    {
+      "id": "debugger.pc-breakpoints-watches",
+      "kind": "legacy",
+      "original_evidence": "Legacy CPU/VM debugger controls; original complete breakpoint semantics remain under audit",
+      "native_implementation": "src/app/debugger.cpp; src/app/RuntimeInspector.qml; Studio::step",
+      "regression_tests": ["gui_workflow: CPU and VM PC stops, step bypass, watches"],
+      "platform_coverage": {"windows-x86_64":"local passed", "android-arm64-v8a":"not-verified", "android-x86_64":"not-verified", "linux-x86_64":"not-verified", "macos-arm64":"not-verified", "macos-x86_64":"not-verified"},
+      "status": "partial", "release_blocker": true,
+      "notes": "Session PC breakpoint sets for CPU/VM and up to 64 expression watches. CPU instruction decoding and source navigation disable stale mappings after edits. Run pauses before instruction; Step bypasses PC stop. Persistent, conditional/data-change and HDL breakpoints remain missing."
     },
     {
       "id": "assembler.grammar",

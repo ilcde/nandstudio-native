@@ -1,0 +1,288 @@
+[
+  {
+    "name": "translated-BasicTest",
+    "tool": "CPUEmulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "BasicTest.out",
+        "equal": true,
+        "sha256": [
+          "fe5e52f4aee5ca1cd7c5dde20c140b70d10b3af5198d55e30062c44c0e1dcad8",
+          "fe5e52f4aee5ca1cd7c5dde20c140b70d10b3af5198d55e30062c44c0e1dcad8"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "translated-PointerTest",
+    "tool": "CPUEmulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "PointerTest.out",
+        "equal": true,
+        "sha256": [
+          "89f8323fef666728619f4ca1af48abe856cba3d6954090bf35d382a26003d602",
+          "89f8323fef666728619f4ca1af48abe856cba3d6954090bf35d382a26003d602"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "translated-StaticTest",
+    "tool": "CPUEmulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "StaticTest.out",
+        "equal": true,
+        "sha256": [
+          "e1c1b5fbeba0e212da46a74f3d55f21c959ff7a4d18a9ae6da24fac8a4b817be",
+          "e1c1b5fbeba0e212da46a74f3d55f21c959ff7a4d18a9ae6da24fac8a4b817be"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "translated-SimpleAdd",
+    "tool": "CPUEmulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "SimpleAdd.out",
+        "equal": true,
+        "sha256": [
+          "14318baa70c03067c1f8ba257cc73a63f602267033bd51b286fa6ca58967d924",
+          "14318baa70c03067c1f8ba257cc73a63f602267033bd51b286fa6ca58967d924"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "translated-StackTest",
+    "tool": "CPUEmulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "StackTest.out",
+        "equal": true,
+        "sha256": [
+          "ca2aba27bc5315114d33a9ee45a645f51df372804c333d34b1be03c85cebef07",
+          "ca2aba27bc5315114d33a9ee45a645f51df372804c333d34b1be03c85cebef07"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "translated-FibonacciElement",
+    "tool": "CPUEmulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "FibonacciElement.out",
+        "equal": true,
+        "sha256": [
+          "261c46c7fb48ab600883c5a30ce54145d1c7b1de81b189d8720b1c59efd7acbe",
+          "261c46c7fb48ab600883c5a30ce54145d1c7b1de81b189d8720b1c59efd7acbe"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "translated-NestedCall",
+    "tool": "CPUEmulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "NestedCall.out",
+        "equal": true,
+        "sha256": [
+          "2755cd1371e974da45b7045359c43b38e4416057c858484e67a4917a4d698a96",
+          "2755cd1371e974da45b7045359c43b38e4416057c858484e67a4917a4d698a96"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "translated-SimpleFunction",
+    "tool": "CPUEmulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "SimpleFunction.out",
+        "equal": true,
+        "sha256": [
+          "579a687cdd3424faa7113a6b11d37bff9a53fd5273ff2fe2ed391afd77638094",
+          "579a687cdd3424faa7113a6b11d37bff9a53fd5273ff2fe2ed391afd77638094"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "translated-StaticsTest",
+    "tool": "CPUEmulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "StaticsTest.out",
+        "equal": true,
+        "sha256": [
+          "52e4aa6a6678ee5154af29e8a5ab0395b2b87efd9a0828f12f529daf651d9bb0",
+          "52e4aa6a6678ee5154af29e8a5ab0395b2b87efd9a0828f12f529daf651d9bb0"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "translated-BasicLoop",
+    "tool": "CPUEmulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "BasicLoop.out",
+        "equal": true,
+        "sha256": [
+          "9b8a1c4e6ba72070b33ba022226cb5e7368a4916c7a8264d57d89ad48021e5c3",
+          "9b8a1c4e6ba72070b33ba022226cb5e7368a4916c7a8264d57d89ad48021e5c3"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "translated-FibonacciSeries",
+    "tool": "CPUEmulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "FibonacciSeries.out",
+        "equal": true,
+        "sha256": [
+          "4f45d4dbbbd45781759dba82ed3e0c56c4cb3f4e4d55dca8b4f87b0950cd9dac",
+          "4f45d4dbbbd45781759dba82ed3e0c56c4cb3f4e4d55dca8b4f87b0950cd9dac"
+        ]
+      }
+    ]
+  }
+]

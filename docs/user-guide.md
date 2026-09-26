@@ -3,14 +3,35 @@
 More > Converters & diagnostics opens native tools on desktop and Android.
 The word converter accepts decimal, binary or hexadecimal input in the range
 -32768 to 65535 and shows the same 16 bits in signed, unsigned, binary and hex form.
-Check & preview converts the active ASM buffer to Hack, Jack to VM, or validates
-Hack code. The preview writes no files and leaves the running simulator intact.
+Check & preview converts the active ASM buffer to Hack, Jack to VM, a VM folder
+to ASM, or validates Hack and HDL. VM/HDL dependencies use folder files with open
+editor buffers overlaid. The preview writes no files and leaves the running simulator intact.
 Use Build when you want to generate an artifact on disk. Optional live checks run
 after 600 ms of idle editing, including after closing the panel; reopen it and
 uncheck Live checks to disable them. Preview input is limited
 to 1 MiB. Editing invalidates older output. Parser errors include a navigation
-action and appear in Problems with file, line and column. VM translation and
-HDL/VM live validation are not included in this preview tool yet.
+action and appear in Problems with file, line and column. Folder previews limit
+on-disk dependency data to 4 MiB. External file changes require a fresh preview.
+
+For a complete VM application, open a VM file and use More > Converters & diagnostics >
+Translate VM folder to ASM file. Enable bootstrap to initialize SP=256 and call
+Sys.init; leave it disabled for course tests that initialize the machine themselves.
+All called functions must have VM implementations in the folder. Build on a VM
+tab translates only that file. Translation is an added utility, not an original
+desktop-suite feature. Desktop command: `nand VMTranslator DIRECTORY --bootstrap`
+or `nand VMTranslator FILE.vm`. Output is DIRECTORY/DIRECTORY.asm or FILE.asm.
+The in-app console provides `preview [--bootstrap]` and `translate-vm [--bootstrap]`
+for the active VM folder, including on Android without an external terminal.
+
+The Machine pane's Live debugger supports separate CPU and VM PC breakpoints.
+For CPU code loaded from ASM, it displays the decoded next instruction and a
+Go to current ASM instruction action. Editing or closing that source disables
+navigation until the matching source is open or the CPU is explicitly reloaded.
+Run stops before executing the selected instruction; Step executes one instruction
+even at a breakpoint. Watches accept the simulator's variables, such as D, RAM[0],
+SP, local[0], or an HDL pin, and update after execution snapshots. Invalid watches
+show an error rather than stopping simulation. Breakpoints and watches currently
+last for the app session only; conditional and HDL breakpoints remain unfinished.
 
 Eval runs the currently loaded circuit with the pin values shown in the Machine
 pane. After editing that circuit, Reload & Eval uses the editor snapshot and

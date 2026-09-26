@@ -15,10 +15,20 @@ std::string nativeNewlines(std::string s){
 }
 int run(const std::vector<fs::path>& argv){
     auto tool=argv[0].stem().string();std::size_t first=1;
-    if(tool=="nand"){if(argv.size()<2){std::cout<<"Usage: nand <Assembler|JackCompiler|CPUEmulator|VMEmulator|TextComparer> [arguments]\n";return 0;}tool=argv[first++].string();}
+    if(tool=="nand"){if(argv.size()<2){std::cout<<"Usage: nand <Assembler|JackCompiler|VMTranslator|CPUEmulator|VMEmulator|HardwareSimulator|TextComparer> [arguments]\n";return 0;}tool=argv[first++].string();}
     std::vector<fs::path> args(argv.begin()+first,argv.end());
-    if(!args.empty()&&(args[0]=="/?"||args[0]=="-h"||args[0]=="--help")){std::cout<<"Usage: "<<tool<<" "<<(tool=="TextComparer"?"FILE1 FILE2":tool=="JackCompiler"?"[FILE.jack | DIRECTORY]":tool=="Assembler"?"FILE.asm":"SCRIPT.tst")<<"\n";return 0;}
+    if(!args.empty()&&(args[0]=="/?"||args[0]=="-h"||args[0]=="--help")){std::cout<<"Usage: "<<tool<<" "<<(tool=="TextComparer"?"FILE1 FILE2":tool=="VMTranslator"?"FILE.vm|DIRECTORY [--bootstrap]":tool=="JackCompiler"?"[FILE.jack | DIRECTORY]":tool=="Assembler"?"FILE.asm":"SCRIPT.tst")<<"\n";return 0;}
     try{
+        if(tool=="VMTranslator"){
+            bool bootstrap=false;if(!args.empty()&&args.back()=="--bootstrap"){bootstrap=true;args.pop_back();}
+            if(args.size()!=1)throw nand::Error("Usage: nand VMTranslator FILE.vm|DIRECTORY [--bootstrap]");
+            auto target=fs::absolute(args[0]).lexically_normal();std::map<std::string,std::string> files;fs::path dest;
+            if(fs::is_directory(target)&&target.filename().empty())target=target.parent_path();
+            if(fs::is_directory(target)){for(const auto& e:fs::directory_iterator(target))if(e.path().extension()==".vm")files[e.path().stem().string()]=nand::readFile(e.path());dest=target/(target.filename().string()+".asm");}
+            else{if(target.extension()!=".vm")throw nand::Error("VM source expected");files[target.stem().string()]=nand::readFile(target);dest=target;dest.replace_extension(".asm");}
+            if(files.empty())throw nand::Error("No VM files found");
+            nand::writeFile(dest,nativeNewlines(nand::translateVm(files,bootstrap)));std::cout<<"Generated "<<dest.string()<<"\n";return 0;
+        }
         if(tool=="TextComparer"){if(args.size()!=2)throw nand::Error("Usage: TextComparer FILE1 FILE2");auto r=nand::compareText(nand::readFile(args[0]),nand::readFile(args[1]));std::cout<<r.message;return r.equal?0:-1;}
         if(tool=="Assembler"){if(args.size()!=1)throw nand::Error("Open NandStudio for interactive assembly; batch usage: Assembler FILE.asm");auto path=fs::absolute(args[0]);if(!path.has_extension())path+=".asm";std::cout<<"Assembling \""<<path.string()<<"\"\n";auto result=nand::assemble(nand::readFile(path));path.replace_extension(".hack");nand::writeFile(path,nativeNewlines(nand::machineText(result.words)));return 0;}
         if(tool=="JackCompiler"){
