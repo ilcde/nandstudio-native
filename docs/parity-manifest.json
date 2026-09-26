@@ -3988,16 +3988,16 @@
         "scripts/check_android_toolbar.py --workspace-flow"
       ],
       "platform_coverage": {
-        "windows-x86_64": "253 GUI assertions passed; shared copy storage behavior tested",
+        "windows-x86_64": "263 GUI assertions passed in CI 36208034521; shared copy storage behavior tested",
         "macos-arm64": "not-verified",
         "macos-x86_64": "not-verified",
         "linux-x86_64": "not-verified",
         "android-arm64-v8a": "not-verified",
-        "android-x86_64": "not-verified"
+        "android-x86_64": "API 36 Downloads import/edit/save/assemble/export/reopen passed in CI 36208034521"
       },
       "status": "partial",
       "release_blocker": true,
-      "notes": "Version 0.1.2 explicit import to editable local copy and export to new provider folder. Qt content URIs used without local-path conversion. Android provider test pending; direct provider editing, individual files and grant recovery incomplete. See docs/android-workspaces.md."
+      "notes": "Version 0.1.2 explicit import to editable local copy and export to new provider folder. Qt content URIs used without local-path conversion. Downloads workflow passed on API 36 x86-64; direct provider editing, individual files, other providers and grant recovery incomplete. See docs/evidence/android-workflow-b8f155b.json."
     },
     {
       "id": "android.directory-tree-grants",
@@ -4009,16 +4009,16 @@
         "scripts/check_android_toolbar.py --workspace-flow"
       ],
       "platform_coverage": {
-        "windows-x86_64": "253 GUI assertions passed; shared copy storage behavior tested",
+        "windows-x86_64": "263 GUI assertions passed in CI 36208034521; shared copy storage behavior tested",
         "macos-arm64": "not-verified",
         "macos-x86_64": "not-verified",
         "linux-x86_64": "not-verified",
         "android-arm64-v8a": "not-verified",
-        "android-x86_64": "not-verified"
+        "android-x86_64": "API 36 Downloads import/edit/save/assemble/export/reopen passed in CI 36208034521"
       },
       "status": "partial",
       "release_blocker": true,
-      "notes": "Version 0.1.2 explicit import to editable local copy and export to new provider folder. Qt content URIs used without local-path conversion. Android provider test pending; direct provider editing, individual files and grant recovery incomplete. See docs/android-workspaces.md."
+      "notes": "Version 0.1.2 explicit import to editable local copy and export to new provider folder. Qt content URIs used without local-path conversion. Downloads workflow passed on API 36 x86-64; direct provider editing, individual files, other providers and grant recovery incomplete. See docs/evidence/android-workflow-b8f155b.json."
     },
     {
       "id": "android.grant-recovery",
@@ -4048,16 +4048,16 @@
         "scripts/check_android_toolbar.py --workspace-flow"
       ],
       "platform_coverage": {
-        "windows-x86_64": "253 GUI assertions passed; shared copy storage behavior tested",
+        "windows-x86_64": "263 GUI assertions passed in CI 36208034521; shared copy storage behavior tested",
         "macos-arm64": "not-verified",
         "macos-x86_64": "not-verified",
         "linux-x86_64": "not-verified",
         "android-arm64-v8a": "not-verified",
-        "android-x86_64": "not-verified"
+        "android-x86_64": "API 36 Downloads import/edit/save/assemble/export/reopen passed in CI 36208034521"
       },
       "status": "partial",
       "release_blocker": true,
-      "notes": "Version 0.1.2 explicit import to editable local copy and export to new provider folder. Qt content URIs used without local-path conversion. Android provider test pending; direct provider editing, individual files and grant recovery incomplete. See docs/android-workspaces.md."
+      "notes": "Version 0.1.2 explicit import to editable local copy and export to new provider folder. Qt content URIs used without local-path conversion. Downloads workflow passed on API 36 x86-64; direct provider editing, individual files, other providers and grant recovery incomplete. See docs/evidence/android-workflow-b8f155b.json."
     },
     {
       "id": "android.IME",
@@ -4511,7 +4511,7 @@
       ],
       "platform_coverage": {
         "windows-x86_64": "256 GUI checks passed",
-        "android-x86_64": "device Eval pending",
+        "android-x86_64": "actual Xor input and Eval taps passed in CI 36208034521; a=0,b=1,out=1",
         "android-arm64-v8a": "device test pending"
       },
       "status": "partial",

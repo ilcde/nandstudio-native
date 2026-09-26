@@ -13,7 +13,7 @@ comparisons remain unchanged. Full original tool parity is not yet achieved.
 | 5 | Computer architecture | Hierarchical HDL, built-in memories/ROM | All chip visualizations and interactions |
 | 6 | Assembler | Native ASM-to-Hack and named CLI | Incremental translation and full diagnostics |
 | 7 | VM stack arithmetic | Native VM commands and VME tests | All debugger/diagnostic operations |
-| 8 | VM program control | Branch/call/return/static execution | Call-stack UI, OS fallback, loader edge cases |
+| 8 | VM program control | Branch/call/return/static execution; live call-stack, frame-pointer and instruction views | Full debugger controls, OS fallback, loader edge cases |
 | 9 | High-level language | Jack editing/compilation and VM with OS files | Complete application/device workflows |
 | 10 | Syntax analysis | Jack editing/compilation | Standalone XML analyzer is not claimed as a bundled legacy utility |
 | 11 | Compiler | File/directory Jack compilation; byte comparisons | Complete semantic/diagnostic/output-mode audit |

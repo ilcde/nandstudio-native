@@ -9,12 +9,13 @@ unchanged; use separately identified regression fixtures for completed circuits.
 - [x] Place Android Files/More menus below the status bar; real tap regression.
 - [x] Publish 0.1.1 packages from successful CI 36154176790.
 - [x] Implement explicit Android workspace import/export copies.
-- [ ] Pass Android import/edit/save/build/export/reopen interaction gate.
+- [x] Pass Android import/edit/save/build/export/reopen interaction gate (CI 36208034521).
 - [x] Compare the reported composite Xor with the official web IDE (0,1 -> 1).
 - [x] Add one-bit tap inputs and explicit Eval result feedback.
 - [x] Fix modified HDL detection when a non-HDL document becomes active.
 - [x] Show live VM instruction, frame pointers, stack words and call stack.
-- [ ] Verify Eval on Android with the reported composite and publish new APKs.
+- [x] Verify Eval on Android with the reported composite (CI 36208034521).
+- [x] Publish and verify 0.1.2 packages from successful CI 36208034521.
 - [ ] Resolve emulator rendering artifacts and verify a physical ARM64 device.
 - [ ] Configure a stable externally supplied release-signing key for updates.
 

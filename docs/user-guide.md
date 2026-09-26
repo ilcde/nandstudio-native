@@ -1,6 +1,10 @@
 # Using this development build
 
-Start `NandStudio.exe`. Open a folder, then a supported text file. Tabs retain
+Launch `bin/NandStudio.exe` from the Windows portable package, `NandStudio.app`
+on macOS, or `NandStudio.sh` on Linux. On Android, install the ARM64 APK on a
+compatible device and launch NandStudio; Files > Open workspace offers a local
+editable copy of a folder selected through Android's document chooser.
+Open a folder, then a supported text file. Tabs retain
 documents; a dot marks unsaved changes. Save uses Ctrl+S. Find uses Ctrl+F,
 go-to-line Ctrl+G, build Ctrl+B. Ctrl+/ toggles a line comment. Tab and Shift+Tab indent/unindent selected lines using the configured width or tabs.
 Return carries indentation; bracket matching ignores comments and strings. Native Qt editing supplies undo/redo, selection and clipboard operations.

@@ -1,0 +1,28 @@
+{
+  "source_revision": "b8f155b9cf956166f6e03d4645a6cee8d33edffe",
+  "ci_run": "https://github.com/ilcde/nandstudio-native/actions/runs/36208034521",
+  "artifact": "evidence-android-toolbar/toolbar.json",
+  "apk_sha256": "6579880b9d5a6d65acbedc2e351dcc3ce8b2f7866daeda7cc48813dc9c77dfbb",
+  "abi": "x86_64",
+  "android_api": 36,
+  "page_size": 4096,
+  "passed": true,
+  "actual_touch_workflow": [
+    "Files and More below status bar",
+    "select Android Downloads workspace and grant access",
+    "import separate editable copy",
+    "edit and save assembly source",
+    "assemble and compare generated machine-code bytes",
+    "export source and artifact without changing original",
+    "load reported composite Xor and toggle b to 1",
+    "Eval produces out=1 with a=0 and b=1",
+    "background, stop process, reopen workspace and active Xor document"
+  ],
+  "limitations": [
+    "Physical ARM64 device not exercised",
+    "16 KB runtime not exercised",
+    "Other document providers and permission-recovery scenarios unverified",
+    "Emulator rendering artifacts remain visible",
+    "Full course and legacy tool parity incomplete"
+  ]
+}
