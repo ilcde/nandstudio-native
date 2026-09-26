@@ -56,6 +56,25 @@ bool Document::resolveConflict(const QString& action){
 }
 void Document::highlight(QQuickTextDocument* d){if(d&&d->textDocument())new Highlight(d->textDocument());}
 Studio::Studio(){
+    connect(this,&Studio::hardwareSourceChanged,this,[this]{
+        if(conversion_.isEmpty())return;
+        conversion_["stale"]=true;conversion_["output"]=QString();conversion_["error"]=false;
+        conversion_["status"]="Editor changed; request a fresh preview.";
+        emit conversionChanged();
+    });
+    connect(&conversionTask_,&QFutureWatcher<TaskResult>::finished,this,[this]{
+        const auto r=conversionTask_.result();
+        const bool stale=!current()||current()->path()!=r.path||current()->text()!=r.text;
+        conversion_={{"path",r.path},{"busy",false},{"stale",stale},{"error",r.error},
+                     {"line",r.line},{"column",r.column},{"output",stale?QString():r.artifact},
+                     {"status",stale?QString("Editor changed; request a fresh preview."):r.message}};
+        if(!stale){
+            for(qsizetype i=diagnostics_.size();i-->0;){const auto entry=diagnostics_[i].toMap();if(entry["source"]=="preview"&&entry["path"]==r.path)diagnostics_.removeAt(i);}
+            if(r.error)diagnostics_.append(QVariantMap{{"source","preview"},{"path",r.path},{"line",r.line},{"column",r.column},{"message",r.message}});
+            emit diagnosticsChanged();
+        }
+        emit conversionChanged();
+    });
     connect(&transfer_,&QFutureWatcher<TaskResult>::finished,this,[this]{auto r=transfer_.result();busy_=false;log(r.message);if(!r.error&&!r.path.isEmpty())openWorkspace(QUrl::fromLocalFile(r.path));emit stateChanged();});
     connect(&task_,&QFutureWatcher<TaskResult>::finished,this,[this]{busy_=false;auto r=task_.result();log(r.message);if(r.error){diagnostics_.append(QVariantMap{{"path",r.path},{"line",r.line},{"column",r.column},{"message",r.message}});emit diagnosticsChanged();for(int i=0;i<docs_.size();++i)if(docs_[i]->path()==r.path){emit diagnostic(i,r.line,r.column,r.message);break;}}else if(!r.artifact.isEmpty()){log("Generated: "+r.artifact);for(auto* d:docs_)if(d->path()==r.artifact&&!d->dirty()){try{auto bytes=read(r.artifact);d->original=bytes;d->text_=QString::fromUtf8(bytes).replace("\r\n","\n");emit d->textChanged();emit d->changed();}catch(const std::exception& e){log(e.what());}}open(QUrl::fromLocalFile(r.artifact));}emit stateChanged();});
     connect(&execution_,&QFutureWatcher<std::shared_ptr<ExecutionResult>>::finished,this,[this]{
@@ -90,7 +109,7 @@ Studio::Studio(){
     connect(this,&Studio::documentsChanged,this,&Studio::saveSession);
     connect(this,&Studio::filesChanged,this,&Studio::saveSession);
 }
-Studio::~Studio(){cancelled_=true;task_.waitForFinished();execution_.waitForFinished();workspaceTask_.waitForFinished();searchTask_.waitForFinished();transfer_.waitForFinished();saveSession();}
+Studio::~Studio(){cancelled_=true;conversionTask_.waitForFinished();task_.waitForFinished();execution_.waitForFinished();workspaceTask_.waitForFinished();searchTask_.waitForFinished();transfer_.waitForFinished();saveSession();}
 QVariantList Studio::documents()const{QVariantList r;for(auto* d:docs_)r.append(QVariant::fromValue(d));return r;}
 Document* Studio::current()const{return active_>=0&&active_<docs_.size()?docs_[active_]:nullptr;}
 void Studio::setActive(int i){if(i>=0&&i<docs_.size()&&active_!=i){active_=i;emit activeChanged();}}

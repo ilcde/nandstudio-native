@@ -7,6 +7,7 @@ Pane {
     objectName: "appToolbar"
     signal folderRequested(); signal fileRequested(); signal settingsRequested(); signal searchRequested(); signal exportRequested()
     property real safeTop: SafeArea.margins.top
+    signal toolsRequested()
     // Button menus belong below the header, never centered on its short height.
     function openMenu(menu, button) {
         const position=button.mapToItem(Overlay.overlay,0,button.height)
@@ -54,6 +55,7 @@ Pane {
         topMargin: toolbar.height; bottomMargin: Math.max(Theme.sm,Overlay.overlay.SafeArea.margins.bottom)
         leftMargin: Math.max(Theme.sm,toolbar.SafeArea.margins.left); rightMargin: Math.max(Theme.sm,toolbar.SafeArea.margins.right)
         MenuItem { objectName: "findReplaceMenuItem"; text: "Find and replace\u2026"; enabled: studio.active >= 0; onTriggered: toolbar.searchRequested() }
+        MenuItem { objectName: "toolsMenuItem"; text: "Converters & diagnostics\u2026"; onTriggered: toolbar.toolsRequested() }
         MenuItem { text: Theme.dark ? "Use light theme" : "Use dark theme"; onTriggered: preferences.set("dark",!Theme.dark) }
         MenuItem { objectName: "settingsMenuItem"; text: "Settings\u2026"; onTriggered: toolbar.settingsRequested() }
         MenuSeparator {}

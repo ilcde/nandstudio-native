@@ -17,11 +17,23 @@ unchanged; use separately identified regression fixtures for completed circuits.
 - [x] Verify Eval on Android with the reported composite (CI 36208034521).
 - [x] Publish and verify 0.1.2 packages from successful CI 36208034521.
 - [x] Preserve input values on same-chip Eval reloads without pin arguments; clear stale success after parser failure or explicit Load (266 Windows GUI checks).
-- [ ] Verify this follow-up Eval fix on Android and publish only after CI passes.
+- [x] Verify follow-up Eval CI and publish from successful run 36209394882 (publication run 36209869977).
 - [ ] Resolve emulator rendering artifacts and verify a physical ARM64 device.
 - [ ] Configure a stable externally supplied release-signing key for updates.
 
-## Course projects 1–12
+## Advanced live UI and converters
+
+- [x] Native 16-bit decimal/binary/hex converter with signed and unsigned views.
+- [x] Read-only ASM-to-Hack and Jack-to-VM previews from unsaved editor snapshots.
+- [x] Optional debounced parser diagnostics of the active editor buffer.
+- [x] Discard stale preview output, replace previous preview errors and navigate to diagnostics.
+- [ ] Exercise converter UI and live diagnostics on Android devices and all desktop platforms.
+- [ ] Add HDL/VM project-aware live validation without resetting simulation.
+- [ ] Add VM-to-ASM translator as an explicitly new utility, with reference tests.
+- [ ] Add CPU instruction decoding, source-linked execution and configurable watches.
+- [ ] Add full breakpoint controls, richer waveform inspection and parser-backed completion.
+
+## Course projects 1–12 coverage
 
 Each row requires native implementation, reachable UI/console actions, reference
 comparison, and exercised desktop/Android workflows before it can be checked.

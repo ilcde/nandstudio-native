@@ -18,7 +18,7 @@ Pane {
             ScrollView { clip: true; TextArea { text: studio.output; readOnly: true; selectByMouse: true; color: Theme.text; font.family: "monospace"; font.pixelSize: Theme.bodySize-1; wrapMode: TextEdit.Wrap; onTextChanged: cursorPosition=length; Accessible.name: "Task output" } }
             ListView {
                 clip: true; model: studio.diagnostics; ScrollBar.vertical: ScrollBar {}
-                delegate: ItemDelegate { required property var modelData; width: ListView.view.width; text: modelData.message; onClicked: studio.navigateTo(modelData.path,modelData.line,modelData.column); contentItem: Label { text: parent.text; wrapMode: Text.WrapAnywhere; color: Theme.danger } }
+                delegate: ItemDelegate { required property var modelData; width: ListView.view.width; text: modelData.path+":"+modelData.line+":"+modelData.column+"\n"+modelData.message; onClicked: studio.navigateTo(modelData.path,modelData.line,modelData.column); contentItem: Label { text: parent.text; wrapMode: Text.WrapAnywhere; color: Theme.danger } }
             }
             ListView {
                 clip: true; model: studio.searchResults; ScrollBar.vertical: ScrollBar {}

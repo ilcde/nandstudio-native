@@ -4,6 +4,17 @@
   "audit_status": "initial_inventory_not_exhaustive",
   "features": [
     {
+      "id": "editor.conversion-preview",
+      "kind": "addition",
+      "original_evidence": "User request for native converters and advanced diagnostics; not claimed as legacy parity",
+      "native_implementation": "src/app/conversion.cpp; src/app/ToolsDialog.qml",
+      "regression_tests": ["gui_workflow: signed conversion bounds, unsaved ASM preview, exact Jack VM output, stale worker rejection, live diagnostics"],
+      "platform_coverage": {"windows-x86_64": "local GUI tests", "android-arm64-v8a": "not-verified", "android-x86_64": "not-verified", "linux-x86_64": "not-verified", "macos-arm64": "not-verified", "macos-x86_64": "not-verified"},
+      "status": "partial",
+      "release_blocker": true,
+      "notes": "Native 16-bit number converter and read-only ASM/Jack/Hack preview. Optional live checks run after 600 ms idle. No generated files or simulation resets. Preview supports up to 1 MiB input. HDL/VM live validation and VM-to-ASM translation remain pending."
+    },
+    {
       "id": "assembler.grammar",
       "kind": "legacy",
       "original_evidence": "CompilersPackageSource/Hack/Assembler/*.java; uploaded Compilers.jar",

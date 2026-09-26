@@ -47,7 +47,7 @@ ApplicationWindow {
         function onWorkspaceImportRequested(url) { root.pendingImport=url;importDialog.open() }
         function onHardwareLoaded() { if(root.compact)root.mobilePane=2 }
     }
-    header: AppToolbar { onFolderRequested: folder.open();onFileRequested: openFile.open();onSettingsRequested: settingsDialog.open();onSearchRequested: {if(root.compact)root.mobilePane=1;editorArea.focusSearch()} onExportRequested: exportFolder.open() }
+    header: AppToolbar { onToolsRequested: toolsDialog.open();onFolderRequested: folder.open();onFileRequested: openFile.open();onSettingsRequested: settingsDialog.open();onSearchRequested: {if(root.compact)root.mobilePane=1;editorArea.focusSearch()} onExportRequested: exportFolder.open() }
     FileDialog { id: openFile; title: "Open project file"; onAccepted: {studio.open(selectedFile);if(root.compact)root.mobilePane=1} }
     FolderDialog { id: folder; objectName: "workspaceFolderDialog"; title: "Open workspace"; onAccepted: studio.openWorkspace(selectedFolder) }
     FolderDialog { id: exportFolder; title: "Select destination for a new workspace copy"; onAccepted: studio.exportWorkspace(selectedFolder) }
@@ -62,6 +62,7 @@ ApplicationWindow {
     ConfirmDialog { id: trashDialog; objectName: "trashDialog"; title: "Move to recovery trash"; actionText: "Move"; message: "Move "+root.operationPath+" into .nandstudio-trash inside this workspace? The task console will show its recovery location."; onConfirmed: studio.trashFile(root.operationPath) }
     GoToLineDialog { id: lineDialog; onRequested: line => {let pane=root.activeEditor();if(pane)pane.goTo(line,1)} }
     SettingsDialog { id: settingsDialog }
+    ToolsDialog { id: toolsDialog }
     ConflictDialog { id: conflictDialog }
     ConfirmDialog { id: closeDocumentDialog; objectName: "closeDocumentDialog"; title: "Unsaved document"; message: ""; showSave: true; onSaveRequested: {if(studio.documents[root.closingDocument].save()){studio.closeDocument(root.closingDocument);accept()}} onConfirmed: studio.closeDocumentDiscard(root.closingDocument) }
     ConfirmDialog { id: exitDialog; objectName: "exitDialog"; title: "Unsaved changes"; message: "Some documents have unsaved changes. Save all before closing, or discard the current buffers."; showSave: true; onSaveRequested: {if(studio.saveAll()){root.closeApproved=true;root.close()}} onConfirmed: {studio.discardRecovery();root.closeApproved=true;root.close()} }

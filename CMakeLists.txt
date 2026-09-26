@@ -63,7 +63,7 @@ if(NAND_BUILD_GUI)
     endforeach()
   endif()
   qt_standard_project_setup(REQUIRES 6.11)
-  qt_add_executable(NandStudio src/app/main.cpp src/app/studio.cpp src/app/studio.hpp src/app/editor_services.cpp src/app/editor_services.hpp src/app/storage.cpp src/app/storage.hpp)
+  qt_add_executable(NandStudio src/app/main.cpp src/app/studio.cpp src/app/conversion.cpp src/app/studio.hpp src/app/editor_services.cpp src/app/editor_services.hpp src/app/storage.cpp src/app/storage.hpp)
   target_link_libraries(NandStudio PRIVATE nand_core Qt6::Quick Qt6::QuickControls2 Qt6::Concurrent)
   if(BUILD_TESTING AND NOT ANDROID)
     find_package(Qt6 6.11.1 EXACT REQUIRED COMPONENTS Test)
@@ -98,6 +98,7 @@ if(NAND_BUILD_GUI)
     src/app/ScreenView.qml
     src/app/SearchBar.qml
     src/app/SettingsDialog.qml
+    src/app/ToolsDialog.qml
     src/app/Theme.qml
     src/app/WorkspacePane.qml
     src/app/VmInspector.qml
