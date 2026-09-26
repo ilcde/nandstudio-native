@@ -155,6 +155,8 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         check(studio.hardwareValue("a")=="1"&&studio.hardwareValue("b")=="0"&&studio.hardwareValue("out")=="1","Eval without pin arguments retains inputs when reloading the same circuit");
         xorDocument->setText(QString::fromUtf8(xorSource));write(QDir(xorFolder).filePath("Not.hdl"),"CHIP Not { IN in; OUT out; PARTS: }");studio.loadHardware();wait();studio.hardwareActionWithInputs("eval",{{"a",1},{"b",0}});wait();
         check(studio.hardwareValue("out")=="0"&&studio.hardwareMessage().contains("Not has an empty PARTS"),"unfinished local dependencies keep legacy precedence and show a warning");
+        check(studio.hardwareEvaluation().contains("incomplete local chips: Not")&&studio.output().contains("Eval inputs: a=1, b=0"),"each Eval explains incomplete dependencies and records actual inputs");
+        check(findItem(window->contentItem(),"openEmptyChip_Not")!=nullptr,"unfinished dependency has a discoverable navigation action");
         const auto localNot=QDir(xorFolder).filePath("Not.hdl");
         write(localNot,"CHIP Not { IN in; OUT out; PARTS: Nand(a=in,b=in,out=out); }");
         studio.evaluateHardwareWithInputs({{"a",1},{"b",0}});wait();
@@ -168,6 +170,8 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         studio.loadHardware();wait();check(studio.hardwareEvaluation().isEmpty(),"explicit Load clears previous Eval result");
         auto andPath=QDir(dir).filePath("And.hdl");write(andPath,"CHIP And { IN a,b; OUT out; BUILTIN And; }");studio.open(QUrl::fromLocalFile(andPath));QTest::qWait(30);click("loadHdl");
         for(auto name:{"a","b"}){auto* input=findItem(window->contentItem(),QString("pin_")+name);if(!input)throw std::runtime_error("And input control missing after Load HDL");input->forceActiveFocus();QTest::keyClick(window,Qt::Key_A,Qt::ControlModifier);QTest::keyClick(window,Qt::Key_1);}
+        studio.key(0);QTest::qWait(30);
+        check(findItem(window->contentItem(),"pin_a")->property("text")=="1"&&findItem(window->contentItem(),"pin_b")->property("text")=="1","pending input edits survive unrelated keyboard release/state refresh before Eval");
         click("hardwareEval");check(studio.hardwareValue("out")=="1","Eval commits typed input fields without Return and evaluates And");
         struct EvalCase { const char* chip; QVariantMap inputs; QVariantMap outputs; };
         const std::vector<EvalCase> evalCases={

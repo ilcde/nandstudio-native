@@ -27,3 +27,18 @@ chip and local dependency files, input values, and exact load/Eval message.
 Include whether the files were changed in NandStudio or another editor. These
 details distinguish a stale snapshot, incomplete dependency, parser failure and
 sequential-clock behavior without guessing from an unchanged output alone.
+
+## Confirmed Windows report, 26 September 2026
+
+The running 0.1.4 app loaded Xor with empty local And, Not and Or chips. Its
+load warning was above the visible scroll position while the console showed
+only `Eval completed: out=0`. The exact composite was retested in both engines:
+with original empty dependencies, inputs 1/0 and 0/1 both produce 0; in a separate
+folder containing only Xor, both engines use built-ins and produce 1.
+See `evidence/windows-xor-dependencies.json`.
+
+Version 0.1.5 repeats the unfinished-chip warning with every Eval result, logs
+the evaluated inputs and provides an **Open unfinished CHIP.hdl** button for
+each affected local implementation. Complete the prerequisite exercises in your
+working copy, or explicitly copy only Xor into a separate folder to test it
+against built-ins. Never delete course originals or silently substitute solutions.

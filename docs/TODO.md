@@ -96,7 +96,7 @@ arguments, while the native parser currently accepts more; track that parser gap
 - [x] Embed all 249 unchanged original project files; preserve per-file hashes.
 - [x] Add an explicit, non-overwriting editable course-copy action.
 - [x] Add two independent HDL/TST/CMP demonstrations; Java/native output bytes match.
-- [ ] Exercise course-copy UI on Android and verify all packaged resources in CI.
+- [x] Exercise course-copy UI and EntryAlarm Eval on Android; verify packaged desktop resources in CI 36225896175.
 - [x] Review maintained guides for stale instructions, spelling/encoding problems and local links; add a mechanical UTF-8/link check. Historical evidence remains labelled and preserved.
 - [x] Add a real application screenshot and accessible demo caption; animated demos remain optional.
 
@@ -105,3 +105,7 @@ arguments, while the native parser currently accepts more; track that parser gap
 - [ ] Match Java semantic rejection and output-file behavior for the untouched
   project 10 ExpressionLessSquare fixture. The full bundled Jack audit is 16/17,
   with the mismatch retained in `evidence/bundled-jack.json`.
+
+- [x] Reproduce the Windows Xor/empty-dependency result in Java and native engines.
+- [x] Repeat dependency warnings at every Eval and add direct navigation to unfinished chips.
+- [ ] Qualify the new 0.1.5 warning/navigation UI across platform CI.

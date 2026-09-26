@@ -43,6 +43,7 @@ class Studio : public QObject {
     Q_PROPERTY(QString output READ output NOTIFY outputChanged)
     Q_PROPERTY(bool busy READ busy NOTIFY stateChanged)
     Q_PROPERTY(QVariantMap state READ state NOTIFY stateChanged)
+    Q_PROPERTY(QStringList emptyHardwareChips READ emptyHardwareChips NOTIFY stateChanged)
     Q_PROPERTY(int active READ active WRITE setActive NOTIFY activeChanged)
     Q_PROPERTY(QString lastError READ lastError NOTIFY outputChanged)
     Q_PROPERTY(QVariantList searchResults READ searchResults NOTIFY searchChanged)
@@ -78,6 +79,8 @@ public:
     Q_INVOKABLE void openWorkspace(const QUrl& url);
     Q_INVOKABLE void importWorkspace(const QUrl& url);
     Q_INVOKABLE void createCourseWorkspace();
+    QStringList emptyHardwareChips()const;
+    Q_INVOKABLE void openHardwareDependency(const QString& chip);
     Q_INVOKABLE void exportWorkspace(const QUrl& destination);
     Q_INVOKABLE void openLocalWorkspace(const QString& path) { openWorkspace(QUrl::fromLocalFile(path)); }
     Q_INVOKABLE bool createFile(const QString& relative);

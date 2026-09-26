@@ -4,6 +4,22 @@
   "audit_status": "initial_inventory_not_exhaustive",
   "features": [
     {
+      "id": "hardware.incomplete-dependency-feedback",
+      "kind": "addition",
+      "original_evidence": "Observed Windows 0.1.4 Xor with empty local Not/And/Or. Exact Java/native comparison in evidence/windows-xor-dependencies.json",
+      "native_implementation": "Studio::emptyHardwareChips; per-Eval warning and input log; HardwareInspector dependency navigation",
+      "regression_tests": [
+        "gui_workflow: empty dependency result warning, actual input log, navigation control, input retention across keyboard refresh"
+      ],
+      "platform_coverage": {
+        "windows-x86_64": "local four CTest suites pass",
+        "other-platforms": "shared code; 0.1.5 CI pending"
+      },
+      "status": "partial",
+      "release_blocker": false,
+      "notes": "Additive explanation only. Original local dependency precedence and empty-chip output remain unchanged; no assignment solutions substituted."
+    },
+    {
       "id": "compiler.expressionless-semantic-rejection",
       "kind": "legacy",
       "original_evidence": "Uploaded Java compiler rejects projects/10/ExpressionLessSquare: constructor return and assignment type diagnostics; docs/evidence/bundled-jack.json",

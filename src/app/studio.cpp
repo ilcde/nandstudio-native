@@ -97,6 +97,10 @@ Studio::Studio(){
         if(r->error.isEmpty()&&hardwareMode_&&(hardwareEvent_=="eval"||hardwareEvent_=="load-eval")){
             QStringList values;for(const auto& pin:hardware_.pins())if(pin.direction=="output")values.append(QString::fromStdString(pin.name)+"="+QString::number(nand::signedWord(pin.value)));
             hardwareEvaluation_="Eval completed: "+values.join(", ");
+            const auto empty=emptyHardwareChips();
+            if(!empty.isEmpty())hardwareEvaluation_+=" — incomplete local chips: "+empty.join(", ")+". Their empty PARTS sections do not implement the required logic.";
+            QStringList inputs;for(const auto& pin:hardware_.pins())if(pin.direction=="input")inputs.append(QString::fromStdString(pin.name)+"="+QString::number(nand::signedWord(pin.value)));
+            log("Eval inputs: "+inputs.join(", "));
             log(hardwareEvaluation_);
         }
         hardware_.keyboard(nand::Word(keyboard_.load()));(vmMode_?vm_.ram:cpu_.ram)[24576]=nand::Word(keyboard_.load());hardwareEvent_.clear();emit stateChanged();emit hardwareSourceChanged();if(loaded)emit hardwareLoaded();
@@ -251,6 +255,19 @@ bool Studio::hardwareNeedsReload()const{
     if(!hardwareMode_)return false;
     for(auto* d:docs_)if(d->path().endsWith(".hdl")&&QFileInfo(d->path()).absolutePath()==QFileInfo(hardwarePath_).absolutePath()&&hardwareSources_.value(d->path())!=d->text())return true;
     return false;
+}
+QStringList Studio::emptyHardwareChips()const{
+    QStringList empty;if(!hardwareMode_)return empty;
+    const auto hierarchy=hardware_.hierarchy();
+    for(const auto& item:hierarchy)if(!item.builtin){
+        bool child=false;for(const auto& other:hierarchy)if(other.path.starts_with(item.path+"/")){child=true;break;}
+        const auto name=QString::fromStdString(item.chip);if(!child&&!empty.contains(name))empty.append(name);
+    }
+    return empty;
+}
+void Studio::openHardwareDependency(const QString& chip){
+    if(!emptyHardwareChips().contains(chip))return;
+    for(auto it=hardwareSources_.cbegin();it!=hardwareSources_.cend();++it)if(QFileInfo(it.key()).completeBaseName()==chip){open(QUrl::fromLocalFile(it.key()));return;}
 }
 QMap<QString,QString> Studio::collectHardwareSources(const QString& target)const{
     QMap<QString,QString> sources;const auto dir=QFileInfo(target).absolutePath();
