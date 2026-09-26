@@ -3,6 +3,7 @@
 This is a tool-coverage guide, not completed coursework. Numbers follow the
 bundled project folders; course week schedules can differ. Exercises and reference
 comparisons remain unchanged. Full original tool parity is not yet achieved.
+The project inventory follows the [official course](https://www.nand2tetris.org/course).
 
 | Project | Course work | Current workflow | Remaining work |
 |---|---|---|---|

@@ -67,9 +67,11 @@ Studio::Studio(){
         }
         if(!r->error.isEmpty()){
             hardwareMessage_=r->error;log(r->error);
+            if(!hardwareEvent_.isEmpty())hardwareEvaluation_="Hardware action failed: "+r->error+(hardwareEvent_.startsWith("load")?". Previous simulation retained.":"");
             if(!r->errorPath.isEmpty()){diagnostics_.append(QVariantMap{{"path",r->errorPath},{"line",r->errorLine},{"column",r->errorColumn},{"message",r->error}});emit diagnosticsChanged();for(int i=0;i<docs_.size();++i)if(docs_[i]->path()==r->errorPath){emit diagnostic(i,r->errorLine,r->errorColumn,r->error);break;}}
         }
         const bool loaded=r->error.isEmpty()&&hardwareEvent_.startsWith("load");
+        if(loaded&&hardwareEvent_=="load")hardwareEvaluation_.clear();
         if(r->error.isEmpty()&&hardwareMode_&&(hardwareEvent_=="eval"||hardwareEvent_=="load-eval")){
             QStringList values;for(const auto& pin:hardware_.pins())if(pin.direction=="output")values.append(QString::fromStdString(pin.name)+"="+QString::number(nand::signedWord(pin.value)));
             hardwareEvaluation_="Eval completed: "+values.join(", ");
@@ -204,8 +206,15 @@ void Studio::beginHardwareLoad(bool evaluate,const QVariantMap& inputs){
     try{std::map<std::string,std::string> files;QMap<QString,QString> sources;auto dir=QFileInfo(target).absolutePath();QDirIterator it(dir,{"*.hdl"},QDir::Files);while(it.hasNext()){auto path=it.next();sources[path]=QString::fromUtf8(read(path)).replace("\r\n","\n");}for(auto* d:docs_)if(QFileInfo(d->path()).absolutePath()==dir&&d->path().endsWith(".hdl"))sources[d->path()]=d->text();for(auto i=sources.cbegin();i!=sources.cend();++i)files[QFileInfo(i.key()).completeBaseName().toStdString()]=i.value().toStdString();
         hardwareEvent_=evaluate?"load-eval":"load";auto path=target;auto chip=QFileInfo(path).completeBaseName().toStdString();auto next=snapshot();cancelled_=false;busy_=true;emit stateChanged();log("Loading HDL folder snapshot including visible buffers");
         execution_.setFuture(QtConcurrent::run([this,next,files=std::move(files),sources,path,dir,chip,evaluate,inputs]{try{
+            QVariantMap previousInputs;
+            if(evaluate&&next->hardwareMode&&next->hardwarePath==path)
+                for(const auto& pin:next->hardware.pins())if(pin.direction=="input")previousInputs[QString::fromStdString(pin.name)]=int(pin.value);
             next->hardware.load(chip,[&](const std::string& n)->std::optional<std::string>{auto i=files.find(n);if(i==files.end())return std::nullopt;return i->second;},[this]{return cancelled_.load();});
-            if(evaluate){QVariantMap valid;for(auto& pin:next->hardware.pins())if(pin.direction=="input"&&inputs.contains(QString::fromStdString(pin.name)))valid[QString::fromStdString(pin.name)]=inputs[QString::fromStdString(pin.name)];applyPinEdits(next->hardware,valid);next->hardware.eval();}
+            if(evaluate){QVariantMap valid;for(auto& pin:next->hardware.pins())if(pin.direction=="input"){
+                const auto name=QString::fromStdString(pin.name);
+                if(inputs.contains(name))valid[name]=inputs[name];
+                else if(previousInputs.contains(name))valid[name]=previousInputs[name];
+            }applyPinEdits(next->hardware,valid);next->hardware.eval();}
             next->hardwareMode=true;next->vmMode=false;next->hardwarePath=path;next->hardwareSources=sources;
             next->hardwareMessage=evaluate?"Loaded and evaluated visible HDL snapshot.":"Loaded visible HDL snapshot.";
             const auto hierarchy=next->hardware.hierarchy();QStringList empty;

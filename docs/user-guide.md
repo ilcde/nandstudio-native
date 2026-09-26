@@ -1,5 +1,13 @@
 # Using this development build
 
+Eval runs the currently loaded circuit with the pin values shown in the Machine
+pane. After editing that circuit, Reload & Eval uses the editor snapshot and
+preserves its inputs, while resetting its clock and internal state. A parser
+failure leaves the previous valid circuit running and displays a failure instead
+of the previous successful Eval result. Explicit Load clears the old Eval result.
+Project-local dependencies keep their original precedence: an unfinished local
+Not.hdl, And.hdl or Or.hdl is not automatically replaced by a solved built-in.
+
 Launch `bin/NandStudio.exe` from the Windows portable package, `NandStudio.app`
 on macOS, or `NandStudio.sh` on Linux. On Android, install the ARM64 APK on a
 compatible device and launch NandStudio; Files > Open workspace offers a local

@@ -16,6 +16,8 @@ unchanged; use separately identified regression fixtures for completed circuits.
 - [x] Show live VM instruction, frame pointers, stack words and call stack.
 - [x] Verify Eval on Android with the reported composite (CI 36208034521).
 - [x] Publish and verify 0.1.2 packages from successful CI 36208034521.
+- [x] Preserve input values on same-chip Eval reloads without pin arguments; clear stale success after parser failure or explicit Load (266 Windows GUI checks).
+- [ ] Verify this follow-up Eval fix on Android and publish only after CI passes.
 - [ ] Resolve emulator rendering artifacts and verify a physical ARM64 device.
 - [ ] Configure a stable externally supplied release-signing key for updates.
 

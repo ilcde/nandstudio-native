@@ -4510,13 +4510,13 @@
         "docs/evidence/gui-eval-followup-windows.json"
       ],
       "platform_coverage": {
-        "windows-x86_64": "256 GUI checks passed",
+        "windows-x86_64": "266 GUI checks passed; same-chip reload input retention and stale Eval result regressions covered",
         "android-x86_64": "actual Xor input and Eval taps passed in CI 36208034521; a=0,b=1,out=1",
         "android-arm64-v8a": "device test pending"
       },
       "status": "partial",
       "release_blocker": true,
-      "notes": "Reload detection works after switching away from modified HDL. One-bit tap inputs and visible evaluation result added. Original local starter precedence retained."
+      "notes": "Reload detection works after switching away from modified HDL. Same-chip Eval reloads preserve inputs when not explicitly supplied. Parser failures replace stale success feedback; explicit Load clears prior Eval results. Follow-up changes tested on Windows; Android verification pending. Original local starter precedence retained."
     },
     {
       "id": "script.hex-case",
