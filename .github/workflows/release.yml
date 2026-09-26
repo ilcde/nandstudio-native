@@ -48,7 +48,8 @@ jobs:
               if a['name'] not in latest or a['created_at']>latest[a['name']]['created_at']:
                   latest[a['name']]=a
           with open(os.environ['GITHUB_OUTPUT'],'a') as f:
-              f.write('artifact_ids='+','.join(str(a['id']) for a in latest.values())+'\n')
+              f.write('artifact_ids='+','.join(str(a['id']) for n,a in latest.items() if n!='evidence-android-toolbar')+'\n')
+              f.write('android_evidence_id='+str(latest['evidence-android-toolbar']['id'])+'\n')
           PY
       - uses: actions/checkout@v4.2.2
         with:
@@ -61,6 +62,22 @@ jobs:
           artifact-ids: ${{ steps.source.outputs.artifact_ids }}
           github-token: ${{ github.token }}
           path: downloaded
+      - name: Fetch the selected Android report by immutable ID
+        env:
+          EVIDENCE_ID: ${{ steps.source.outputs.android_evidence_id }}
+        run: |
+          gh api "repos/$REPOSITORY/actions/artifacts/$EVIDENCE_ID/zip" > "$RUNNER_TEMP/android-evidence.zip"
+          python3 - <<'PY'
+          import os, pathlib, zipfile
+          # Read only the known report, never extract archive-supplied paths.
+          with zipfile.ZipFile(os.environ['RUNNER_TEMP']+'/android-evidence.zip') as z:
+              info=z.getinfo('toolbar.json')
+              assert info.file_size<=1024*1024
+              report=z.read(info)
+          destination=pathlib.Path('downloaded/evidence-android-toolbar')
+          destination.mkdir(parents=True,exist_ok=False)
+          (destination/'toolbar.json').write_bytes(report)
+          PY
       - name: Verify and stage complete asset set
         env:
           SOURCE_SHA: ${{ steps.source.outputs.sha }}

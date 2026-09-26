@@ -172,7 +172,7 @@ and Microsoft attribution. Clean-machine/GPU deployment remains unverified.
 
 
 
-## Editor continuation â€” 24 September 2026
+## Editor continuation — 24 September 2026
 
 
 
