@@ -200,3 +200,22 @@ For a bounded startup run, enter `step 1000000` in the in-app console, wait for
 completion, then repeat if needed. This is one million VM instructions per
 command, not elapsed milliseconds. Inspect the current instruction/call stack
 to distinguish initialization from the application or the `Sys.halt` loop.
+
+## Convert one Hack instruction
+
+Open **More > Converters & diagnostics**, select **Hack ASM** and enter `D=A`.
+The result is binary `1110110000010000`, hex `ec10`, signed decimal `-5104` and
+unsigned decimal `60432`. Select Decimal, Binary or Hexadecimal to convert a
+number back to a canonical instruction where one exists. An undocumented
+encoding displays its number representations with an explicit no-instruction
+message. It is not silently changed to a different valid instruction.
+
+This utility uses the ordinary native assembler: `@SCREEN` resolves to 16384;
+a fresh variable in an isolated instruction starts at 16. Use editor preview
+for multi-instruction programs so labels and variables share a scope. Conversion
+writes no project files and does not reload or advance a simulator. The web
+converter's symbol behavior differs; see [comparison notes](web-ide-parity.md).
+
+Bitmap transforms in the current candidate call the native `applyOperation`
+method. Earlier development builds used a name that collided with Qt's built-in
+property; update to a qualified newer package if transform buttons do nothing.

@@ -107,7 +107,11 @@ def tap(data,group,name):
     adb('shell','input','tap',str(round((item['x']+item['width']/2)*scale)),str(round((item['y']+item['height']/2)*scale)))
 
 def screenshot(name, accept=None):
-    for attempt in range(6):
+    # A resumed native picker can still be displaying its blank launch surface
+    # while Android loads DocumentsUI. Wait for real pixels, not just activity
+    # ownership, within a fixed deadline; never accept a blank timeout frame.
+    deadline=time.monotonic()+30
+    while time.monotonic()<deadline:
         image=subprocess.run([args.adb,'exec-out','screencap','-p'],capture_output=True,check=True,timeout=30)
         args.report.with_name(name+'.png').write_bytes(image.stdout)
         if has_rendered_content(image.stdout) and (accept is None or accept(image.stdout)): return image.stdout

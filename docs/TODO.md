@@ -167,3 +167,27 @@ arguments. Native preflight now matches this boundary; six reference cases pass.
 - [x] Include root LICENSE in source archive selection.
 - [ ] Exercise the new frame/pixel gate on Android and inspect the resulting image.
 - [ ] Determine whether any remaining stale frame is a capture race or a user-visible rendering failure.
+
+## Current implementation order
+
+This order follows compatibility and data-safety risk, not the order of course
+lectures. Every item needs shared-core tests, reachable controls, reference
+comparison and platform workflow evidence before it is complete.
+
+1. Resolve presented Android Eval evidence and keep publication blocked on failure.
+2. Qualify the bitmap QML action fix and instruction converter on packaged targets.
+3. Complete resumable test-script execution: step, pause, rewind, output rows and
+   source position, with the same semantics as batch execution.
+4. Complete legacy Jack rejection/recovery and CLI output behavior; retain the
+   ExpressionLessSquare mismatch until its raw results agree.
+5. Complete native OS services and explicit local-VM/built-in precedence, including
+   drawing, keyboard waits, errors, memory allocation and termination.
+6. Finish HDL component views, sequential timing edge cases and debugger controls;
+   then qualify each project 1–12 workflow end to end.
+7. Close the remaining editor, Android provider/lifecycle, Java-extension and
+   licensing blockers before claiming full legacy or web IDE parity.
+
+Completed in the current candidate: canonical Hack instruction conversion and
+bitmap transform-handler collision fix. Windows tests cover all eight transform
+handlers and 34,560 canonical instruction encodings; Android qualification is
+still separate. No checked item implies the entire course has been completed.

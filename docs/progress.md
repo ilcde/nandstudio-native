@@ -451,3 +451,16 @@ The combined Windows candidate passes all four CTest suites and 412 GUI
 assertions. The eight bitmap QML operation handlers change pixels and undo;
 final-member collision warnings are now a test failure. The converter screenshot
 was reviewed and shows D=A values correctly. Cross-platform candidate pending.
+
+Re-ran the unchanged Java/native regression harness against the combined build:
+71/71 main differential cases, 14/14 return acceptance/output cases and 8/8
+explicit supplied-OS comparisons pass. Generated evidence is byte-identical to
+the previously recorded results. This does not resolve the known bundled
+ExpressionLessSquare rejection/recovery discrepancy or native OS fallback.
+
+CI 36412759239 at dc0efde passed all four packaged desktop targets (412 GUI
+checks each), both Android builds and sanitizers. Android interaction stopped
+at DocumentsUI's blank launch surface before selection/Eval. The previous image
+retry budget was about three seconds. Replaced it with a 30-second monotonic
+render deadline, preserving both blank rejection and output-pin pixel checks.
+No release was published from this failed candidate.
