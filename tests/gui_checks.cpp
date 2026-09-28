@@ -69,6 +69,7 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         auto* osDialog=window->findChild<QObject*>("installOsDialog");
         check(osDialog&&osDialog->property("visible").toBool()&&osDialog->property("targetFolder").toString()==QFileInfo(path).absolutePath(),"OS dialog identifies active document folder");
         check(QMetaObject::invokeMethod(osDialog,"reject"),"cancel OS copy from dialog");
+        std::function<QQuickItem*(QQuickItem*,const QString&)> findItem=[&](QQuickItem* item,const QString& name)->QQuickItem*{if(item->objectName()==name)return item;for(auto* child:item->childItems())if(auto* found=findItem(child,name))return found;return nullptr;};
         auto* bitmapMenu=window->findChild<QObject*>("bitmapMenuItem");
         check(bitmapMenu&&QMetaObject::invokeMethod(bitmapMenu,"triggered"),"bitmap editor reachable through More");QTest::qWait(30);
         auto* bitmapDialog=window->findChild<QObject*>("bitmapDialog");auto* bitmapCanvas=window->findChild<BitmapCanvas*>("bitmapCanvas");
@@ -78,6 +79,17 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         QTest::mouseClick(window,Qt::LeftButton,Qt::NoModifier,bitmapCanvas->mapToScene(QPointF(15*18+9,9)).toPoint());QTest::qWait(30);
         check(bitmapCanvas->jack().contains("~32767")&&bitmapCanvas->canUndo(),"pixel edit generates valid signed Jack word");
         bitmapCanvas->undo();check(!bitmapCanvas->jack().contains("~32767")&&bitmapCanvas->canRedo(),"bitmap undo restores blank pixels");bitmapCanvas->redo();check(bitmapCanvas->jack().contains("~32767"),"bitmap redo restores code");
+        const auto bitmapBefore=bitmapCanvas->jack();
+        for(const auto* op:{"left","right","up","down","flip","invert","clear"}){
+            auto* button=findItem(window->contentItem(),QString("bitmapOperation_")+op);
+            check(button&&QMetaObject::invokeMethod(button,"clicked"),QString("bitmap QML action reachable: ")+op);
+            check(bitmapCanvas->jack()!=bitmapBefore,QString("bitmap QML action changes pixels: ")+op);
+            bitmapCanvas->undo();check(bitmapCanvas->jack()==bitmapBefore,QString("bitmap action undo: ")+op);
+        }
+        bitmapCanvas->resizeCanvas(16,16);const auto squareBefore=bitmapCanvas->jack();
+        auto* rotate=findItem(window->contentItem(),"bitmapOperation_rotate");QTest::qWait(30);
+        check(rotate&&rotate->isEnabled()&&QMetaObject::invokeMethod(rotate,"clicked"),"square bitmap rotation button enabled and callable");
+        check(bitmapCanvas->jack()!=squareBefore,"QML rotation changes pixels");bitmapCanvas->undo();
         check(QMetaObject::invokeMethod(bitmapDialog,"reject"),"close bitmap editor without modifying source documents");
         if(qEnvironmentVariableIsSet("NAND_DEMO_CAPTURE")){
             studio.closeDocument(studio.active());
@@ -135,7 +147,6 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         doc->setText("@2\nD=A\n@0\nM=D\n");check(doc->save(),"save reconciled document");studio.loadCpu();studio.step(4);for(int i=0;studio.busy()&&i<200;++i)QTest::qWait(10);check(!studio.busy()&&studio.memory(0)==2,"CPU execution updates memory inspector");
         studio.build();for(int i=0;studio.busy()&&i<200;++i)QTest::qWait(10);check(!studio.busy()&&QFile::exists(QDir(dir).filePath("Ui.hack")),"native assemble action emits artifact");
         auto hdlPath=QDir(dir).absoluteFilePath("Ui.hdl");check(write(hdlPath,"CHIP Ui { IN in[16], load; OUT out[16]; PARTS: Register(in=in,load=load,out=out); }"),"create independent HDL fixture");studio.open(QUrl::fromLocalFile(hdlPath));QTest::qWait(40);
-        std::function<QQuickItem*(QQuickItem*,const QString&)> findItem=[&](QQuickItem* item,const QString& name)->QQuickItem*{if(item->objectName()==name)return item;for(auto* child:item->childItems())if(auto* found=findItem(child,name))return found;return nullptr;};
         auto wait=[&]{for(int i=0;studio.busy()&&i<300;++i)QTest::qWait(10);QTest::qWait(30);};
         studio.open(QUrl::fromLocalFile(path));studio.loadCpu();studio.setBreakpoint(2,true);studio.step(100);wait();
         check(studio.state()["PC"]==2&&studio.state()["pauseReason"].toString().contains("Breakpoint"),"CPU run stops before executing breakpoint instruction");
@@ -146,6 +157,17 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         studio.removeWatch("D");studio.removeWatch("RAM[0]");studio.removeWatch("missing");
         check(studio.convertWord("-1",10)["binary"]=="1111111111111111"&&studio.convertWord("ffff",16)["signed"]==-1,"word converter preserves signed two's complement");
         check(studio.convertWord("1000000000000000",2)["signed"]==-32768&&studio.convertWord("65536",10).contains("error")&&studio.convertWord("2",2).contains("error"),"word converter validates radix and 16-bit bounds");
+        const auto instruction=studio.convertWord("D=A",0);
+        check(instruction["binary"]=="1110110000010000"&&instruction["signed"]==-5104&&instruction["unsigned"]==60432&&instruction["assembly"]=="D=A","instruction converter matches observed web D=A result");
+        check(studio.convertWord("@SCREEN",0)["unsigned"]==16384&&studio.convertWord("@x",0)["unsigned"]==16,"instruction converter preserves native assembler symbol semantics");
+        check(studio.convertWord("@1\nD=A",0).contains("error")&&studio.convertWord("D=invalid",0).contains("error")&&studio.convertWord("32768",10)["assembly"].toString().isEmpty(),"instruction converter rejects programs and reports undocumented encodings without losing numeric views");
+        auto* instructionPanel=window->findChild<QObject*>("toolsDialog");QMetaObject::invokeMethod(instructionPanel,"open");QTest::qWait(30);
+        auto* converterFormat=window->findChild<QObject*>("converterFormat");converterFormat->setProperty("currentIndex",3);
+        window->findChild<QObject*>("converterInput")->setProperty("text","D=A");QTest::qWait(30);
+        check(instructionPanel->property("visible").toBool()&&window->findChild<QObject*>("converterResult")->property("text").toString().contains("Hack ASM: D=A"),"Hack ASM selection updates the visible converter result");
+        check(window->grabWindow().save(QDir(dir).filePath("instruction-converter.png")),"capture the real instruction converter");
+        QMetaObject::invokeMethod(instructionPanel,"close");
+        converterFormat->setProperty("currentIndex",0);
         studio.open(QUrl::fromLocalFile(path));wait();
         auto previewWait=[&]{for(int i=0;studio.conversion()["busy"].toBool()&&i<200;++i)QTest::qWait(10);check(!studio.conversion()["busy"].toBool(),"conversion worker completes");};
         auto* previewDoc=qvariant_cast<Document*>(studio.documents()[studio.active()]);
@@ -455,7 +477,7 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         write(QDir(dir).filePath("offline-os.json"),QJsonDocument(QJsonObject{{"busy",studio.busy()},{"temp0",studio.memory(5)},{"vm",QJsonObject::fromVariantMap(studio.vmInspection())},{"output",studio.output()}}).toJson());
         check(!studio.busy()&&studio.memory(5)==42&&studio.vmInspection()["calls"].toList().contains(QString("Sys.halt")),"offline application runs through supplied Sys.init and returns to Sys.halt");
         auto runtimeLog=bytes(qEnvironmentVariable("NAND_TEST_STATE_DIR")+"/qt.log");runtimeLog=runtimeLog.mid(runtimeLog.lastIndexOf("Creating application"));
-        check(!runtimeLog.contains("Binding loop")&&!runtimeLog.contains("TypeError")&&!runtimeLog.contains("ReferenceError")&&!runtimeLog.contains("QDataStream::operator"),"no runtime QML binding, type, or settings serialization errors");
+        check(!runtimeLog.contains("Binding loop")&&!runtimeLog.contains("TypeError")&&!runtimeLog.contains("ReferenceError")&&!runtimeLog.contains("QDataStream::operator")&&!runtimeLog.contains("Final member"),"no runtime QML binding, type, member collision or settings serialization errors");
     }catch(const std::exception& e){qWarning("GUI check failed: %s",e.what());exitCode=1;}
     write(QDir(dir).filePath("checks.json"),QJsonDocument(checks).toJson());QCoreApplication::exit(exitCode);
 }

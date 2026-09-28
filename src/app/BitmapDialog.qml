@@ -31,7 +31,7 @@ AppDialog {
             }
             Flow { Layout.fillWidth: true; spacing: Theme.xs
                 Repeater { model: ["left","right","up","down","flip","invert","rotate","clear"]
-                    ActionButton { required property string modelData; text: modelData; enabled: modelData!=="rotate"||canvas.columns===canvas.rows; onClicked: canvas.transform(modelData) }
+                    ActionButton { required property string modelData; objectName: "bitmapOperation_"+modelData; text: modelData; enabled: modelData!=="rotate"||canvas.columns===canvas.rows; onClicked: canvas.applyOperation(modelData) }
                 }
                 ActionButton { text: "Undo"; enabled: canvas.canUndo; onClicked: canvas.undo() }
                 ActionButton { text: "Redo"; enabled: canvas.canRedo; onClicked: canvas.redo() }

@@ -113,3 +113,14 @@ course-copy workflow and `alarm=1`. The toolbar sits below the status bar.
 and storage assertions. That run's Xor capture was stale (`out=0`) despite a
 passing backend `out=1` assertion; it is not used as a successful visual demo.
 Frame synchronization and physical Android device qualification remain open.
+
+## Native instruction converter
+
+![Native Hack ASM converter displaying D=A](images/instruction-converter.png)
+
+Actual Windows Qt capture from the 0.1.12 candidate GUI regression. Choose
+**More > Converters & diagnostics > Hack ASM** and enter a single instruction.
+`D=A` displays binary `1110110000010000`, hex `ec10`, signed `-5104` and unsigned
+`60432`. Numeric inputs also show canonical assembly when the encoding has one.
+This action writes no files and does not change the running machine. Symbol
+resolution follows the desktop assembler; see [web comparison](web-ide-parity.md).

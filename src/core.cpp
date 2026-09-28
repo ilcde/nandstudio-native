@@ -63,6 +63,19 @@ int indexOf(std::string_view s,std::string_view prefix, int limit) {
     if(r.ec!=std::errc{}||r.ptr!=t.data()+t.size()||n<0||n>=limit)throw Error("Illegal memory address");return n;
 }
 }
+std::string instructionText(Word word) {
+    if(!(word&0x8000))return "@"+std::to_string(word);
+    if((word&0xe000)!=0xe000)return {};
+    for(const auto* name:{"0","1","-1","D","A","M","!D","!A","!M","-D","-A","-M","D+1","A+1","M+1","D-1","A-1","M-1","D+A","D+M","D-A","D-M","A-D","M-D","D&A","D&M","D|A","D|M"}) {
+        if(comp.at(name)!=(word&0xffc0))continue;
+        std::string result;
+        for(const auto& [label,bits]:dest)if(bits==(word&56))result=label+"=";
+        result+=name;
+        for(const auto& [label,bits]:jump)if(bits==(word&7))result+=";"+label;
+        return result;
+    }
+    return {};
+}
 Assembly assemble(std::string_view source) {
     Assembly out; out.symbols={{"SP",0},{"LCL",1},{"ARG",2},{"THIS",3},{"THAT",4},{"SCREEN",16384},{"KBD",24576}};
     for(int i=0;i<16;++i)out.symbols["R"+std::to_string(i)]=Word(i);

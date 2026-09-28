@@ -196,8 +196,21 @@ if args.workspace_flow:
                         raise RuntimeError('Internal storage document provider unavailable')
                     if not native_tap(lambda n:n.get('text')=='Download'):
                         raise RuntimeError('Download child folder unavailable')
-        if not native_tap(lambda n:n.get('text')==name):
-            raise RuntimeError('Fixture folder absent in Documents UI: '+name)
+        # A successful adb input command does not establish navigation. During
+        # provider transitions a tap can be dropped; require the target breadcrumb
+        # before attempting the tree grant, and never select the protected root.
+        entered=False
+        for _ in range(4):
+            if not native_tap(lambda n:n.get('text')==name and n.get('resource-id')=='android:id/title',attempts=2):
+                break
+            for _ in range(4):
+                crumbs=[n.get('text') for n in native_nodes() if n.get('resource-id')=='com.google.android.documentsui:id/breadcrumb_text']
+                if crumbs and crumbs[-1]==name:
+                    entered=True;break
+                time.sleep(0.5)
+            if entered:break
+        if not entered:
+            raise RuntimeError('Documents UI did not enter fixture folder: '+name)
         if not native_tap(lambda n:n.get('text','').lower()=='use this folder'):
             raise RuntimeError('Folder selection action unavailable')
         if not native_tap(lambda n:n.get('text','').lower()=='allow'):

@@ -35,6 +35,15 @@ int main(){int checks=0;auto check=[&](bool b){++checks;if(!b)throw std::runtime
         check(nand::compileJack("class X { constructor X new() { return this; } }")=="function X.new 0\npush constant 0\ncall Memory.alloc 1\npop pointer 0\npush pointer 0\nreturn\n");
         // The uploaded compiler accepts a boolean return in an int routine.
         check(!nand::compileJack("class X { function int f() { return true; } }").empty());
+        int decodedCount=0;bool instructionRoundTrips=true;
+        for(unsigned raw=0;raw<65536;++raw){
+            const auto decoded=nand::instructionText(nand::Word(raw));
+            if(decoded.empty())continue;
+            ++decodedCount;const auto encoded=nand::assemble(decoded).words;
+            instructionRoundTrips &= encoded.size()==1&&encoded.front()==raw;
+        }
+        check(instructionRoundTrips&&decodedCount==32768+28*8*8);
+        check(nand::instructionText(0xec10)=="D=A"&&nand::instructionText(0x8000).empty());
         auto code=nand::compileJack("class Main { function int f(int a) { return a+1; } }");check(code=="function Main.f 0\npush argument 0\npush constant 1\nadd\nreturn\n");
         bool rejected=false;try{nand::compileJack("class X { function void f() { let");}catch(const nand::Error&){rejected=true;}check(rejected);
         const auto scratch=std::filesystem::temp_directory_path()/("nand-script-limits-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));

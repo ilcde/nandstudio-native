@@ -27,7 +27,7 @@ public:
     Q_INVOKABLE void beginStroke(int x,int y){if(x<0||y<0||x>=columns()||y>=rows())return;checkpoint();ink_=!bitmap_.pixel(x,y);painting_=true;stroke(x,y);}
     Q_INVOKABLE void stroke(int x,int y){if(painting_){bitmap_.set(x,y,ink_);update();}}
     Q_INVOKABLE void endStroke(){if(painting_){painting_=false;refresh();}}
-    Q_INVOKABLE void transform(const QString& op){auto next=bitmap_;if(op=="clear")next.clear();else if(op=="invert")next.invert();else if(op=="flip")next.flip();else if(op=="left")next.shift(-1,0);else if(op=="right")next.shift(1,0);else if(op=="up")next.shift(0,-1);else if(op=="down")next.shift(0,1);else if(op=="rotate"&&columns()==rows())next.rotate();else return;checkpoint();bitmap_=std::move(next);refresh();}
+    Q_INVOKABLE void applyOperation(const QString& op){auto next=bitmap_;if(op=="clear")next.clear();else if(op=="invert")next.invert();else if(op=="flip")next.flip();else if(op=="left")next.shift(-1,0);else if(op=="right")next.shift(1,0);else if(op=="up")next.shift(0,-1);else if(op=="down")next.shift(0,1);else if(op=="rotate"&&columns()==rows())next.rotate();else return;checkpoint();bitmap_=std::move(next);refresh();}
     Q_INVOKABLE void undo(){if(undo_.empty())return;redo_.push_back(bitmap_);bitmap_=undo_.back();undo_.pop_back();refresh();}
     Q_INVOKABLE void redo(){if(redo_.empty())return;undo_.push_back(bitmap_);bitmap_=redo_.back();redo_.pop_back();refresh();}
     Q_INVOKABLE void copyCode(bool asmCode){QGuiApplication::clipboard()->setText(asmCode?assembly():jack());}

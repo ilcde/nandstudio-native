@@ -22,6 +22,8 @@ void writeFile(const std::filesystem::path& path, std::string_view data);
 std::vector<std::string> lines(std::string_view text);
 struct Assembly { std::vector<Word> words; std::vector<int> sourceLines; std::map<std::string, Word> symbols; };
 Assembly assemble(std::string_view source);
+// Canonical single-instruction spelling; empty for undocumented encodings.
+std::string instructionText(Word word);
 std::vector<Word> parseHack(std::string_view source);
 std::string machineText(const std::vector<Word>& words);
 struct Comparison { bool equal; int line; std::string message; };

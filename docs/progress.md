@@ -423,3 +423,31 @@ visual checks and ten release-staging checks pass. Four Windows CTest suites
 pass with 384 GUI assertions, including naturally submitted Eval state. Android
 execution and cross-platform builds are pending; this is not yet a device fix
 claim. The root LICENSE is now explicitly included in source ZIP selection.
+
+The first stricter CI attempt (36407710951 at 5247f39) built all six targets;
+all desktop tests and sanitizers passed. Android interaction failed before Eval
+because a system-owned "System UI isn't responding" dialog intercepted taps.
+The unchanged failed job was rerun on a fresh emulator, retaining the original
+logs and image. No application assertion was removed or bypassed.
+
+Added Hack ASM input and canonical assembly output to the shared number
+converter. All 34,560 canonical encodings round-trip through the native assembler.
+Observed web D=A values match; web @SCREEN behavior differs, so native preserves
+the original desktop symbol semantics and documents this difference.
+
+Runtime-log review found a real QML API collision: BitmapCanvas.transform hides
+QQuickItem's final transform property. Renamed the operation to applyOperation,
+updated buttons, and added UI-handler regressions for all eight operations.
+The first new test build failed because a helper was declared below its use;
+corrected its declaration order before publication.
+
+Android rerun 36407710951 attempt 2 failed before Eval at folder selection.
+The UI dump shows Downloads root with USE THIS FOLDER disabled, while the fixture
+child remains listed. The runner now verifies the child breadcrumb after taps
+and retries dropped navigation within a bound; it never grants the protected root.
+Both failed attempts remain failures and no new release was published from them.
+
+The combined Windows candidate passes all four CTest suites and 412 GUI
+assertions. The eight bitmap QML operation handlers change pixels and undo;
+final-member collision warnings are now a test failure. The converter screenshot
+was reviewed and shows D=A values correctly. Cross-platform candidate pending.

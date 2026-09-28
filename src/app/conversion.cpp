@@ -6,16 +6,25 @@
 #include <QtConcurrent>
 
 QVariantMap Studio::convertWord(const QString& text,int base)const{
-    if(base!=2&&base!=10&&base!=16)return {{"error","Choose decimal, binary or hexadecimal."}};
+    if(base!=0&&base!=2&&base!=10&&base!=16)return {{"error","Choose decimal, binary, hexadecimal or Hack ASM."}};
     bool valid=false;
     const auto trimmed=text.trimmed();
-    auto value=trimmed.toLongLong(&valid,base);
+    qlonglong value=0;
+    if(base==0){
+        if(trimmed.size()>4096)return {{"error","Instruction conversion is limited to 4096 characters."}};
+        try{
+            const auto code=nand::assemble(trimmed.toStdString());
+            if(code.words.size()!=1)return {{"error","Enter exactly one Hack instruction; use editor preview for a program."}};
+            value=code.words.front();valid=true;
+        }catch(const std::exception& e){return {{"error",QString::fromUtf8(e.what())}};}
+    }else value=trimmed.toLongLong(&valid,base);
     if(!valid||trimmed.isEmpty()||value < -32768||value>65535)
         return {{"error","Enter a 16-bit value (-32768 to 65535) in the selected base."}};
     const auto word=nand::Word(value);
     return {{"binary",QString::number(word,2).rightJustified(16,'0')},
             {"hex",QString::number(word,16).rightJustified(4,'0')},
-            {"signed",nand::signedWord(word)},{"unsigned",int(word)}};
+            {"signed",nand::signedWord(word)},{"unsigned",int(word)},
+            {"assembly",QString::fromStdString(nand::instructionText(word))}};
 }
 
 void Studio::previewConversion(bool bootstrap){

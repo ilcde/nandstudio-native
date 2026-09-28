@@ -10,7 +10,7 @@ legacy languages, dependency lookup and generated compiler output.
 | Hardware: project/chip selection, HDL editor, Eval, Reset, clock, pins | Course workspace, editor and shared hardware engine | Complete component views and interactive script debugging |
 | Hardware tests: load, step, run, rewind, speed, script/compare/output/diff tabs | Native batch scripts and comparison results | Pausable script state and equivalent diff inspection |
 | Compiler: source open/add, Compile, Run | Single-document and folder snapshot builds, VM execution, directory CLI | One-action compile/run handoff and complete semantic diagnostics |
-| Converter: binary, signed decimal, unsigned, hex, Hack ASM | Native numeric converter; separate instruction decoder | Combined ASM converter workflow |
+| Converter: binary, signed decimal, unsigned, hex, Hack ASM | Native numeric converter with Hack ASM input and canonical instruction output | Full live five-field behavior and invalid/symbol edge-case parity |
 | Bitmap: grid, resize, shift, rotate, flip, invert, Jack/ASM code | Native bitmap editor described below | Image import, crop/export modes and animation frames |
 | CPU, assembler, VM, guide, settings and about navigation | Native tool panels, settings and packaged guides | Detailed control-by-control audit remains open |
 
@@ -49,3 +49,22 @@ values, compile Jack, exercise transforms and reject invalid dimensions. GUI tes
 open the menu, draw using a Qt mouse event and check code updates and undo/redo.
 See [the completion checklist](TODO.md) and [parity manifest](parity-manifest.json)
 for the wider project and platform blockers.
+
+
+## Instruction conversion (candidate)
+
+The official converter at `/web-ide/util/` exposes Binary, Decimal, Unsigned,
+Hex and HACK ASM fields. On 2026-09-28, entering `D=A` produced binary
+`1110110000010000`, decimal `-5104`, unsigned `60432` and hex `0xEC10`.
+The native **Converters & diagnostics** dialog now offers **Hack ASM** as an
+input format and includes canonical instruction text in the numeric results.
+It uses the shared assembler, with no files written or machine state changed.
+
+The native converter intentionally retains desktop assembler symbol resolution:
+`@SCREEN` means 16384 and an isolated new variable starts at 16. The observed web
+converter returned zero for `@SCREEN`; that difference remains documented rather
+than changing the legacy assembler. Full programs belong in editor preview,
+where labels and variables share a program scope. Undocumented instruction words
+retain their numeric views and report no canonical instruction. The desktop CPU's
+execution rules for such words are unaffected. The new conversion is shared on
+all targets, but device interaction qualification remains pending.

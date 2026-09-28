@@ -1,6 +1,9 @@
 # NandStudio development packages
 
-Version 0.1.12 strengthens Android Eval verification: a submitted-frame revision,
+Version 0.1.12 fixes bitmap transform buttons that collided with a built-in Qt
+property. It adds Hack ASM input and canonical instruction output to the native
+number converter, retaining the desktop assembler's symbol semantics. It also
+strengthens Android Eval verification: a submitted-frame revision,
 the actual output-field binding and changed output-pin pixels must agree before
 the release gate accepts the screenshot. This observes rendering without forcing
 a repaint. Source archives now include the root LICENSE as well as license notices.

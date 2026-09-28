@@ -4,6 +4,40 @@
   "audit_status": "initial_inventory_not_exhaustive",
   "features": [
     {
+      "id": "converter.instruction",
+      "kind": "addition",
+      "original_evidence": "Official web IDE /util: D=A -> binary 1110110000010000, signed -5104, unsigned 60432, hex 0xEC10; inspected 2026-09-28.",
+      "native_implementation": "Shared core canonical instruction decoder and existing assembler; Hack ASM selection in ToolsDialog, numeric results retain canonical ASM when defined.",
+      "regression_tests": [
+        "core: 34560 canonical encodings round-trip exactly",
+        "gui: visible converter selection, symbol resolution, errors and screenshot"
+      ],
+      "platform_coverage": {
+        "windows": "Four CTest suites and 412 GUI assertions pass; converter values and all eight QML bitmap operations covered.",
+        "others": "Shared core/QML; CI pending."
+      },
+      "status": "partial",
+      "release_blocker": false,
+      "notes": "Web @SCREEN observed as 0; native preserves legacy assembler address 16384. Five independently editable synchronized fields and exact web invalid-input behavior remain unimplemented."
+    },
+    {
+      "id": "bitmap.qml-operations",
+      "kind": "bug-fix",
+      "original_evidence": "Qt warning: Final member transform overridden in BitmapCanvas; QQuickItem transform property collides with invokable.",
+      "native_implementation": "Rename native operation to applyOperation and update QML buttons.",
+      "regression_tests": [
+        "GUI invokes each transform button and checks pixels/undo",
+        "Runtime log rejects Final member collisions"
+      ],
+      "platform_coverage": {
+        "windows": "Four CTest suites and 412 GUI assertions pass; converter values and all eight QML bitmap operations covered.",
+        "others": "CI pending."
+      },
+      "status": "partial",
+      "release_blocker": true,
+      "notes": "Corrects existing native addition; does not close full bitmap web parity."
+    },
+    {
       "id": "android.eval-presentation",
       "kind": "verification",
       "original_evidence": "0.1.11 screenshot shows stale Xor values despite backend out=1; tests/work/release-0.1.11/android/xor-evaluated.png.",

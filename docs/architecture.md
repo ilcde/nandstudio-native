@@ -54,8 +54,9 @@ that need compatibility review for valid large programs.
 `src/app/storage.*` defines provider capabilities, read/write/list/child/create/rename
 and workspace-relative resolution. The implemented filesystem provider uses atomic
 QSaveFile writes, rejects traversal and reserves existing destinations. Android
-content URI providers are still absent; this abstraction does not establish SAF
-compatibility. Document saves compare disk bytes with the opened version. Conflict
+content URIs use the separate content provider for explicit workspace import and
+export. Direct provider editing and broad SAF qualification remain incomplete.
+Document saves compare disk bytes with the opened version. Conflict
 resolution checks the reviewed version again before reload or overwrite. A race
 between the last comparison and commit is still possible without filesystem CAS;
 no claim of interprocess transactions is made.
@@ -69,3 +70,37 @@ conversion; recovery continues to store buffers separately from user files.
 `EditorServices` applies text transforms using QTextCursor edit blocks; QML supplies
 presentation, selection and commands. `LineNumberGutter` paints text-block locations.
 The shared QML controls and panes are described in design-system.md.
+
+
+## Simulation results and rendered evidence
+
+Simulation completion and screen presentation are different events. A successful
+C++ result establishes engine state; it does not establish that the corresponding
+pixels have reached the display. The development-only `PresentationProbe` records
+a state revision at Qt scene synchronization, then records that revision when
+Qt submits the frame. Render-thread callbacks access only shared atomic counters.
+They never inspect mutable documents, force repaints or advance simulation.
+Qt documents these rendering-thread signals in
+[QQuickWindow](https://doc.qt.io/qt-6/qquickwindow.html#frameSwapped).
+
+```mermaid
+sequenceDiagram
+    participant UI as Qt UI thread
+    participant Core as C++ worker
+    participant Render as Qt render thread
+    participant Test as Android test runner
+    UI->>Core: Eval with captured inputs
+    Core-->>UI: Immutable result
+    UI->>UI: Update pins and state revision
+    Render->>Render: Synchronize scene; record revision
+    Render->>Render: Submit frame; record revision
+    Test->>UI: Read result, field text and submitted revision
+    Test->>Test: Capture display and compare output-pin pixels
+```
+
+The Android regression evaluates Xor at 00 and then 01. Both frames contain the
+same result-label layout. It requires the output field to change from 0 to 1,
+a submitted revision at least as recent as the result, and changed pixels within
+the stationary output field. System-bar changes and button focus do not count.
+A timeout, unchanged pin image or moved region fails qualification. This combines
+engine, binding and image evidence; it does not certify all rendering or devices.
