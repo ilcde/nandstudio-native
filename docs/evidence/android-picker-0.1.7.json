@@ -1,0 +1,13 @@
+{
+  "run": 36389621457,
+  "attempt": 1,
+  "source_commit": "6f155ada57dfb11284a0eb847a274f71353cdbd5",
+  "apk_sha256": "356fe3edeefdea07edc671d38c48df20cd53bbf241f73a938818c04c4ce62bbd",
+  "safe_area_passed": true,
+  "workspace_flow_passed": false,
+  "failure": "Import confirmation not reached after DocumentsUI grant; last scene report is from the suspended picker state",
+  "observed_warning": "QObject: Cannot create children for a parent that is in a different thread",
+  "root_cause": "unconfirmed",
+  "artifact": "evidence-android-toolbar, run attempt 1",
+  "rerun": "failed Android job only, unchanged APK"
+}

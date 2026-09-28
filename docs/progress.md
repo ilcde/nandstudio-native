@@ -242,3 +242,11 @@ assertion. Publication was blocked. The prior three-second simulator wait was
 used for hundreds of file writes; the follow-up test waits for bounded copy
 completion and retains output/busy-state evidence to distinguish errors from
 timeouts. The next revision must pass this gate before release.
+
+The 0.1.7 run 36389621457 passed all six package builds, desktop deployed GUI
+checks and sanitizers. Its first Android interaction attempt failed returning
+from DocumentsUI to the import prompt. The toolbar safe-area checks passed.
+The log contains Qt accessibility-related cross-thread object warnings; the
+root cause remains unconfirmed. Publication was blocked and the same APK is
+being rechecked in a failed-job-only rerun. The parity register retains the
+intermittent lifecycle issue even if a later attempt succeeds.

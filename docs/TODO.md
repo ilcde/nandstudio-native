@@ -126,3 +126,11 @@ arguments. Native preflight now matches this boundary; six reference cases pass.
 - [x] Verify bytes, existing student-file preservation, cancellation and repeated installation locally.
 - [ ] Qualify this new 0.1.7 workflow on Android and all desktop CI targets.
 - [ ] Implement and verify native built-in service selection and fallback; copied VM assets do not close that gap.
+
+## Android picker return investigation
+
+- [ ] Resolve or characterize the picker-return stall in CI 36389621457 attempt 1.
+  Safe-area controls passed, but the import confirmation did not appear after the
+  tree grant. Qt logged wrong-thread QObject parenting during accessibility
+  activation. This is evidence, not a proven root cause. Retain the failed attempt;
+  rerun the unchanged APK without disabling accessibility or skipping assertions.

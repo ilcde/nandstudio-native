@@ -4,6 +4,22 @@
   "audit_status": "initial_inventory_not_exhaustive",
   "features": [
     {
+      "id": "android.picker-return-stall",
+      "kind": "legacy-workflow",
+      "original_evidence": "CI 36389621457 attempt 1: safe-area controls pass; DocumentsUI grants folder access, but import confirmation is not reached. Log contains QObject wrong-thread parent warnings while accessibility activates.",
+      "native_implementation": "Qt 6.11.1 FolderDialog and workspaceImportRequested; cause under investigation",
+      "regression_tests": [
+        "scripts/check_android_toolbar.py --workspace-flow; retain failed attempt and rerun unchanged APK"
+      ],
+      "platform_coverage": {
+        "android-x86_64-api36": "attempt 1 failed; rerun pending",
+        "android-arm64": "package built; physical workflow not exercised"
+      },
+      "status": "known-difference",
+      "release_blocker": true,
+      "notes": "Wrong-thread accessibility warnings are observed, not a proven root cause. Do not disable accessibility or bypass the workflow gate. A passing rerun alone does not close intermittent lifecycle risk."
+    },
+    {
       "id": "workspace.supplied-os-copy",
       "kind": "addition",
       "original_evidence": "Uploaded tools/OS: eight VM files; exact SHA-256 records in resources/starters/manifest.json os_files",
