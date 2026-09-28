@@ -20,16 +20,13 @@
 #ifdef Q_OS_ANDROID
 #include <QJniObject>
 #include <QStandardPaths>
+#include <QVulkanInstance>
+#include <QVulkanFunctions>
 #endif
 #ifdef NAND_GUI_CHECKS
 void runGuiChecks(Studio&,QQmlApplicationEngine&,const QString&);
 #endif
 int main(int argc,char** argv){
-#ifdef Q_OS_ANDROID
-    // Avoid corrupted triangles/blank frames observed with Android emulator GL
-    // drivers. This UI uses raster-compatible items, without shader effects.
-    QQuickWindow::setSceneGraphBackend(QStringLiteral("software"));
-#endif
     const auto testDir=qEnvironmentVariable("NAND_TEST_STATE_DIR");
     if(!testDir.isEmpty()){
         QDir().mkpath(testDir);
@@ -37,6 +34,21 @@ int main(int argc,char** argv){
     }
     qInfo("Creating application");
     QGuiApplication app(argc,argv);app.setOrganizationName("NandStudio");app.setApplicationName("NandStudio");app.setApplicationVersion(NAND_VERSION);
+#ifdef Q_OS_ANDROID
+#if QT_CONFIG(vulkan)
+    // The emulator GL path corrupts rectangles; an unchanged APK renders cleanly
+    // through Vulkan. Probe availability before selecting it, preserving the
+    // platform default on devices without a Vulkan instance/physical device.
+    if(qEnvironmentVariableIsEmpty("QSG_RHI_BACKEND")) {
+        QVulkanInstance probe;
+        if(probe.create()) {
+            uint32_t devices=0;
+            if(probe.functions()->vkEnumeratePhysicalDevices(probe.vkInstance(),&devices,nullptr)==VK_SUCCESS&&devices>0)
+                QQuickWindow::setGraphicsApi(QSGRendererInterface::Vulkan);
+        }
+    }
+#endif
+#endif
 #ifdef Q_OS_WIN
     if(!testDir.isEmpty()){QFontDatabase::addApplicationFont("C:/Windows/Fonts/segoeui.ttf");QFontDatabase::addApplicationFont("C:/Windows/Fonts/consola.ttf");}
 #endif
@@ -94,6 +106,7 @@ int main(int argc,char** argv){
             auto* folder=window->findChild<QObject*>("workspaceFolderDialog");
             QJsonObject report{{"platform",QGuiApplication::platformName()},{"width",window->width()},{"height",window->height()},{"device_pixel_ratio",window->devicePixelRatio()},{"safe_top",margins.top()},{"safe_bottom",margins.bottom()},{"safe_left",margins.left()},{"safe_right",margins.right()},{"controls",controls},{"menu_items",menuItems},{"folder_dialog_visible",folder&&folder->property("visible").toBool()},{"passed",passed}};
             report["software_renderer"]=window->rendererInterface()->graphicsApi()==QSGRendererInterface::Software;
+            report["graphics_api"]=int(window->rendererInterface()->graphicsApi());
             if(menuCheck){
                 QJsonArray items;
                 const auto collect=[&](auto&& self,QQuickItem* parent)->void{

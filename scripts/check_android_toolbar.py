@@ -1,5 +1,6 @@
 """Install a development APK and verify actual Android toolbar safe-area bounds."""
 import argparse
+import base64
 import hashlib
 import json
 import pathlib
@@ -15,11 +16,15 @@ parser.add_argument('report',type=pathlib.Path)
 parser.add_argument('--adb',default='adb')
 parser.add_argument('--workspace-flow',action='store_true')
 parser.add_argument('--export-folder',default='NandStudioExports')
+parser.add_argument('--graphics-backend',choices=('vulkan','opengl'),help='Development-only controlled renderer comparison; default tests the shipped selection')
 args=parser.parse_args()
 if not re.fullmatch(r'[A-Za-z0-9_-]{1,64}',args.export_folder):
     parser.error('--export-folder must be a simple folder name')
 package='org.qtproject.example.NandStudio'
 def adb(*command,check=True):
+    if args.graphics_backend and command[:3]==('shell','am','start'):
+        environment=base64.b64encode(('QSG_RHI_BACKEND='+args.graphics_backend+'\tQSG_INFO=1').encode()).decode()
+        command=(*command,'--es','extraenvvars',environment)
     result=subprocess.run([args.adb,*command],capture_output=True,text=True,encoding='utf-8',errors='replace',check=False,timeout=90)
     if check and result.returncode:
         raise RuntimeError('adb '+repr(command)+': '+result.stdout+result.stderr)
@@ -68,8 +73,6 @@ args.report.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
 print(json.dumps(report,indent=2))
 if not report.get('passed') or report.get('safe_top',0)<=0:
     raise RuntimeError('Toolbar failed safe-area check or the emulator did not exercise a status-bar inset')
-if not report.get('software_renderer'):
-    raise RuntimeError('Android did not initialize the required software renderer')
 
 # Exercise the actual touch route that the geometry-only check missed.
 def read_menu():
@@ -109,6 +112,9 @@ def screenshot(name):
         args.report.with_name(name+'.png').write_bytes(image.stdout)
         if has_rendered_content(image.stdout): return
         time.sleep(0.5)
+    args.report.with_suffix('.rendering.log').write_text(adb('logcat','-d').stdout,encoding='utf-8')
+    current=read_menu()
+    args.report.with_suffix('.rendering.json').write_text(json.dumps(current,indent=2),encoding='utf-8')
     raise RuntimeError('Android capture is blank: '+name+'; backend state alone does not verify a usable UI')
 
 adb('shell','am','force-stop',package)

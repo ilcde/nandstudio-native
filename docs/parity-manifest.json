@@ -7,17 +7,17 @@
       "id": "android.rendering-corruption",
       "kind": "platform",
       "original_evidence": "0.1.8 CI capture has triangle corruption; local API36 capture black despite successful input/backend assertions",
-      "native_implementation": "0.1.9 selects Qt Quick software renderer on Android; screenshot gate rejects blank app surfaces",
+      "native_implementation": "Android probes a Vulkan instance and device before preferring Vulkan; keeps platform default if unavailable. Screenshot gate rejects blank app surfaces.",
       "regression_tests": [
         "tests/test_android_visuals.py: three tests; actual black capture rejected",
         "check_android_toolbar.py: captures at each workflow stage; manual visual review still required"
       ],
       "platform_coverage": {
-        "android": "0.1.9 renderer fix awaiting CI/device verification"
+        "android-x86_64": "Unchanged 0.1.8 APK shows clean local Vulkan rendering; production selection and full workflow verification pending"
       },
       "status": "known-difference",
       "release_blocker": true,
-      "notes": "Backend/tap success does not establish rendered usability. Previous 0.1.8 pass is functional evidence only; physical ARM64 and 16KB runtime still untested."
+      "notes": "Backend/tap success does not establish rendered usability. Previous 0.1.8 pass is functional evidence only; physical ARM64 and 16KB runtime still untested. Software override failed with a blank surface in CI 36397320058 and was withdrawn."
     },
     {
       "id": "compiler.folder-gui",

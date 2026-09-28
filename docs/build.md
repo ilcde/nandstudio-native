@@ -92,9 +92,27 @@ CI now produces ARM64 and x86-64 APK/AAB artifacts. A local development-signed
 x86-64 APK installed and launched on the API 36.1 emulator; see platforms.json.
 A 16 KiB link flag alone is not proof
 of package compatibility; check every shipped ELF and ZIP alignment, then install
-on a 16 KiB device/emulator. SAF implementation, persistent grants, lifecycle,
-import/export and offline workflow tests are still blocking application work,
-not merely missing build tools. Android is not declared supported by this build.
+on a 16 KiB device/emulator. SAF import/export into explicit local workspace copies
+is implemented and tested with Downloads. Broader providers, permission recovery,
+lifecycle and physical-device workflows remain incomplete.
+
+The interaction harness requires development-only Pillow 12.0.0:
+
+```sh
+python -m pip install Pillow==12.0.0
+python tests/test_android_visuals.py
+python scripts/check_android_toolbar.py path/to/application.apk android-test/toolbar.json --workspace-flow
+```
+
+The harness records the renderer and rejects blank captures, in addition to
+performing actual taps. The attempted software-renderer override produced a blank
+Android surface and was withdrawn. The new candidate prefers Vulkan only when a
+Vulkan instance and physical device are available, otherwise retaining Qt's
+platform default. A Vulkan driver/device initialization failure after that probe
+is not automatically retried with another renderer.
+Review captured images for other corruption: a nonblank image or successful
+backend assertion alone does not establish visual correctness. Use an isolated
+test emulator; the harness installs the development APK and creates test copies.
 
 
 Hardware increment validation:
@@ -154,12 +172,12 @@ Set `NAND_NATIVE_BUILD` to an absolute build directory before running
 `scripts/differential.py` or `scripts/probe_hardware_differences.py` to avoid testing
 an older build accidentally. The reference harness remains development-only.
 
-The earlier Docker startup failure remains historical evidence. Linux now builds
-in isolated Ubuntu 24.04 WSL (`NandStudioBuild`) and CI. All three suites pass;
-the portable package passes 221 GUI checks with offscreen and X11/Xvfb plugins.
-Android builds use the pinned Qt/NDK tools in CI; the local SDK installed and
-launched the downloaded x86-64 package. SAF and full workflows remain unimplemented.
-See `simulator-continuation.md` for current evidence and artifact locations.
+The earlier Docker startup failure remains historical evidence. Linux builds
+in isolated Ubuntu 24.04 WSL (`NandStudioBuild`) and CI, with packaged offscreen
+and X11/Xvfb checks. Current desktop coverage has four CTest suites and 350 GUI
+assertions. Android builds use the pinned Qt/NDK tools in CI; explicit workspace
+copy workflows are implemented, while full platform parity remains incomplete.
+See `progress.md` and `platforms.json` for dated evidence and artifact locations.
 
 ## Development GitHub Releases
 

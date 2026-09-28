@@ -311,3 +311,18 @@ required. Selected Qt Quick's software renderer on Android for the 0.1.9
 candidate; device verification is pending. Simulation/compiler code is unchanged.
 The UI has no ShaderEffect or particle dependencies. Qt documents the raster
 renderer and its limitations in the [software adaptation guide](https://doc.qt.io/qt-6/qtquick-visualcanvas-adaptations-software.html).
+
+
+CI 36397320058 confirmed the software renderer initialized, but its More-menu
+capture was blank. The new gate correctly failed and blocked publication. The
+override was withdrawn rather than shipped as a fix. The local emulator is now
+retesting the unchanged 0.1.8 APK with modern SwiftShader to isolate the rendering
+backend. Blank failures now retain Android logs and the last Qt state snapshot.
+
+The unchanged 0.1.8 APK still showed triangle corruption with modern emulator
+SwiftShader. A controlled launch using Qt's `extraenvvars` with
+`QSG_RHI_BACKEND=vulkan` and `QSG_INFO=1` initialized QRhi Vulkan and produced a
+clean workspace capture on the same emulator. The revised candidate probes
+QVulkanInstance and a physical device before selecting Vulkan; devices without
+one retain the platform default. The full controlled workflow and shipped
+selection still require verification. This does not prove physical ARM64 parity.
