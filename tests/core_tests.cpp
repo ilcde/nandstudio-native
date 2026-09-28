@@ -22,6 +22,19 @@ int main(){int checks=0;auto check=[&](bool b){++checks;if(!b)throw std::runtime
         bitmap.shift(1,0);check(bitmap.pixel(1,0)&&bitmap.pixel(16,0)&&!bitmap.pixel(0,0)&&!bitmap.pixel(16,1));
         bitmap.flip();check(bitmap.pixel(15,0)&&bitmap.pixel(0,0));bitmap.resize(3,3);bitmap.clear();bitmap.set(0,0,true);bitmap.rotate();check(bitmap.pixel(2,0));bitmap.invert();check(!bitmap.pixel(2,0)&&bitmap.pixel(0,0));
         bool badBitmap=false;try{bitmap.resize(513,2);}catch(const nand::Error&){badBitmap=true;}check(badBitmap&&bitmap.width()==3);
+        for(const auto& source: std::vector<std::string>{
+            "class X { function void f() { return 1; } }",
+            "class X { function int f() { return; } }",
+            "class X { constructor X new() { return null; } }",
+            "class X { constructor X new() { return (this); } }",
+            "class X { constructor X new() { return this+0; } }",
+            "class X { constructor int new() { return this; } }"}) {
+            bool rejectedReturn=false;try{nand::compileJack(source);}catch(const nand::Error& error){rejectedReturn=std::string(error.what()).find("In subroutine ")!=std::string::npos;}
+            check(rejectedReturn);
+        }
+        check(nand::compileJack("class X { constructor X new() { return this; } }")=="function X.new 0\npush constant 0\ncall Memory.alloc 1\npop pointer 0\npush pointer 0\nreturn\n");
+        // The uploaded compiler accepts a boolean return in an int routine.
+        check(!nand::compileJack("class X { function int f() { return true; } }").empty());
         auto code=nand::compileJack("class Main { function int f(int a) { return a+1; } }");check(code=="function Main.f 0\npush argument 0\npush constant 1\nadd\nreturn\n");
         bool rejected=false;try{nand::compileJack("class X { function void f() { let");}catch(const nand::Error&){rejected=true;}check(rejected);
         const auto scratch=std::filesystem::temp_directory_path()/("nand-script-limits-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));

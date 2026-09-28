@@ -61,13 +61,15 @@ in the release manifest and [platform register](platforms.json).
 ## Try the examples
 
 Choose **Files > Create course workspace**, then open its `examples` folder.
-All four examples include `.hdl`, `.tst` and `.cmp` files:
+All six examples include `.hdl`, `.tst` and `.cmp` files:
 
 | Example | What to inspect |
 |---|---|
 | EntryAlarm | Enable input and two event inputs; inspect the internal wire |
 | SignalMismatch | All four combinations of two one-bit inputs |
 | BusSelect4 | Four-bit buses, sub-bus connections and selector values |
+| Parity3 | Odd parity across three signals; all eight combinations |
+| Majority3 | Majority decision across three signals; all eight combinations |
 | RememberBit | Capture, hold and replace a stored bit using Tick and Tock |
 
 Open an HDL file, choose **Load HDL**, change its input pins and choose **Eval**.

@@ -36,6 +36,12 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         bool courseBytesMatch=true;
         for(const auto& value:courseManifest){auto entry=value.toObject();auto file=course+"/projects/"+entry["path"].toString();courseBytesMatch &= QFile::exists(file)&&QString::fromLatin1(QCryptographicHash::hash(bytes(file),QCryptographicHash::Sha256).toHex())==entry["sha256"].toString();}
         check(courseBytesMatch,"every copied course file matches the original SHA-256");
+        for(const auto* example:{"Parity3","Majority3"}) {
+            const auto base=course+"/examples/"+example;
+            check(QFile::exists(base+".hdl")&&QFile::exists(base+".cmp")&&QFile::exists(base+".tst"),QString("new practice files embedded: ")+example);
+            check(nand::runScript(std::filesystem::u8path((base+".tst").toStdString()),nand::ScriptTool::Hardware).passed,QString("copied practice truth table passes: ")+example);
+        }
+
         auto osManifest=QJsonDocument::fromJson(bytes(course+"/manifest.json")).object().value("os_files").toArray();
         check(osManifest.size()==8,"all eight supplied OS VM files are bundled");
         bool osBytesMatch=true;for(const auto& value:osManifest){auto entry=value.toObject();osBytesMatch &= QString::fromLatin1(QCryptographicHash::hash(bytes(course+"/os/"+entry["path"].toString()),QCryptographicHash::Sha256).toHex())==entry["sha256"].toString();}
@@ -422,6 +428,10 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         auto previousVm=bytes(jackFolder.path()+"/Main.vm");helperDoc->setText("class Helper { function int value() { return ;");
         studio.open(QUrl::fromLocalFile(mainJack));studio.buildJackFolder();wait();
         check(bytes(jackFolder.path()+"/Main.vm")==previousVm&&studio.diagnostics().last().toMap()["path"]==helperJack,"failed folder compile preserves all outputs and locates failing source");
+        helperDoc->setText("class Helper { function int value() { return; } }");
+        studio.buildJackFolder();wait();
+        check(bytes(jackFolder.path()+"/Main.vm")==previousVm&&bytes(jackFolder.path()+"/Helper.vm").contains("push constant 42"),"semantic return failure preserves every generated output");
+        check(studio.diagnostics().last().toMap()["path"]==helperJack&&studio.diagnostics().last().toMap()["message"].toString().contains("non-void"),"semantic return diagnostic identifies unsaved source");
         helperDoc->setText("class Helper { function int value() { return 43; } }");
         studio.open(QUrl::fromLocalFile(jackFolder.path()+"/Helper.vm"));auto* vmDoc=qvariant_cast<Document*>(studio.documents()[studio.active()]);
         studio.open(QUrl::fromLocalFile(mainJack));studio.buildJackFolder();vmDoc->setText("unsaved VM edits");wait();

@@ -49,7 +49,7 @@ physical ARM64 devices still need qualification. See the Android workspace guide
 
 ![Native editor and Hardware Simulator evaluating EntryAlarm](docs/images/course-demo.png)
 
-[Watch the real Eval animation and try four practice circuits](docs/demos.md).
+[Watch the real Eval animation and try six practice circuits](docs/demos.md).
 
 Actual Windows Qt application capture from the bundled independent example:
 `enabled=1`, `door=1`, `window=0` produces `alarm=1`.

@@ -4,6 +4,24 @@
   "audit_status": "initial_inventory_not_exhaustive",
   "features": [
     {
+      "id": "compiler.return-contract",
+      "kind": "legacy-behavior",
+      "original_evidence": "Uploaded Java compiler: 14 focused constructor/void/non-void cases; scripts/check_jack_returns.py retains full raw process results.",
+      "native_implementation": "Shared compileJack checks constructor declared class type and literal this return, void return absence and non-void return presence. Existing permissive return-type behavior retained.",
+      "regression_tests": [
+        "core: invalid/valid return cases",
+        "gui: unsaved invalid return preserves every folder output and identifies the source",
+        "Java/native: 14 acceptance and generated-byte contracts"
+      ],
+      "platform_coverage": {
+        "windows": "14/14 reference contracts and four CTest suites pass; 383 GUI assertions",
+        "others": "Shared core; CI pending"
+      },
+      "status": "partial",
+      "release_blocker": true,
+      "notes": "Diagnostic envelopes, multiple-error recovery, CLI exit/stdout and wider type checking remain incomplete. Constructor arithmetic is rejected but its diagnostic can differ. Does not close ExpressionLessSquare parity."
+    },
+    {
       "id": "editor.guided-interface",
       "kind": "addition",
       "original_evidence": "User request for a font selector, icon controls and an offline tutorial; does not close web IDE or course parity.",

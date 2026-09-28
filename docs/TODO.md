@@ -152,3 +152,10 @@ arguments. Native preflight now matches this boundary; six reference cases pass.
 - [x] Bundle an offline tutorial for supported workflows, accessible from More and F1.
 - [x] Put the existing GPL text in root LICENSE and distinguish asset licenses in README.
 - [ ] Qualify the new tutorial and font picker on all packaged targets and Android devices.
+
+## Return compatibility and additional examples
+
+- [x] Match 14 constructor/void/non-void return acceptance and generated-byte cases.
+- [ ] Match complete compiler diagnostics, error recovery, output retention and CLI results.
+- [x] Add independent Parity3 and Majority3 HDL/TST/CMP examples; eight-case truth tables match Java.
+- [ ] Exercise these additions on all packaged platforms and Android devices.

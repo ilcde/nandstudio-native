@@ -1,0 +1,13 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Independent NandStudio practice circuit (2026), not a course solution.
+// Output is one when at least two inputs are set.
+CHIP Majority3 {
+    IN a, b, c;
+    OUT out;
+    PARTS:
+    And(a=a, b=b, out=ab);
+    And(a=a, b=c, out=ac);
+    And(a=b, b=c, out=bc);
+    Or(a=ab, b=ac, out=first);
+    Or(a=first, b=bc, out=out);
+}

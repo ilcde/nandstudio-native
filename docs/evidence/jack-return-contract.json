@@ -1,0 +1,282 @@
+[
+  {
+    "name": "constructor-this",
+    "source": "// Independent native compatibility fixture, GPL-3.0-or-later.\nclass Probe {\n    constructor Probe new() { return this; }\n}\n",
+    "return_contract_passed": true,
+    "full_cli_result_equal": false,
+    "java": {
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\jack-return-contract\\constructor-this\\native\\Probe.jack\"\r\n",
+      "stderr": ""
+    },
+    "output_sha256": [
+      "7bb1efa5abc7248a2b4e8d712f36e3c1d9dc876fecc4fd8e52f0d258bbef0658",
+      "7bb1efa5abc7248a2b4e8d712f36e3c1d9dc876fecc4fd8e52f0d258bbef0658"
+    ]
+  },
+  {
+    "name": "constructor-alias",
+    "source": "// Independent native compatibility fixture, GPL-3.0-or-later.\nclass Probe {\n    constructor Probe new() { var Probe x; let x=this; return x; }\n}\n",
+    "return_contract_passed": true,
+    "full_cli_result_equal": false,
+    "java": {
+      "code": 1,
+      "stdout": "",
+      "stderr": "In Probe.jack (line 3): In subroutine new: A constructor must return 'this'\r\n"
+    },
+    "native": {
+      "code": 4294967295,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\jack-return-contract\\constructor-alias\\native\\Probe.jack\"\r\n",
+      "stderr": "C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\jack-return-contract\\constructor-alias\\native\\Probe.jack:3:63: In subroutine new: A constructor must return 'this'\r\n"
+    },
+    "output_sha256": [
+      null,
+      null
+    ]
+  },
+  {
+    "name": "constructor-parentheses",
+    "source": "// Independent native compatibility fixture, GPL-3.0-or-later.\nclass Probe {\n    constructor Probe new() { return (this); }\n}\n",
+    "return_contract_passed": true,
+    "full_cli_result_equal": false,
+    "java": {
+      "code": 1,
+      "stdout": "",
+      "stderr": "In Probe.jack (line 3): In subroutine new: A constructor must return 'this'\r\n"
+    },
+    "native": {
+      "code": 4294967295,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\jack-return-contract\\constructor-parentheses\\native\\Probe.jack\"\r\n",
+      "stderr": "C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\jack-return-contract\\constructor-parentheses\\native\\Probe.jack:3:38: In subroutine new: A constructor must return 'this'\r\n"
+    },
+    "output_sha256": [
+      null,
+      null
+    ]
+  },
+  {
+    "name": "constructor-null",
+    "source": "// Independent native compatibility fixture, GPL-3.0-or-later.\nclass Probe {\n    constructor Probe new() { return null; }\n}\n",
+    "return_contract_passed": true,
+    "full_cli_result_equal": false,
+    "java": {
+      "code": 1,
+      "stdout": "",
+      "stderr": "In Probe.jack (line 3): In subroutine new: A constructor must return 'this'\r\n"
+    },
+    "native": {
+      "code": 4294967295,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\jack-return-contract\\constructor-null\\native\\Probe.jack\"\r\n",
+      "stderr": "C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\jack-return-contract\\constructor-null\\native\\Probe.jack:3:38: In subroutine new: A constructor must return 'this'\r\n"
+    },
+    "output_sha256": [
+      null,
+      null
+    ]
+  },
+  {
+    "name": "constructor-empty",
+    "source": "// Independent native compatibility fixture, GPL-3.0-or-later.\nclass Probe {\n    constructor Probe new() { return; }\n}\n",
+    "return_contract_passed": true,
+    "full_cli_result_equal": false,
+    "java": {
+      "code": 1,
+      "stdout": "",
+      "stderr": "In Probe.jack (line 3): In subroutine new: A constructor must return 'this'\r\nIn Probe.jack (line 3): In subroutine new: A non-void function must return a value\r\n"
+    },
+    "native": {
+      "code": 4294967295,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\jack-return-contract\\constructor-empty\\native\\Probe.jack\"\r\n",
+      "stderr": "C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\jack-return-contract\\constructor-empty\\native\\Probe.jack:3:37: In subroutine new: A constructor must return 'this'\r\n"
+    },
+    "output_sha256": [
+      null,
+      null
+    ]
+  },
+  {
+    "name": "constructor-arithmetic",
+    "source": "// Independent native compatibility fixture, GPL-3.0-or-later.\nclass Probe {\n    constructor Probe new() { return this+0; }\n}\n",
+    "return_contract_passed": true,
+    "full_cli_result_equal": false,
+    "java": {
+      "code": 1,
+      "stdout": "",
+      "stderr": "In Probe.jack (line 3): In subroutine new: a numeric value is illegal here\r\n"
+    },
+    "native": {
+      "code": 4294967295,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\jack-return-contract\\constructor-arithmetic\\native\\Probe.jack\"\r\n",
+      "stderr": "C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\jack-return-contract\\constructor-arithmetic\\native\\Probe.jack:3:38: In subroutine new: A constructor must return 'this'\r\n"
+    },
+    "output_sha256": [
+      null,
+      null
+    ]
+  },
+  {
+    "name": "constructor-wrong-type",
+    "source": "// Independent native compatibility fixture, GPL-3.0-or-later.\nclass Probe {\n    constructor int new() { return this; }\n}\n",
+    "return_contract_passed": true,
+    "full_cli_result_equal": false,
+    "java": {
+      "code": 1,
+      "stdout": "",
+      "stderr": "In Probe.jack (line 3): In subroutine new: The return type of a constructor must be of the class type\r\n"
+    },
+    "native": {
+      "code": 4294967295,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\jack-return-contract\\constructor-wrong-type\\native\\Probe.jack\"\r\n",
+      "stderr": "C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\jack-return-contract\\constructor-wrong-type\\native\\Probe.jack:3:24: In subroutine new: The return type of a constructor must be of the class type\r\n"
+    },
+    "output_sha256": [
+      null,
+      null
+    ]
+  },
+  {
+    "name": "void-empty",
+    "source": "// Independent native compatibility fixture, GPL-3.0-or-later.\nclass Probe {\n    function void f() { return; }\n}\n",
+    "return_contract_passed": true,
+    "full_cli_result_equal": false,
+    "java": {
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\jack-return-contract\\void-empty\\native\\Probe.jack\"\r\n",
+      "stderr": ""
+    },
+    "output_sha256": [
+      "7934dd13a2664350b7f3a3e18f994fb77c284424c25e57a16fb496b7a3d5fbb6",
+      "7934dd13a2664350b7f3a3e18f994fb77c284424c25e57a16fb496b7a3d5fbb6"
+    ]
+  },
+  {
+    "name": "void-value",
+    "source": "// Independent native compatibility fixture, GPL-3.0-or-later.\nclass Probe {\n    function void f() { return 1; }\n}\n",
+    "return_contract_passed": true,
+    "full_cli_result_equal": false,
+    "java": {
+      "code": 1,
+      "stdout": "",
+      "stderr": "In Probe.jack (line 3): In subroutine f: A void function must not return a value\r\n"
+    },
+    "native": {
+      "code": 4294967295,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\jack-return-contract\\void-value\\native\\Probe.jack\"\r\n",
+      "stderr": "C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\jack-return-contract\\void-value\\native\\Probe.jack:3:32: In subroutine f: A void function must not return a value\r\n"
+    },
+    "output_sha256": [
+      null,
+      null
+    ]
+  },
+  {
+    "name": "int-empty",
+    "source": "// Independent native compatibility fixture, GPL-3.0-or-later.\nclass Probe {\n    function int f() { return; }\n}\n",
+    "return_contract_passed": true,
+    "full_cli_result_equal": false,
+    "java": {
+      "code": 1,
+      "stdout": "",
+      "stderr": "In Probe.jack (line 3): In subroutine f: A non-void function must return a value\r\n"
+    },
+    "native": {
+      "code": 4294967295,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\jack-return-contract\\int-empty\\native\\Probe.jack\"\r\n",
+      "stderr": "C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\jack-return-contract\\int-empty\\native\\Probe.jack:3:30: In subroutine f: A non-void function must return a value\r\n"
+    },
+    "output_sha256": [
+      null,
+      null
+    ]
+  },
+  {
+    "name": "int-value",
+    "source": "// Independent native compatibility fixture, GPL-3.0-or-later.\nclass Probe {\n    function int f() { return 123; }\n}\n",
+    "return_contract_passed": true,
+    "full_cli_result_equal": false,
+    "java": {
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\jack-return-contract\\int-value\\native\\Probe.jack\"\r\n",
+      "stderr": ""
+    },
+    "output_sha256": [
+      "e70f790b5a55f351254b42f3c4c80d92240e0a5dc4be4dfe2030dd8c179efd56",
+      "e70f790b5a55f351254b42f3c4c80d92240e0a5dc4be4dfe2030dd8c179efd56"
+    ]
+  },
+  {
+    "name": "int-boolean-reference-accepts",
+    "source": "// Independent native compatibility fixture, GPL-3.0-or-later.\nclass Probe {\n    function int f() { return true; }\n}\n",
+    "return_contract_passed": true,
+    "full_cli_result_equal": false,
+    "java": {
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\jack-return-contract\\int-boolean-reference-accepts\\native\\Probe.jack\"\r\n",
+      "stderr": ""
+    },
+    "output_sha256": [
+      "416e2e37b57eec4aa34cf742f5491dc988b9d3108ee8687b77bbb8bb5bdbaf74",
+      "416e2e37b57eec4aa34cf742f5491dc988b9d3108ee8687b77bbb8bb5bdbaf74"
+    ]
+  },
+  {
+    "name": "object-empty",
+    "source": "// Independent native compatibility fixture, GPL-3.0-or-later.\nclass Probe {\n    method Probe f() { return; }\n}\n",
+    "return_contract_passed": true,
+    "full_cli_result_equal": false,
+    "java": {
+      "code": 1,
+      "stdout": "",
+      "stderr": "In Probe.jack (line 3): In subroutine f: A non-void function must return a value\r\n"
+    },
+    "native": {
+      "code": 4294967295,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\jack-return-contract\\object-empty\\native\\Probe.jack\"\r\n",
+      "stderr": "C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\jack-return-contract\\object-empty\\native\\Probe.jack:3:30: In subroutine f: A non-void function must return a value\r\n"
+    },
+    "output_sha256": [
+      null,
+      null
+    ]
+  },
+  {
+    "name": "object-null",
+    "source": "// Independent native compatibility fixture, GPL-3.0-or-later.\nclass Probe {\n    method Probe f() { return null; }\n}\n",
+    "return_contract_passed": true,
+    "full_cli_result_equal": false,
+    "java": {
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\jack-return-contract\\object-null\\native\\Probe.jack\"\r\n",
+      "stderr": ""
+    },
+    "output_sha256": [
+      "a2843e59743d42e8c72da6b2dbe20f7957bd9aead78c3ff87b9fe8d91c8f8cab",
+      "a2843e59743d42e8c72da6b2dbe20f7957bd9aead78c3ff87b9fe8d91c8f8cab"
+    ]
+  }
+]

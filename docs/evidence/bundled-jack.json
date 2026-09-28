@@ -300,9 +300,9 @@
       "stderr": "In Square.jack (line 18): In subroutine new: A constructor must return 'this'\r\nIn SquareGame.jack (line 15): In subroutine new: A constructor must return 'this'\r\nIn SquareGame.jack (line 36): In subroutine run: a boolean value is expected\r\nIn SquareGame.jack (line 46): In subroutine run: an int value is expected\r\nIn SquareGame.jack (line 47): In subroutine run: an int value is expected\r\n"
     },
     "native": {
-      "code": 0,
+      "code": 4294967295,
       "stdout": "Compiling \"C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\bundled-jack-10-ExpressionLessSquare\\native\"\r\n",
-      "stderr": ""
+      "stderr": "C:\\Users\\ilcde\\Downloads\\nand2teris_tool\\tests\\work\\differential\\bundled-jack-10-ExpressionLessSquare\\native\\Square.jack:18:14: In subroutine new: A constructor must return 'this'\r\n"
     },
     "outputs": [
       {
@@ -318,7 +318,7 @@
         "equal": false,
         "sha256": [
           null,
-          "386158ba9e7ef8b273bcefad7f712a808021811df69b81b7c807f6d966ee9c94"
+          null
         ]
       },
       {
@@ -326,7 +326,7 @@
         "equal": false,
         "sha256": [
           null,
-          "b4501057587dd230703a2c926a8fabb0ae39f02a560fd667d700e703d70cd0e3"
+          null
         ]
       }
     ]

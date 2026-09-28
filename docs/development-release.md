@@ -1,5 +1,9 @@
 # NandStudio development packages
 
+Version 0.1.11 adds reference-backed Jack return validation and two independent
+HDL/TST/CMP examples, Parity3 and Majority3. Invalid return forms now fail before
+VM output is committed. Full compiler diagnostics and error recovery remain open.
+
 Version 0.1.10 adds an installed-font picker with a preview, vector toolbar icons,
 an offline tutorial (More or F1), workflow diagrams and new application demos.
 See the [offline tutorial and workflow diagrams](https://github.com/ilcde/nandstudio-native/blob/main/docs/tutorial.md).

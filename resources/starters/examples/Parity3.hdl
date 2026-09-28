@@ -1,0 +1,10 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Independent NandStudio practice circuit (2026), not a course solution.
+// Output is one when an odd number of inputs are set.
+CHIP Parity3 {
+    IN a, b, c;
+    OUT out;
+    PARTS:
+    Xor(a=a, b=b, out=ab);
+    Xor(a=ab, b=c, out=out);
+}

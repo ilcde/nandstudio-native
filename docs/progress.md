@@ -378,3 +378,24 @@ shows all toolbar icons and out=1. A suspected missing-icon issue in a resized
 preview was disproved by the original image and pixel inspection. Speculative
 local renderer changes were backed up and withdrawn; no 0.1.11 was published.
 Tutorial/font-specific Android interactions and full course parity remain open.
+
+## Return validation and practice circuits (0.1.11 candidate)
+
+The shared Jack compiler now rejects missing non-void returns, value-bearing
+void returns, incorrect constructor declaration types and constructor returns
+other than literal `this`. Fourteen focused Java/native acceptance and output
+contracts pass. Broader return-type restrictions are deliberately not inferred:
+the supplied compiler accepts a boolean expression in an integer-returning routine.
+Diagnostic envelopes and recovery remain different and are retained in evidence.
+
+Added independent Parity3 and Majority3 circuits with exhaustive eight-row
+truth tables, scripts and comparison files. Both outputs match Java byte for
+byte. They are embedded alongside the original, unchanged 249 project files
+and eight supplied OS files; student exercise implementations are not replaced.
+
+Windows: all four CTest suites pass, including 383 GUI assertions. Unsaved
+semantic errors in a Jack folder build preserve every existing VM output and
+identify the failing source. The main differential suite passes 71/71 cases.
+The broader bundled Jack audit remains 16/17: ExpressionLessSquare diagnostic,
+recovery and output behavior still differs. This is an open compatibility
+failure, not a completed project-10/11 parity claim. Cross-platform CI pending.

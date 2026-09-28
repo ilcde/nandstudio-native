@@ -15,3 +15,6 @@ file next to the script and compare it with the supplied CMP file.
 
 RememberBit distinguishes combinational Eval from Tick/Tock: Eval alone does
 not store the input. The test checks initial state, capture, hold and replacement.
+
+- Parity3: detect odd parity across three signals; all eight input combinations.
+- Majority3: choose the majority of three signals; all eight input combinations.

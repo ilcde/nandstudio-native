@@ -24,7 +24,7 @@ class Compiler {
     std::vector<Token> tokens;std::size_t p=0;int depth=0;
     std::map<std::string,Symbol> fields,locals;
     std::map<std::string,int> count;std::map<std::string,std::string> routines;
-    std::string cls,kind,result;int ifs=0,whiles=0;
+    std::string cls,kind,result,returnType,routine;int ifs=0,whiles=0;
     const Token& peek()const{return tokens.at(p);}
     bool at(std::string_view s)const{return !peek().string&&peek().text==s;}
     [[noreturn]]void fail(const std::string& m)const{throw Error(m,peek().line,peek().column);}
@@ -67,7 +67,15 @@ class Compiler {
         while(!at("}")&&!peek().text.empty()){
             if(take("let")){auto s=symbol(identifier());bool array=take("[");if(array){expression();expect("]");access("push",s);emit("add");}expect("=");expression();expect(";");if(array){emit("pop temp 0");emit("pop pointer 1");push("temp",0);emit("pop that 0");}else access("pop",s);}
             else if(take("do")){call(identifier());expect(";");emit("pop temp 0");}
-            else if(take("return")){if(at(";"))push("constant",0);else expression();expect(";");emit("return");}
+            else if(take("return")){
+                // Reference constructors return the literal this token. Parenthesized
+                // this and aliases are rejected even though they denote the same object.
+                if(kind=="constructor"&&!(at("this")&&tokens.at(p+1).text==";"))
+                    fail("In subroutine "+routine+": A constructor must return 'this'");
+                if(returnType=="void"&&!at(";"))fail("In subroutine "+routine+": A void function must not return a value");
+                if(returnType!="void"&&at(";"))fail("In subroutine "+routine+": A non-void function must return a value");
+                if(at(";"))push("constant",0);else expression();expect(";");emit("return");
+            }
             else if(take("if")){int id=ifs++;auto n=std::to_string(id);expect("(");expression();expect(")");emit("if-goto IF_TRUE"+n);emit("goto IF_FALSE"+n);emit("label IF_TRUE"+n);expect("{");statements();expect("}");if(take("else")){emit("goto IF_END"+n);emit("label IF_FALSE"+n);expect("{");statements();expect("}");emit("label IF_END"+n);}else emit("label IF_FALSE"+n);}
             else if(take("while")){auto n=std::to_string(whiles++);emit("label WHILE_EXP"+n);expect("(");expression();expect(")");emit("not");emit("if-goto WHILE_END"+n);expect("{");statements();expect("}");emit("goto WHILE_EXP"+n);emit("label WHILE_END"+n);}
             else fail("Statement expected");
@@ -81,7 +89,9 @@ public:
         int nesting=1;for(std::size_t i=p;i+3<tokens.size();++i){if(tokens[i].text=="{")++nesting;if(tokens[i].text=="}")--nesting;if(nesting==1&&(tokens[i].text=="method"||tokens[i].text=="function"||tokens[i].text=="constructor"))routines[tokens[i+2].text]=tokens[i].text;}
         while(at("static")||at("field")){auto seg=take("static")?"static":"this";if(std::string_view(seg)=="this")expect("field");declarations(seg,fields);}
         while(!at("}")){
-            if(!(at("method")||at("constructor")||at("function")))fail("Subroutine declaration expected");kind=tokens[p++].text;type(true);auto name=identifier();locals.clear();count["argument"]=kind=="method"?1:0;count["local"]=0;ifs=whiles=0;
+            if(!(at("method")||at("constructor")||at("function")))fail("Subroutine declaration expected");kind=tokens[p++].text;returnType=type(true);auto name=identifier();routine=name;
+            if(kind=="constructor"&&returnType!=cls)fail("In subroutine "+routine+": The return type of a constructor must be of the class type");
+            locals.clear();count["argument"]=kind=="method"?1:0;count["local"]=0;ifs=whiles=0;
             expect("(");if(!at(")")){do{auto typ=type();auto arg=identifier();locals[arg]={typ,"argument",count["argument"]++};}while(take(","));}expect(")");expect("{");while(take("var"))declarations("local",locals);
             emit("function "+cls+"."+name+" "+std::to_string(count["local"]));
             if(kind=="method"){push("argument",0);emit("pop pointer 0");}else if(kind=="constructor"){push("constant",count["this"]);emit("call Memory.alloc 1");emit("pop pointer 0");}
