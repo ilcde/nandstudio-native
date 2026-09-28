@@ -1,4 +1,5 @@
 #include "core.hpp"
+#include "bitmap.hpp"
 #include <iostream>
 #include <random>
 #include <chrono>
@@ -12,6 +13,15 @@ int main(){int checks=0;auto check=[&](bool b){++checks;if(!b)throw std::runtime
         check(nand::assemble("@32768\n@-1\nD=NOTD").words==std::vector<nand::Word>{16,65535,0xe350});
         check(nand::compareText("a b\r\nc", "ab\nc").equal);check(!nand::compareText("a\tb", "ab").equal);check(nand::compareText("x","y").line==0);
         nand::Vm vm;vm.load({{"Main","push constant 32767\npush constant 1\nadd\npush constant 1\nlt\n"}});vm.ram[0]=256;for(int i=0;i<5;++i)vm.step();check(vm.ram[256]==65535);
+        nand::Bitmap bitmap;bitmap.resize(17,2);bitmap.set(0,0,true);bitmap.set(15,0,true);bitmap.set(16,1,true);
+        check(bitmap.word(0,0)==32769&&bitmap.word(1,1)==1);
+        auto drawing=nand::assemble(bitmap.assembly());nand::Cpu drawingCpu;drawingCpu.load(drawing.words);
+        for(std::size_t i=0;i<drawing.words.size();++i)drawingCpu.step();
+        check(drawingCpu.ram[16384]==32769&&drawingCpu.ram[16385]==0&&drawingCpu.ram[16416]==0&&drawingCpu.ram[16417]==1);
+        check(!nand::compileJack(bitmap.jack()).empty());
+        bitmap.shift(1,0);check(bitmap.pixel(1,0)&&bitmap.pixel(16,0)&&!bitmap.pixel(0,0)&&!bitmap.pixel(16,1));
+        bitmap.flip();check(bitmap.pixel(15,0)&&bitmap.pixel(0,0));bitmap.resize(3,3);bitmap.clear();bitmap.set(0,0,true);bitmap.rotate();check(bitmap.pixel(2,0));bitmap.invert();check(!bitmap.pixel(2,0)&&bitmap.pixel(0,0));
+        bool badBitmap=false;try{bitmap.resize(513,2);}catch(const nand::Error&){badBitmap=true;}check(badBitmap&&bitmap.width()==3);
         auto code=nand::compileJack("class Main { function int f(int a) { return a+1; } }");check(code=="function Main.f 0\npush argument 0\npush constant 1\nadd\nreturn\n");
         bool rejected=false;try{nand::compileJack("class X { function void f() { let");}catch(const nand::Error&){rejected=true;}check(rejected);
         const auto scratch=std::filesystem::temp_directory_path()/("nand-script-limits-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));

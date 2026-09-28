@@ -258,3 +258,19 @@ The Android harness now captures the latest Qt scene, foreground activity, windo
 and power dumps, and a screenshot on every interaction timeout, including failures
 before workspace selection. The diagnostic-only change passes Python syntax
 validation; its new capture path has not yet been exercised on an emulator.
+
+## 2026-09-28: native bitmap authoring (0.1.8 candidate)
+
+Inspected the official web IDE hardware, converter, compiler and bitmap surfaces.
+Added More > Bitmap editor using a portable C++ pixel model and Qt Quick painted
+canvas: drawing, resize, shift, flip, invert, square rotation, 32-operation undo
+and redo, selectable Jack/ASM output and clipboard copy. The generated full-canvas
+ASM is executed in core tests to verify screen addresses and LSB-first words;
+Jack high-bit constants compile without out-of-range literals. GUI checks use a
+real Qt mouse click to draw and verify generated code and undo/redo.
+
+Windows Release build and all four CTest suites passed. All 26 maintained
+Markdown files passed encoding/local-link checks. Other platform qualification
+is pending CI. The web comparison, bitmap instructions and explicit missing
+features are in `web-ide-parity.md`; the parity manifest and TODO remain open.
+Android picker/menu stalls still block publication; no release is asserted here.

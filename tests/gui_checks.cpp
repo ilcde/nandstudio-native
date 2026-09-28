@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "app/studio.hpp"
+#include "app/bitmap_canvas.hpp"
 #include "app/editor_services.hpp"
 #include "app/storage.hpp"
 #include "builtin_hdl.hpp"
@@ -61,6 +62,16 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         auto* osDialog=window->findChild<QObject*>("installOsDialog");
         check(osDialog&&osDialog->property("visible").toBool()&&osDialog->property("targetFolder").toString()==QFileInfo(path).absolutePath(),"OS dialog identifies active document folder");
         check(QMetaObject::invokeMethod(osDialog,"reject"),"cancel OS copy from dialog");
+        auto* bitmapMenu=window->findChild<QObject*>("bitmapMenuItem");
+        check(bitmapMenu&&QMetaObject::invokeMethod(bitmapMenu,"triggered"),"bitmap editor reachable through More");QTest::qWait(30);
+        auto* bitmapDialog=window->findChild<QObject*>("bitmapDialog");auto* bitmapCanvas=window->findChild<BitmapCanvas*>("bitmapCanvas");
+        check(bitmapDialog&&bitmapDialog->property("visible").toBool()&&bitmapCanvas,"native bitmap editor instantiated");
+        check(bitmapCanvas->resizeCanvas(16,2),"resize native bitmap canvas");QTest::qWait(100);
+        check(bitmapCanvas->width()==288&&bitmapCanvas->height()==36,"bitmap grid geometry follows pixel dimensions");
+        QTest::mouseClick(window,Qt::LeftButton,Qt::NoModifier,bitmapCanvas->mapToScene(QPointF(15*18+9,9)).toPoint());QTest::qWait(30);
+        check(bitmapCanvas->jack().contains("~32767")&&bitmapCanvas->canUndo(),"pixel edit generates valid signed Jack word");
+        bitmapCanvas->undo();check(!bitmapCanvas->jack().contains("~32767")&&bitmapCanvas->canRedo(),"bitmap undo restores blank pixels");bitmapCanvas->redo();check(bitmapCanvas->jack().contains("~32767"),"bitmap redo restores code");
+        check(QMetaObject::invokeMethod(bitmapDialog,"reject"),"close bitmap editor without modifying source documents");
         if(qEnvironmentVariableIsSet("NAND_DEMO_CAPTURE")){
             studio.closeDocument(studio.active());
             studio.openWorkspace(QUrl::fromLocalFile(course+"/examples"));

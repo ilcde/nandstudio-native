@@ -4,6 +4,23 @@
   "audit_status": "initial_inventory_not_exhaustive",
   "features": [
     {
+      "id": "tools.bitmap-editor",
+      "kind": "addition",
+      "original_evidence": "Official web IDE bitmap controls inspected 2026-09-28; docs/web-ide-parity.md",
+      "native_implementation": "src/bitmap.hpp; src/app/bitmap_canvas.hpp; More > Bitmap editor",
+      "regression_tests": [
+        "core: generated ASM screen words, Jack compilation, transforms and bounds",
+        "gui_workflow: menu, native mouse drawing, geometry, generated code, undo/redo"
+      ],
+      "platform_coverage": {
+        "windows-x86_64": "local CTest verification",
+        "other-platforms": "shared implementation; qualification pending"
+      },
+      "status": "partial",
+      "release_blocker": true,
+      "notes": "Image import, crop modes, animation, keyboard pixel navigation and drawing persistence remain open. Generated source is not byte-identical to web output."
+    },
+    {
       "id": "android.picker-return-stall",
       "kind": "legacy-workflow",
       "original_evidence": "CI 36389621457 attempt 1: safe-area controls pass; DocumentsUI grants folder access, but import confirmation is not reached. Log contains QObject wrong-thread parent warnings while accessibility activates.",
@@ -105,7 +122,7 @@
     {
       "id": "workspace.bundled-course",
       "kind": "addition",
-      "original_evidence": "Uploaded projects directory: 249 unchanged files, folders 0–13; resources/starters/manifest.json",
+      "original_evidence": "Uploaded projects directory: 249 unchanged files, folders 0\u201313; resources/starters/manifest.json",
       "native_implementation": "Qt resources; storage::copyCourseWorkspace; Files > Create course workspace",
       "regression_tests": [
         "gui_workflow: all 249 SHA-256 hashes, writable copy, refusal to overwrite",

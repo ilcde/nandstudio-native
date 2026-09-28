@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "studio.hpp"
+#include "bitmap_canvas.hpp"
 #include "editor_services.hpp"
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
@@ -35,6 +36,7 @@ int main(int argc,char** argv){
 #endif
     qInfo("Creating studio");
     qmlRegisterType<LineNumberGutter>("NandStudio.Native",1,0,"LineNumberGutter");
+    qmlRegisterType<BitmapCanvas>("NandStudio.Native",1,0,"BitmapCanvas");
     Preferences preferences;EditorServices editorTools;
     QQuickStyle::setStyle("Fusion");auto owner=std::make_unique<Studio>();auto& studio=*owner;QQmlApplicationEngine engine;
     QObject::connect(&app,&QGuiApplication::applicationStateChanged,&studio,[&studio](Qt::ApplicationState state){if(state!=Qt::ApplicationActive)studio.suspend();});

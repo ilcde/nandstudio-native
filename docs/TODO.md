@@ -35,6 +35,10 @@ unchanged; use separately identified regression fixtures for completed circuits.
 
 ## Advanced live UI and converters
 
+- [x] Add a shared native bitmap editor with Jack/ASM generation, transforms and undo/redo; Windows tests.
+- [ ] Complete [web IDE bitmap and converter parity](web-ide-parity.md), including image import, export modes, animation and keyboard access.
+- [ ] Qualify bitmap drawing, clipboard and responsive layout on every packaged platform.
+
 - [x] Native 16-bit decimal/binary/hex converter with signed and unsigned views.
 - [x] Read-only ASM-to-Hack and Jack-to-VM previews from unsaved editor snapshots.
 - [x] Optional debounced parser diagnostics of the active editor buffer.

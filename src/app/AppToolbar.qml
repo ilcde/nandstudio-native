@@ -7,7 +7,7 @@ Pane {
     objectName: "appToolbar"
     signal folderRequested(); signal fileRequested(); signal settingsRequested(); signal searchRequested(); signal exportRequested()
     property real safeTop: SafeArea.margins.top
-    signal toolsRequested()
+    signal toolsRequested(); signal bitmapRequested()
     signal osRequested()
     // Button menus belong below the header, never centered on its short height.
     function openMenu(menu, button) {
@@ -57,6 +57,7 @@ Pane {
         topMargin: toolbar.height; bottomMargin: Math.max(Theme.sm,Overlay.overlay.SafeArea.margins.bottom)
         leftMargin: Math.max(Theme.sm,toolbar.SafeArea.margins.left); rightMargin: Math.max(Theme.sm,toolbar.SafeArea.margins.right)
         MenuItem { objectName: "findReplaceMenuItem"; text: "Find and replace\u2026"; enabled: studio.active >= 0; onTriggered: toolbar.searchRequested() }
+        MenuItem { objectName: "bitmapMenuItem"; text: "Bitmap editor"; onTriggered: toolbar.bitmapRequested() }
         MenuItem { objectName: "toolsMenuItem"; text: "Converters & diagnostics\u2026"; onTriggered: toolbar.toolsRequested() }
         MenuItem { objectName: "installOsMenuItem"; text: "Add supplied Jack OS\u2026"; enabled: !studio.busy && (studio.active>=0 || studio.workspace.length>0); onTriggered: toolbar.osRequested() }
         MenuItem { text: Theme.dark ? "Use light theme" : "Use dark theme"; onTriggered: preferences.set("dark",!Theme.dark) }
