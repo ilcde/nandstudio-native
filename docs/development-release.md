@@ -1,8 +1,9 @@
 # NandStudio development packages
 
 Version 0.1.11 adds reference-backed Jack return validation and two independent
-HDL/TST/CMP examples, Parity3 and Majority3. Invalid return forms now fail before
-VM output is committed. Full compiler diagnostics and error recovery remain open.
+HDL/TST/CMP examples, Parity3 and Majority3. GUI folder builds preserve all
+previous VM outputs when return validation fails. Full compiler diagnostics
+and error recovery remain open.
 
 Version 0.1.10 adds an installed-font picker with a preview, vector toolbar icons,
 an offline tutorial (More or F1), workflow diagrams and new application demos.
@@ -35,7 +36,7 @@ The reported Windows Xor result matches Java when local starter chips are empty.
 
 This version embeds all 249 unchanged course starter files (projects 0–13).
 Choose **Files > Create course workspace** to create an editable offline copy
-on any platform. Four separate HDL/TST/CMP examples demonstrate pin editing, truth tables,
+on any platform. Six separate HDL/TST/CMP examples demonstrate pin editing, truth tables,
 bus wiring and clocked storage. Export local
 work before uninstalling Android development builds.
 
@@ -107,16 +108,23 @@ compatibility, complete script/diagnostic parity, and the remaining GUI operatio
 See `docs/parity-manifest.json` and `docs/platforms.json` in the source archive.
 Preserve existing project backups when trying development builds.
 
-Known Android emulator visual limitation: local emulator 36.3.10 with SwiftShader
-showed triangular background/button artifacts. The real-inset toolbar check passes,
-but does not certify rendering or complete touch workflows. Physical ARM64 visual
-testing remains pending. A software-renderer override failed Android verification
-and was withdrawn. The replacement probes Vulkan availability before preferring
-Vulkan, with the platform default retained when unavailable. Fresh workflow and
-screenshot verification is required. See the
-repository's `docs/release-2026-09-25.md` and parity register for recorded evidence.
+Android rendering qualification is limited to the tested emulator configuration.
+Earlier SwiftShader runs showed triangular artifacts, and a software-renderer
+attempt failed verification. The current application probes Vulkan availability
+before preferring Vulkan, retaining the platform default when unavailable.
+The 0.1.10 API 36 workflow passed with readable, manually reviewed captures.
+Physical ARM64 rendering, broader provider behavior and lifecycle recovery remain
+unverified; successful emulator checks do not establish complete Android parity.
+See the repository's parity register and exact-release interaction evidence.
 
 Source ZIPs attached here contain the tracked native project. The uploaded legacy
 reference archive is not in Git or this release ZIP; differential testing requires
 that original archive and the development-only Java reference setup documented
 in the repository. No Java reference engine is used by the application at runtime.
+
+For 0.1.11, CI 36405309943 passed all six target builds and 383 GUI assertions
+on each packaged desktop target. Publication run 36406261361 produced all assets.
+The Android API 36 storage/backend Eval workflow passed and the EntryAlarm
+capture visibly shows alarm=1. Its Xor capture is stale despite backend out=1;
+visual synchronization remains an open issue. This release does not establish
+complete twelve-project or web IDE parity.

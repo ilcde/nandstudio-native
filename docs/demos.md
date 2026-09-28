@@ -102,3 +102,14 @@ python scripts/make_demo_gif.py ABSOLUTE_OUTPUT_DIRECTORY docs/images/hdl-eval.g
 Copy `course-demo.png` and `course-phone-layout.png` from the output directory to
 `docs/images`. Review the images before publishing. Python and Pillow are not
 application runtime dependencies.
+
+## Android 0.1.11 course example
+
+![Android course copy with EntryAlarm evaluated to one](images/android-course-0.1.11.png)
+
+This unretouched API 36 emulator image from CI 36405309943 shows the offline
+course-copy workflow and `alarm=1`. The toolbar sits below the status bar.
+[The raw workflow report](evidence/android-workflow-0.1.11.json) records backend
+and storage assertions. That run's Xor capture was stale (`out=0`) despite a
+passing backend `out=1` assertion; it is not used as a successful visual demo.
+Frame synchronization and physical Android device qualification remain open.

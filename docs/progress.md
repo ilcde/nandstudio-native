@@ -399,3 +399,11 @@ identify the failing source. The main differential suite passes 71/71 cases.
 The broader bundled Jack audit remains 16/17: ExpressionLessSquare diagnostic,
 recovery and output behavior still differs. This is an open compatibility
 failure, not a completed project-10/11 parity claim. Cross-platform CI pending.
+
+0.1.11 published at 167e940: CI 36405309943 and publication 36406261361 passed.
+All four desktop packages pass 383 GUI assertions; both Android ABIs package,
+and the API 36 workspace/backend Eval gate passes. Manual review confirms the
+EntryAlarm image visibly shows alarm=1 with a safe toolbar. The Xor image again
+captures stale initial values despite backend out=1: this remains an open
+frame-synchronization/visual-evidence issue, not proof of correct displayed Xor.
+The main repository guides and platform record include this limitation.

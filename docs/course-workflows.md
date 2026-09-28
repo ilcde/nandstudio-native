@@ -48,7 +48,7 @@ must be identified as additions rather than claimed as preserved functionality.
 
 ## Evidence and blockers
 
-Reference tests include 69 differential cases, two reported-Xor cases and targeted
+Reference tests include 71 differential cases, two reported-Xor cases and targeted
 hardware probes. They do not exhaust all programs or UI operations. Read the
 release manifest, linked CI run, `evidence/` and `parity-manifest.json` for scope.
 
@@ -79,3 +79,24 @@ The editable course copy includes four separate HDL/TST/CMP examples.
 [View the screenshots, Eval animation and instructions](demos.md). BusSelect4
 exercises sub-buses; RememberBit exercises clocked capture and hold. They are
 not replacements for the unchanged assignments. All four match Java outputs.
+
+## Jack return diagnostics
+
+A constructor must declare its own class as the return type and return literal
+`this`. A `void` routine uses `return;`; other return types require an expression.
+These checks reproduce the supplied compiler's acceptance for the focused cases
+in [the return-contract evidence](evidence/jack-return-contract.json). The native
+compiler does not yet reproduce every legacy diagnostic, recovery rule or type
+check. In particular, the syntax-analysis fixture `ExpressionLessSquare` is not
+a valid compilation success case, and its rejection still differs from Java.
+
+The GUI compiles a complete folder snapshot before writing any generated files.
+If a routine contains an invalid return, the diagnostic identifies its document
+and the previous VM outputs remain intact. Correct the source and build again;
+a successful earlier output does not mean the invalid edit was compiled.
+
+For additional hardware practice, create a course workspace and open
+`examples/Parity3.tst` or `examples/Majority3.tst`. Run **HDL test** to check all
+eight input combinations, or open the matching HDL file and edit pins manually.
+Parity3 is true for an odd number of true inputs; Majority3 is true when at least
+two inputs are true. These independent circuits supplement the original starters.

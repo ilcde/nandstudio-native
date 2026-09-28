@@ -14,8 +14,9 @@
         "Java/native: 14 acceptance and generated-byte contracts"
       ],
       "platform_coverage": {
-        "windows": "14/14 reference contracts and four CTest suites pass; 383 GUI assertions",
-        "others": "Shared core; CI pending"
+        "windows": "14/14 Java reference contracts; four CTest suites and 383 GUI assertions pass.",
+        "desktop": "CI 36405309943: all four packaged desktop targets pass 383 GUI assertions, including semantic-return output preservation and both new copied examples.",
+        "android": "Both ABIs build/package; existing workspace and Eval gate passes on API36 x86-64. New return/example actions and physical ARM64 remain unqualified."
       },
       "status": "partial",
       "release_blocker": true,
