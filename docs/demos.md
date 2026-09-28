@@ -1,5 +1,8 @@
 # Real application demonstrations
 
+See the separate [Android rendering comparison](android-rendering.md) for actual
+emulator screenshots and controlled Vulkan workflow evidence.
+
 These images were captured from the native Qt Quick application on Windows on
 28 September 2026. The simulator evaluated every displayed state; these are not
 mockups. The capture runner drives the shared C++ service directly. This demonstrates

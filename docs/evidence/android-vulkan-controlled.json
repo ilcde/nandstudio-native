@@ -1,0 +1,130 @@
+{
+  "controls": [
+    {
+      "height": 44,
+      "inside_safe_area": true,
+      "name": "filesButton",
+      "width": 90,
+      "x": 8,
+      "y": 32
+    },
+    {
+      "height": 44,
+      "inside_safe_area": true,
+      "name": "saveButton",
+      "width": 91,
+      "x": 106,
+      "y": 32
+    },
+    {
+      "height": 44,
+      "inside_safe_area": true,
+      "name": "buildButton",
+      "width": 90,
+      "x": 205,
+      "y": 32
+    },
+    {
+      "height": 44,
+      "inside_safe_area": true,
+      "name": "moreButton",
+      "width": 92,
+      "x": 311,
+      "y": 32
+    }
+  ],
+  "device_pixel_ratio": 2.625,
+  "folder_dialog_visible": false,
+  "height": 914,
+  "menu_items": [],
+  "passed": true,
+  "platform": "android",
+  "safe_bottom": 24,
+  "safe_left": 0,
+  "safe_right": 0,
+  "safe_top": 24,
+  "width": 411,
+  "apk_sha256": "ac8084cd0e57b3e958ab810ec23ad11bc845ba96c1cbd0c7822655e5b58bf292",
+  "abi": "x86_64",
+  "android_api": "36",
+  "page_size": "4096",
+  "full_workflow_verified": false,
+  "interaction": {
+    "passed": true,
+    "files_menu": [
+      {
+        "height": 31,
+        "inside_safe_area": true,
+        "name": "openWorkspaceMenuItem",
+        "width": 318,
+        "x": 9,
+        "y": 85
+      },
+      {
+        "height": 31,
+        "inside_safe_area": true,
+        "name": "openFileMenuItem",
+        "width": 318,
+        "x": 9,
+        "y": 116
+      }
+    ],
+    "more_menu": [
+      {
+        "height": 31,
+        "inside_safe_area": true,
+        "name": "findReplaceMenuItem",
+        "width": 318,
+        "x": 84,
+        "y": 85
+      },
+      {
+        "height": 31,
+        "inside_safe_area": true,
+        "name": "settingsMenuItem",
+        "width": 318,
+        "x": 84,
+        "y": 240
+      }
+    ],
+    "workspace_chooser_opened": true,
+    "chooser": {
+      "kind": "android-documents-ui",
+      "resumed_activity": [
+        "topResumedActivity=ActivityRecord{29925974 u0 com.google.android.documentsui/com.android.documentsui.picker.PickActivity t182}",
+        "ResumedActivity: ActivityRecord{29925974 u0 com.google.android.documentsui/com.android.documentsui.picker.PickActivity t182}"
+      ]
+    },
+    "workspace_selected": true
+  },
+  "hdl_eval": {
+    "passed": true,
+    "chip": "reported composite Xor",
+    "inputs": {
+      "a": 0,
+      "b": 1
+    },
+    "out": 1,
+    "actual_taps": true
+  },
+  "workspace_copy": {
+    "passed": true,
+    "provider": "Android Downloads",
+    "imported": true,
+    "edited": true,
+    "saved": true,
+    "assembled": true,
+    "exported": true,
+    "reopened_after_process_restart": true,
+    "original_unchanged": true,
+    "all_providers_verified": false
+  },
+  "course_workspace": {
+    "passed": true,
+    "created_offline_copy": true,
+    "opened_bundled_example": true,
+    "actual_eval_taps": true,
+    "alarm": 1
+  },
+  "verification_context": "Local unchanged released 0.1.8 x86-64 APK with development-only QSG_RHI_BACKEND=vulkan override; production automatic selection is a separate CI test"
+}

@@ -11,7 +11,7 @@ unchanged; use separately identified regression fixtures for completed circuits.
 - [x] Compare all four example outputs against Java without modifying course files.
 - [x] Capture actual application screenshots and a four-state Eval GIF; document reproduction.
 - [x] Match the 20-field output-list boundary and VM initial stack pointer on Windows.
-- [ ] Qualify the new 0.1.6 changes through all platform CI and release gates.
+- [x] Pass six-target CI and development publication gates through 0.1.9 (36399208565); full platform qualification remains open.
 
 ## Immediate usability and release
 
@@ -31,6 +31,8 @@ unchanged; use separately identified regression fixtures for completed circuits.
 - [x] Implement Eval detection of changed, added and removed closed HDL dependency files; open buffers remain authoritative.
 - [x] Verify shared closed-dependency Eval regressions in desktop CI 36221941023; Android Xor tap rerun passed with the same APK.
 - [ ] Resolve emulator rendering artifacts and verify a physical ARM64 device.
+- [x] Verify automatic Vulkan selection and readable menu/course captures on the API 36 emulator (36399208565).
+- [ ] Synchronize screenshot capture with presented frames; the 0.1.9 Xor capture preceded the final state despite passing backend assertions.
 - [ ] Configure a stable externally supplied release-signing key for updates.
 
 ## Advanced live UI and converters
@@ -131,7 +133,8 @@ arguments. Native preflight now matches this boundary; six reference cases pass.
 - [x] Bundle the eight original OS VM files with hashes and retained attribution.
 - [x] Add an explicit missing-files-only installation action and destination confirmation.
 - [x] Verify bytes, existing student-file preservation, cancellation and repeated installation locally.
-- [ ] Qualify this new 0.1.7 workflow on Android and all desktop CI targets.
+- [x] Pass supplied-OS desktop checks on all four desktop targets (36399208565).
+- [ ] Exercise the supplied-OS installation action on Android devices.
 - [ ] Implement and verify native built-in service selection and fallback; copied VM assets do not close that gap.
 
 ## Android picker return investigation

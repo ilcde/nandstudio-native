@@ -13,11 +13,11 @@
         "check_android_toolbar.py: captures at each workflow stage; manual visual review still required"
       ],
       "platform_coverage": {
-        "android-x86_64": "Unchanged 0.1.8 APK shows clean local Vulkan rendering; production selection and full workflow verification pending"
+        "android-x86_64": "CI 36399208565: automatic Vulkan selection, workflow passes; menu/course captures readable with alarm=1. Xor screenshot shows a preceding frame despite successful backend assertion."
       },
       "status": "known-difference",
       "release_blocker": true,
-      "notes": "Backend/tap success does not establish rendered usability. Previous 0.1.8 pass is functional evidence only; physical ARM64 and 16KB runtime still untested. Software override failed with a blank surface in CI 36397320058 and was withdrawn."
+      "notes": "Backend/tap success does not establish rendered usability. Previous 0.1.8 pass is functional evidence only; physical ARM64 and 16KB runtime still untested. Software override failed with a blank surface in CI 36397320058 and was withdrawn. Controlled local Vulkan workflow also passed. Physical ARM64 and fallback-driver qualification remain open; do not infer complete visual parity from this CI run."
     },
     {
       "id": "compiler.folder-gui",

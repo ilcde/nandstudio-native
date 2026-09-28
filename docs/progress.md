@@ -326,3 +326,21 @@ clean workspace capture on the same emulator. The revised candidate probes
 QVulkanInstance and a physical device before selecting Vulkan; devices without
 one retain the platform default. The full controlled workflow and shipped
 selection still require verification. This does not prove physical ARM64 parity.
+
+## 0.1.9 verification and publication
+
+CI 36399208565 and publication 36400223377 succeeded at b3485f4. Windows,
+Linux, macOS ARM64/Intel and Android ARM64/x86-64 packages are published in
+`development-36399208565`, together with source, manifest and checksums. Desktop
+checks include four CTest suites and 350 GUI assertions. Sanitizers passed.
+Android API 36 selected Vulkan automatically (graphics_api=5), passed the
+workspace import/edit/save/assemble/export/reopen, safe-area taps and Xor/course
+Eval checks. Manual inspection found clean menu/course images and visible
+EntryAlarm alarm=1. The Xor image retained the earlier loaded frame despite the
+backend assertion, so capture synchronization remains an explicit test gap.
+
+The controlled unchanged-APK Vulkan test also passed locally. Real comparison
+screenshots and reproduction instructions are in `android-rendering.md`. No
+physical ARM64 or 16 KB runtime qualification is claimed. Baseline verification
+reported 881 files, seven JARs and no differences. All 12 course rows and full
+web IDE parity remain incomplete; see TODO.md and parity-manifest.json.
