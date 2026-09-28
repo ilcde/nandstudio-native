@@ -144,3 +144,11 @@ arguments. Native preflight now matches this boundary; six reference cases pass.
   tree grant. Qt logged wrong-thread QObject parenting during accessibility
   activation. This is evidence, not a proven root cause. Retain the failed attempt;
   rerun the unchanged APK without disabling accessibility or skipping assertions.
+
+## Guided interface
+
+- [x] Replace free-text font entry with installed-font choices and a live preview.
+- [x] Add vector toolbar icons with retained accessible names.
+- [x] Bundle an offline tutorial for supported workflows, accessible from More and F1.
+- [x] Put the existing GPL text in root LICENSE and distinguish asset licenses in README.
+- [ ] Qualify the new tutorial and font picker on all packaged targets and Android devices.

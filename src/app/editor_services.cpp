@@ -7,6 +7,7 @@
 #include <QJSValue>
 #include <QDir>
 #include <QStandardPaths>
+#include <QFontDatabase>
 #include <algorithm>
 namespace {
 QString settingsFile(){auto dir=qEnvironmentVariable("NAND_TEST_STATE_DIR");if(dir.isEmpty())dir=QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);QDir().mkpath(dir);return dir+"/preferences.ini";}
@@ -33,6 +34,14 @@ void Preferences::set(const QString& name,const QVariant& input){
     else if(name=="autosaveSeconds")value=std::clamp(value.toInt(),0,600);
     if(values_[name]==value)return;
     values_[name]=value;settings_.setValue(name,value);settings_.sync();emit changed();
+}
+QStringList Preferences::fontFamilies() const {
+    auto families=QFontDatabase::families();
+    families.sort(Qt::CaseInsensitive);
+    const auto current=values_.value("fontFamily").toString();
+    if(!families.contains(current))families.prepend(current);
+    if(!families.contains("monospace"))families.prepend("monospace");
+    return families;
 }
 QVariantMap EditorServices::indent(QQuickTextDocument* q,int start,int end,int width,bool tabs,bool remove){width=std::clamp(width,1,8);return editLines(doc(q),start,end,[=](QString line){if(!remove)return (tabs?QString("\t"):QString(width,' '))+line;if(line.startsWith('\t'))return line.mid(1);int n=0;while(n<width&&n<line.size()&&line[n]==' ')++n;return line.mid(n);});}
 QVariantMap EditorServices::comment(QQuickTextDocument* q,int start,int end){auto* d=doc(q);if(!d)return {};bool uncomment=true;auto last=d->findBlock(end>start?end-1:end);for(auto b=d->findBlock(start);b.isValid();b=b.next()){if(!b.text().trimmed().startsWith("//"))uncomment=false;if(b==last)break;}return editLines(d,start,end,[=](QString line){int n=0;while(n<line.size()&&line[n].isSpace())++n;if(uncomment)line.remove(n,line.mid(n,3)=="// "?3:2);else line.insert(n,"// ");return line;});}

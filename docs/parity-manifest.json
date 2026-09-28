@@ -4,6 +4,22 @@
   "audit_status": "initial_inventory_not_exhaustive",
   "features": [
     {
+      "id": "editor.guided-interface",
+      "kind": "addition",
+      "original_evidence": "User request for a font selector, icon controls and an offline tutorial; does not close web IDE or course parity.",
+      "native_implementation": "QFontDatabase family list with current preference retained, QML dropdown and live preview; local vector toolbar symbols; 11-topic offline tutorial via More and F1.",
+      "regression_tests": [
+        "gui_workflow: font selection/persistence, tutorial navigation and topic content, portrait/landscape dialog bounds"
+      ],
+      "platform_coverage": {
+        "windows-x86_64": "Four CTest suites, 377 GUI assertions passed; screenshots inspected.",
+        "other": "Shared implementation; new cross-platform CI pending."
+      },
+      "status": "partial",
+      "release_blocker": false,
+      "notes": "Guide documents supported workflows and limits; it is not a completed course or an exhaustive parity claim."
+    },
+    {
       "id": "android.rendering-corruption",
       "kind": "platform",
       "original_evidence": "0.1.8 CI capture has triangle corruption; local API36 capture black despite successful input/backend assertions",

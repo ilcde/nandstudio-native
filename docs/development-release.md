@@ -1,5 +1,10 @@
 # NandStudio development packages
 
+Version 0.1.10 adds an installed-font picker with a preview, vector toolbar icons,
+an offline tutorial (More or F1), workflow diagrams and new application demos.
+The root LICENSE exposes the existing native-code GPL terms; bundled course
+assets retain their separate notices. These additions do not close full parity.
+
 Version 0.1.9 adds **Compile Jack folder** in Converters & diagnostics and
 `build-folder` in the console, including unsaved dependency buffers and protected
 output commits. The screenshot gate now rejects blank

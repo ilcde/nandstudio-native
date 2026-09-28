@@ -48,7 +48,9 @@ ApplicationWindow {
         function onHardwareLoaded() { if(root.compact)root.mobilePane=2 }
     }
     BitmapDialog { id: bitmapDialog }
-    header: AppToolbar { onBitmapRequested: bitmapDialog.open(); onOsRequested: { osDialog.targetFolder=studio.bundledOsTarget();osDialog.open() } onToolsRequested: toolsDialog.open();onFolderRequested: folder.open();onFileRequested: openFile.open();onSettingsRequested: settingsDialog.open();onSearchRequested: {if(root.compact)root.mobilePane=1;editorArea.focusSearch()} onExportRequested: exportFolder.open() }
+    TutorialDialog { id: tutorialDialog }
+    Shortcut { sequence: "F1"; onActivated: tutorialDialog.open() }
+    header: AppToolbar { onTutorialRequested: tutorialDialog.open(); onBitmapRequested: bitmapDialog.open(); onOsRequested: { osDialog.targetFolder=studio.bundledOsTarget();osDialog.open() } onToolsRequested: toolsDialog.open();onFolderRequested: folder.open();onFileRequested: openFile.open();onSettingsRequested: settingsDialog.open();onSearchRequested: {if(root.compact)root.mobilePane=1;editorArea.focusSearch()} onExportRequested: exportFolder.open() }
     ConfirmDialog { id: osDialog; objectName: "installOsDialog"; property string targetFolder: ""; title: "Add supplied Jack OS"; actionText: "Add missing"; message: "Copy the eight supplied OS VM files and their license notice into:\n"+targetFolder+"\n\nExisting files, including empty student implementations, will be kept. This does not reload the running VM. Choose Load VM explicitly afterward. Save and export important Android work before uninstalling."; onConfirmed: studio.installBundledOs(targetFolder) }
     FileDialog { id: openFile; title: "Open project file"; onAccepted: {studio.open(selectedFile);if(root.compact)root.mobilePane=1} }
     FolderDialog { id: folder; objectName: "workspaceFolderDialog"; title: "Open workspace"; onAccepted: studio.openWorkspace(selectedFolder) }

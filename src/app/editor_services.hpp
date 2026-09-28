@@ -10,9 +10,11 @@
 class Preferences : public QObject {
     Q_OBJECT
     Q_PROPERTY(QVariantMap values READ values NOTIFY changed)
+    Q_PROPERTY(QStringList fontFamilies READ fontFamilies CONSTANT)
 public:
     Preferences();
     QVariantMap values()const{return values_;}
+    QStringList fontFamilies() const;
     Q_INVOKABLE void set(const QString& name,const QVariant& value);
 signals:void changed();
 private:QSettings settings_;QVariantMap values_;

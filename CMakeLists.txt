@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.25)
-project(NandStudio VERSION 0.1.9 LANGUAGES CXX)
+project(NandStudio VERSION 0.1.10 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -85,6 +85,8 @@ if(NAND_BUILD_GUI)
   qt_add_qml_module(NandStudio URI NandStudio VERSION 1.0 OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/qml/NandStudio" QML_FILES
     src/app/BitmapDialog.qml
     src/app/ActionButton.qml
+    src/app/ActionIcon.qml
+    src/app/TutorialDialog.qml
     src/app/AppDialog.qml
     src/app/AppField.qml
     src/app/AppToolbar.qml
@@ -114,7 +116,7 @@ if(NAND_BUILD_GUI)
   set_target_properties(NandStudio PROPERTIES WIN32_EXECUTABLE TRUE MACOSX_BUNDLE TRUE)
   target_compile_definitions(NandStudio PRIVATE NAND_VERSION="${PROJECT_VERSION}")
   if(ANDROID)
-    set_target_properties(NandStudio PROPERTIES QT_ANDROID_MIN_SDK_VERSION 28 QT_ANDROID_TARGET_SDK_VERSION 36 QT_ANDROID_VERSION_NAME "${PROJECT_VERSION}" QT_ANDROID_VERSION_CODE 10)
+    set_target_properties(NandStudio PROPERTIES QT_ANDROID_MIN_SDK_VERSION 28 QT_ANDROID_TARGET_SDK_VERSION 36 QT_ANDROID_VERSION_NAME "${PROJECT_VERSION}" QT_ANDROID_VERSION_CODE 11)
     target_link_options(NandStudio PRIVATE -Wl,-z,max-page-size=16384)
   endif()
   install(TARGETS NandStudio BUNDLE DESTINATION . RUNTIME DESTINATION bin LIBRARY DESTINATION lib)
@@ -123,7 +125,7 @@ if(NAND_BUILD_GUI)
     install(SCRIPT ${deploy_script})
   endif()
 endif()
-install(FILES NOTICE.md DESTINATION share/nandstudio)
+install(FILES LICENSE NOTICE.md DESTINATION share/nandstudio)
 install(FILES README.md CONTRIBUTING.md toolchain-lock.json DESTINATION share/nandstudio)
 install(DIRECTORY docs/ DESTINATION share/nandstudio/docs FILES_MATCHING PATTERN "*.md" PATTERN "*.json" PATTERN "*.png" PATTERN "*.gif")
 install(DIRECTORY licenses/ DESTINATION share/nandstudio/licenses)

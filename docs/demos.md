@@ -1,5 +1,20 @@
 # Real application demonstrations
 
+## Font picker and offline tutorial
+
+![Installed-font dropdown in the native Settings dialog](images/font-picker.png)
+
+![Four pages of the offline workflow guide](images/tutorial.gif)
+
+These Windows offscreen Qt captures use the real EntryAlarm example and the
+application's own dialogs. The GIF advances through four topics at 4.5 seconds
+per frame; it is a sequence of test-driven captures, not a manual interaction
+recording. Font choices reflect this test environment, not every Windows font.
+See [the tutorial guide](tutorial.md) for controls and workflow diagrams.
+
+Reproduce with `NAND_DEMO_CAPTURE=1` and the GUI self-test, then run
+`python scripts/make_demo_gif.py CAPTURE_DIRECTORY docs/images/tutorial.gif --prefix tutorial-frame --duration 4500`.
+
 See the separate [Android rendering comparison](android-rendering.md) for actual
 emulator screenshots and controlled Vulkan workflow evidence.
 

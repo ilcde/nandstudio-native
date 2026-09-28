@@ -8,7 +8,7 @@ Pane {
     signal folderRequested(); signal fileRequested(); signal settingsRequested(); signal searchRequested(); signal exportRequested()
     property real safeTop: SafeArea.margins.top
     signal toolsRequested(); signal bitmapRequested()
-    signal osRequested()
+    signal osRequested(); signal tutorialRequested()
     // Button menus belong below the header, never centered on its short height.
     function openMenu(menu, button) {
         const position=button.mapToItem(Overlay.overlay,0,button.height)
@@ -25,12 +25,12 @@ Pane {
     RowLayout {
         id: row; anchors.fill: parent; spacing: Theme.sm
         Label { text: "NandStudio"; visible: toolbar.width > 600; font.bold: true; font.pixelSize: Theme.bodySize+5; color: Theme.accent; Layout.rightMargin: Theme.sm }
-        ActionButton { id: filesButton; objectName: "filesButton"; Layout.minimumWidth: 0; Layout.fillWidth: toolbar.width < 500; text: "Files"; onClicked: toolbar.openMenu(fileMenu,filesButton); help: "Open files, save documents and manage the workspace" }
-        ActionButton { objectName: "saveButton"; Layout.minimumWidth: 0; Layout.fillWidth: toolbar.width < 500; text: "Save"; enabled: studio.active >= 0; onClicked: studio.documents[studio.active].save() }
-        ActionButton { objectName: "buildButton"; Layout.minimumWidth: 0; Layout.fillWidth: toolbar.width < 500; text: "Build"; enabled: !studio.busy; primary: true; onClicked: studio.build(); help: "Build the visible ASM or Jack buffer, or load HDL" }
+        ActionButton { id: filesButton; objectName: "filesButton"; Layout.minimumWidth: 0; Layout.fillWidth: toolbar.width < 500; text: "Files"; symbol: "folder"; onClicked: toolbar.openMenu(fileMenu,filesButton); help: "Open files, save documents and manage the workspace" }
+        ActionButton { objectName: "saveButton"; Layout.minimumWidth: 0; Layout.fillWidth: toolbar.width < 500; text: "Save"; symbol: "save"; iconOnly: toolbar.width < 500; enabled: studio.active >= 0; onClicked: studio.documents[studio.active].save() }
+        ActionButton { objectName: "buildButton"; Layout.minimumWidth: 0; Layout.fillWidth: toolbar.width < 500; text: "Build"; symbol: "build"; iconOnly: toolbar.width < 500; enabled: !studio.busy; primary: true; onClicked: studio.build(); help: "Build the visible ASM or Jack buffer, or load HDL" }
         Item { Layout.fillWidth: true }
         BusyIndicator { visible: studio.busy && toolbar.width>500; running: studio.busy; Layout.preferredWidth: 32; Layout.preferredHeight: 32 }
-        ActionButton { id: moreButton; objectName: "moreButton"; Layout.minimumWidth: 0; Layout.fillWidth: toolbar.width < 500; text: "More"; onClicked: toolbar.openMenu(moreMenu,moreButton) }
+        ActionButton { id: moreButton; objectName: "moreButton"; Layout.minimumWidth: 0; Layout.fillWidth: toolbar.width < 500; text: "More"; symbol: "more"; onClicked: toolbar.openMenu(moreMenu,moreButton) }
     }
     Menu {
         id: fileMenu; objectName: "filesMenu"
@@ -61,6 +61,7 @@ Pane {
         MenuItem { objectName: "toolsMenuItem"; text: "Converters & diagnostics\u2026"; onTriggered: toolbar.toolsRequested() }
         MenuItem { objectName: "installOsMenuItem"; text: "Add supplied Jack OS\u2026"; enabled: !studio.busy && (studio.active>=0 || studio.workspace.length>0); onTriggered: toolbar.osRequested() }
         MenuItem { text: Theme.dark ? "Use light theme" : "Use dark theme"; onTriggered: preferences.set("dark",!Theme.dark) }
+        MenuItem { objectName: "tutorialMenuItem"; text: "Tutorial & workflow guide"; onTriggered: toolbar.tutorialRequested() }
         MenuItem { objectName: "settingsMenuItem"; text: "Settings\u2026"; onTriggered: toolbar.settingsRequested() }
         MenuSeparator {}
         MenuItem { enabled: false; text: "NandStudio " + Qt.application.version }

@@ -12,7 +12,14 @@ AppDialog {
             Label { text: "Editor font size" }
             SpinBox { from: 10; to: 32; value: preferences.values.fontSize; editable: true; onValueModified: preferences.set("fontSize",value); Layout.fillWidth: true }
             Label { text: "Font family" }
-            AppField { text: preferences.values.fontFamily; Layout.fillWidth: true; onAccepted: preferences.set("fontFamily",text) }
+            ComboBox {
+                objectName: "editorFontPicker"; Layout.fillWidth: true
+                model: preferences.fontFamilies
+                currentIndex: Math.max(0,model.indexOf(preferences.values.fontFamily))
+                onActivated: preferences.set("fontFamily",currentText)
+                Accessible.name: "Editor font family"
+            }
+            Label { objectName: "editorFontPreview"; text: "CHIP Example { IN a; OUT out; }\n0123456789  Il1  O0  [] {}"; font.family: preferences.values.fontFamily; font.pixelSize: preferences.values.fontSize; wrapMode: Text.WrapAnywhere; Layout.fillWidth: true }
             Label { text: "Indent width" }
             SpinBox { from: 1; to: 8; value: preferences.values.indentWidth; onValueModified: preferences.set("indentWidth",value); Layout.fillWidth: true }
             Switch { text: "Indent with tabs"; checked: preferences.values.indentTabs; onToggled: preferences.set("indentTabs",checked) }

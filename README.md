@@ -58,6 +58,7 @@ state. This screenshot does not establish full course or platform parity.
 
 ## Documentation
 
+- [Offline tutorial, font selection and toolbar controls](docs/tutorial.md)
 - [Installation, upgrades and troubleshooting](docs/install.md)
 - [Editor, simulators and console](docs/user-guide.md)
 - [Course projects 1–12: coverage and remaining work](docs/course-workflows.md)
@@ -68,6 +69,14 @@ state. This screenshot does not establish full course or platform parity.
 - [Feature parity](docs/feature-parity.md) and [machine-readable status](docs/parity-manifest.json)
 - [Contribution and issue-reporting guide](CONTRIBUTING.md)
 - [Licenses and attribution](NOTICE.md)
+
+## License
+
+New native code is **GPL-3.0-or-later**; the full text is in [LICENSE](LICENSE).
+Original projects and OS assets retain their separate educational-material terms.
+Qt and reference sources retain their own licenses. See [NOTICE.md](NOTICE.md)
+for attribution and the remaining distribution audit. The code license does not
+relicense those assets.
 
 ## Development
 

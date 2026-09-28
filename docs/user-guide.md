@@ -1,5 +1,9 @@
 # NandStudio user guide
 
+The offline **More > Tutorial & workflow guide** (F1) walks through the supported
+tools. See [tutorial and interface controls](tutorial.md) for font selection,
+toolbar icons and workflow diagrams.
+
 NandStudio is a development preview. It runs native tools locally on Windows,
 macOS, Linux and Android. Read the [installation guide](install.md) first and
 check [course coverage](course-workflows.md) before relying on an unverified

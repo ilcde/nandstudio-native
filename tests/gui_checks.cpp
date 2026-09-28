@@ -88,6 +88,12 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
                 QTest::qWait(150);
                 check(window->grabWindow().save(QDir(dir).filePath(QString("eval-frame-%1.png").arg(frame))),"capture evaluated demo frame");
             }
+            auto* demoSettings=window->findChild<QObject*>("settingsDialog");QMetaObject::invokeMethod(demoSettings,"open");QTest::qWait(200);
+            auto* fontChoice=window->findChild<QObject*>("editorFontPicker");auto* fontPopup=fontChoice->property("popup").value<QObject*>();QMetaObject::invokeMethod(fontPopup,"open");QTest::qWait(200);
+            check(window->grabWindow().save(QDir(dir).filePath("font-picker-demo.png")),"capture open font dropdown");QMetaObject::invokeMethod(fontPopup,"close");QMetaObject::invokeMethod(demoSettings,"reject");
+            auto* demoGuide=window->findChild<QObject*>("tutorialDialog");QMetaObject::invokeMethod(demoGuide,"open");
+            for(int topic=0;topic<4;++topic){demoGuide->setProperty("topic",topic);QTest::qWait(200);check(window->grabWindow().save(QDir(dir).filePath(QString("tutorial-frame-%1.png").arg(topic))),"capture clean tutorial frame");}
+            QMetaObject::invokeMethod(demoGuide,"reject");
             window->resize(412,820);window->setProperty("mobilePane",2);QTest::qWait(300);
             check(window->grabWindow().save(QDir(dir).filePath("course-phone-layout.png")),"capture responsive layout demonstration");
             QCoreApplication::exit(0);return;
@@ -277,6 +283,24 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         window->setProperty("dark",false);QTest::qWait(30);check(!window->property("dark").toBool(),"theme changes");window->setProperty("dark",true);
         auto image=window->grabWindow();check(!image.isNull()&&image.save(QDir(dir).filePath("desktop.png")),"desktop frame rendered");
         auto* preferences=qobject_cast<Preferences*>(engine.rootContext()->contextProperty("preferences").value<QObject*>());
+        const auto families=preferences->fontFamilies();
+        check(!families.isEmpty()&&families.contains(preferences->values()["fontFamily"].toString()),"font picker includes installed families and current preference");
+        auto* settings=window->findChild<QObject*>("settingsDialog");QMetaObject::invokeMethod(settings,"open");QTest::qWait(40);
+        auto* picker=window->findChild<QObject*>("editorFontPicker");
+        check(picker&&picker->property("count").toInt()==families.size(),"font family dropdown is populated");
+        const auto originalFont=preferences->values()["fontFamily"].toString();
+        const int choice=families.size()-1;picker->setProperty("currentIndex",choice);QMetaObject::invokeMethod(picker,"activated",Q_ARG(int,choice));QTest::qWait(30);
+        check(preferences->values()["fontFamily"]==families[choice],"font dropdown selection updates preference");
+        Preferences savedFont;check(savedFont.values()["fontFamily"]==families[choice],"chosen font persists across preference reload");
+        check(window->grabWindow().save(QDir(dir).filePath("font-picker-demo.png")),"capture actual font settings");
+        preferences->set("fontFamily",originalFont);QMetaObject::invokeMethod(settings,"reject");
+        click("moreButton");click("tutorialMenuItem");auto* tutorial=window->findChild<QObject*>("tutorialDialog");
+        check(tutorial&&tutorial->property("visible").toBool(),"tutorial reachable from More menu");
+        click("tutorialNext");check(tutorial->property("topic").toInt()==1,"tutorial next action advances topic");
+        click("tutorialPrevious");check(tutorial->property("topic").toInt()==0,"tutorial previous action returns topic");
+        for(int topic=0;topic<11;++topic){tutorial->setProperty("topic",topic);QTest::qWait(25);check(window->findChild<QObject*>("tutorialBody")->property("text").toString().size()>100,"tutorial topic has workflow instructions: "+QString::number(topic));if(topic<4)check(window->grabWindow().save(QDir(dir).filePath(QString("tutorial-frame-%1.png").arg(topic))),"capture tutorial demonstration frame");}
+        QMetaObject::invokeMethod(tutorial,"reject");
+
         check(preferences!=nullptr,"persistent preferences service available");
         for(auto size:QList<QSize>{{320,640},{412,820},{820,412},{768,1024},{1320,860}}){
             window->resize(size);window->setProperty("mobilePane",0);QTest::qWait(40);
@@ -299,7 +323,7 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
             }
         }
         for(auto size:QList<QSize>{{320,640},{820,412}}){window->resize(size);preferences->set("uiScale",1.5);QTest::qWait(30);
-            for(auto name:{"lineDialog","settingsDialog","closeDocumentDialog","exitDialog","trashDialog","conflictDialog"}){
+            for(auto name:{"lineDialog","settingsDialog","tutorialDialog","closeDocumentDialog","exitDialog","trashDialog","conflictDialog"}){
                 auto* dialog=window->findChild<QObject*>(name);check(dialog!=nullptr,QString(name)+" reachable");QMetaObject::invokeMethod(dialog,"open");QTest::qWait(30);
                 auto* content=dialog->property("contentItem").value<QQuickItem*>();auto* popup=content;while(popup&&!QString(popup->metaObject()->className()).contains("PopupItem"))popup=popup->parentItem();
                 check(popup&&QRectF(0,0,window->width(),window->height()).contains(popup->mapRectToScene(QRectF(0,0,popup->width(),popup->height()))),QString(name)+" bounded at "+QString::number(size.width()));

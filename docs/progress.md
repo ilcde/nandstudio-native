@@ -344,3 +344,17 @@ screenshots and reproduction instructions are in `android-rendering.md`. No
 physical ARM64 or 16 KB runtime qualification is claimed. Baseline verification
 reported 881 files, seven JARs and no differences. All 12 course rows and full
 web IDE parity remain incomplete; see TODO.md and parity-manifest.json.
+
+## Guided interface (0.1.10 candidate)
+
+Added a system-font dropdown with preview and persisted selection, locally drawn
+vector toolbar icons, and an 11-topic offline tutorial accessible through More
+or F1. Compact Save/Build buttons retain accessible names. Windows checks now
+include font selection/reload, topic navigation/content and portrait/landscape
+dialog bounds: 377 GUI assertions and four CTest suites pass.
+
+Added a workflow guide with Mermaid diagrams and test-driven screenshots/GIF.
+Root LICENSE contains the existing GPL-3.0 text; README explicitly distinguishes
+GPL-3.0-or-later native code from educational assets and third-party licenses.
+No relicensing of original materials is intended. Full course/web parity and
+physical-device qualification remain open. Cross-platform candidate CI pending.
