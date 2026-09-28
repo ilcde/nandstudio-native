@@ -35,8 +35,9 @@ substituting answers. Regression fixtures are separate from student exercises.
 ## Assembly, VM and Jack workflow
 
 Build visible `.asm` to generate `.hack`, then Load CPU. Build `.jack` to generate
-`.vm`; use `JackCompiler DIRECTORY` for directory compilation through the packaged
-desktop CLI. Load VM reads sibling VM files and overlays open buffers. Use **More > Add supplied Jack OS** to copy missing original OS VM files
+`.vm`; choose Compile Jack folder in Converters & diagnostics or use `build-folder`
+in the console for multi-file applications, including unsaved editor buffers.
+`JackCompiler DIRECTORY` remains available through the packaged desktop CLI. Load VM reads sibling VM files and overlays open buffers. Use **More > Add supplied Jack OS** to copy missing original OS VM files
 into the active application folder. Existing implementations are preserved.
 Native built-in fallback remains incomplete. Saved test scripts use
 the matching CPU/VM action. The in-app command console is not an external shell.

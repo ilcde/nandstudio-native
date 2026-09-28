@@ -8,6 +8,7 @@
 #include <QQuickStyle>
 #include <QTimer>
 #include <QQuickWindow>
+#include <QSGRendererInterface>
 #include <QFile>
 #include <QFileInfo>
 #include <QDir>
@@ -24,6 +25,11 @@
 void runGuiChecks(Studio&,QQmlApplicationEngine&,const QString&);
 #endif
 int main(int argc,char** argv){
+#ifdef Q_OS_ANDROID
+    // Avoid corrupted triangles/blank frames observed with Android emulator GL
+    // drivers. This UI uses raster-compatible items, without shader effects.
+    QQuickWindow::setSceneGraphBackend(QStringLiteral("software"));
+#endif
     const auto testDir=qEnvironmentVariable("NAND_TEST_STATE_DIR");
     if(!testDir.isEmpty()){
         QDir().mkpath(testDir);
@@ -87,6 +93,7 @@ int main(int argc,char** argv){
             }
             auto* folder=window->findChild<QObject*>("workspaceFolderDialog");
             QJsonObject report{{"platform",QGuiApplication::platformName()},{"width",window->width()},{"height",window->height()},{"device_pixel_ratio",window->devicePixelRatio()},{"safe_top",margins.top()},{"safe_bottom",margins.bottom()},{"safe_left",margins.left()},{"safe_right",margins.right()},{"controls",controls},{"menu_items",menuItems},{"folder_dialog_visible",folder&&folder->property("visible").toBool()},{"passed",passed}};
+            report["software_renderer"]=window->rendererInterface()->graphicsApi()==QSGRendererInterface::Software;
             if(menuCheck){
                 QJsonArray items;
                 const auto collect=[&](auto&& self,QQuickItem* parent)->void{

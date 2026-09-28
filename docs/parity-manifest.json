@@ -4,6 +4,22 @@
   "audit_status": "initial_inventory_not_exhaustive",
   "features": [
     {
+      "id": "android.rendering-corruption",
+      "kind": "platform",
+      "original_evidence": "0.1.8 CI capture has triangle corruption; local API36 capture black despite successful input/backend assertions",
+      "native_implementation": "0.1.9 selects Qt Quick software renderer on Android; screenshot gate rejects blank app surfaces",
+      "regression_tests": [
+        "tests/test_android_visuals.py: three tests; actual black capture rejected",
+        "check_android_toolbar.py: captures at each workflow stage; manual visual review still required"
+      ],
+      "platform_coverage": {
+        "android": "0.1.9 renderer fix awaiting CI/device verification"
+      },
+      "status": "known-difference",
+      "release_blocker": true,
+      "notes": "Backend/tap success does not establish rendered usability. Previous 0.1.8 pass is functional evidence only; physical ARM64 and 16KB runtime still untested."
+    },
+    {
       "id": "compiler.folder-gui",
       "kind": "legacy-workflow",
       "original_evidence": "Java JackCompiler directory invocation; official web IDE Compiler source collection, Compile and Run controls",

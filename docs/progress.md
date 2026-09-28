@@ -297,3 +297,17 @@ Eval, and an offline course workspace/example. APK SHA-256:
 The emulator page size was 4096 bytes; this is not a 16 KB runtime test. Earlier
 intermittent picker/menu failures remain unexplained and are not closed merely
 because this run passed.
+
+## Android rendering follow-up (0.1.9 candidate)
+
+Local API 36 testing of the released 0.1.8 APK reproduced a black captured
+surface, despite successful import/edit/build/export/reopen and Xor/course Eval
+assertions. CI screenshots also show triangular rendering corruption. Therefore
+the prior test success is not complete visual qualification. Added a Pillow
+12.0.0 development-only image check rejecting blank app surfaces (system bars
+excluded), with three unit tests and confirmation that the actual black capture
+fails. This cannot detect every rendering defect; manual image review remains
+required. Selected Qt Quick's software renderer on Android for the 0.1.9
+candidate; device verification is pending. Simulation/compiler code is unchanged.
+The UI has no ShaderEffect or particle dependencies. Qt documents the raster
+renderer and its limitations in the [software adaptation guide](https://doc.qt.io/qt-6/qtquick-visualcanvas-adaptations-software.html).

@@ -1,4 +1,13 @@
-# NandStudio 0.1.7 development packages
+# NandStudio development packages
+
+Version 0.1.9 adds **Compile Jack folder** in Converters & diagnostics and
+`build-folder` in the console, including unsaved dependency buffers and protected
+output commits. Android selects the Qt Quick software renderer to address the
+corrupted/black surfaces observed in 0.1.8. The screenshot gate now rejects blank
+app surfaces; it does not replace manual visual or physical-device testing.
+
+Version 0.1.8 adds a native bitmap editor with drawing, transforms, undo/redo and
+Jack/ASM code generation. Image import and animation export remain unimplemented.
 
 Version 0.1.7 includes the eight unchanged compiled Jack OS files in offline
 course workspaces. **More > Add supplied Jack OS** copies missing OS classes
@@ -92,7 +101,8 @@ Preserve existing project backups when trying development builds.
 Known Android emulator visual limitation: local emulator 36.3.10 with SwiftShader
 showed triangular background/button artifacts. The real-inset toolbar check passes,
 but does not certify rendering or complete touch workflows. Physical ARM64 visual
-testing remains pending. No speculative rendering override is shipped. See the
+testing remains pending. The 0.1.9 software-renderer candidate requires fresh
+workflow and screenshot verification before release. See the
 repository's `docs/release-2026-09-25.md` and parity register for recorded evidence.
 
 Source ZIPs attached here contain the tracked native project. The uploaded legacy

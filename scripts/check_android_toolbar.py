@@ -7,6 +7,7 @@ import subprocess
 import time
 import re
 import xml.etree.ElementTree as ET
+from android_visuals import has_rendered_content
 
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('apk',type=pathlib.Path)
@@ -67,6 +68,8 @@ args.report.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
 print(json.dumps(report,indent=2))
 if not report.get('passed') or report.get('safe_top',0)<=0:
     raise RuntimeError('Toolbar failed safe-area check or the emulator did not exercise a status-bar inset')
+if not report.get('software_renderer'):
+    raise RuntimeError('Android did not initialize the required software renderer')
 
 # Exercise the actual touch route that the geometry-only check missed.
 def read_menu():
@@ -101,8 +104,12 @@ def tap(data,group,name):
     adb('shell','input','tap',str(round((item['x']+item['width']/2)*scale)),str(round((item['y']+item['height']/2)*scale)))
 
 def screenshot(name):
-    image=subprocess.run([args.adb,'exec-out','screencap','-p'],capture_output=True,check=True,timeout=30)
-    args.report.with_name(name+'.png').write_bytes(image.stdout)
+    for attempt in range(6):
+        image=subprocess.run([args.adb,'exec-out','screencap','-p'],capture_output=True,check=True,timeout=30)
+        args.report.with_name(name+'.png').write_bytes(image.stdout)
+        if has_rendered_content(image.stdout): return
+        time.sleep(0.5)
+    raise RuntimeError('Android capture is blank: '+name+'; backend state alone does not verify a usable UI')
 
 adb('shell','am','force-stop',package)
 adb('shell','run-as',package,'rm','-f','files/menu-report.json')
