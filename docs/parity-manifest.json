@@ -4,6 +4,22 @@
   "audit_status": "initial_inventory_not_exhaustive",
   "features": [
     {
+      "id": "compiler.folder-gui",
+      "kind": "legacy-workflow",
+      "original_evidence": "Java JackCompiler directory invocation; official web IDE Compiler source collection, Compile and Run controls",
+      "native_implementation": "Studio::buildJackFolder; More > Converters & diagnostics; build-folder console command",
+      "regression_tests": [
+        "gui_workflow: unsaved dependencies, malformed source preserves outputs, concurrent output editing, cancellation, multi-file compile + supplied OS + VM execution"
+      ],
+      "platform_coverage": {
+        "windows-x86_64": "local shared GUI tests",
+        "other-platforms": "shared C++ implementation; qualification pending"
+      },
+      "status": "partial",
+      "release_blocker": false,
+      "notes": "No recursive build. Atomic per-file output commits; partial I/O failure reports committed files. Full compiler semantic diagnostic parity remains a separate blocker."
+    },
+    {
       "id": "tools.bitmap-editor",
       "kind": "addition",
       "original_evidence": "Official web IDE bitmap controls inspected 2026-09-28; docs/web-ide-parity.md",
@@ -29,7 +45,7 @@
         "scripts/check_android_toolbar.py --workspace-flow; retain failed attempt and rerun unchanged APK"
       ],
       "platform_coverage": {
-        "android-x86_64-api36": "attempt 1 failed after tree grant; attempt 2 failed opening More on unchanged APK",
+        "android-x86_64-api36": "0.1.7 failed twice; 0.1.8 CI 36395135372 passed full workspace and Eval workflow; intermittent cause unresolved",
         "android-arm64": "package built; physical workflow not exercised"
       },
       "status": "known-difference",

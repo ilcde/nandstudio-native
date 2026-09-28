@@ -274,3 +274,26 @@ Markdown files passed encoding/local-link checks. Other platform qualification
 is pending CI. The web comparison, bitmap instructions and explicit missing
 features are in `web-ide-parity.md`; the parity manifest and TODO remain open.
 Android picker/menu stalls still block publication; no release is asserted here.
+
+## 2026-09-28: multi-file Jack application workflow
+
+Added Compile Jack folder in Converters & diagnostics and `build-folder` in the
+native task console. Compilation runs off the GUI thread with open-buffer
+snapshots. All sources compile before any output commits; the GUI-thread commit
+checks dirty buffers again, including edits made during the worker operation.
+External changes, cancellation, resource bounds and partial I/O errors are
+reported explicitly. Original project and source files are not rewritten.
+
+Windows Release: four CTest suites passed, including 350 GUI checks. New tests
+cover unsaved dependencies, malformed source with unchanged output, concurrent
+output edits, cancellation, the shared GUI action, and a multi-file application
+compiled and executed through the supplied OS to a result of 42. Documentation
+checks passed for 26 maintained Markdown files. Other targets need this commit's CI.
+
+For preceding commit db07f13, Android API 36 x86-64 CI 36395135372 passed actual
+toolbar taps, Downloads import/edit/save/assemble/export/reopen, composite Xor
+Eval, and an offline course workspace/example. APK SHA-256:
+`ac8084cd0e57b3e958ab810ec23ad11bc845ba96c1cbd0c7822655e5b58bf292`.
+The emulator page size was 4096 bytes; this is not a 16 KB runtime test. Earlier
+intermittent picker/menu failures remain unexplained and are not closed merely
+because this run passed.

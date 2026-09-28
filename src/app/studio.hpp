@@ -32,7 +32,8 @@ public:
 signals:void changed();void textChanged();void error(QString message);void conflict();
 private:QByteArray conflictingBytes_;bool conflictPending_=false;
 };
-struct TaskResult {QString message,artifact,text,path,errorPath;int line=0,column=0;bool error=false;quint64 revision=0;};
+struct GeneratedFile { QString path; QByteArray bytes, previous; bool existed=false; };
+struct TaskResult {QString message,artifact,text,path,errorPath;int line=0,column=0;bool error=false;quint64 revision=0;QList<GeneratedFile> generated;};
 struct WorkspaceResult {QString path,error;QVariantList files;};
 struct ExecutionResult {nand::Cpu cpu;nand::Vm vm;nand::Hardware hardware;bool vmMode=false,hardwareMode=false;QString error,hardwarePath,hardwareMessage,errorPath,pauseReason;QMap<QString,QString> hardwareSources;int errorLine=0,errorColumn=0;};
 class Studio : public QObject {
@@ -96,6 +97,7 @@ public:
     Q_INVOKABLE void setAutosaveSeconds(int seconds);
     Q_INVOKABLE void navigateTo(const QString& path,int line,int column);
     Q_INVOKABLE void build(bool vmFolder=false,bool bootstrap=false);Q_INVOKABLE void loadCpu();Q_INVOKABLE void loadVm();
+    Q_INVOKABLE void buildJackFolder();
     Q_INVOKABLE void loadHardware();Q_INVOKABLE void hardwareAction(const QString& action);
     Q_INVOKABLE void hardwareActionWithInputs(const QString& action,const QVariantMap& inputs);
     Q_INVOKABLE void evaluateHardwareWithInputs(const QVariantMap& inputs);
@@ -127,6 +129,7 @@ private:
     quint64 conversionRevision_=0;
     QFutureWatcher<TaskResult> conversionTask_;
     Document* current()const;void recover();void saveSession();void runTest(nand::ScriptTool tool);
+    void finishJackFolder(TaskResult& result);
     std::shared_ptr<ExecutionResult> snapshot()const;
     void recordHardware(const QString& event);
     void beginHardwareLoad(bool evaluate,const QVariantMap& inputs);

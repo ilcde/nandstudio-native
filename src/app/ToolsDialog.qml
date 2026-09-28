@@ -30,6 +30,7 @@ AppDialog {
             CheckBox { id: live; objectName: "liveDiagnostics"; text: "Live checks of the active editor buffer"; onToggled: dialog.schedule() }
             CheckBox { id: bootstrap; text: "VM bootstrap: initialize SP and call Sys.init"; visible: dialog.document!==null&&dialog.document.path.endsWith(".vm"); onToggled: dialog.schedule() }
             ActionButton { objectName: "previewConversion"; text: "Check & preview visible buffer"; enabled: dialog.document!==null&&!studio.conversion.busy; Layout.fillWidth: true; onClicked: studio.previewConversion(bootstrap.checked) }
+            ActionButton { objectName: "buildJackFolder"; text: "Compile Jack folder"; visible: dialog.document!==null&&dialog.document.path.endsWith(".jack"); enabled: !studio.busy; Layout.fillWidth: true; onClicked: studio.buildJackFolder() }
             ActionButton { text: "Translate VM folder to ASM file"; visible: dialog.document!==null&&dialog.document.path.endsWith(".vm"); enabled: !studio.busy; Layout.fillWidth: true; onClicked: studio.build(true,bootstrap.checked) }
             Label { text: studio.conversion.status || "No preview requested"; wrapMode: Text.WordWrap; Layout.fillWidth: true; color: studio.conversion.error?Theme.danger:Theme.text }
             ActionButton { text: "Go to diagnostic"; visible: !!studio.conversion.error&&!studio.conversion.stale; Layout.fillWidth: true; onClicked: {studio.navigateTo(studio.conversion.path,studio.conversion.line,studio.conversion.column);dialog.close()} }

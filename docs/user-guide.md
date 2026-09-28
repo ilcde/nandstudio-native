@@ -10,8 +10,8 @@ workflow. No Java runtime is required by the application.
 Choose **Files > Create course workspace** to create a new editable local copy
 of every supplied course project, folders 0–13. This works offline. The original
 starter files remain unchanged and exercises remain intentionally incomplete.
-The separate `examples` folder contains new EntryAlarm and SignalMismatch
-HDL circuits with matching test scripts and comparison files.
+The separate `examples` folder contains new EntryAlarm, SignalMismatch,
+BusSelect4 and RememberBit HDL circuits with matching tests and comparison files.
 
 Each invocation creates a separate folder and preserves previous work. Choose
 **Files > Open workspace** for an existing desktop folder. On Android, select a
@@ -61,8 +61,22 @@ single VM file to `.asm`, or loads HDL. Source files are not implicitly saved.
 Generated artifacts appear in the app. Builds may replace earlier generated files;
 dirty open output buffers block the operation. Read the console for the exact action.
 
-For directory Jack compilation, the desktop command is `JackCompiler DIRECTORY`.
-The in-app task console invokes native services; it is not an external shell.
+For directory Jack compilation, open a Jack source and choose **More > Converters
+& diagnostics > Compile Jack folder**, or enter `build-folder` in the task console.
+It compiles the active document's immediate folder, including unsaved open Jack
+buffers. It does not recursively compile unrelated folders. Every source must
+compile before output is written. Dirty output buffers, including edits made
+during compilation, block the commit; external output changes are also checked.
+Source files stay unsaved. Generated VM files appear in the explorer and console;
+the first opens in the editor. Load VM to run the folder after adding any required
+OS implementation. Android uses the same action in an imported local workspace.
+
+Stop cancels the folder build before output commit. Commits are atomic per file,
+not per folder: an I/O failure after a successful write reports exactly which
+files were committed. Builds are bounded to 1,024 sources, 16 MiB of source and
+64 MiB of retained output snapshots. The desktop equivalent remains
+`JackCompiler DIRECTORY`. The task console invokes native services without an
+external shell.
 
 ## Hardware Simulator and Eval
 

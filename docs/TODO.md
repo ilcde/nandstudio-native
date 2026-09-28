@@ -53,6 +53,9 @@ unchanged; use separately identified regression fixtures for completed circuits.
 
 ## Course projects 1–12 coverage
 
+- [x] Shared Jack folder build from GUI and console, including unsaved dependencies,
+  compile-before-write, output conflict protection and cancellation (Windows tests).
+
 Each row requires native implementation, reachable UI/console actions, reference
 comparison, and exercised desktop/Android workflows before it can be checked.
 

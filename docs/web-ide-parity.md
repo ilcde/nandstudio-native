@@ -9,7 +9,7 @@ legacy languages, dependency lookup and generated compiler output.
 | --- | --- | --- |
 | Hardware: project/chip selection, HDL editor, Eval, Reset, clock, pins | Course workspace, editor and shared hardware engine | Complete component views and interactive script debugging |
 | Hardware tests: load, step, run, rewind, speed, script/compare/output/diff tabs | Native batch scripts and comparison results | Pausable script state and equivalent diff inspection |
-| Compiler: source open/add, Compile, Run | Single-document build and VM execution; directory CLI | Integrated directory build and verified handoff |
+| Compiler: source open/add, Compile, Run | Single-document and folder snapshot builds, VM execution, directory CLI | One-action compile/run handoff and complete semantic diagnostics |
 | Converter: binary, signed decimal, unsigned, hex, Hack ASM | Native numeric converter; separate instruction decoder | Combined ASM converter workflow |
 | Bitmap: grid, resize, shift, rotate, flip, invert, Jack/ASM code | Native bitmap editor described below | Image import, crop/export modes and animation frames |
 | CPU, assembler, VM, guide, settings and about navigation | Native tool panels, settings and packaged guides | Detailed control-by-control audit remains open |

@@ -78,7 +78,7 @@ Studio::Studio(){
         emit conversionChanged();
     });
     connect(&transfer_,&QFutureWatcher<TaskResult>::finished,this,[this]{auto r=transfer_.result();busy_=false;log(r.message);if(!r.error&&!r.path.isEmpty())openWorkspace(QUrl::fromLocalFile(r.path));emit stateChanged();});
-    connect(&task_,&QFutureWatcher<TaskResult>::finished,this,[this]{busy_=false;auto r=task_.result();log(r.message);if(r.error){diagnostics_.append(QVariantMap{{"path",r.path},{"line",r.line},{"column",r.column},{"message",r.message}});emit diagnosticsChanged();for(int i=0;i<docs_.size();++i)if(docs_[i]->path()==r.path){emit diagnostic(i,r.line,r.column,r.message);break;}}else if(!r.artifact.isEmpty()){log("Generated: "+r.artifact);for(auto* d:docs_)if(d->path()==r.artifact&&!d->dirty()){try{auto bytes=read(r.artifact);d->original=bytes;d->text_=QString::fromUtf8(bytes).replace("\r\n","\n");emit d->textChanged();emit d->changed();}catch(const std::exception& e){log(e.what());}}open(QUrl::fromLocalFile(r.artifact));}emit stateChanged();});
+    connect(&task_,&QFutureWatcher<TaskResult>::finished,this,[this]{busy_=false;auto r=task_.result();finishJackFolder(r);log(r.message);if(r.error){diagnostics_.append(QVariantMap{{"path",r.path},{"line",r.line},{"column",r.column},{"message",r.message}});emit diagnosticsChanged();for(int i=0;i<docs_.size();++i)if(docs_[i]->path()==r.path){emit diagnostic(i,r.line,r.column,r.message);break;}}else if(!r.artifact.isEmpty()){log("Generated: "+r.artifact);for(auto* d:docs_)if(d->path()==r.artifact&&!d->dirty()){try{auto bytes=read(r.artifact);d->original=bytes;d->text_=QString::fromUtf8(bytes).replace("\r\n","\n");emit d->textChanged();emit d->changed();}catch(const std::exception& e){log(e.what());}}open(QUrl::fromLocalFile(r.artifact));}emit stateChanged();});
     connect(&execution_,&QFutureWatcher<std::shared_ptr<ExecutionResult>>::finished,this,[this]{
         busy_=false;auto r=execution_.result();
         pauseReason_=r->pauseReason;
@@ -367,6 +367,7 @@ void Studio::command(const QString& text){
     auto args=text.simplified().split(' ');
     if(args[0]=="translate-vm")build(true,args.contains("--bootstrap"));
     else if(args[0]=="preview")previewConversion(args.contains("--bootstrap"));
+    else if(args[0]=="build-folder")buildJackFolder();
     else if(args[0]=="build")build();
     else if(args[0]=="step")step(args.size()>1?args[1].toInt():1);
     else if(args[0]=="load-cpu")loadCpu();else if(args[0]=="load-vm")loadVm();else if(args[0]=="load-hdl")loadHardware();
@@ -375,7 +376,7 @@ void Studio::command(const QString& text){
     else if(args[0]=="set-pin"&&args.size()==3)setHardware(args[1],args[2].toInt());
     else if(args[0]=="test-cpu")test(false);else if(args[0]=="test-vm")test(true);
     else if(args[0]=="reset")reset();else if(args[0]=="stop")cancel();
-    else log("Commands: build, preview [--bootstrap], translate-vm [--bootstrap], load-cpu, load-vm, load-hdl, eval, tick, tock, set-pin name value, test-hdl, step [count], reset, stop, test-cpu, test-vm");
+    else log("Commands: build, build-folder, preview [--bootstrap], translate-vm [--bootstrap], load-cpu, load-vm, load-hdl, eval, tick, tock, set-pin name value, test-hdl, step [count], reset, stop, test-cpu, test-vm");
 }
 void Studio::findInProject(const QString& query){if(query.isEmpty())return;auto files=files_;QMap<QString,QString> buffers;for(auto* d:docs_)buffers[d->path()]=d->text();searchTask_.setFuture(QtConcurrent::run([files,buffers,query]{QVariantList matches;for(auto f:files){auto entry=f.toMap();auto path=entry["path"].toUrl().toLocalFile();try{auto text=(buffers.contains(path)?buffers[path]:QString::fromUtf8(read(path))).split('\n');for(int i=0;i<text.size();++i){int column=int(text[i].indexOf(query,0,Qt::CaseInsensitive));if(column>=0){matches.append(QVariantMap{{"path",path},{"line",i+1},{"column",column+1},{"message",text[i]},{"label",entry["name"].toString()+":"+QString::number(i+1)+":"+QString::number(column+1)+"  "+text[i]}});if(matches.size()>=1000)return matches;}}}catch(...){}}return matches;}));}
 bool Studio::closeDocument(int i){if(i<0||i>=docs_.size())return false;if(docs_[i]->dirty()){log("Save the document before closing; unsaved text is retained");return false;}auto* d=docs_.takeAt(i);d->deleteLater();active_=std::min(active_,int(docs_.size())-1);emit documentsChanged();emit activeChanged();return true;}
