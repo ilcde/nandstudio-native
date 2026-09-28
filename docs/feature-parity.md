@@ -16,7 +16,7 @@ coverage are complete. The initial inventory is not claimed exhaustive.
 | TextComparer | Native comparison and CLI | Seven differential cases; non-ASCII/default-encoding compatibility incomplete |
 | Test scripts | CPU/VM/HDL load/set/step/loops/output/compare subset | Bundled cases; 36 hardware differential cases; breakpoints, stop semantics and full grammar pending |
 | Hardware Simulator | C++ HDL parser, hierarchical net graph, 35 embedded declarations, built-ins, clocks, pins/components/memory and ROM controls | 29 bundled + 7 independent reference cases; 23 passing narrow-negative probes and remaining scheduling/GUI gaps in hardware.md |
-| Jack OS | Original VM assets preserved | Native service implementations, fallback confirmation/precedence and bundled offline assets pending |
+| Jack OS | Original VM assets preserved | Eight compiled OS assets bundled with explicit non-overwriting install; native services, fallback confirmation/precedence pending |
 | Extensions | Source APIs audited initially | Java binary compatibility, native interface, callbacks and GUI extensions unresolved |
 | Editor | Native Qt Quick editor and C++ documents/services; live HDL/VM/Jack/ASM/Hack previews, number converter, navigable diagnostics | Multi-document editing, save conflicts, recovery, snapshot builds; remaining conveniences and edge cases in manifest |
 | Android | ARM64/x86-64 APKs built; actual emulator Files/More/folder chooser touch test passes (CI 36154176790) | Version 0.1.2 adds explicit workspace copies; broader provider, lifecycle, rendering and physical-device verification remains incomplete. See android-workspaces.md |

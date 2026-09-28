@@ -1,0 +1,18 @@
+{
+  "version": "0.1.7",
+  "date": "2026-09-28",
+  "local_platform": "Windows x86-64",
+  "ctest_suites_passed": 4,
+  "gui_checks": 334,
+  "all_gui_checks_passed": true,
+  "explicit_os_reference_cases_passed": 8,
+  "original_os_bytes_unchanged": true,
+  "workflow": [
+    "build Jack through Studio",
+    "install missing supplied OS",
+    "load VM explicitly",
+    "execute two million instructions",
+    "assert Main return value and Sys.halt call frame"
+  ],
+  "platform_qualification": "Other platforms pending CI; no physical Android test claimed"
+}

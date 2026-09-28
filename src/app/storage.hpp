@@ -5,6 +5,7 @@
 #include <QStringList>
 #include <memory>
 #include <functional>
+#include <QStringList>
 namespace storage {
 struct Entry {QUrl url;QString name;bool directory=false;};
 struct Capabilities {bool read=true,write=false,create=false,rename=false,remove=false,atomicReplace=false;};
@@ -20,6 +21,9 @@ public:
     virtual QUrl rename(const QUrl&,const QString&)const=0;
 };
 const Provider& provider(const QUrl&);
+struct OsCopyResult {QStringList added,preserved;};
+// Explicit local-copy workflow; never replaces existing implementations.
+OsCopyResult installBundledOs(const QUrl& destination,const std::function<bool()>& cancelled = {});
 QUrl copyCourseWorkspace(const QUrl& destinationParent,const QString& newName,
                          const std::function<bool()>& cancelled = {});
 // Resolves through existing ancestors and rejects workspace escape/symlinks.

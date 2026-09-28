@@ -226,3 +226,19 @@ isolated script path normalized in rejection diagnostics. The VM starts SP at
 256 as observed in Java and confirmed by CPU.boot(). Four CTest suites and
 69 differential cases pass locally. Cross-platform 0.1.6 CI is pending; full
 course support, OS fallback and other parity blockers remain incomplete.
+
+## 2026-09-28: explicit offline Jack OS assets
+
+Added the eight original tools/OS VM files, per-file hashes and their retained
+attribution to the embedded course resources. More > Add supplied Jack OS
+confirms the active document folder and adds only missing files, preserving
+existing student implementations and the running simulation. The worker reports
+partial failures and cancellation; users reload explicitly. Native service
+fallback remains unfinished. Eight explicit-OS Java/native comparisons passed.
+
+CI 36388335655 passed Linux, both macOS targets, both Android builds, Android
+workspace interaction and sanitizers, but failed the Windows course-copy GUI
+assertion. Publication was blocked. The prior three-second simulator wait was
+used for hundreds of file writes; the follow-up test waits for bounded copy
+completion and retains output/busy-state evidence to distinguish errors from
+timeouts. The next revision must pass this gate before release.

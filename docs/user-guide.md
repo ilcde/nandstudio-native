@@ -160,3 +160,25 @@ mixed-newline editing remains a documented limitation.
 The [parity register](parity-manifest.json), [platform evidence](platforms.json)
 and [implementation checklist](TODO.md) distinguish implemented features from
 unverified workflows and known differences.
+
+## Add supplied Jack OS files offline
+
+From version 0.1.7, open your application file and choose **More > Add supplied
+Jack OS**. Review the destination folder, then choose **Add missing**. The action
+adds the eight original compiled OS VM classes and their attribution notice.
+Every existing filename is preserved, including empty student implementations.
+The console lists added and preserved files. Choose **Load VM** explicitly after
+compiling the application; adding files does not replace the running simulation.
+
+On Android, use an imported local project or a created course workspace, then
+export saved work when needed. The generated course workspace also contains an
+`os` folder with the same original files. The app requires no JRE or network
+connection to run these VM implementations. Their CC BY-NC-SA 3.0 license is
+separate from the native application license. Native built-in OS fallback and
+full service/keyboard compatibility remain incomplete.
+
+The supplied VM OS performs substantial initialization, including font tables.
+For a bounded startup run, enter `step 1000000` in the in-app console, wait for
+completion, then repeat if needed. This is one million VM instructions per
+command, not elapsed milliseconds. Inspect the current instruction/call stack
+to distinguish initialization from the application or the `Sys.halt` loop.

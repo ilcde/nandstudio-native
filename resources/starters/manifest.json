@@ -1247,5 +1247,39 @@
       "sha256": "2a3b12b35061bbb952f5d0652518b8bfc1e13e2ba2bda0f46a3789f56c7843af",
       "bytes": 2741
     }
+  ],
+  "os_files": [
+    {
+      "path": "Array.vm",
+      "sha256": "fcb8de28923a4a1b5837ea4529bb5152a32559fd4c7452ca8f3b734ac26c15c0"
+    },
+    {
+      "path": "Keyboard.vm",
+      "sha256": "42d761e677c3ae7e8a7c4f2b0cb68ecf1253c47b4cb7c5ad11d0662a982f2634"
+    },
+    {
+      "path": "Math.vm",
+      "sha256": "7d6f554b8026f0906079e0e9b64739d5d5a2e3c89f196d9c3ddfd69b14967196"
+    },
+    {
+      "path": "Memory.vm",
+      "sha256": "acdfe09535a6ff703dd45d176dc02ad32a5ec18f3a36f30304dbbce10bfe86e8"
+    },
+    {
+      "path": "Output.vm",
+      "sha256": "7f44654557e0ab0a407f08dfbd5f3f61eaf0928239971974ce7de25ff2536e8b"
+    },
+    {
+      "path": "Screen.vm",
+      "sha256": "87276d15915c03c5db6ef887d05484d8865439f1d3b6514bec56dbe15f4d1356"
+    },
+    {
+      "path": "String.vm",
+      "sha256": "d597d8f7c58df4d4f37b30f7b2e4eaaa7423c3722d599563dd9291a7ad6a59ab"
+    },
+    {
+      "path": "Sys.vm",
+      "sha256": "a6524310d5445bddd08c7c2598f8f4efca0d6235e6331f44227038046e76030b"
+    }
   ]
 }

@@ -98,7 +98,7 @@ and ScreenTest compare all 8,192 screen words in 16-column records after two
 million VM steps. All eight cases pass with explicit bundled OS VM files. This
 does not establish native built-in service fallback or interactive keyboard parity.
 The probe also found that legacy output-list declarations accept at most 20
-arguments, while the native parser currently accepts more; track that parser gap.
+arguments. Native preflight now matches this boundary; six reference cases pass.
 
 ## Offline starters and documentation
 
@@ -117,4 +117,12 @@ arguments, while the native parser currently accepts more; track that parser gap
 
 - [x] Reproduce the Windows Xor/empty-dependency result in Java and native engines.
 - [x] Repeat dependency warnings at every Eval and add direct navigation to unfinished chips.
-- [ ] Qualify the new 0.1.5 warning/navigation UI across platform CI.
+- [x] Qualify the 0.1.5 warning/navigation UI in CI 36231390783; physical-device coverage remains open.
+
+## Offline OS integration
+
+- [x] Bundle the eight original OS VM files with hashes and retained attribution.
+- [x] Add an explicit missing-files-only installation action and destination confirmation.
+- [x] Verify bytes, existing student-file preservation, cancellation and repeated installation locally.
+- [ ] Qualify this new 0.1.7 workflow on Android and all desktop CI targets.
+- [ ] Implement and verify native built-in service selection and fallback; copied VM assets do not close that gap.

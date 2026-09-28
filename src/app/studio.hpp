@@ -79,6 +79,8 @@ public:
     Q_INVOKABLE void openWorkspace(const QUrl& url);
     Q_INVOKABLE void importWorkspace(const QUrl& url);
     Q_INVOKABLE void createCourseWorkspace();
+    Q_INVOKABLE QString bundledOsTarget()const;
+    Q_INVOKABLE void installBundledOs(const QString& target);
     QStringList emptyHardwareChips()const;
     Q_INVOKABLE void openHardwareDependency(const QString& chip);
     Q_INVOKABLE void exportWorkspace(const QUrl& destination);

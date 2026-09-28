@@ -1,0 +1,19 @@
+{
+  "version": "0.1.6",
+  "source_commit": "dbbd94461620559d2b9f05f665480ece6ad1d9ed",
+  "date": "2026-09-28",
+  "platform": "Windows x86-64",
+  "qt_platform": "windows",
+  "qt_version": "6.11.1",
+  "packaged_gui_checks": 311,
+  "all_passed": true,
+  "package": "dist/windows-course-0.1.6.zip",
+  "package_sha256": "d5fc83bda66eedcd60bcbb277a319e7798b4ad78765639e8fdf796606d8f8701",
+  "core_ctest_suites_passed": 4,
+  "differential_passed": 69,
+  "script_limit_reference_cases_passed": 6,
+  "baseline_unchanged_files": 881,
+  "starter_files_verified": 249,
+  "other_platform_ci": "https://github.com/ilcde/nandstudio-native/actions/runs/36388335655",
+  "other_platform_status": "CI complete: all jobs passed except Windows course-copy GUI assertion; no 0.1.6 release"
+}

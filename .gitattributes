@@ -1,2 +1,3 @@
 # Preserve byte-identical educational assets on every checkout and platform.
 resources/starters/projects/** -text
+resources/starters/os/*.vm -text

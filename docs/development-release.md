@@ -1,4 +1,10 @@
-# NandStudio 0.1.6 development packages
+# NandStudio 0.1.7 development packages
+
+Version 0.1.7 includes the eight unchanged compiled Jack OS files in offline
+course workspaces. **More > Add supplied Jack OS** copies missing OS classes
+and their notice into the active document folder without replacing local files.
+Load VM explicitly afterward. This uses VM implementations, not native built-in
+service fallback.
 
 Version 0.1.6 adds BusSelect4 and RememberBit practice examples, real application
 screenshots and an Eval GIF. It restores the reference VM initial stack pointer

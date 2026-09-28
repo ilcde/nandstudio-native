@@ -35,12 +35,32 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         bool courseBytesMatch=true;
         for(const auto& value:courseManifest){auto entry=value.toObject();auto file=course+"/projects/"+entry["path"].toString();courseBytesMatch &= QFile::exists(file)&&QString::fromLatin1(QCryptographicHash::hash(bytes(file),QCryptographicHash::Sha256).toHex())==entry["sha256"].toString();}
         check(courseBytesMatch,"every copied course file matches the original SHA-256");
+        auto osManifest=QJsonDocument::fromJson(bytes(course+"/manifest.json")).object().value("os_files").toArray();
+        check(osManifest.size()==8,"all eight supplied OS VM files are bundled");
+        bool osBytesMatch=true;for(const auto& value:osManifest){auto entry=value.toObject();osBytesMatch &= QString::fromLatin1(QCryptographicHash::hash(bytes(course+"/os/"+entry["path"].toString()),QCryptographicHash::Sha256).toHex())==entry["sha256"].toString();}
+        check(osBytesMatch,"supplied OS VM files preserve baseline bytes");
+        QTemporaryDir osDir;
+        check(write(osDir.path()+"/Math.vm","student implementation"),"create independent student OS implementation");
+        auto osCopy=storage::installBundledOs(QUrl::fromLocalFile(osDir.path()));
+        check(osCopy.added.size()==8&&osCopy.preserved==QStringList{"Math.vm"},"add seven missing OS classes and license notice");
+        check(bytes(osDir.path()+"/Math.vm")=="student implementation","OS installation never replaces student implementation");
+        for(const auto& value:osManifest){auto name=value.toObject()["path"].toString();if(name!="Math.vm")check(bytes(osDir.path()+"/"+name)==bytes(course+"/os/"+name),"installed OS class matches supplied bytes: "+name);}
+        auto repeated=storage::installBundledOs(QUrl::fromLocalFile(osDir.path()));
+        check(repeated.added.isEmpty()&&repeated.preserved.size()==9,"repeat OS install preserves every existing file");
+        QTemporaryDir cancelledOs;bool osCancelled=false;try{storage::installBundledOs(QUrl::fromLocalFile(cancelledOs.path()),[]{return true;});}catch(const std::exception&){osCancelled=true;}
+        check(osCancelled&&QDir(cancelledOs.path()).entryList(QDir::Files).isEmpty(),"cancelled OS install creates no files before first copy");
         check(write(course+"/projects/1/Xor.hdl","student work"),"course copies are writable");
         bool duplicateRejected=false;try{storage::copyCourseWorkspace(QUrl::fromLocalFile(courseDir.path()),"Course");}catch(const std::exception&){duplicateRejected=true;}
         check(duplicateRejected&&bytes(course+"/projects/1/Xor.hdl")=="student work","creating a course copy never overwrites existing student work");
         auto path=QDir(dir).absoluteFilePath("Ui.asm");check(write(path,"@2\r\nD=A\r\n"),"create isolated fixture");studio.openWorkspace(QUrl::fromLocalFile(QDir(dir).absolutePath()));studio.open(QUrl::fromLocalFile(path));
         QTest::qWait(100);auto* window=qobject_cast<QQuickWindow*>(engine.rootObjects().first());check(window!=nullptr,"Qt Quick window instantiated");
         check(QTest::qWaitForWindowExposed(window,5000),"GUI test window is exposed for native input");
+        auto* osMenu=window->findChild<QObject*>("installOsMenuItem");
+        check(osMenu&&osMenu->property("enabled").toBool(),"supplied OS action is reachable in More");
+        check(QMetaObject::invokeMethod(osMenu,"triggered"),"open supplied OS confirmation");QTest::qWait(30);
+        auto* osDialog=window->findChild<QObject*>("installOsDialog");
+        check(osDialog&&osDialog->property("visible").toBool()&&osDialog->property("targetFolder").toString()==QFileInfo(path).absolutePath(),"OS dialog identifies active document folder");
+        check(QMetaObject::invokeMethod(osDialog,"reject"),"cancel OS copy from dialog");
         if(qEnvironmentVariableIsSet("NAND_DEMO_CAPTURE")){
             studio.closeDocument(studio.active());
             studio.openWorkspace(QUrl::fromLocalFile(course+"/examples"));
@@ -346,8 +366,23 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         recovery=QJsonDocument::fromJson(bytes(recoveryPath)).object();check(recovery["documents"].toArray().at(recovery["active"].toInt()).toObject()["text"].toString().endsWith("// recovery marker\n"),"edited buffer is journaled shortly after typing");
         check(vmDocument->save(),"VM recovery fixture saved");studio.closeDocument(studio.active());studio.open(QUrl::fromLocalFile(path));
         auto* courseAction=window->findChild<QObject*>("createCourseWorkspaceMenuItem");
-        check(courseAction&&QMetaObject::invokeMethod(courseAction,"triggered"),"course-copy action is reachable through Files menu");wait();
+        check(courseAction&&QMetaObject::invokeMethod(courseAction,"triggered"),"course-copy action is reachable through Files menu");
+        // File copies include hundreds of durable writes; hosted Windows disks
+        // can take longer than the short simulator-operation wait above.
+        for(int i=0;studio.busy()&&i<600;++i)QTest::qWait(50);
+        write(QDir(dir).filePath("course-copy.json"),QJsonDocument(QJsonObject{{"busy",studio.busy()},{"workspace",studio.workspace()},{"output",studio.output()}}).toJson());
+        check(!studio.busy(),"course copy finishes before inspecting its workspace");
         check(QFile::exists(studio.workspace()+"/projects/12/MemoryTest/MemoryTest.tst")&&QFile::exists(studio.workspace()+"/examples/EntryAlarm.hdl"),"course action opens the copied projects and new examples");
+        auto osTarget=studio.bundledOsTarget();
+        studio.installBundledOs(osTarget);wait();
+        check(!studio.busy()&&QFile::exists(osTarget+"/Sys.vm")&&QFile::exists(osTarget+"/NandStudio-OS-NOTICE.md"),"shared application action adds OS to the explicitly selected document folder");
+        QTemporaryDir jackApp;
+        check(write(jackApp.path()+"/Main.jack","class Main { function int main() { return 42; } }"),"create independent offline Jack application");
+        studio.open(QUrl::fromLocalFile(jackApp.path()+"/Main.jack"));studio.build();wait();
+        check(QFile::exists(jackApp.path()+"/Main.vm"),"build Jack application through shared editor action");
+        studio.installBundledOs(studio.bundledOsTarget());wait();studio.loadVm();studio.step(1000000);wait();studio.step(1000000);wait();
+        write(QDir(dir).filePath("offline-os.json"),QJsonDocument(QJsonObject{{"busy",studio.busy()},{"temp0",studio.memory(5)},{"vm",QJsonObject::fromVariantMap(studio.vmInspection())},{"output",studio.output()}}).toJson());
+        check(!studio.busy()&&studio.memory(5)==42&&studio.vmInspection()["calls"].toList().contains(QString("Sys.halt")),"offline application runs through supplied Sys.init and returns to Sys.halt");
         auto runtimeLog=bytes(qEnvironmentVariable("NAND_TEST_STATE_DIR")+"/qt.log");runtimeLog=runtimeLog.mid(runtimeLog.lastIndexOf("Creating application"));
         check(!runtimeLog.contains("Binding loop")&&!runtimeLog.contains("TypeError")&&!runtimeLog.contains("ReferenceError")&&!runtimeLog.contains("QDataStream::operator"),"no runtime QML binding, type, or settings serialization errors");
     }catch(const std::exception& e){qWarning("GUI check failed: %s",e.what());exitCode=1;}

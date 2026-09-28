@@ -14,3 +14,8 @@ The manifest records every original project file, including platform metadata.
 
 The separate examples folder contains new NandStudio demonstrations, not course
 solutions. Bundled projects do not establish complete simulator feature parity.
+
+The `os` folder contains the eight unchanged compiled Jack OS VM files from
+`tools/OS`, with hashes in `manifest.json` and their own attribution notice.
+Use More > Add supplied Jack OS to add missing implementations to an application
+folder. Existing student files are never replaced.

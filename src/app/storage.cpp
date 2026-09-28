@@ -6,6 +6,7 @@
 #include <QDir>
 #include <QRegularExpression>
 #include <QSet>
+#include <QMap>
 #include <QDirIterator>
 #include <stdexcept>
 namespace storage { namespace {
@@ -58,6 +59,24 @@ public:
     QUrl rename(const QUrl&,const QString&)const override{fail("Direct provider rename is not supported; edit the imported local copy");}
 };
 #endif
+}
+OsCopyResult installBundledOs(const QUrl& destination,const std::function<bool()>& cancelled){
+    const auto directory=local(destination);
+    if(!QFileInfo(directory).isDir())fail("Open or import a local project folder first");
+    QStringList names{"NandStudio-OS-NOTICE.md","Array.vm","Keyboard.vm","Math.vm","Memory.vm","Output.vm","Screen.vm","String.vm","Sys.vm"};
+    QMap<QString,QByteArray> contents;
+    for(const auto& name:names){QFile source(":/starters/os/"+name);if(!source.open(QIODevice::ReadOnly))fail("Missing supplied OS resource: "+name);contents[name]=source.readAll();}
+    OsCopyResult result;
+    for(const auto& name:names){
+        if(cancelled&&cancelled())fail("OS copy cancelled; files already added remain in "+directory);
+        auto path=QDir(directory).filePath(name);
+        if(QFileInfo::exists(path)||QFileInfo(path).isSymLink()){result.preserved.append(name);continue;}
+        QFile target(path);
+        if(!target.open(QIODevice::WriteOnly|QIODevice::NewOnly)||target.write(contents[name])!=contents[name].size()||!target.flush())
+            fail("OS copy failed for "+path+": "+target.errorString()+". Previously added files remain; inspect any incomplete new file before retrying.");
+        result.added.append(name);
+    }
+    return result;
 }
 QUrl copyCourseWorkspace(const QUrl& destinationParent,const QString& newName,const std::function<bool()>& cancelled){
     validateName(newName);

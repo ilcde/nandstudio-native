@@ -147,6 +147,20 @@ void Studio::createCourseWorkspace(){
         r.message="Created editable course workspace: "+r.path+". Bundled originals remain unchanged. Export important work before uninstalling.";
     }catch(const std::exception& e){r.error=true;r.message=e.what();}return r;}));
 }
+QString Studio::bundledOsTarget()const{
+    if(auto* document=current())return QFileInfo(document->path()).absolutePath();
+    return workspace_;
+}
+void Studio::installBundledOs(const QString& target){
+    if(busy_||target.isEmpty())return;
+    if(target!=bundledOsTarget()){log("The active folder changed; reopen Add supplied Jack OS to review the destination");return;}
+    cancelled_=false;busy_=true;emit stateChanged();
+    const auto workspace=workspace_;
+    transfer_.setFuture(QtConcurrent::run([this,target,workspace]{TaskResult r;try{
+        const auto result=storage::installBundledOs(QUrl::fromLocalFile(target),[this]{return cancelled_.load();});
+        r.path=workspace;r.message="Supplied Jack OS in "+target+". Added: "+result.added.join(", ")+". Preserved existing: "+result.preserved.join(", ")+". Load VM explicitly to use these files; the running simulation was not replaced.";
+    }catch(const std::exception& e){r.error=true;r.message=e.what();}return r;}));
+}
 void Studio::exportWorkspace(const QUrl& destination){
     if(busy_||workspace_.isEmpty())return;if(hasDirtyDocuments()){log("Save open documents before exporting; unsaved buffers were not exported");return;}
     auto source=QUrl::fromLocalFile(workspace_);auto name="NandStudio-export-"+QUuid::createUuid().toString(QUuid::WithoutBraces);cancelled_=false;busy_=true;emit stateChanged();

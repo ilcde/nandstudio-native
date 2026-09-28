@@ -22,3 +22,8 @@ Sources: https://www.nand2tetris.org/license and reference/upstream/README.md.
 Native files are new C++ implementations (2026), informed by reference behavior
 and the source identified in docs/baseline.md. No Java engine is linked or invoked
 by the native runtime. Release licensing audit remains incomplete.
+
+The eight original compiled Jack OS VM files under `resources/starters/os`
+retain CC BY-NC-SA 3.0 attribution in `NandStudio-OS-NOTICE.md`. They are not
+relicensed as GPL. Copies made by the explicit add-OS action retain the notice
+and preserve all existing project files.

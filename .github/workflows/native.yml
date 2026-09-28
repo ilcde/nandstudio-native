@@ -84,6 +84,8 @@ jobs:
             build/gui-test/checks.json
             build/gui-test/*.png
             build/gui-test/dialog-overflow.json
+            build/gui-test/course-copy.json
+            build/gui-test/offline-os.json
             build/gui-test/state/qt.log
             package-test/
             package-xcb/

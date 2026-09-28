@@ -1,0 +1,96 @@
+{
+  "date": "2026-09-28",
+  "renderer": "Qt Quick software, offscreen, Windows x86-64",
+  "capture_checks": [
+    {
+      "check": "all original starter files are bundled",
+      "passed": true
+    },
+    {
+      "check": "every copied course file matches the original SHA-256",
+      "passed": true
+    },
+    {
+      "check": "course copies are writable",
+      "passed": true
+    },
+    {
+      "check": "creating a course copy never overwrites existing student work",
+      "passed": true
+    },
+    {
+      "check": "create isolated fixture",
+      "passed": true
+    },
+    {
+      "check": "Qt Quick window instantiated",
+      "passed": true
+    },
+    {
+      "check": "GUI test window is exposed for native input",
+      "passed": true
+    },
+    {
+      "check": "demo uses a real evaluated circuit",
+      "passed": true
+    },
+    {
+      "check": "capture actual application demo",
+      "passed": true
+    },
+    {
+      "check": "demo frame reflects real circuit output",
+      "passed": true
+    },
+    {
+      "check": "capture evaluated demo frame",
+      "passed": true
+    },
+    {
+      "check": "demo frame reflects real circuit output",
+      "passed": true
+    },
+    {
+      "check": "capture evaluated demo frame",
+      "passed": true
+    },
+    {
+      "check": "demo frame reflects real circuit output",
+      "passed": true
+    },
+    {
+      "check": "capture evaluated demo frame",
+      "passed": true
+    },
+    {
+      "check": "demo frame reflects real circuit output",
+      "passed": true
+    },
+    {
+      "check": "capture evaluated demo frame",
+      "passed": true
+    },
+    {
+      "check": "capture responsive layout demonstration",
+      "passed": true
+    }
+  ],
+  "images": [
+    {
+      "file": "course-demo.png",
+      "sha256": "c29cfcd291864dc66ec19fd99b293e0b1e2173e6457d169066742b3cc6a38785"
+    },
+    {
+      "file": "course-phone-layout.png",
+      "sha256": "5d5133b0521f2e5fa606c7c2637104a9c0954fd62e6314b8ec6142e1dae076f2"
+    },
+    {
+      "file": "hdl-eval.gif",
+      "sha256": "b89baaedd89a49323663529828d3016bfc07ae1af5f99b1e44f70339362fb245"
+    }
+  ],
+  "limitations": [
+    "Narrow layout is a Windows capture, not Android device evidence.",
+    "Frames invoke real shared services directly; no manual pointer interaction recording."
+  ]
+}

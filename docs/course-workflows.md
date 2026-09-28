@@ -36,8 +36,9 @@ substituting answers. Regression fixtures are separate from student exercises.
 
 Build visible `.asm` to generate `.hack`, then Load CPU. Build `.jack` to generate
 `.vm`; use `JackCompiler DIRECTORY` for directory compilation through the packaged
-desktop CLI. Load VM reads sibling VM files and overlays open buffers. Supply
-required OS VM files until native fallback is complete. Saved test scripts use
+desktop CLI. Load VM reads sibling VM files and overlays open buffers. Use **More > Add supplied Jack OS** to copy missing original OS VM files
+into the active application folder. Existing implementations are preserved.
+Native built-in fallback remains incomplete. Saved test scripts use
 the matching CPU/VM action. The in-app command console is not an external shell.
 
 Students implement VM translators and syntax analyzers in the course; these are

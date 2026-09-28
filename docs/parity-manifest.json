@@ -4,6 +4,23 @@
   "audit_status": "initial_inventory_not_exhaustive",
   "features": [
     {
+      "id": "workspace.supplied-os-copy",
+      "kind": "addition",
+      "original_evidence": "Uploaded tools/OS: eight VM files; exact SHA-256 records in resources/starters/manifest.json os_files",
+      "native_implementation": "storage::installBundledOs; Studio async task; More > Add supplied Jack OS with destination confirmation",
+      "regression_tests": [
+        "gui_workflow: eight asset hashes, copy bytes, existing student Math preserved, repeat install, cancellation, menu/confirmation and shared action",
+        "scripts/probe_course_os.py: eight explicit-VM reference workflows"
+      ],
+      "platform_coverage": {
+        "windows-x86_64": "four CTest suites and 334 GUI assertions passed, including offline Jack build/OS install/VM execution",
+        "other-platforms": "shared implementation; 0.1.7 CI pending"
+      },
+      "status": "partial",
+      "release_blocker": false,
+      "notes": "Explicit installation of original VM assets; no automatic fallback and no claim of native built-in service parity. Android uses imported local workspaces."
+    },
+    {
       "id": "scripts.output-list-limit",
       "kind": "legacy",
       "original_evidence": "Uploaded Java binaries and Hack/Controller/Script.java MAX_OUTPUT_LIST_ARGUMENTS=20; evidence/script-output-limits.json",
