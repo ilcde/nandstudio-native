@@ -12,12 +12,12 @@
         "scripts/check_android_toolbar.py --workspace-flow; retain failed attempt and rerun unchanged APK"
       ],
       "platform_coverage": {
-        "android-x86_64-api36": "attempt 1 failed; rerun pending",
+        "android-x86_64-api36": "attempt 1 failed after tree grant; attempt 2 failed opening More on unchanged APK",
         "android-arm64": "package built; physical workflow not exercised"
       },
       "status": "known-difference",
       "release_blocker": true,
-      "notes": "Wrong-thread accessibility warnings are observed, not a proven root cause. Do not disable accessibility or bypass the workflow gate. A passing rerun alone does not close intermittent lifecycle risk."
+      "notes": "Wrong-thread accessibility warnings are observed, not a proven root cause. Do not disable accessibility or bypass the workflow gate. A passing rerun alone does not close intermittent lifecycle risk. Second failure precedes the picker; accessibility is not established as the cause. Publication remains blocked."
     },
     {
       "id": "workspace.supplied-os-copy",

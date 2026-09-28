@@ -250,3 +250,11 @@ The log contains Qt accessibility-related cross-thread object warnings; the
 root cause remains unconfirmed. Publication was blocked and the same APK is
 being rechecked in a failed-job-only rerun. The parity register retains the
 intermittent lifecycle issue even if a later attempt succeeds.
+
+Attempt 2 of the unchanged 0.1.7 Android APK failed earlier, waiting for the
+More menu, before the folder picker. This does not confirm accessibility as the
+root cause. Both attempts are retained; release publication remains blocked.
+The Android harness now captures the latest Qt scene, foreground activity, window
+and power dumps, and a screenshot on every interaction timeout, including failures
+before workspace selection. The diagnostic-only change passes Python syntax
+validation; its new capture path has not yet been exercised on an emulator.

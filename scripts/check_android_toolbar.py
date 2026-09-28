@@ -80,6 +80,15 @@ def wait_menu(predicate):
         if data and predicate(data): return data
         time.sleep(0.5)
     args.report.with_suffix('.interaction.log').write_text(adb('logcat','-d').stdout,encoding='utf-8')
+    # Keep the last Qt snapshot and native foreground/window state even when
+    # failure precedes the workspace-specific exception handler below.
+    args.report.with_suffix('.interaction.json').write_text(json.dumps(data,indent=2),encoding='utf-8')
+    for service in ('activity','window','power'):
+        diagnostic=adb('shell','dumpsys',service,check=False)
+        args.report.with_suffix('.'+service+'.txt').write_text(diagnostic.stdout+diagnostic.stderr,encoding='utf-8')
+    capture=subprocess.run([args.adb,'exec-out','screencap','-p'],capture_output=True,timeout=30)
+    if capture.returncode==0:
+        args.report.with_suffix('.interaction.png').write_bytes(capture.stdout)
     raise RuntimeError('Android menu interaction did not reach the required state')
 
 def named(data,group,name):
