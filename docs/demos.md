@@ -124,3 +124,15 @@ Actual Windows Qt capture from the 0.1.12 candidate GUI regression. Choose
 `60432`. Numeric inputs also show canonical assembly when the encoding has one.
 This action writes no files and does not change the running machine. Symbol
 resolution follows the desktop assembler; see [web comparison](web-ide-parity.md).
+
+## Android 0.1.12 visible Eval
+
+![Android Xor input b=1 and output=1](images/android-xor-0.1.12.png)
+
+Actual API36 x86_64 emulator capture from CI 36417780914, reviewed without
+retouching. The output pin and result label both read one after an actual input
+tap and Eval. The gate requires matching submitted/state revisions, output-field
+text and changed pixels inside the stationary output pin.
+[Exact APK workflow evidence](evidence/android-workflow-0.1.12.json) also records
+Downloads-provider import, edit, save, assembly, export and reopening. This closes
+the stale-capture gate for this configuration; physical ARM64 remains unqualified.

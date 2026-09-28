@@ -51,7 +51,7 @@ See [the completion checklist](TODO.md) and [parity manifest](parity-manifest.js
 for the wider project and platform blockers.
 
 
-## Instruction conversion (candidate)
+## Instruction conversion (0.1.12)
 
 The official converter at `/web-ide/util/` exposes Binary, Decimal, Unsigned,
 Hex and HACK ASM fields. On 2026-09-28, entering `D=A` produced binary

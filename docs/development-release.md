@@ -137,3 +137,10 @@ The Android API 36 storage/backend Eval workflow passed and the EntryAlarm
 capture visibly shows alarm=1. Its Xor capture is stale despite backend out=1;
 visual synchronization remains an open issue. This release does not establish
 complete twelve-project or web IDE parity.
+
+For 0.1.12, CI 36417780914 passes all six builds, four desktop CTest suites,
+412 GUI assertions per packaged desktop target, sanitizers and Android interaction
+checks. Publication 36418806472 succeeded. The new Xor capture visibly shows
+out=1 and passes the submitted-revision, binding and changed-pin-pixel gate.
+This supersedes the stale-capture limitation above for the tested API36 x86_64
+configuration. ARM64 physical devices and complete course parity remain unverified.

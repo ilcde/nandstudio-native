@@ -32,7 +32,7 @@ unchanged; use separately identified regression fixtures for completed circuits.
 - [x] Verify shared closed-dependency Eval regressions in desktop CI 36221941023; Android Xor tap rerun passed with the same APK.
 - [ ] Resolve emulator rendering artifacts and verify a physical ARM64 device.
 - [x] Verify automatic Vulkan selection and readable menu/course captures on the API 36 emulator (36399208565).
-- [ ] Synchronize screenshot capture with presented frames; the 0.1.9 Xor capture preceded the final state despite passing backend assertions.
+- [x] Require synchronized frame, output-field text and changed pin pixels for Android Eval capture; API36 x86_64 passes in CI 36417780914. Physical devices remain unqualified.
 - [ ] Configure a stable externally supplied release-signing key for updates.
 
 ## Advanced live UI and converters
@@ -165,8 +165,8 @@ arguments. Native preflight now matches this boundary; six reference cases pass.
 - [x] Observe Qt synchronization/submission without forcing test-only repaints.
 - [x] Reject backend-only release evidence and stale/unchanged output-pin images.
 - [x] Include root LICENSE in source archive selection.
-- [ ] Exercise the new frame/pixel gate on Android and inspect the resulting image.
-- [ ] Determine whether any remaining stale frame is a capture race or a user-visible rendering failure.
+- [x] Exercise the new frame/pixel gate on API36 x86_64 and inspect the resulting image (CI 36417780914, out=1).
+- [ ] Qualify visible Eval on physical ARM64 and fallback graphics drivers; the emulator result does not establish their behavior.
 
 ## Current implementation order
 
@@ -174,8 +174,8 @@ This order follows compatibility and data-safety risk, not the order of course
 lectures. Every item needs shared-core tests, reachable controls, reference
 comparison and platform workflow evidence before it is complete.
 
-1. Resolve presented Android Eval evidence and keep publication blocked on failure.
-2. Qualify the bitmap QML action fix and instruction converter on packaged targets.
+1. Extend the passing emulator Eval pixel gate to physical Android qualification; keep publication blocked on gate failure.
+2. Qualify bitmap and converter interactions on Android; all four packaged desktop targets now pass their GUI regressions.
 3. Complete resumable test-script execution: step, pause, rewind, output rows and
    source position, with the same semantics as batch execution.
 4. Complete legacy Jack rejection/recovery and CLI output behavior; retain the
@@ -187,7 +187,7 @@ comparison and platform workflow evidence before it is complete.
 7. Close the remaining editor, Android provider/lifecycle, Java-extension and
    licensing blockers before claiming full legacy or web IDE parity.
 
-Completed in the current candidate: canonical Hack instruction conversion and
-bitmap transform-handler collision fix. Windows tests cover all eight transform
+Published in 0.1.12: canonical Hack instruction conversion and
+bitmap transform-handler collision fix. Desktop tests cover all eight transform
 handlers and 34,560 canonical instruction encodings; Android qualification is
 still separate. No checked item implies the entire course has been completed.

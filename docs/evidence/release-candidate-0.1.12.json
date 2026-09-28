@@ -1,0 +1,36 @@
+{
+  "source_revision": "e808a9d3aa6d936699af02d3ca6334a487f8378a",
+  "ci_run": 36417780914,
+  "publication_run": 36418806472,
+  "status": "published-development-prerelease",
+  "release": "https://github.com/ilcde/nandstudio-native/releases/tag/development-36417780914",
+  "desktop_packaged_gui_checks": 412,
+  "android_eval_visual_verified": true,
+  "evidence": "android-workflow-0.1.12.json",
+  "full_parity": false,
+  "previous_failed_candidate": {
+    "source_revision": "dc0efde213cdf34e2e46c64575cf07931d52c5de",
+    "ci_run": 36412759239,
+    "status": "failed-not-published",
+    "desktop_packaged_gui_checks": 412,
+    "desktop_targets_passed": [
+      "windows-x86_64",
+      "linux-x86_64",
+      "macos-arm64",
+      "macos-x86_64"
+    ],
+    "android_abis_built": [
+      "arm64-v8a",
+      "x86_64"
+    ],
+    "sanitizers": "passed",
+    "android_interaction": "failed before Eval: DocumentsUI blank launch surface",
+    "correction": "e808a9d: wait up to 30 seconds for rendered screenshot; blank/stale rejection unchanged",
+    "previous_failed_run": {
+      "id": 36407710951,
+      "attempt1": "System UI ANR intercepted More tap",
+      "attempt2": "DocumentsUI remained at protected Downloads root; selected child navigation not confirmed"
+    },
+    "full_parity": false
+  }
+}

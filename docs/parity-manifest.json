@@ -13,8 +13,8 @@
         "gui: visible converter selection, symbol resolution, errors and screenshot"
       ],
       "platform_coverage": {
-        "windows": "Four CTest suites and 412 GUI assertions pass; converter values and all eight QML bitmap operations covered.",
-        "others": "Shared core/QML; CI pending."
+        "desktop": "CI 36417780914: all four packaged desktop targets pass four CTest suites and 412 GUI checks including converter and all eight bitmap actions.",
+        "android": "Shared implementation builds for both ABIs; converter/bitmap UI actions not qualified on-device."
       },
       "status": "partial",
       "release_blocker": false,
@@ -30,8 +30,8 @@
         "Runtime log rejects Final member collisions"
       ],
       "platform_coverage": {
-        "windows": "Four CTest suites and 412 GUI assertions pass; converter values and all eight QML bitmap operations covered.",
-        "others": "CI pending."
+        "desktop": "CI 36417780914: all four packaged desktop targets pass four CTest suites and 412 GUI checks including converter and all eight bitmap actions.",
+        "android": "Shared implementation builds for both ABIs; converter/bitmap UI actions not qualified on-device."
       },
       "status": "partial",
       "release_blocker": true,
@@ -48,8 +48,8 @@
         "tests/test_release_staging.py: missing/stale presentation evidence"
       ],
       "platform_coverage": {
-        "windows": "Four CTest suites and 384 GUI assertions pass.",
-        "android": "Device gate pending CI."
+        "desktop": "CI 36417780914: 412 GUI checks on all four packaged desktop targets.",
+        "android": "API36 x86_64: submitted/state revision 17, actual output text=1 and changed stationary output-pin pixels pass. Screenshot manually reviewed; docs/evidence/android-workflow-0.1.12.json."
       },
       "status": "partial",
       "release_blocker": true,
@@ -100,7 +100,7 @@
         "check_android_toolbar.py: captures at each workflow stage; manual visual review still required"
       ],
       "platform_coverage": {
-        "android-x86_64": "CI 36399208565: automatic Vulkan selection, workflow passes; menu/course captures readable with alarm=1. Xor screenshot shows a preceding frame despite successful backend assertion."
+        "android-x86_64": "CI 36417780914: automatic Vulkan, readable safe toolbar/course captures and Xor output visibly 1; synchronized pixel gate passes. Historical failures retained in progress log."
       },
       "status": "known-difference",
       "release_blocker": true,

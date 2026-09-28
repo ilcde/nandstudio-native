@@ -57,8 +57,10 @@ student HDL stubs remain unchanged. Independent circuits are under
   keyboard mappings and hierarchy navigation are not yet fully implemented or
   covered. Component selection currently exposes primitive built-ins.
 * HDL load diagnostics navigate the editor to dependency source locations and
-  failed loads preserve the last valid chip. Script file I/O remains local-path based; Android
-  SAF, lifecycle and on-device hardware testing are still blocked.
+  failed loads preserve the last valid chip. Script file I/O uses local paths,
+  including Android imported workspace copies. API 36 emulator HDL Eval has
+  backend and visible output-pin coverage in CI 36417780914; broader SAF providers,
+  lifecycle behavior and physical-device qualification remain incomplete.
 
 Bounds: 32 MiB source, one million tokens, dependency depth 128, two million
 bit nodes, 100,000 primitive devices, 16 million memory words. Cancellation is

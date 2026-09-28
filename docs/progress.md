@@ -464,3 +464,16 @@ at DocumentsUI's blank launch surface before selection/Eval. The previous image
 retry budget was about three seconds. Replaced it with a 30-second monotonic
 render deadline, preserving both blank rejection and output-pin pixel checks.
 No release was published from this failed candidate.
+
+### 0.1.12 publication verified
+
+CI 36417780914 at e808a9d passes all six builds, four desktop CTest suites and
+412 packaged GUI checks on each desktop target, sanitizers and the Android
+interaction gate. Composite Xor shows out=1 in the reviewed screenshot; revision
+17 is submitted and the stationary output-pin pixels change. Downloads-provider
+import/edit/save/assemble/export/reopen and offline course Eval pass. Publication
+36418806472 succeeded with six executable packages, source and checksums.
+Reference checks remain 71/71, 14/14 returns and 8/8 supplied-OS cases. All 249
+bundled starter files match the original ZIP. The published source ZIP contains
+the root LICENSE and matches SHA256SUMS. Physical ARM64, 16 KB runtime and full
+course/web IDE parity remain open; see the implementation checklist.

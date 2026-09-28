@@ -57,3 +57,13 @@ Important observed/source-supported details:
 Evidence precedence is uploaded executable behavior, verified corresponding
 source, bundled docs, then supplementary official docs. Source findings lacking
 binary tests remain provisional. Full GUI and extension audit is unfinished.
+
+## Preservation check, 28 September 2026
+
+The uploaded archive still has the SHA-256 recorded above. Every embedded
+`resources/starters/projects` file was compared directly with its corresponding
+archive entry and matches byte for byte. The editable original extraction now
+has a user/external change in `nand2tetris/projects/1/Xor.hdl`; the inventory's
+initial extraction-equality statement describes 24 September, not current edits.
+That file was not overwritten. The immutable reference copy and bundled starters
+remain separate from the user's editable project tree.
