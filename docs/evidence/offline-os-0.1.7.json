@@ -14,5 +14,11 @@
     "execute two million instructions",
     "assert Main return value and Sys.halt call frame"
   ],
-  "platform_qualification": "Other platforms pending CI; no physical Android test claimed"
+  "platform_qualification": "Other platforms pending CI; no physical Android test claimed",
+  "source_commit": "6f155ada57dfb11284a0eb847a274f71353cdbd5",
+  "packaged_windows_gui_checks": 334,
+  "packaged_windows_all_passed": true,
+  "package": "dist/windows-course-0.1.7.zip",
+  "package_sha256": "4bd6bcc02ebd7eca7cbb094b0f10d5a658274df7b7ec838573e6a0743e3215b0",
+  "ci_run": "https://github.com/ilcde/nandstudio-native/actions/runs/36389621457"
 }
