@@ -8,7 +8,7 @@ import subprocess
 import time
 import re
 import xml.etree.ElementTree as ET
-from android_visuals import has_rendered_content
+from android_visuals import has_rendered_content, pin_pixels_changed
 
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('apk',type=pathlib.Path)
@@ -106,16 +106,19 @@ def tap(data,group,name):
     scale=data['device_pixel_ratio']
     adb('shell','input','tap',str(round((item['x']+item['width']/2)*scale)),str(round((item['y']+item['height']/2)*scale)))
 
-def screenshot(name):
+def screenshot(name, accept=None):
     for attempt in range(6):
         image=subprocess.run([args.adb,'exec-out','screencap','-p'],capture_output=True,check=True,timeout=30)
         args.report.with_name(name+'.png').write_bytes(image.stdout)
-        if has_rendered_content(image.stdout): return
+        if has_rendered_content(image.stdout) and (accept is None or accept(image.stdout)): return image.stdout
         time.sleep(0.5)
     args.report.with_suffix('.rendering.log').write_text(adb('logcat','-d').stdout,encoding='utf-8')
     current=read_menu()
     args.report.with_suffix('.rendering.json').write_text(json.dumps(current,indent=2),encoding='utf-8')
-    raise RuntimeError('Android capture is blank: '+name+'; backend state alone does not verify a usable UI')
+    raise RuntimeError('Android capture is blank or stale: '+name+'; backend state alone does not verify a usable UI')
+
+def submitted(data):
+    return data.get('state_revision',0)>0 and data.get('submitted_revision',0)>=data['state_revision']
 
 adb('shell','am','force-stop',package)
 adb('shell','run-as',package,'rm','-f','files/menu-report.json')
@@ -240,14 +243,23 @@ if args.workspace_flow:
         tap(chip_files,'workspace_controls','workspaceFile_Xor.hdl')
         chip_editor=wait_menu(lambda d:d.get('active_document',{}).get('name')=='Xor.hdl')
         tap(chip_editor,'controls','buildButton')
-        loaded=wait_menu(lambda d:d.get('hardware_state',{}).get('chip')=='Xor' and not d.get('busy') and named(d,'workspace_controls','togglePin_b'))
+        loaded=wait_menu(lambda d:d.get('hardware_state',{}).get('chip')=='Xor' and not d.get('busy') and submitted(d) and named(d,'workspace_controls','togglePin_b'))
+        # First evaluate 00 so the result label is present in both captures;
+        # layout movement must never masquerade as an updated output glyph.
+        tap(loaded,'workspace_controls','hardwareEval')
+        loaded=wait_menu(lambda d:d.get('hardware_evaluation')=='Eval completed: out=0' and not d.get('busy') and submitted(d))
+        old_pin=named(loaded,'workspace_controls','pin_out')
+        if not old_pin or old_pin['text']!='0': raise RuntimeError('Initial Xor output field is not zero')
+        before=screenshot('xor-before-eval')
         tap(loaded,'workspace_controls','togglePin_b')
         tap(read_menu(),'workspace_controls','hardwareEval')
-        evaluated=wait_menu(lambda d:d.get('hardware_evaluation')=='Eval completed: out=1' and not d.get('busy'))
+        evaluated=wait_menu(lambda d:d.get('hardware_evaluation')=='Eval completed: out=1' and not d.get('busy') and submitted(d))
         if not any(p['name']=='out' and p['value']==1 for p in evaluated['hardware_state']['pins']):
             raise RuntimeError('Xor Eval output did not update')
-        screenshot('xor-evaluated')
-        report['hdl_eval']={'passed':True,'chip':'reported composite Xor','inputs':{'a':0,'b':1},'out':1,'actual_taps':True}
+        new_pin=named(evaluated,'workspace_controls','pin_out')
+        if not new_pin or new_pin['text']!='1': raise RuntimeError('Xor output field binding did not update')
+        screenshot('xor-evaluated',lambda png:pin_pixels_changed(before,png,old_pin,new_pin,evaluated['device_pixel_ratio']))
+        report['hdl_eval']={'passed':True,'chip':'reported composite Xor','inputs':{'a':0,'b':1},'out':1,'actual_taps':True,'submitted_revision':evaluated['submitted_revision'],'state_revision':evaluated['state_revision'],'output_pixels_changed':True}
         adb('shell','input','keyevent','KEYCODE_HOME')
         time.sleep(1)
         adb('shell','am','force-stop',package)

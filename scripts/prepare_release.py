@@ -52,12 +52,18 @@ def stage(artifacts, destination, run, expected_sha):
     with android_apk.open('rb') as stream:
         android_hash = hashlib.file_digest(stream, 'sha256').hexdigest()
     interaction=android_report.get('interaction',{})
+    evaluation=android_report.get('hdl_eval',{})
+    revision=evaluation.get('state_revision',0)
+    submitted=evaluation.get('submitted_revision',0)
     if (android_report.get('passed') is not True or android_report.get('safe_top',0)<=0
             or interaction.get('passed') is not True or interaction.get('workspace_chooser_opened') is not True
             or android_report.get('workspace_copy',{}).get('passed') is not True
             or android_report.get('hdl_eval',{}).get('passed') is not True
+            or evaluation.get('output_pixels_changed') is not True
+            or type(revision) is not int or type(submitted) is not int
+            or revision<=0 or submitted<revision
             or android_report.get('apk_sha256') != android_hash):
-        raise ValueError('Android toolbar, workspace touch and import/edit/build/export checks must pass for this exact x86_64 APK')
+        raise ValueError('Android toolbar, workspace and presented Eval pixel checks must pass for this exact x86_64 APK')
     destination.mkdir(parents=True, exist_ok=False)
     manifest = {'status': 'incomplete-development-prerelease', 'source_revision': expected_sha,
                 'ci_run': run['html_url'], 'android_toolbar_evidence':'android-toolbar.json', 'assets': []}

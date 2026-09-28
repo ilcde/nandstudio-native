@@ -4,6 +4,24 @@
   "audit_status": "initial_inventory_not_exhaustive",
   "features": [
     {
+      "id": "android.eval-presentation",
+      "kind": "verification",
+      "original_evidence": "0.1.11 screenshot shows stale Xor values despite backend out=1; tests/work/release-0.1.11/android/xor-evaluated.png.",
+      "native_implementation": "Development-only Qt synchronization/frame submission revision observer. Device runner requires output-field text=1 and changed pixels in the stationary output pin; release staging rejects backend-only evidence.",
+      "regression_tests": [
+        "gui: natural submitted Eval state",
+        "tests/test_android_visuals.py: stale pixels, unrelated UI, moved regions",
+        "tests/test_release_staging.py: missing/stale presentation evidence"
+      ],
+      "platform_coverage": {
+        "windows": "Four CTest suites and 384 GUI assertions pass.",
+        "android": "Device gate pending CI."
+      },
+      "status": "partial",
+      "release_blocker": true,
+      "notes": "Does not force updates, alter core semantics or prove physical-device correctness. Frame submission alone is not proof of visible pixels."
+    },
+    {
       "id": "compiler.return-contract",
       "kind": "legacy-behavior",
       "original_evidence": "Uploaded Java compiler: 14 focused constructor/void/non-void cases; scripts/check_jack_returns.py retains full raw process results.",

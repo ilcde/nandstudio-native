@@ -407,3 +407,19 @@ EntryAlarm image visibly shows alarm=1 with a safe toolbar. The Xor image again
 captures stale initial values despite backend out=1: this remains an open
 frame-synchronization/visual-evidence issue, not proof of correct displayed Xor.
 The main repository guides and platform record include this limitation.
+
+## Eval presentation evidence (0.1.12 candidate)
+
+The 0.1.11 Android Xor capture retained old pixels despite a correct backend
+result. Added a development-only observer that associates state revisions with
+Qt scene synchronization and frame submission. It neither requests repaints nor
+changes normal execution. Android now evaluates 00 first, captures its output,
+then evaluates 01 and requires the submitted revision, output-field text and
+changed pixels within the same pin interior to agree. System bars, button focus
+and moved layouts cannot satisfy the pin comparison. Blank/stale images fail.
+
+The release staging gate requires this evidence for the exact APK. Four Python
+visual checks and ten release-staging checks pass. Four Windows CTest suites
+pass with 384 GUI assertions, including naturally submitted Eval state. Android
+execution and cross-platform builds are pending; this is not yet a device fix
+claim. The root LICENSE is now explicitly included in source ZIP selection.

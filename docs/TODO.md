@@ -159,3 +159,11 @@ arguments. Native preflight now matches this boundary; six reference cases pass.
 - [ ] Match complete compiler diagnostics, error recovery, output retention and CLI results.
 - [x] Add independent Parity3 and Majority3 HDL/TST/CMP examples; eight-case truth tables match Java.
 - [ ] Exercise these additions on all packaged platforms and Android devices.
+
+## Presented Eval evidence
+
+- [x] Observe Qt synchronization/submission without forcing test-only repaints.
+- [x] Reject backend-only release evidence and stale/unchanged output-pin images.
+- [x] Include root LICENSE in source archive selection.
+- [ ] Exercise the new frame/pixel gate on Android and inspect the resulting image.
+- [ ] Determine whether any remaining stale frame is a capture race or a user-visible rendering failure.

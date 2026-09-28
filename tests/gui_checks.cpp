@@ -3,6 +3,7 @@
 #include "app/bitmap_canvas.hpp"
 #include "app/editor_services.hpp"
 #include "app/storage.hpp"
+#include "app/presentation_probe.hpp"
 #include "builtin_hdl.hpp"
 #include <QQmlContext>
 #include <QQuickTextDocument>
@@ -194,7 +195,12 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
         studio.open(QUrl::fromLocalFile(path));wait();check(studio.hardwareNeedsReload(),"changed HDL remains reloadable when a non-HDL tab is active");
         studio.evaluateHardwareWithInputs({{"a",1},{"b",0}});wait();check(studio.hardwareValue("out")=="0","Eval reloads the running HDL snapshot from a non-HDL tab");
         studio.open(QUrl::fromLocalFile(xorPath));wait();xorDocument->setText(QString::fromUtf8(xorSource));studio.evaluateHardwareWithInputs({{"a",0},{"b",0}});wait();
+        auto presented=std::make_shared<PresentationProbe>(window);
+        const auto observe=QObject::connect(&studio,&Studio::stateChanged,&studio,[presented]{presented->changed();});
         click("togglePin_b");click("hardwareEval");check(studio.hardwareValue("out")=="1"&&studio.hardwareEvaluation()=="Eval completed: out=1","tap input and Eval publish an explicit live Xor result");
+        for(int frameWait=0;frameWait<100&&presented->submitted()<presented->requested();++frameWait)QTest::qWait(20);
+        QObject::disconnect(observe);
+        check(presented->submitted()>=presented->requested()&&findItem(window->contentItem(),"pin_out")->property("text")=="1","Eval output binding reaches a naturally submitted frame");
         QTest::qWait(80);check(window->grabWindow().save(QDir(dir).filePath("xor-demo.png")),"capture real composite Xor evaluation for documentation");
         xorDocument->setText(QString::fromUtf8(xorSource).replace("Or(a=aAndNotb","And(a=aAndNotb"));QTest::qWait(30);
         check(studio.hardwareNeedsReload()&&findItem(window->contentItem(),"hardwareEval")->property("text")=="Reload & Eval","changed HDL explicitly offers Reload and Eval");

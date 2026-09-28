@@ -2,6 +2,7 @@
 #include "studio.hpp"
 #include "bitmap_canvas.hpp"
 #include "editor_services.hpp"
+#include "presentation_probe.hpp"
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
@@ -84,8 +85,12 @@ int main(int argc,char** argv){
         const int at=arguments.indexOf("--layout-report");if(at+1>=arguments.size())return 2;
         const auto destination=arguments[at+1];
         const bool menuCheck=arguments.contains("--menu-check");
+        auto* observedWindow=qobject_cast<QQuickWindow*>(engine.rootObjects().first());
+        if(!observedWindow)return 1;
+        auto presentation=std::make_shared<PresentationProbe>(observedWindow);
+        QObject::connect(&studio,&Studio::stateChanged,&app,[presentation]{presentation->changed();});
         auto* reportTimer=new QTimer(&app);reportTimer->setInterval(menuCheck?300:1500);reportTimer->setSingleShot(!menuCheck);
-        QObject::connect(reportTimer,&QTimer::timeout,&app,[&app,&engine,&studio,destination,menuCheck]{
+        QObject::connect(reportTimer,&QTimer::timeout,&app,[&app,&engine,&studio,destination,menuCheck,presentation]{
             auto* window=qobject_cast<QQuickWindow*>(engine.rootObjects().first());
             if(!window){QCoreApplication::exit(1);return;}
             const auto margins=window->safeAreaMargins();
@@ -107,14 +112,16 @@ int main(int argc,char** argv){
             QJsonObject report{{"platform",QGuiApplication::platformName()},{"width",window->width()},{"height",window->height()},{"device_pixel_ratio",window->devicePixelRatio()},{"safe_top",margins.top()},{"safe_bottom",margins.bottom()},{"safe_left",margins.left()},{"safe_right",margins.right()},{"controls",controls},{"menu_items",menuItems},{"folder_dialog_visible",folder&&folder->property("visible").toBool()},{"passed",passed}};
             report["software_renderer"]=window->rendererInterface()->graphicsApi()==QSGRendererInterface::Software;
             report["graphics_api"]=int(window->rendererInterface()->graphicsApi());
+            report["state_revision"]=qint64(presentation->requested());
+            report["submitted_revision"]=qint64(presentation->submitted());
             if(menuCheck){
                 QJsonArray items;
                 const auto collect=[&](auto&& self,QQuickItem* parent)->void{
                     if(!parent||!parent->isVisible())return;
                     const auto name=parent->objectName();
-                    if(name=="createCourseWorkspaceMenuItem"||name=="importWorkspaceDialogConfirm"||name=="exportWorkspaceMenuItem"||name=="mobileFilesTab"||name=="hardwareEval"||name.startsWith("togglePin_")||name.startsWith("workspaceFile_")||name.startsWith("editor_")){
+                    if(name=="createCourseWorkspaceMenuItem"||name=="importWorkspaceDialogConfirm"||name=="exportWorkspaceMenuItem"||name=="mobileFilesTab"||name=="hardwareEval"||name.startsWith("pin_")||name.startsWith("togglePin_")||name.startsWith("workspaceFile_")||name.startsWith("editor_")){
                         const auto rect=parent->mapRectToScene(QRectF(0,0,parent->width(),parent->height()));
-                        items.append(QJsonObject{{"name",name},{"x",rect.x()},{"y",rect.y()},{"width",rect.width()},{"height",rect.height()},{"inside_safe_area",usable.contains(rect.center())}});
+                        items.append(QJsonObject{{"name",name},{"x",rect.x()},{"y",rect.y()},{"width",rect.width()},{"height",rect.height()},{"inside_safe_area",usable.contains(rect.center())},{"text",parent->property("text").toString()}});
                     }
                     for(auto* child:parent->childItems())self(self,child);
                 };collect(collect,window->contentItem());

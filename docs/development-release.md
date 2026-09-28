@@ -1,5 +1,11 @@
 # NandStudio development packages
 
+Version 0.1.12 strengthens Android Eval verification: a submitted-frame revision,
+the actual output-field binding and changed output-pin pixels must agree before
+the release gate accepts the screenshot. This observes rendering without forcing
+a repaint. Source archives now include the root LICENSE as well as license notices.
+Device qualification and full course/web IDE parity remain incomplete.
+
 Version 0.1.11 adds reference-backed Jack return validation and two independent
 HDL/TST/CMP examples, Parity3 and Majority3. GUI folder builds preserve all
 previous VM outputs when return validation fails. Full compiler diagnostics
