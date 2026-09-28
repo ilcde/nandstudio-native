@@ -211,3 +211,18 @@ APK hash and full interaction results. The first failure remains in evidence.
 Refreshed stale Android/recovery instructions, marked historical reports, and
 added an authentic Qt application screenshot capture path. New course-copy
 Android interaction and cross-platform package checks are pending CI.
+
+## 2026-09-28: demonstrations and script boundaries
+
+Added independent BusSelect4 and RememberBit HDL/TST/CMP examples. The native
+Qt capture runner produces four evaluated EntryAlarm states, a desktop screenshot
+and a narrow-window screenshot. The GIF uses those frames without retouching.
+All 249 original starter files remain unchanged. Documentation distinguishes
+responsive desktop captures from actual Android verification.
+
+Native output-list preflight now rejects more than 20 fields before output file
+side effects. Six Java/native boundary comparisons pass, with only the exact
+isolated script path normalized in rejection diagnostics. The VM starts SP at
+256 as observed in Java and confirmed by CPU.boot(). Four CTest suites and
+69 differential cases pass locally. Cross-platform 0.1.6 CI is pending; full
+course support, OS fallback and other parity blockers remain incomplete.

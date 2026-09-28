@@ -46,7 +46,7 @@ must be identified as additions rather than claimed as preserved functionality.
 
 ## Evidence and blockers
 
-Reference tests include 67 differential cases, two reported-Xor cases and targeted
+Reference tests include 69 differential cases, two reported-Xor cases and targeted
 hardware probes. They do not exhaust all programs or UI operations. Read the
 release manifest, linked CI run, `evidence/` and `parity-manifest.json` for scope.
 
@@ -70,3 +70,10 @@ projects 9–11. Sixteen match Java-generated VM files byte for byte.
 its constructor returns and assignment types, while the native compiler currently
 accepts them. This is a recorded compiler parity defect, not an exercise to edit
 until it passes. See `evidence/bundled-jack.json` and the parity manifest.
+
+## Independent practice demonstrations
+
+The editable course copy includes four separate HDL/TST/CMP examples.
+[View the screenshots, Eval animation and instructions](demos.md). BusSelect4
+exercises sub-buses; RememberBit exercises clocked capture and hold. They are
+not replacements for the unchanged assignments. All four match Java outputs.

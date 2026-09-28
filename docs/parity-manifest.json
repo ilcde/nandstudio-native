@@ -4,6 +4,40 @@
   "audit_status": "initial_inventory_not_exhaustive",
   "features": [
     {
+      "id": "scripts.output-list-limit",
+      "kind": "legacy",
+      "original_evidence": "Uploaded Java binaries and Hack/Controller/Script.java MAX_OUTPUT_LIST_ARGUMENTS=20; evidence/script-output-limits.json",
+      "native_implementation": "src/script.cpp preflight rejects the 21st field before output-file side effects",
+      "regression_tests": [
+        "core_tests: CPU/VM/HDL boundaries and preservation of existing output",
+        "scripts/probe_script_limits.py: six cases; only exact temporary script path normalized in rejected diagnostics"
+      ],
+      "platform_coverage": {
+        "windows-x86_64": "six reference comparisons pass; four CTest suites pass",
+        "other-platforms": "shared core; 0.1.6 CI pending"
+      },
+      "status": "partial",
+      "release_blocker": false,
+      "notes": "This limit is verified; complete script grammar, diagnostics and parse-before-execution behavior remain open under the broader script feature."
+    },
+    {
+      "id": "vm.initial-stack-pointer",
+      "kind": "legacy",
+      "original_evidence": "Uploaded VMEmulator starts RAM[0] at 256; matching CPU.java boot() sets STACK_START_ADDRESS",
+      "native_implementation": "src/core.hpp Vm initializes RAM[0] to 256, including program reloads",
+      "regression_tests": [
+        "scripts/probe_script_limits.py: 20 RAM[0] fields before loading match Java bytes",
+        "existing VM differential cases"
+      ],
+      "platform_coverage": {
+        "windows-x86_64": "reference comparison passed",
+        "other-platforms": "shared core; 0.1.6 CI pending"
+      },
+      "status": "partial",
+      "release_blocker": false,
+      "notes": "VM bootstrap, loader and reset parity beyond this initial value remain tracked separately."
+    },
+    {
       "id": "hardware.incomplete-dependency-feedback",
       "kind": "addition",
       "original_evidence": "Observed Windows 0.1.4 Xor with empty local Not/And/Or. Exact Java/native comparison in evidence/windows-xor-dependencies.json",
@@ -42,7 +76,7 @@
       "native_implementation": "Qt resources; storage::copyCourseWorkspace; Files > Create course workspace",
       "regression_tests": [
         "gui_workflow: all 249 SHA-256 hashes, writable copy, refusal to overwrite",
-        "differential: two independent examples"
+        "differential: four independent examples"
       ],
       "platform_coverage": {
         "windows-x86_64": "local copy tests passed",

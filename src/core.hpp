@@ -42,7 +42,8 @@ std::string compileJack(std::string_view source);
 std::string translateVm(const std::map<std::string,std::string>& files,bool bootstrap=false);
 struct VmInstruction { std::string op, arg, file, scope; int index = 0, line = 1; };
 struct Vm {
-    std::array<Word, 32768> ram{};
+    // The reference VM CPU starts with SP at the stack base, even before load.
+    std::array<Word, 32768> ram{256};
     std::vector<VmInstruction> code;
     std::map<std::string, std::size_t> labels, functions;
     std::map<std::string, int> statics;

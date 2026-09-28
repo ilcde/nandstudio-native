@@ -1,4 +1,9 @@
-# NandStudio 0.1.5 development packages
+# NandStudio 0.1.6 development packages
+
+Version 0.1.6 adds BusSelect4 and RememberBit practice examples, real application
+screenshots and an Eval GIF. It restores the reference VM initial stack pointer
+and rejects output lists longer than 20 fields before modifying output files.
+See [demonstrations](demos.md) and the recorded regression evidence.
 
 Version 0.1.5 makes unfinished HDL dependencies visible at each Eval, records
 actual input values and adds navigation to the affected local chip files.
@@ -6,8 +11,8 @@ The reported Windows Xor result matches Java when local starter chips are empty.
 
 This version embeds all 249 unchanged course starter files (projects 0–13).
 Choose **Files > Create course workspace** to create an editable offline copy
-on any platform. Two separate HDL/TST/CMP examples, EntryAlarm and
-SignalMismatch, demonstrate pin editing and truth-table tests. Export local
+on any platform. Four separate HDL/TST/CMP examples demonstrate pin editing, truth tables,
+bus wiring and clocked storage. Export local
 work before uninstalling Android development builds.
 
 Eval now detects changed, added and removed closed HDL dependencies on explicit

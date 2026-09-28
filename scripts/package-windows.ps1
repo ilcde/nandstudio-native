@@ -20,9 +20,10 @@ $runtimeEvidence = Get-ChildItem -LiteralPath $crt -Filter '*.dll' | ForEach-Obj
     [ordered]@{ file = $_.Name; version = $_.VersionInfo.FileVersion; sha256 = (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash }
 }
 New-Item -ItemType Directory -Force "$target/docs" | Out-Null
-Copy-Item -LiteralPath "$root/NOTICE.md","$root/README.md","$root/toolchain-lock.json" -Destination $target
+Copy-Item -LiteralPath "$root/NOTICE.md","$root/README.md","$root/CONTRIBUTING.md","$root/toolchain-lock.json" -Destination $target
 Copy-Item -Path "$root/docs/*.md","$root/docs/parity-manifest.json","$root/docs/platforms.json" -Destination "$target/docs"
 Copy-Item -LiteralPath "$root/docs/evidence" -Destination "$target/docs" -Recurse -Force
+Copy-Item -LiteralPath "$root/docs/images" -Destination "$target/docs" -Recurse -Force
 $runtimeEvidence | ConvertTo-Json -Depth 3 | Set-Content -LiteralPath "$target/docs/evidence/windows-crt.json" -Encoding utf8
 New-Item -ItemType Directory -Force "$target/licenses" | Out-Null
 Copy-Item -Path "$root/licenses/*" -Destination "$target/licenses"

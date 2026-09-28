@@ -754,6 +754,32 @@
     ]
   },
   {
+    "name": "starter-BusSelect4",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "BusSelect4.out",
+        "equal": true,
+        "sha256": [
+          "6145ca81d42c55e39480067c56f20f6104f94e0e12b2bbff9a4a760f94479531",
+          "6145ca81d42c55e39480067c56f20f6104f94e0e12b2bbff9a4a760f94479531"
+        ]
+      }
+    ]
+  },
+  {
     "name": "starter-EntryAlarm",
     "tool": "HardwareSimulator",
     "passed": true,
@@ -775,6 +801,32 @@
         "sha256": [
           "64556f9cef8b20fdb8c82bb39c9ffcc0250915e4c2e92031dda566205fac567e",
           "64556f9cef8b20fdb8c82bb39c9ffcc0250915e4c2e92031dda566205fac567e"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "starter-RememberBit",
+    "tool": "HardwareSimulator",
+    "passed": true,
+    "outcome": "success-output-comparison",
+    "java": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "native": {
+      "code": 0,
+      "stdout": "End of script - Comparison ended successfully\r\n",
+      "stderr": ""
+    },
+    "outputs": [
+      {
+        "file": "RememberBit.out",
+        "equal": true,
+        "sha256": [
+          "967627274384aaab2b4a5a8d4608a66ec3546c4da0ea23dadae55b7f1fd800a1",
+          "967627274384aaab2b4a5a8d4608a66ec3546c4da0ea23dadae55b7f1fd800a1"
         ]
       }
     ]

@@ -49,6 +49,16 @@ void runGuiChecks(Studio& studio,QQmlApplicationEngine& engine,const QString& di
             for(int i=0;i<600&&studio.busy();++i)QTest::qWait(50);
             check(!studio.busy()&&studio.hardwareValue("alarm")=="1","demo uses a real evaluated circuit");
             QTest::qWait(500);check(window->grabWindow().save(QDir(dir).filePath("course-demo.png")),"capture actual application demo");
+            for(int frame=0;frame<4;++frame){
+                const int enabled=frame<3?1:0,door=frame==1?1:0,opened=frame==2?1:0;
+                studio.evaluateHardwareWithInputs({{"enabled",enabled},{"door",door},{"window",opened}});
+                for(int i=0;i<600&&studio.busy();++i)QTest::qWait(50);
+                check(!studio.busy()&&studio.hardwareValue("alarm")==QString::number(enabled&&(door||opened)),"demo frame reflects real circuit output");
+                QTest::qWait(150);
+                check(window->grabWindow().save(QDir(dir).filePath(QString("eval-frame-%1.png").arg(frame))),"capture evaluated demo frame");
+            }
+            window->resize(412,820);window->setProperty("mobilePane",2);QTest::qWait(300);
+            check(window->grabWindow().save(QDir(dir).filePath("course-phone-layout.png")),"capture responsive layout demonstration");
             QCoreApplication::exit(0);return;
         }
         for(auto name:{"openWorkspaceMenuItem","openFileMenuItem","settingsMenuItem"}){

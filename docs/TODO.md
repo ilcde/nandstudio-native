@@ -4,6 +4,15 @@ This is the implementation to-do list, not a claim of complete course support.
 The detailed contract remains `parity-manifest.json`. Keep student starter files
 unchanged; use separately identified regression fixtures for completed circuits.
 
+## Demonstrations and starter resources
+
+- [x] Embed all 249 unchanged original project files for offline editable copies.
+- [x] Add independent EntryAlarm, SignalMismatch, BusSelect4 and RememberBit fixtures.
+- [x] Compare all four example outputs against Java without modifying course files.
+- [x] Capture actual application screenshots and a four-state Eval GIF; document reproduction.
+- [x] Match the 20-field output-list boundary and VM initial stack pointer on Windows.
+- [ ] Qualify the new 0.1.6 changes through all platform CI and release gates.
+
 ## Immediate usability and release
 
 - [x] Place Android Files/More menus below the status bar; real tap regression.

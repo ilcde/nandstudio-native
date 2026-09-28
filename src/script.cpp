@@ -27,7 +27,20 @@ ScriptResult runScript(const std::filesystem::path& path,bool useVm,std::uint64_
 }
 ScriptResult runScript(const std::filesystem::path& path,ScriptTool tool,std::uint64_t budget,const std::function<bool()>& cancelled){
     const bool useVm=tool==ScriptTool::Vm,useHardware=tool==ScriptTool::Hardware;
-    auto tokens=scan(readFile(path));Cpu cpu;Vm vm;Hardware hardware;ScriptResult result;std::vector<Format> formats;
+    auto tokens=scan(readFile(path));
+    // The original controller parses output-list declarations before executing
+    // any command. A rejected declaration must not truncate/create output files.
+    for(std::size_t p=0;p<tokens.size();){
+        const auto command=tokens[p++];
+        if(command.text==","||command.text==";"||command.text=="!"||command.text=="{"||command.text=="}")continue;
+        std::size_t count=0;
+        while(p<tokens.size()&&tokens[p].text!=","&&tokens[p].text!=";"&&tokens[p].text!="!"&&tokens[p].text!="{"&&tokens[p].text!="}"){
+            if(command.text=="output-list"&&++count>20)
+                throw Error("In script "+path.string()+", Line "+std::to_string(tokens[p].line)+", too many arguments",tokens[p].line);
+            ++p;
+        }
+    }
+    Cpu cpu;Vm vm;Hardware hardware;ScriptResult result;std::vector<Format> formats;
     auto base=path.parent_path();std::filesystem::path outputPath;std::vector<std::string> expected;bool comparing=false;std::size_t cmpLine=0;std::uint64_t operations=0;
     auto get=[&](const std::string& name){return useHardware?hardware.get(name):useVm?vm.get(name):cpu.get(name);};
     auto output=[&](const std::string& row){

@@ -1,0 +1,8 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Independent NandStudio sequential demonstration, 2026.
+CHIP RememberBit {
+    IN value, capture;
+    OUT remembered;
+    PARTS:
+    Bit(in=value, load=capture, out=remembered);
+}
