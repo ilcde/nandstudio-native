@@ -174,7 +174,7 @@ an older build accidentally. The reference harness remains development-only.
 
 The earlier Docker startup failure remains historical evidence. Linux builds
 in isolated Ubuntu 24.04 WSL (`NandStudioBuild`) and CI, with packaged offscreen
-and X11/Xvfb checks. Current desktop coverage has four CTest suites and 350 GUI
+and X11/Xvfb checks. Current desktop coverage has four CTest suites and 377 GUI
 assertions. Android builds use the pinned Qt/NDK tools in CI; explicit workspace
 copy workflows are implemented, while full platform parity remains incomplete.
 See `progress.md` and `platforms.json` for dated evidence and artifact locations.

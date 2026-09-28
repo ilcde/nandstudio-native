@@ -12,12 +12,12 @@
         "gui_workflow: font selection/persistence, tutorial navigation and topic content, portrait/landscape dialog bounds"
       ],
       "platform_coverage": {
-        "windows-x86_64": "Four CTest suites, 377 GUI assertions passed; screenshots inspected.",
-        "other": "Shared implementation; new cross-platform CI pending."
+        "desktop": "CI 36402288659: all four desktop targets passed core and packaged GUI checks (377 assertions).",
+        "android": "Both ABIs compiled/packaged; API36 x86-64 toolbar/storage/Eval passed; original-resolution icons visible. Tutorial/font actions and physical ARM64 remain unqualified."
       },
       "status": "partial",
       "release_blocker": false,
-      "notes": "Guide documents supported workflows and limits; it is not a completed course or an exhaustive parity claim."
+      "notes": "Guide documents supported workflows and limits; it is not a completed course or an exhaustive parity claim. Android existing toolbar/storage/Eval gate does not exercise every tutorial/font interaction."
     },
     {
       "id": "android.rendering-corruption",

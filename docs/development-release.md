@@ -2,6 +2,7 @@
 
 Version 0.1.10 adds an installed-font picker with a preview, vector toolbar icons,
 an offline tutorial (More or F1), workflow diagrams and new application demos.
+See the [offline tutorial and workflow diagrams](https://github.com/ilcde/nandstudio-native/blob/main/docs/tutorial.md).
 The root LICENSE exposes the existing native-code GPL terms; bundled course
 assets retain their separate notices. These additions do not close full parity.
 
@@ -22,7 +23,7 @@ service fallback.
 Version 0.1.6 adds BusSelect4 and RememberBit practice examples, real application
 screenshots and an Eval GIF. It restores the reference VM initial stack pointer
 and rejects output lists longer than 20 fields before modifying output files.
-See [demonstrations](demos.md) and the recorded regression evidence.
+See [demonstrations](https://github.com/ilcde/nandstudio-native/blob/main/docs/demos.md) and the recorded regression evidence.
 
 Version 0.1.5 makes unfinished HDL dependencies visible at each Eval, records
 actual input values and adds navigation to the affected local chip files.

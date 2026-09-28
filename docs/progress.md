@@ -358,3 +358,23 @@ Root LICENSE contains the existing GPL-3.0 text; README explicitly distinguishes
 GPL-3.0-or-later native code from educational assets and third-party licenses.
 No relicensing of original materials is intended. Full course/web parity and
 physical-device qualification remain open. Cross-platform candidate CI pending.
+
+The first candidate (dbcaea8, CI 36401617480) exposed a Linux 320-pixel/150%
+scale dialog-button overflow. Replaced the icon row's extra spacing with explicit
+content sizing; text-only buttons retain their original intrinsic width. The
+correction a9bbd90 passes four Windows and Linux WSL CTest suites with 377 GUI
+assertions. The pre-correction Windows portable package also passed its normal
+interactive runner; hidden-window and missing-offscreen-plugin attempts failed
+for test-environment reasons and are not platform passes.
+
+Baseline verification found one external extracted-file difference in
+`nand2tetris/projects/1/Xor.hdl`; no repair or overwrite was performed. The
+original ZIP hash and immutable reference bytes remain unchanged.
+
+0.1.10 published successfully: native CI 36402288659 and publication 36403339646
+at a9bbd90. All four desktop packaged GUI jobs, both Android builds, sanitizers
+and the Android interaction gate passed. The full-resolution Android Xor image
+shows all toolbar icons and out=1. A suspected missing-icon issue in a resized
+preview was disproved by the original image and pixel inspection. Speculative
+local renderer changes were backed up and withdrawn; no 0.1.11 was published.
+Tutorial/font-specific Android interactions and full course parity remain open.

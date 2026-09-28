@@ -9,10 +9,10 @@
       "packaged": true,
       "installed": false,
       "launched": "Windows platform plugin and offscreen; local packaged builds",
-      "functionally_tested": "Four CTest suites and packaged GUI tests passed, including 350 assertions, all 249 starter file hashes and shared HDL Eval regressions. Full workflows remain unverified.",
+      "functionally_tested": "Four CTest suites and packaged GUI tests passed, including 377 assertions, all 249 starter file hashes and shared HDL Eval regressions. Full workflows remain unverified.",
       "full_workflow_verified": false,
-      "source_revision": "b3485f49f8f7a229ab87a5426dfe03b098d132a0",
-      "ci_run": "https://github.com/ilcde/nandstudio-native/actions/runs/36399208565",
+      "source_revision": "a9bbd907aab3f56c4fbb612c89180403c71247ce",
+      "ci_run": "https://github.com/ilcde/nandstudio-native/actions/runs/36402288659",
       "blockers": []
     },
     {
@@ -22,15 +22,15 @@
       "packaged": true,
       "installed": false,
       "launched": "Packaged Cocoa application in GitHub macos-14 runner",
-      "functionally_tested": "Four CTest suites and packaged GUI tests passed, including 350 assertions, all 249 starter file hashes and shared HDL Eval regressions. Full workflows remain unverified.",
+      "functionally_tested": "Four CTest suites and packaged GUI tests passed, including 377 assertions, all 249 starter file hashes and shared HDL Eval regressions. Full workflows remain unverified.",
       "blockers": [
         "No installation or manual device workflow verification",
         "Release signing/notarization not performed",
         "Remaining functional parity gaps"
       ],
       "full_workflow_verified": false,
-      "source_revision": "b3485f49f8f7a229ab87a5426dfe03b098d132a0",
-      "ci_run": "https://github.com/ilcde/nandstudio-native/actions/runs/36399208565"
+      "source_revision": "a9bbd907aab3f56c4fbb612c89180403c71247ce",
+      "ci_run": "https://github.com/ilcde/nandstudio-native/actions/runs/36402288659"
     },
     {
       "target": "macOS x86-64",
@@ -39,15 +39,15 @@
       "packaged": true,
       "installed": false,
       "launched": "Cocoa packaged application and offscreen build tree in GitHub macos-15-intel",
-      "functionally_tested": "Four CTest suites and packaged GUI tests passed, including 350 assertions, all 249 starter file hashes and shared HDL Eval regressions. Full workflows remain unverified.",
+      "functionally_tested": "Four CTest suites and packaged GUI tests passed, including 377 assertions, all 249 starter file hashes and shared HDL Eval regressions. Full workflows remain unverified.",
       "blockers": [
         "No clean-device installation/manual workflow",
         "Signing/notarization not performed",
         "Remaining functional parity gaps"
       ],
       "full_workflow_verified": false,
-      "source_revision": "b3485f49f8f7a229ab87a5426dfe03b098d132a0",
-      "ci_run": "https://github.com/ilcde/nandstudio-native/actions/runs/36399208565"
+      "source_revision": "a9bbd907aab3f56c4fbb612c89180403c71247ce",
+      "ci_run": "https://github.com/ilcde/nandstudio-native/actions/runs/36402288659"
     },
     {
       "target": "Linux x86-64",
@@ -56,14 +56,14 @@
       "packaged": true,
       "installed": false,
       "launched": "WSL2 Ubuntu 24.04: offscreen, Xvfb X11, visible WSLg smoke launch; GitHub Ubuntu runner",
-      "functionally_tested": "Four CTest suites and packaged GUI tests passed, including 350 assertions, all 249 starter file hashes and shared HDL Eval regressions. Full workflows remain unverified.",
+      "functionally_tested": "Four CTest suites and packaged GUI tests passed, including 377 assertions, all 249 starter file hashes and shared HDL Eval regressions. Full workflows remain unverified.",
       "blockers": [
         "Complete parity gaps remain",
         "Not installed on a separate clean physical Linux system"
       ],
       "full_workflow_verified": false,
-      "source_revision": "b3485f49f8f7a229ab87a5426dfe03b098d132a0",
-      "ci_run": "https://github.com/ilcde/nandstudio-native/actions/runs/36399208565"
+      "source_revision": "a9bbd907aab3f56c4fbb612c89180403c71247ce",
+      "ci_run": "https://github.com/ilcde/nandstudio-native/actions/runs/36402288659"
     },
     {
       "target": "Android arm64-v8a",
@@ -79,8 +79,8 @@
         "Complete device workflows unverified"
       ],
       "full_workflow_verified": false,
-      "source_revision": "b3485f49f8f7a229ab87a5426dfe03b098d132a0",
-      "ci_run": "https://github.com/ilcde/nandstudio-native/actions/runs/36399208565"
+      "source_revision": "a9bbd907aab3f56c4fbb612c89180403c71247ce",
+      "ci_run": "https://github.com/ilcde/nandstudio-native/actions/runs/36402288659"
     },
     {
       "target": "Android x86_64",
@@ -89,7 +89,7 @@
       "packaged": true,
       "installed": true,
       "launched": "API 36 CI emulator; automatic Vulkan selection (graphics_api=5), safe top inset 41, toolbar y=49.",
-      "functionally_tested": "APK/AAB compiled and 16 KB ELF/ZIP alignment checked; no 16 KB runtime qualification. API 36 emulator: actual toolbar taps, import/edit/save/assemble/export/reopen, Xor Eval, offline course-copy creation and EntryAlarm Eval passed. More menu and EntryAlarm captures manually inspected: readable, no triangle corruption; EntryAlarm visibly alarm=1. Physical-device rendering remains unverified.",
+      "functionally_tested": "APK/AAB compiled and 16 KB ELF/ZIP alignment checked; no 16 KB runtime qualification. API 36 emulator: actual toolbar taps, import/edit/save/assemble/export/reopen, Xor Eval, offline course-copy creation and EntryAlarm Eval passed. More menu and EntryAlarm captures manually inspected: readable, no triangle corruption; EntryAlarm visibly alarm=1. Physical-device rendering remains unverified. 0.1.10 original-resolution Xor capture visibly shows toolbar icons, b=1 and out=1; new tutorial/font actions are not individually Android-qualified.",
       "blockers": [
         "Broader provider/grant recovery and physical-device lifecycle qualification pending",
         "No 16 KiB runtime test",
@@ -98,18 +98,18 @@
       ],
       "full_workflow_verified": false,
       "runtime_page_size": 4096,
-      "local_artifact": "See release manifest and docs/evidence/android-workflow-0.1.9.json for APK hash.",
+      "local_artifact": "See release manifest and docs/evidence/android-workflow-0.1.10.json for exact APK hash.",
       "signing": "Ephemeral CI Android debug key; no stable publisher release signing",
-      "source_revision": "b3485f49f8f7a229ab87a5426dfe03b098d132a0",
-      "ci_run": "https://github.com/ilcde/nandstudio-native/actions/runs/36399208565"
+      "source_revision": "a9bbd907aab3f56c4fbb612c89180403c71247ce",
+      "ci_run": "https://github.com/ilcde/nandstudio-native/actions/runs/36402288659"
     }
   ],
-  "ci": "Successful six-target run 36399208565 includes 350 packaged desktop GUI assertions, four CTest suites, sanitizer and Android workspace/Eval tests. Full parity remains blocked.",
+  "ci": "Successful six-target run 36402288659 includes 377 desktop GUI assertions, four CTest suites, sanitizer and Android workspace/Eval checks. Full parity remains blocked.",
   "release_publication": {
     "requested": true,
     "published": true,
     "workflow": ".github/workflows/release.yml",
-    "status": "Published development-36399208565 (0.1.9) at b3485f4; publication run 36400223377 succeeded with all six packages, source and checksums."
+    "status": "Published development-36402288659 (0.1.10) at a9bbd90; publication run 36403339646 succeeded with six packages, source and checksums."
   },
-  "latest_published_release": "https://github.com/ilcde/nandstudio-native/releases/tag/development-36399208565"
+  "latest_published_release": "https://github.com/ilcde/nandstudio-native/releases/tag/development-36402288659"
 }

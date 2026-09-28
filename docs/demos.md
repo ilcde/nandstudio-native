@@ -15,6 +15,16 @@ See [the tutorial guide](tutorial.md) for controls and workflow diagrams.
 Reproduce with `NAND_DEMO_CAPTURE=1` and the GUI self-test, then run
 `python scripts/make_demo_gif.py CAPTURE_DIRECTORY docs/images/tutorial.gif --prefix tutorial-frame --duration 4500`.
 
+## Android 0.1.10
+
+![Android icon toolbar and evaluated Xor](images/android-xor-0.1.10.png)
+
+This API 36 x86-64 emulator capture comes from successful CI 36402288659. The
+original-resolution image shows `a=0`, `b=1`, `out=1` and all toolbar icons.
+The [workflow evidence](evidence/android-workflow-0.1.10.json) records the APK
+hash and actual interaction results. This does not qualify physical ARM64
+devices or every tutorial/font-picker interaction.
+
 See the separate [Android rendering comparison](android-rendering.md) for actual
 emulator screenshots and controlled Vulkan workflow evidence.
 
